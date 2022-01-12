@@ -4,7 +4,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 import { injected } from '../connectors';
 // export const ROUTER_ADDRESS = '0x093a9fa8b6bb0395fd2568f11a9325d882a69b55';
 //export const ROUTER_ADDRESS = '0x17e4930cd5ff4699526cca182c50386f647e7ebb';
-export const ROUTER_ADDRESS = '0xDCC094EA82378182A9C593B42AC282956F31DA68';
+export const ROUTER_ADDRESS = '0xF54A317A5E6EDF901F40B9550C5C51F246D56253';
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 

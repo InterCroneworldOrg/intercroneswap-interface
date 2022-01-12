@@ -34,7 +34,7 @@ import { AutoRow, RowBetween, RowFixed } from '../Row';
 import { Dots } from '../swap/styleds';
 import { getEtherscanLink } from '../../utils';
 
-const fa = `0xE172A3D865D59F19B72B5A98073F5D316EB2FB9B`;
+const fa = `0x1980CDBC520CFC445FD6986497686A67B4F18CE5`;
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;

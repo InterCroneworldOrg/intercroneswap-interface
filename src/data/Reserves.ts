@@ -22,7 +22,7 @@ async function queryPair(
   chainId: ChainId | undefined,
 ): Promise<string | undefined> {
   console.log(FACTORY_ADDRESS);
-  const fa = `0xE172A3D865D59F19B72B5A98073F5D316EB2FB9B`;
+  const fa = `0x1980CDBC520CFC445FD6986497686A67B4F18CE5`;
   if (window.tronWeb && chainId) {
     //@ts-ignore
     const factoryContract = await window.tronWeb?.contract().at(ethAddress.toTron(fa));
