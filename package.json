@@ -2,6 +2,10 @@
   "name": "@iswap/interface",
   "description": "ISwap Interface",
   "homepage": ".",
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  },
   "private": true,
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
