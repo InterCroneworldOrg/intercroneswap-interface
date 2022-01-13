@@ -32,5 +32,3 @@ cypress/videos
 cypress/screenshots
 cypress/fixtures/example.json
 .vercel
-
-package-lock.json
