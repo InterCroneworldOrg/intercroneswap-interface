@@ -5,7 +5,7 @@
   "private": true,
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
-    "@intercroneswap/swap-sdk": "0.0.8",
+    "@intercroneswap/swap-sdk": "0.0.9",
     "@loveswap7/token-lists": "^0.0.3",
     "@loveswap7/v1-core": "0.0.1",
     "@popperjs/core": "^2.4.4",
