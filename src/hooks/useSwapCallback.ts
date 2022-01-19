@@ -201,7 +201,7 @@ export function useSwapCallback(
           parameters: { methodName, args, value },
           // gasEstimate
         } = swapCalls[0];
-        console.log(swapCalls[0], 'swapccalls');
+        // console.log(swapCalls[0], 'swapccalls');
 
         return contract[methodName](...args, {
           gasLimit: DEFAULT_FEE_LIMIT,

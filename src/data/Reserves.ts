@@ -21,14 +21,11 @@ async function queryPair(
   tokenB: string | undefined,
   chainId: ChainId | undefined,
 ): Promise<string | undefined> {
-  console.log(FACTORY_ADDRESS);
-  const fa = `0x1980CDBC520CFC445FD6986497686A67B4F18CE5`;
   if (window.tronWeb && chainId) {
     //@ts-ignore
-    const factoryContract = await window.tronWeb?.contract().at(ethAddress.toTron(fa));
+    const factoryContract = await window.tronWeb?.contract().at(ethAddress.toTron(FACTORY_ADDRESS));
     if (tokenA && tokenB && factoryContract) {
       const pairAddress = await factoryContract.getPair(tokenA, tokenB).call();
-      console.log(pairAddress);
       if (tronWeb.isAddress(pairAddress)) {
         return ethAddress.fromTron(pairAddress);
       } else {

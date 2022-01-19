@@ -4,6 +4,7 @@ export const BodyWrapper = styled.div`
   // position: relative;
   max-width: 560px;
   width: 100%;
+  margin-bottom: 20px;
   // opacity: 0.6;
   // background green;
   background: ${({ theme }) => theme.bg1};

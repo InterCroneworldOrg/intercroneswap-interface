@@ -168,7 +168,7 @@ export default function Pool() {
           <CardNoise />
         </VoteCard>
         <LightCard style={{ marginTop: '20px' }}>
-          <Card style={{ width: '560px', padding: '0', margin: '0 auto' }}>
+          <Card style={{ width: '100%', padding: '0', margin: '0 auto', maxWidth: '560px' }}>
             <SwapPoolTabs active={'pool'} />
           </Card>
           {!account ? (

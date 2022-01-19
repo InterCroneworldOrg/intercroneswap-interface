@@ -1,4 +1,4 @@
-import { JSBI, Pair, Percent } from '@intercroneswap/swap-sdk';
+import { FACTORY_ADDRESS, JSBI, Pair, Percent } from '@intercroneswap/swap-sdk';
 import { darken } from 'polished';
 import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
@@ -33,8 +33,6 @@ import CurrencyLogo from '../CurrencyLogo';
 import { AutoRow, RowBetween, RowFixed } from '../Row';
 import { Dots } from '../swap/styleds';
 import { getEtherscanLink } from '../../utils';
-
-const fa = `0x1980CDBC520CFC445FD6986497686A67B4F18CE5`;
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
@@ -397,7 +395,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 </ExternalLink>
                 <ExternalLink
                   style={{ marginTop: '10px', width: '100%', textAlign: 'center', color: '#fff' }}
-                  href={chainId ? getEtherscanLink(chainId, fa, 'address') : '#'}
+                  href={chainId ? getEtherscanLink(chainId, FACTORY_ADDRESS, 'address') : '#'}
                 >
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     View Contract

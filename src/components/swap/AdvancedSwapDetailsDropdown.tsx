@@ -18,7 +18,7 @@ const AdvancedDetailsFooter = styled.div<{ show: boolean }>`
   z-index: -1;
   width: 100%;
   max-width: 560px;
-  transform: ${({ show }) => (show ? 'translateY(0px)' : 'translateY(-100%)')};
+  transform: ${({ show }) => (show ? 'translateY(0px)' : 'translateY(1000px)')};
   transition: transform 300ms ease-in-out;
 `;
 
