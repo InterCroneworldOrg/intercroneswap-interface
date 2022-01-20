@@ -5,9 +5,9 @@
   "private": true,
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
-    "@intercroneswap/swap-sdk": "0.0.9",
-    "@loveswap7/token-lists": "^0.0.3",
-    "@loveswap7/v1-core": "0.0.1",
+    "@intercroneswap/swap-sdk": "^0.0.11",
+    "@intercroneswap/token-lists": "^0.0.5",
+    "@intercroneswap/v1-core": "^0.0.4",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.16.0",
     "@reach/portal": "^0.16.0",
@@ -110,7 +110,7 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@loveswap7/java-tron-provider": "^0.0.10",
-    "@loveswap7/tronlink-provider": "^0.0.2"
+    "@intercroneswap/java-tron-provider": "^0.0.12",
+    "@intercroneswap/tronlink-provider": "^0.0.4"
   }
 }
