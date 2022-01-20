@@ -1,5 +1,5 @@
 import { ActionCreatorWithPayload, createAction } from '@reduxjs/toolkit';
-import { TokenList, Version } from '@loveswap7/token-lists';
+import { TokenList, Version } from '@intercroneswap/token-lists';
 
 export const fetchTokenList: Readonly<{
   pending: ActionCreatorWithPayload<{ url: string; requestId: string }>;

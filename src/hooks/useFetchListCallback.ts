@@ -1,6 +1,6 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { ChainId } from '@intercroneswap/swap-sdk';
-import { TokenList } from '@loveswap7/token-lists';
+import { TokenList } from '@intercroneswap/token-lists';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { getNetworkLibrary, NETWORK_CHAIN_ID } from '../connectors';

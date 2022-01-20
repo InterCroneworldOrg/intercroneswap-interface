@@ -1,14 +1,14 @@
 import { TokenAmount, Pair, Currency, ChainId, FACTORY_ADDRESS } from '@intercroneswap/swap-sdk';
 import { useMemo, useState } from 'react';
-import { abi as IloveswapV1PairABI } from '@loveswap7/v1-core/build/ILoveswapV1Pair.json';
+import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/ISwapV1Pair.json';
 import { Interface } from '@ethersproject/abi';
 import { useActiveWeb3React } from '../hooks';
 
 import { useMultipleContractSingleData } from '../state/multicall/hooks';
 import { wrappedCurrency } from '../utils/wrappedCurrency';
 import tronWeb from 'tronweb';
-import { ethAddress } from '@loveswap7/java-tron-provider';
-const PAIR_INTERFACE = new Interface(IloveswapV1PairABI);
+import { ethAddress } from '@intercroneswap/java-tron-provider';
+const PAIR_INTERFACE = new Interface(ISwapV1PairABI);
 
 export enum PairState {
   LOADING,

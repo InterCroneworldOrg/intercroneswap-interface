@@ -18,7 +18,7 @@ import {
   ButtonEmpty,
 } from '../Button';
 import ExternalIcon from '../../assets/images/arrrow-external.svg';
-import { ethAddress } from '@loveswap7/java-tron-provider';
+import { ethAddress } from '@intercroneswap/java-tron-provider';
 
 // import { transparentize } from 'polished';
 // import { CardNoise } from '../earn/styled'

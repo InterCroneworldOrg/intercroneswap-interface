@@ -1,4 +1,4 @@
-import { getVersionUpgrade, minVersionBump, VersionUpgrade } from '@loveswap7/token-lists';
+import { getVersionUpgrade, minVersionBump, VersionUpgrade } from '@intercroneswap/token-lists';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useActiveWeb3React } from '../../hooks';

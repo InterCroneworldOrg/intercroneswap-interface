@@ -17,7 +17,7 @@ import Identicon from '../Identicon';
 import { ButtonSecondary } from '../Button';
 import { ExternalLink as LinkIcon } from 'react-feather';
 import { ExternalLink, LinkStyledButton, TYPE } from '../../theme';
-import { ethAddress } from '@loveswap7/java-tron-provider';
+import { ethAddress } from '@intercroneswap/java-tron-provider';
 
 const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};

@@ -46,7 +46,7 @@ export function colors(darkMode: boolean): Colors {
     // text1: darkMode ? '#FFFFFF' : '#000000',
     BUYTEXT: darkMode ? '#FFFFFF' : '#000000',
     EnterAmountconectwallet: darkMode ? '#FFFFFF' : '#000000',
-    LOVESWAPBACKGROUND: darkMode ? 'rgb(16, 226, 242)' : 'rgb(16, 226, 242)',
+    ISWAPBACKGROUND: darkMode ? 'rgb(16, 226, 242)' : 'rgb(16, 226, 242)',
     BorderColor: darkMode ? 'rgba(0,0,0,0)' : '#F3C914',
     text1: darkMode ? '#FFFFFF' : '#000000',
     text2: darkMode ? '#C3C5CB' : '#565A69',

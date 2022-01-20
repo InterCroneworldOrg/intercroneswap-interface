@@ -1,5 +1,5 @@
 import React from 'react';
-import { diffTokenLists, TokenList } from '@loveswap7/token-lists';
+import { diffTokenLists, TokenList } from '@intercroneswap/token-lists';
 import { useCallback, useMemo } from 'react';
 import ReactGA from 'react-ga';
 import { useDispatch } from 'react-redux';

@@ -1,4 +1,4 @@
-import createTronLinkProvider from '@loveswap7/tronlink-provider';
+import createTronLinkProvider from '@intercroneswap/tronlink-provider';
 import Web3 from 'web3';
 import { AbstractConnectorArguments, ConnectorUpdate } from '@web3-react/types';
 import { AbstractConnector } from '@web3-react/abstract-connector';

@@ -3,11 +3,11 @@ import { Contract } from '@ethersproject/contracts';
 import { AddressZero } from '@ethersproject/constants';
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { BigNumber } from '@ethersproject/bignumber';
-import IloveswapV1Router02ABI from '../constants/abis/router02.json';
+import IntercroneswapV1Router02ABI from '../constants/abis/router02.json';
 import { ROUTER_ADDRESS } from '../constants';
 import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@intercroneswap/swap-sdk';
 import { TokenAddressMap } from '../state/lists/hooks';
-import { ethAddress, remove0xPrefix } from '@loveswap7/java-tron-provider';
+import { ethAddress, remove0xPrefix } from '@intercroneswap/java-tron-provider';
 import { getAddress } from 'ethers/lib/utils';
 
 // returns the checksummed address if the address is valid, otherwise returns false
@@ -105,7 +105,7 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
 
 // account is optional
 export function getRouterContract(_: number, library: any, account?: string): Contract {
-  return getContract(ROUTER_ADDRESS, IloveswapV1Router02ABI, library, account);
+  return getContract(ROUTER_ADDRESS, IntercroneswapV1Router02ABI, library, account);
 }
 
 export function escapeRegExp(string: string): string {
