@@ -2,7 +2,7 @@ import { Contract } from '@ethersproject/contracts';
 // import { abi as KWIK_ABI } from '@intercroneswap/governance/build/Love.json';
 import MERKLE_DISTRIBUTOR_ABI from '../constants/abis/merkle.json';
 import { ChainId, WETH } from '@intercroneswap/swap-sdk';
-import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/ILoveswapV1Pair.json';
+import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/ISwapV1Pair.json';
 import { useMemo } from 'react';
 import { MERKLE_DISTRIBUTOR_ADDRESS } from '../constants';
 import {
