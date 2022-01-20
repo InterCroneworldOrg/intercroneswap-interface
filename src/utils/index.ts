@@ -7,7 +7,7 @@ import IloveswapV1Router02ABI from '../constants/abis/router02.json';
 import { ROUTER_ADDRESS } from '../constants';
 import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@intercroneswap/swap-sdk';
 import { TokenAddressMap } from '../state/lists/hooks';
-import { ethAddress, remove0xPrefix } from '@loveswap7/java-tron-provider';
+import { ethAddress, remove0xPrefix } from '@intercroneswap/java-tron-provider';
 import { getAddress } from 'ethers/lib/utils';
 
 // returns the checksummed address if the address is valid, otherwise returns false

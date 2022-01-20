@@ -1,4 +1,4 @@
-import createJavaTronProvider from '@loveswap7/java-tron-provider';
+import createJavaTronProvider from '@intercroneswap/java-tron-provider';
 
 import { InjectedTronConnector } from './injected-tron-connector';
 

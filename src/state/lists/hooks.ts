@@ -1,5 +1,5 @@
 import { ChainId, Token } from '@intercroneswap/swap-sdk';
-import { Tags, TokenInfo, TokenList } from '@loveswap7/token-lists';
+import { Tags, TokenInfo, TokenList } from '@intercroneswap/token-lists';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { AppState } from '../index';

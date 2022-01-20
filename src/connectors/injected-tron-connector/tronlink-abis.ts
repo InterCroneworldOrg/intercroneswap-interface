@@ -9,7 +9,7 @@ import WETH_ABI from '../../constants/abis/weth.json';
 import { MIGRATOR_ABI } from '../../constants/abis/migrator';
 import ERC20_ABI from '../../constants/abis/erc20.json';
 import { MULTICALL_ABI } from '../../constants/multicall';
-import { abi as IloveswapV1PairABI } from '@loveswap7/v1-core/build/ILoveswapV1Pair.json';
+import { abi as IloveswapV1PairABI } from '@intercroneswap/v1-core/build/ILoveswapV1Pair.json';
 
 export const abis = [
   ...ERC20_ABI,

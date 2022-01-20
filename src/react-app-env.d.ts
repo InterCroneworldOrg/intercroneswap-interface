@@ -38,7 +38,7 @@ interface Window {
 }
 declare const __DEV__: boolean;
 declare module 'tronweb';
-declare module '@loveswap7/java-tron-provider';
+declare module '@intercroneswap/java-tron-provider';
 declare module 'trongrid';
 declare module 'content-hash' {
   declare function decode(x: string): string;

@@ -6,7 +6,7 @@ import EthereumLogo from '../../assets/images/ethereum-logo.png';
 import useHttpLocations from '../../hooks/useHttpLocations';
 import { WrappedTokenInfo } from '../../state/lists/hooks';
 import Logo from '../Logo';
-import { ethAddress } from '@loveswap7/java-tron-provider';
+import { ethAddress } from '@intercroneswap/java-tron-provider';
 
 const getTokenLogoURL = (address: string) => {
   const tronAddress = ethAddress.toTron(address);

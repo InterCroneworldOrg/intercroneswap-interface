@@ -1,5 +1,5 @@
-import { TokenList } from '@loveswap7/token-lists';
-import schema from '@loveswap7/token-lists/src/tokenlist.schema.json';
+import { TokenList } from '@intercroneswap/token-lists';
+import schema from '@intercroneswap/token-lists/src/tokenlist.schema.json';
 import Ajv from 'ajv';
 import contenthashToUri from './contenthashToUri';
 import { parseENSAddress } from './parseENSAddress';

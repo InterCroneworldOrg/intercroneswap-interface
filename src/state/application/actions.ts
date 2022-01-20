@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { TokenList } from '@loveswap7/token-lists';
+import { TokenList } from '@intercroneswap/token-lists';
 
 export type PopupContent =
   | {
