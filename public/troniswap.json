@@ -1,0 +1,195 @@
+{
+	"name": "Tron Iswap List",
+	"logoURI": "https://coin.top/production/upload/logo/TKqvrVG7a2zJvQ3VysLoiz9ijuMNDehwy7.png",
+	"timestamp": 1642597539,
+	"version": {
+		"major": 1,
+		"minor": 3,
+		"patch": 5
+	},
+	"tokens": [{
+			"symbol": "ICR",
+			"name": "InterCrone",
+			"address": "TKqvrVG7a2zJvQ3VysLoiz9ijuMNDehwy7",
+			"chainId": 1,
+			"decimals": 6,
+			"logoURI": "https://coin.top/production/upload/logo/TKqvrVG7a2zJvQ3VysLoiz9ijuMNDehwy7.png"
+		},
+		{
+			"symbol": "MEOX",
+			"name": "Metronix",
+			"address": "TQy3PRQda43yb3Ku35AktG549KMQLCJVDb",
+			"chainId": 1,
+			"decimals": 18,
+			"logoURI": "https://coin.top/production/upload/logo/TTHSREsADJAmM1mA48fsd8XBncqjRKMb5c.png"
+		},
+		{
+			"symbol": "BTC",
+			"name": "Bitcoin",
+			"address": "TN3W4H6rK2ce4vX9YnFQHwKENnHjoxb3m9",
+			"chainId": 1,
+			"decimals": 8,
+			"logoURI": "https://coin.top/production/logo/TN3W4H6rK2ce4vX9YnFQHwKENnHjoxb3m9.png"
+		},
+		{
+			"symbol": "ETH",
+			"name": "Ethereum",
+			"address": "THb4CqiFdwNHsWsQCs4JhzwjMWys4aqCbF",
+			"chainId": 1,
+			"decimals": 18,
+			"logoURI": "https://coin.top/production/logo/THb4CqiFdwNHsWsQCs4JhzwjMWys4aqCbF.png"
+		},
+		{
+			"symbol": "USDT",
+			"name": "Tether USD",
+			"address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+			"chainId": 1,
+			"decimals": 6,
+			"logoURI": "https://coin.top/production/logo/usdtlogo.png"
+		},
+		{
+			"symbol": "USDJ",
+			"name": "JUST Stablecoin",
+			"address": "TMwFHYXLJaRUPeW6421aqXL4ZEzPRFGkGT",
+			"chainId": 1,
+			"decimals": 18,
+			"logoURI": "https://coin.top/production/logo/usdj.png"
+		},
+		{
+			"symbol": "TUSD",
+			"name": "TrueUSD",
+			"address": "TUpMhErZL2fhh4sVNULAbNKLokS4GjC1F4",
+			"chainId": 1,
+			"decimals": 18,
+			"logoURI": "https://coin.top/production/logo/TUpMhErZL2fhh4sVNULAbNKLokS4GjC1F4.png"
+		},
+		{
+			"symbol": "USDC",
+			"name": "USD Coin",
+			"address": "TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8",
+			"chainId": 1,
+			"decimals": 6,
+			"logoURI": "https://coin.top/production/upload/logo/TEkxiTehnzSmSe2XqrBj4w32RUN966rdz81.png"
+		},
+		{
+			"symbol": "WIN",
+			"name": "WINK",
+			"address": "TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7",
+			"chainId": 1,
+			"decimals": 6,
+			"logoURI": "https://coin.top/profile_images/JKtJTydD_400x400.jpg"
+		},
+		{
+			"symbol": "LIVE",
+			"name": "TRONbetLive",
+			"address": "TVgAYofpQku5G4zenXnvxhbZxpzzrk8WVK",
+			"chainId": 1,
+			"decimals": 6,
+			"logoURI": "https://coin.top/production/upload/logo/TVgAYofpQku5G4zenXnvxhbZxpzzrk8WVK.png"
+		},
+		{
+			"symbol": "DICE",
+			"name": "TRONbetDice",
+			"address": "TKttnV3FSY1iEoAwB4N52WK2DxdV94KpSd",
+			"chainId": 1,
+			"decimals": 6,
+			"logoURI": "https://coin.top/production/logo/TKttnV3FSY1iEoAwB4N52WK2DxdV94KpSd.jpg"
+		},
+		{
+			"symbol": "888",
+			"name": "888Tron",
+			"address": "TLvDJcvKJDi3QuHgFbJC6SeTj3UacmtQU3",
+			"chainId": 1,
+			"decimals": 6,
+			"logoURI": "https://coin.top/production/upload/logo/TLvDJcvKJDi3QuHgFbJC6SeTj3UacmtQU3.png"
+		},
+		{
+			"symbol": "Safe Money",
+			"name": "SafeMoney	",
+			"address": "TNBrVEzuVYbNbGF2ua3ivSX5Y5V9N4xhax",
+			"chainId": 1,
+			"decimals": 8,
+			"logoURI": "https://coin.top/production/upload/logo/TNBrVEzuVYbNbGF2ua3ivSX5Y5V9N4xhax.png"
+		},
+		{
+			"symbol": "JM",
+			"name": "J U S T M O N E Y",
+			"address": "TT8VkSkW6igkiRsV5WiJgLrsbVwY5bLLjA",
+			"chainId": 1,
+			"decimals": 8,
+			"logoURI": "https://coin.top/production/upload/logo/TT8VkSkW6igkiRsV5WiJgLrsbVwY5bLLjA.png"
+		},
+		{
+			"symbol": "JST",
+			"name": "JUST GOV",
+			"address": "TCFLL5dx5ZJdKnWuesXxi1VPwjLVmWZZy9",
+			"chainId": 1,
+			"decimals": 18,
+			"logoURI": "https://coin.top/production/logo/just_icon.png"
+		},
+		{
+			"symbol": "NFT",
+			"name": "APENFT",
+			"address": "TFczxzPhnThNSqr5by8tvxsdCFRRz6cPNq",
+			"chainId": 1,
+			"decimals": 6,
+			"logoURI": "https://coin.top/production/upload/logo/TFczxzPhnThNSqr5by8tvxsdCFRRz6cPNq.png"
+		},
+		{
+			"symbol": "SUN",
+			"name": "SUN",
+			"address": "TSSMHYeV2uE9qYH95DqyoCuNCzEL1NvU3S",
+			"chainId": 1,
+			"decimals": 18,
+			"logoURI": "https://coin.top/production/logo/TSSMHYeV2uE9qYH95DqyoCuNCzEL1NvU3S.png"
+		},
+		{
+			"symbol": "BTT",
+			"name": "BitTorrent",
+			"address": "TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4",
+			"chainId": 1,
+			"decimals": 18,
+			"logoURI": "https://coin.top/production/logo/1002000.png"
+		},
+		{
+			"symbol": "WBTT",
+			"name": "Wrapped BTT",
+			"address": "TKfjV9RNKJJCqPvBtK8L7Knykh7DNWvnYt",
+			"chainId": 1,
+			"decimals": 6,
+			"logoURI": "https://coin.top/production/logo/TKfjV9RNKJJCqPvBtK8L7Knykh7DNWvnYt.png"
+		},
+		{
+			"symbol": "LTC",
+			"name": "Litecoin",
+			"address": "TR3DLthpnDdCGabhVDbD3VMsiJoCXY3bZd",
+			"chainId": 1,
+			"decimals": 8,
+			"logoURI": "https://coin.top/production/logo/TR3DLthpnDdCGabhVDbD3VMsiJoCXY3bZd.png"
+		},
+		{
+			"symbol": "HT",
+			"name": "HuobiToken",
+			"address": "TDyvndWuvX5xTBwHPYJi7J3Yq8pq8yh62h",
+			"chainId": 1,
+			"decimals": 18,
+			"logoURI": "https://coin.top/production/logo/TDyvndWuvX5xTBwHPYJi7J3Yq8pq8yh62h.png"
+		},
+		{
+			"symbol": "KLV",
+			"name": "Klever",
+			"address": "TVj7RNVHy6thbM7BWdSe9G6gXwKhjhdNZS",
+			"chainId": 1,
+			"decimals": 18,
+			"logoURI": "https://coin.top/production/upload/logo/TVj7RNVHy6thbM7BWdSe9G6gXwKhjhdNZS.png"
+		},
+		{
+			"symbol": "Doge",
+			"name": "Dogecoin",
+			"address": "THbVQp8kMjStKNnf2iCY6NEzThKMK5aBHg",
+			"chainId": 1,
+			"decimals": 8,
+			"logoURI": "https://coin.top/production/upload/logo/THbVQp8kMjStKNnf2iCY6NEzThKMK5aBHg.png"
+		}
+	]
+}
