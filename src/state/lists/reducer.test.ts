@@ -43,8 +43,6 @@ describe('list reducer', () => {
             'fake-url': {
               error: null,
               loadingRequestId: 'request-id',
-              current: null,
-              pendingUpdate: null,
             },
           },
           selectedListUrl: undefined,
@@ -320,7 +318,7 @@ describe('list reducer', () => {
       store.dispatch(removeList('fake-url'));
       expect(store.getState()).toEqual({
         byUrl: {},
-        selectedListUrl: 'https://ipfs.io/ipfs/QmYAdNrj3rembqjUFqonykVvJCBDNMwj2EBDc8Q6xMJ8v7',
+        selectedListUrl: 'https://intercroneswap.com/troniswap.json',
       });
     });
   });
