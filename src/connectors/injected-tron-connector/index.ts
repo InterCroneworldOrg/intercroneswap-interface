@@ -51,7 +51,7 @@ export class InjectedTronConnector extends AbstractConnector {
         });
         signs[sign] = getFunctionSelector(fn);
       } catch (err) {
-        console.error(err);
+        // console.error(err);
       }
     });
     // TODO(tron): should auto-use same network as one selected in tronlink!
