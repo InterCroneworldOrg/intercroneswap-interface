@@ -4,7 +4,7 @@
   "homepage": ".",
   "private": true,
   "engines": {
-    "node": ">=16 <17"
+    "node": "^16 || ^17"
   },
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
