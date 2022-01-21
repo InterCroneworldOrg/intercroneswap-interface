@@ -3,6 +3,9 @@
   "description": "ISwap Interface",
   "homepage": ".",
   "private": true,
+  "engines": {
+    "node": ">=16 <17"
+  },
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
     "@intercroneswap/swap-sdk": "^0.0.11",
