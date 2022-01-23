@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { BookOpen, Info } from 'react-feather';
+import { Facebook, Youtube, Twitter, Instagram, Wifi } from 'react-feather';
 import styled from 'styled-components';
 import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg';
 // import { useActiveWeb3React } from '../../hooks'
@@ -53,7 +53,7 @@ const StyledMenu = styled.div`
 `;
 
 const MenuFlyout = styled.span`
-  min-width: 8.125rem;
+  min-width: 9.125rem;
   background-color: ${({ theme }) => theme.bg1};
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
     0px 24px 32px rgba(0, 0, 0, 0.01);
@@ -105,13 +105,33 @@ export default function Menu() {
 
       {open && (
         <MenuFlyout>
-          <MenuItem id="link" href="https://ISwap.io/">
+          {/* <MenuItem id="link" href="https://ISwap.io/">
             <Info size={14} />
             About
           </MenuItem>
           <MenuItem id="link" href="https://ISwap.io/docs/v1">
             <BookOpen size={14} />
             Docs
+          </MenuItem> */}
+          <MenuItem id="link" href="https://t.me/intercroneworld">
+            <Wifi size={14} />
+            Telegram
+          </MenuItem>
+          <MenuItem id="link" href="https://www.facebook.com/InterCrone">
+            <Facebook size={14} />
+            Facebook
+          </MenuItem>
+          <MenuItem id="link" href="https://twitter.com/IntercroneWorld">
+            <Twitter size={14} />
+            Twitter
+          </MenuItem>
+          <MenuItem id="link" href="https://www.youtube.com/c/InterCroneWorld">
+            <Youtube size={14} />
+            Youtube
+          </MenuItem>
+          <MenuItem id="link" href="https://www.instagram.com/intercrone">
+            <Instagram size={14} />
+            Instagram
           </MenuItem>
           {/* <MenuItem id="link" href={CODE_LINK}>
             <Code size={14} />
