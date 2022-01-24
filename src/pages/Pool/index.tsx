@@ -225,7 +225,7 @@ export default function Pool() {
                     <Dots>Loading</Dots>
                   </TYPE.body>
                 </GreyCard>
-              ) : allV2PairsWithLiquidity?.length > 0 ? (
+              ) : allV1PairsWithLiquidity?.length > 0 ? (
                 <>
                   {/* <ButtonSecondary>
                     <RowBetween>
@@ -236,8 +236,8 @@ export default function Pool() {
                     </RowBetween>
                   </ButtonSecondary> */}
 
-                  {allV2PairsWithLiquidity.map((v1Pair) => (
-                    <FullPositionCard key={v2Pair.liquidityToken.address} pair={v1Pair} />
+                  {allV1PairsWithLiquidity.map((v1Pair) => (
+                    <FullPositionCard key={v1Pair.liquidityToken.address} pair={v1Pair} />
                   ))}
                 </>
               ) : (
