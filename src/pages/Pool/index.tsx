@@ -229,7 +229,7 @@ export default function Pool() {
                 <>
                   {/* <ButtonSecondary>
                     <RowBetween>
-                      <ExternalLink href={'https://info.ISwap.io/#/account/' + account}>
+                      <ExternalLink href={'https://info.intercroneswap.com/#/account/' + account}>
                         Account analytics and accrued fees
                       </ExternalLink>
                       <span> ↗</span>
