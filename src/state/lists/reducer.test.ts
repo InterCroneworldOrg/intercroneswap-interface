@@ -318,7 +318,7 @@ describe('list reducer', () => {
       store.dispatch(removeList('fake-url'));
       expect(store.getState()).toEqual({
         byUrl: {},
-        selectedListUrl: 'https://intercroneswap.com/troniswap.json',
+        selectedListUrl: 'https://' + window.location.hostname + '/troniswap.json',
       });
     });
   });
