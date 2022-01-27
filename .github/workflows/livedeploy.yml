@@ -25,6 +25,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: cp .env.production .env
     - run: npm i
     - run: CI=false npm run build
     - run: rsync -av /root/actions-runner/_work/intercroneswap-interface/intercroneswap-interface/build/ /var/www/html/iswap/
