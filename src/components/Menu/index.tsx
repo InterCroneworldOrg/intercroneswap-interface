@@ -105,11 +105,11 @@ export default function Menu() {
 
       {open && (
         <MenuFlyout>
-          {/* <MenuItem id="link" href="https://ISwap.io/">
+          {/* <MenuItem id="link" href="https://intercroneswap.com/">
             <Info size={14} />
             About
           </MenuItem>
-          <MenuItem id="link" href="https://ISwap.io/docs/v1">
+          <MenuItem id="link" href="https://intercroneswap.com/docs/v1">
             <BookOpen size={14} />
             Docs
           </MenuItem> */}
@@ -137,7 +137,7 @@ export default function Menu() {
             <Code size={14} />
             Code
           </MenuItem> */}
-          {/* <MenuItem id="link" href="https://info.ISwap.io/">
+          {/* <MenuItem id="link" href="https://info.intercroneswap.com/">
             <PieChart size={14} />
             Analytics
           </MenuItem> */}
