@@ -29,7 +29,7 @@ export default function URLWarning() {
     <PhishAlert isActive={showURLWarning}>
       <div style={{ display: 'flex' }}>
         <AlertTriangle style={{ marginRight: 6 }} size={12} /> Make sure the URL is
-        <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>https://intercroneswap.com</code>
+        <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>intercroneswap.com</code>
       </div>
       <StyledClose size={12} onClick={toggleURLWarning} />
     </PhishAlert>
@@ -37,7 +37,7 @@ export default function URLWarning() {
     <PhishAlert isActive={showURLWarning}>
       <div style={{ display: 'flex' }}>
         <AlertTriangle style={{ marginRight: 6 }} size={12} /> Always make sure the URL is
-        <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>https://intercroneswap.com</code> - bookmark it to
+        <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>intercroneswap.com</code> - bookmark it to
         be safe.
       </div>
       <StyledClose size={12} onClick={toggleURLWarning} />
