@@ -13,7 +13,7 @@ An open source interface for ISwap -- a protocol for decentralized exchange of E
 
 To access the ISwap Interface, use an IPFS gateway link from the
 [latest release](https://github.com/ISwap/ISwap-interface/releases/latest), 
-or visit [tron.ISwap.io](https://tron.ISwap.io).
+or visit [tron.ISwap.io](https://Intercroneswap.com).
 
 ## Listing a token
 
