@@ -152,13 +152,13 @@ export default function Pool() {
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  {`Liquidity providers earn a 0.2% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.`}
+                  {`Liquidity providers earn a 0.25% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.`}
                 </TYPE.white>
               </RowBetween>
               <ExternalLink
                 style={{ color: 'white', textDecoration: 'underline' }}
                 target="_blank"
-                href="https://docs.intercroneswap.finance/faq/advantage-of-adding-liquidity"
+                href="https://ISwap.io/docs/v1/core-concepts/pools/"
               >
                 <TYPE.white fontSize={14}>Read more about providing liquidity</TYPE.white>
               </ExternalLink>
@@ -168,7 +168,7 @@ export default function Pool() {
           <CardNoise />
         </VoteCard>
         <LightCard style={{ marginTop: '20px' }}>
-          <Card style={{ width: '100%', padding: '0', margin: '0 auto', maxWidth: '560px' }}>
+          <Card style={{ width: '560px', padding: '0', margin: '0 auto' }}>
             <SwapPoolTabs active={'pool'} />
           </Card>
           {!account ? (
@@ -229,7 +229,7 @@ export default function Pool() {
                 <>
                   {/* <ButtonSecondary>
                     <RowBetween>
-                      <ExternalLink href={'https://info.intercroneswap.com/#/account/' + account}>
+                      <ExternalLink href={'https://info.ISwap.io/#/account/' + account}>
                         Account analytics and accrued fees
                       </ExternalLink>
                       <span> ↗</span>

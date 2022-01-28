@@ -18,8 +18,8 @@ describe('uriToHttp', () => {
   });
   it('returns ipns gateways for ipns:// urls', () => {
     expect(uriToHttp('ipns://tron.ISwap.io')).toEqual([
-      'https://cloudflare-ipfs.com/ipns/tron.intercroneswap.com/',
-      'https://ipfs.io/ipns/tron.intercroneswap.com/',
+      'https://cloudflare-ipfs.com/ipns/tron.ISwap.io/',
+      'https://ipfs.io/ipns/tron.ISwap.io/',
     ]);
   });
   it('returns empty array for invalid scheme', () => {

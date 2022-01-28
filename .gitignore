@@ -21,14 +21,13 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-debug.log*
 
 notes.txt
 .idea/
 
 .vscode/
 
-yarn.lock
+package-lock.json
 
 cypress/videos
 cypress/screenshots

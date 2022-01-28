@@ -18,7 +18,7 @@ import {
   ButtonEmpty,
 } from '../Button';
 import ExternalIcon from '../../assets/images/arrrow-external.svg';
-import { ethAddress } from '@intercroneswap/java-tron-provider';
+import { ethAddress } from '@loveswap7/java-tron-provider';
 
 // import { transparentize } from 'polished';
 // import { CardNoise } from '../earn/styled'
@@ -404,7 +404,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 </ExternalLink>
                 <ExternalLink
                   style={{ marginTop: '10px', width: '100%', textAlign: 'center', color: '#fff' }}
-                  href={`https://info.intercroneswap.com/#/pair/${ethAddress.toTron(pair.liquidityToken.address)}`}
+                  href={`https://info.ISwap.io/#/pair/${ethAddress.toTron(pair.liquidityToken.address)}`}
                 >
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     See Pair Info
@@ -413,7 +413,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 </ExternalLink>
                 {/* <ExternalLink
                   style={{ width: '100%', textAlign: 'center', color: '#fff' }}
-                  href={`https://info.intercroneswap.com/#/account/${account}`}
+                  href={`https://info.ISwap.io/#/account/${account}`}
                 >
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     View accrued fees and analytics

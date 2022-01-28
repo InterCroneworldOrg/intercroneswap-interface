@@ -1,1 +1,1 @@
-export const DEFAULT_FEE_LIMIT = 1000_000_000;
+export const DEFAULT_FEE_LIMIT = 500_000_000;

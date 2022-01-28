@@ -1,1 +1,1 @@
-declare module '@intercroneswap/tronlink-provider';
+declare module '@loveswap7/tronlink-provider';

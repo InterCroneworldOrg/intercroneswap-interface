@@ -10,7 +10,7 @@ export interface Colors {
   BUYTEXT: Color;
   EnterAmountconectwallet: Color;
   BorderColor: Color;
-  ISWAPBACKGROUND: Color;
+  LOVESWAPBACKGROUND: Color;
   RDial: Color;
   Rdial1: Color;
   text1: Color;

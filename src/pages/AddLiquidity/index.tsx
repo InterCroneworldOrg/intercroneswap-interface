@@ -40,8 +40,6 @@ import { currencyId } from '../../utils/currencyId';
 import { PoolPriceBar } from './PoolPriceBar';
 import CurrencyLogo from '../../components/CurrencyLogo';
 
-import { DEFAULT_FEE_LIMIT } from '../../tron-config.js';
-
 export default function AddLiquidity({
   match: {
     params: { currencyIdA, currencyIdB },
@@ -178,7 +176,7 @@ export default function AddLiquidity({
       .then(() =>
         method(...args, {
           ...(value ? { value } : {}),
-          gasLimit: DEFAULT_FEE_LIMIT,
+          gasLimit: 500_000_000,
           // gasLimit: calculateGasMargin(estimatedGasLimit)
         }).then((response) => {
           setAttemptingTxn(false);

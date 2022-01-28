@@ -3,14 +3,11 @@
   "description": "ISwap Interface",
   "homepage": ".",
   "private": true,
-  "engines": {
-    "node": "^16"
-  },
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
-    "@intercroneswap/swap-sdk": "^0.0.14",
-    "@intercroneswap/token-lists": "^0.0.5",
-    "@intercroneswap/v1-core": "^0.0.6",
+    "@intercroneswap/swap-sdk": "0.0.6",
+    "@loveswap7/token-lists": "^0.0.3",
+    "@loveswap7/v1-core": "0.0.1",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.16.0",
     "@reach/portal": "^0.16.0",
@@ -69,6 +66,7 @@
     "react-popper": "^2.2.3",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.0.0",
+    "react-scripts": "^4.0.3",
     "react-spring": "^8.0.27",
     "react-use-gesture": "^9.1.3",
     "react-virtualized-auto-sizer": "^1.0.2",
@@ -112,8 +110,7 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "react-scripts": "^4.0.3",
-    "@intercroneswap/java-tron-provider": "^0.0.12",
-    "@intercroneswap/tronlink-provider": "^0.0.4"
+    "@loveswap7/java-tron-provider": "^0.0.10",
+    "@loveswap7/tronlink-provider": "^0.0.2"
   }
 }

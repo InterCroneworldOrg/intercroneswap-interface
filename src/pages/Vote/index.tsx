@@ -146,7 +146,7 @@ export default function Vote() {
               </RowBetween>
               <ExternalLink
                 style={{ color: 'white', textDecoration: 'underline' }}
-                href="https://intercroneswap.com/blog/kwik"
+                href="https://ISwap.io/blog/kwik"
                 target="_blank"
               >
                 <TYPE.white fontSize={14}>Read more about ISwap governance</TYPE.white>

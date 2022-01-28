@@ -318,7 +318,7 @@ export default function App() {
         <HeaderWrapper>
           <Header />
         </HeaderWrapper>
-        <StyledHeading>Welcome to InterCrone World</StyledHeading>
+        <StyledHeading>swap your trc20 tokens</StyledHeading>
         <BodyWrapper>
           {/* <YellowStar></YellowStar>
           <CGreen></CGreen>

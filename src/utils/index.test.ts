@@ -11,9 +11,7 @@ import {
   basisPointsToPercent,
 } from '.';
 
-// TODO: Perhaps not needed anymore
 describe('utils', () => {
-  /*
   describe('#getEtherscanLink', () => {
     it('correct for tx', () => {
       expect(getEtherscanLink(1, 'abc', 'transaction')).toEqual('https://Tronscan.io/tx/abc');
@@ -29,12 +27,11 @@ describe('utils', () => {
     });
     it('ropsten', () => {
       expect(getEtherscanLink(3, 'abc', 'address')).toEqual('https://ropsten.Tronscan.io/address/abc');
-    }); 
+    });
     it('enum', () => {
       expect(getEtherscanLink(ChainId.RINKEBY, 'abc', 'address')).toEqual('https://rinkeby.Tronscan.io/address/abc');
-    }); 
+    });
   });
-  */
 
   describe('#calculateSlippageAmount', () => {
     it('bounds are correct', () => {
@@ -74,8 +71,7 @@ describe('utils', () => {
     });
   });
 
-  // TODO: Fix test, not returning the expected values
-  /* describe('#shortenAddress', () => {
+  describe('#shortenAddress', () => {
     it('throws on invalid address', () => {
       expect(() => shortenAddress('abc')).toThrow("Invalid 'address'");
     });
@@ -91,7 +87,7 @@ describe('utils', () => {
     it('renders checksummed address', () => {
       expect(shortenAddress('0x2E1b342132A67Ea578e4E3B814bae2107dc254CC'.toLowerCase())).toBe('0x2E1b...54CC');
     });
-  }); */
+  });
 
   describe('#calculateGasMargin', () => {
     it('adds 10%', () => {

@@ -138,6 +138,7 @@ export function useDerivedMintInfo(
       return undefined;
     }
   }, [liquidityMinted, totalSupply]);
+
   let error: string | undefined;
   if (!account) {
     error = 'Connect Wallet';
