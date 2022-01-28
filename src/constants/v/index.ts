@@ -6,8 +6,8 @@ import V_FACTORY_ABI from './v_factory.json';
 const V_FACTORY_ADDRESSES: { [chainId in ChainId]: string } = {
   // TODO: TRON: mainnet factory address
   [ChainId.MAINNET]: '0x0bdCBA8Ca6bAfcEc522F20eEF0CcE9BA603F3e43',
-  [ChainId.NILE]: '0x64d5aF91C3A4aE5dB503dA8be25b5E47ad2D944e',
-  [ChainId.SHASTA]: '0x735d2b61c97839d4dca5f39cdd2f49b92c3298ae',
+  [ChainId.NILE]: '0x1D10824013BA6A80DE7E9215A32D974478AEB30C',
+  [ChainId.SHASTA]: '0x1D10824013BA6A80DE7E9215A32D974478AEB30C',
 };
 
 const V_FACTORY_INTERFACE = new Interface(V_FACTORY_ABI);
