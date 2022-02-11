@@ -1,4 +1,4 @@
-import { Trade } from '@intercroneswap/swap-sdk';
+import { Trade } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Divider, TYPE } from '../../theme';

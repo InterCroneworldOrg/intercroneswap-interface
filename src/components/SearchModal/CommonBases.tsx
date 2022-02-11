@@ -1,5 +1,5 @@
 import { Text } from 'rebass';
-import { ChainId, Currency, currencyEquals, ETHER, Token } from '@intercroneswap/swap-sdk';
+import { Currency, Ether, Token } from '@intercroneswap/sdk-core';
 import styled from 'styled-components';
 
 import { SUGGESTED_BASES } from '../../constants';
@@ -44,13 +44,13 @@ export default function CommonBases({
       <AutoRow gap="4px">
         <BaseWrapper
           onClick={() => {
-            if (!selectedCurrency || !currencyEquals(selectedCurrency, ETHER)) {
-              onSelect(ETHER);
+            if (!selectedCurrency || !selectedCurrency.equals(new Ether(8))) {
+              onSelect(Ether);
             }
           }}
-          disable={selectedCurrency === ETHER}
+          disable={selectedCurrency === Ether}
         >
-          <CurrencyLogo currency={ETHER} style={{ marginRight: 8 }} />
+          <CurrencyLogo currency={Ether} style={{ marginRight: 8 }} />
           <Text fontWeight={500} fontSize={16}>
             TRX
           </Text>

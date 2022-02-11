@@ -1,4 +1,4 @@
-import { Trade } from '@intercroneswap/swap-sdk';
+import { Trade } from '@intercroneswap/sdk-core';
 import { Fragment, memo, useContext } from 'react';
 import { ChevronRight } from 'react-feather';
 import { Flex } from 'rebass';

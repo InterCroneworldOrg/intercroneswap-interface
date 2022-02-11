@@ -5,7 +5,7 @@ import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { BigNumber } from '@ethersproject/bignumber';
 import IntercroneswapV1Router02ABI from '../constants/abis/router02.json';
 import { ROUTER_ADDRESS } from '../constants';
-import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@intercroneswap/swap-sdk';
+import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@intercroneswap/sdk-core';
 import { TokenAddressMap } from '../state/lists/hooks';
 import { ethAddress, remove0xPrefix } from '@intercroneswap/java-tron-provider';
 import { getAddress } from 'ethers/lib/utils';

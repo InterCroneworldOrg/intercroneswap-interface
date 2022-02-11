@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
-import { Token, TokenAmount, WETH } from '@intercroneswap/swap-sdk';
+import { Token, CurrencyAmount as TokenAmount, WETH } from '@intercroneswap/sdk-core';
 
 import { Text } from 'rebass';
 import { AutoColumn } from '../Column';
@@ -11,9 +11,9 @@ import DoubleCurrencyLogo from '../DoubleLogo';
 import { useActiveWeb3React } from '../../hooks';
 import { ThemeContext } from 'styled-components';
 
-interface PositionCardProps extends RouteComponentProps<{}> {
+interface PositionCardProps extends RouteComponentProps<T> {
   token: Token;
-  VLiquidityBalance: TokenAmount;
+  VLiquidityBalance: TokenAmount<T>;
 }
 
 function VPositionCard({ token, VLiquidityBalance }: PositionCardProps) {

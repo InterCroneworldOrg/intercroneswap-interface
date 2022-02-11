@@ -1,4 +1,3 @@
-// import { ChainId } from '@intercroneswap/swap-sdk';
 import { useState } from 'react';
 import { Text } from 'rebass';
 import { NavLink } from 'react-router-dom';
@@ -7,30 +6,13 @@ import { useTranslation } from 'react-i18next';
 
 import styled from 'styled-components';
 import Logo from '../../assets/images/ISwap.svg';
-// import Logo from '../../assets/svg/logo.svg'
-// import LogoDark from '../../assets/svg/logo_white.svg'
 import { useActiveWeb3React } from '../../hooks';
-// import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances } from '../../state/wallet/hooks';
-// import { CardNoise } from '../vote/styled'
-// import { CountUp } from 'use-count-up'
-// ExternalLink
-// import { ExternalLink } from '../../theme'
-
-// import { YellowCard } from '../Card';
 import Settings from '../Settings';
 import Menu from '../Menu';
 import { Box } from 'rebass/styled-components';
-// import Row from '../Row'
 import Web3Status from '../Web3Status';
-// import ClaimModal from '../claim/ClaimModal'
-// import { useShowClaimPopup } from '../../state/application/hooks'
-// import { useUserHasAvailableClaim } from '../../state/claim/hooks'
-// import { useUserHasSubmittedClaim } from '../../state/transactions/hooks'
-// import { Dots } from '../swap/styleds'
 import Modal from '../Modal';
-// import KwikBalanceContent from './KwikBalanceContent'
-// import usePrevious from '../../hooks/usePrevious'
 
 const HeaderFrame = styled.div`
   // display: grid;

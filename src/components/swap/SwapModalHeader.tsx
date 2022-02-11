@@ -1,4 +1,4 @@
-import { Trade, TradeType } from '@intercroneswap/swap-sdk';
+import { Trade, TradeType } from '@intercroneswap/sdk-core';
 import { useContext, useMemo } from 'react';
 import { AlertTriangle, ArrowRight } from 'react-feather';
 import { Text } from 'rebass';

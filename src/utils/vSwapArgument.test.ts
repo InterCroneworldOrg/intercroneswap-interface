@@ -1,4 +1,4 @@
-import { CurrencyAmount, ETHER, Percent, Route, TokenAmount, Trade } from '@intercroneswap/swap-sdk';
+import { CurrencyAmount, ETHER, Percent, Route, TokenAmount, Trade } from '@intercroneswap/sdk-core';
 import { MockVPair } from '../data/V';
 import vSwapArguments from './vSwapArguments';
 
