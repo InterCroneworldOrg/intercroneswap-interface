@@ -1,10 +1,11 @@
 import { MaxUint256 } from '@ethersproject/constants';
-import { CurrencyAmount, ETHER, SwapParameters, Token, Trade, TradeOptions, TradeType } from '@intercroneswap/sdk-core';
+import { Currency, CurrencyAmount, ETHER, Token, TradeType } from '@intercroneswap/sdk-core';
+import { SwapParameters, Trade, TradeOptions } from '@intercroneswap/v2-sdk';
 import { getTradeVersion } from '../data/V';
 import { Version } from '../hooks/useToggledVersion';
 
-function toHex(currencyAmount: CurrencyAmount): string {
-  return `0x${currencyAmount.raw.toString(16)}`;
+function toHex(currencyAmount: CurrencyAmount<Currency>): string {
+  return `0x${currencyAmount.quotient.toString(16)}`;
 }
 function deadlineFromNow(ttl: number): string {
   return `0x${(Math.floor(new Date().getTime() / 1000) + ttl).toString(16)}`;
@@ -14,7 +15,10 @@ function deadlineFromNow(ttl: number): string {
  * @param trade trade to get v arguments for swapping
  * @param options options for swapping
  */
-export default function vSwapArguments(trade: Trade, options: Omit<TradeOptions, 'feeOnTransfer'>): SwapParameters {
+export default function vSwapArguments(
+  trade: Trade<Currency, Currency, TradeType>,
+  options: Omit<TradeOptions, 'feeOnTransfer'>,
+): SwapParameters {
   if (getTradeVersion(trade) !== Version.v) {
     throw new Error('invalid trade version');
   }

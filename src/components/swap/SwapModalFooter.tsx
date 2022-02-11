@@ -1,4 +1,5 @@
-import { Trade, TradeType } from '@intercroneswap/sdk-core';
+import { Currency, TradeType } from '@intercroneswap/sdk-core';
+import { Trade } from '@intercroneswap/v2-sdk';
 import { useContext, useMemo, useState } from 'react';
 import { Repeat } from 'react-feather';
 import { Text } from 'rebass';
@@ -25,7 +26,7 @@ export default function SwapModalFooter({
   swapErrorMessage,
   disabledConfirm,
 }: {
-  trade: Trade;
+  trade: Trade<Currency, Currency, TradeType>;
   allowedSlippage: number;
   onConfirm: () => void;
   swapErrorMessage: string | undefined;

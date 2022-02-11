@@ -1,6 +1,7 @@
 import { MaxUint256 } from '@ethersproject/constants';
 import { TransactionResponse } from '@ethersproject/providers';
-import { Trade, TokenAmount, CurrencyAmount, ETHER } from '@intercroneswap/sdk-core';
+import { Token, CurrencyAmount, ETHER, TradeType } from '@intercroneswap/sdk-core';
+import { Trade } from '@intercroneswap/v2-sdk';
 import { useCallback, useMemo } from 'react';
 import { ROUTER_ADDRESS } from '../constants';
 import { useTokenAllowance } from '../data/Allowances';
@@ -23,11 +24,11 @@ export enum ApprovalState {
 
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
 export function useApproveCallback(
-  amountToApprove?: CurrencyAmount,
+  amountToApprove?: CurrencyAmount<Token>,
   spender?: string,
 ): [ApprovalState, () => Promise<void>] {
   const { account } = useActiveWeb3React();
-  const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined;
+  const token = amountToApprove?.currency;
   // console.log(token, 'token');
   const currentAllowance = useTokenAllowance(token, account ?? undefined, spender);
   const pendingApproval = useHasPendingApproval(token?.address, spender);
@@ -83,7 +84,7 @@ export function useApproveCallback(
     // })
 
     return tokenContract
-      .approve(spender, useExact ? amountToApprove.raw.toString() : MaxUint256, {
+      .approve(spender, useExact ? amountToApprove.quotient.toString() : MaxUint256, {
         // gasLimit: calculateGasMargin(estimatedGas)
         gasLimit: DEFAULT_FEE_LIMIT,
       })
@@ -103,7 +104,7 @@ export function useApproveCallback(
 }
 
 // wraps useApproveCallback in the context of a swap
-export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) {
+export function useApproveCallbackFromTrade(trade?: Trade<Token, Token, TradeType>, allowedSlippage = 0) {
   const amountToApprove = useMemo(
     () => (trade ? computeSlippageAdjustedAmounts(trade, allowedSlippage)[Field.INPUT] : undefined),
     [trade, allowedSlippage],

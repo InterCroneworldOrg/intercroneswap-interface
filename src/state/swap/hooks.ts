@@ -1,7 +1,9 @@
 import useENS from '../../hooks/useENS';
 import { Version } from '../../hooks/useToggledVersion';
 import { parseUnits } from '@ethersproject/units';
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade } from '@intercroneswap/sdk-core';
+import { Currency, CurrencyAmount, ETHER, Token, TradeType } from '@intercroneswap/sdk-core';
+import { Trade } from '@intercroneswap/v2-sdk';
+import JSBI from 'jsbi';
 import { ParsedQs } from 'qs';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -69,7 +71,7 @@ export function useSwapActionHandlers(): {
 }
 
 // try to parse a user entered amount for a given token
-export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmount | undefined {
+export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmount<Token> | undefined {
   if (!value || !currency) {
     return undefined;
   }
@@ -77,8 +79,8 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
     const typedValueParsed = parseUnits(value, currency.decimals).toString();
     if (typedValueParsed !== '0') {
       return currency instanceof Token
-        ? new TokenAmount(currency, JSBI.BigInt(typedValueParsed))
-        : CurrencyAmount.ether(JSBI.BigInt(typedValueParsed));
+        ? CurrencyAmount.fromRawAmount(currency, JSBI.BigInt(typedValueParsed))
+        : CurrencyAmount.fromRawAmount(ETHER, JSBI.BigInt(typedValueParsed));
     }
   } catch (error) {
     // should fail if the user specifies too many decimal places of precision (or maybe exceed max uint?)
@@ -99,7 +101,7 @@ const BAD_RECIPIENT_ADDRESSES: string[] = [
  * @param trade to check for the given address
  * @param checksummedAddress address to check in the pairs and tokens
  */
-function involvesAddress(trade: Trade, checksummedAddress: string): boolean {
+function involvesAddress(trade: Trade<Currency, Currency, TradeType>, checksummedAddress: string): boolean {
   return (
     trade.route.path.some((token) => token.address === checksummedAddress) ||
     trade.route.pairs.some((pair) => pair.liquidityToken.address === checksummedAddress)
@@ -109,11 +111,11 @@ function involvesAddress(trade: Trade, checksummedAddress: string): boolean {
 // from the current swap inputs, compute the best trade and return it.
 export function useDerivedSwapInfo(): {
   currencies: { [field in Field]?: Currency };
-  currencyBalances: { [field in Field]?: CurrencyAmount };
-  parsedAmount: CurrencyAmount | undefined;
-  v1Trade: Trade | undefined;
+  currencyBalances: { [field in Field]?: CurrencyAmount<Currency> };
+  parsedAmount: CurrencyAmount<Currency> | undefined;
+  v1Trade: Trade<Currency, Currency, TradeType> | undefined;
   inputError?: string;
-  vTrade: Trade | undefined;
+  vTrade: Trade<Currency, Currency, TradeType> | undefined;
 } {
   const { account } = useActiveWeb3React();
 

@@ -1,4 +1,4 @@
-import { JSBI } from '@intercroneswap/sdk-core';
+import JSBI from 'jsbi';
 import { useMemo } from 'react';
 import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks';
 import { useActiveWeb3React } from './index';

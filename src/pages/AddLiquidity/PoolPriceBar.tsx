@@ -1,4 +1,4 @@
-import { Currency, Percent, Price } from '@intercroneswap/sdk-core';
+import { Currency, Percent, Price, Token } from '@intercroneswap/sdk-core';
 import { useContext } from 'react';
 import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
@@ -17,7 +17,7 @@ export function PoolPriceBar({
   currencies: { [field in Field]?: Currency };
   noLiquidity?: boolean;
   poolTokenPercentage?: Percent;
-  price?: Price;
+  price?: Price<Token, Token>;
 }) {
   const theme = useContext(ThemeContext);
   return (

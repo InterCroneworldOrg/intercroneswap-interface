@@ -1,4 +1,4 @@
-import { Price } from '@intercroneswap/sdk-core';
+import { Price, Currency } from '@intercroneswap/sdk-core';
 import { useContext } from 'react';
 import { Repeat } from 'react-feather';
 import { Text } from 'rebass';
@@ -6,7 +6,7 @@ import { ThemeContext } from 'styled-components';
 import { StyledBalanceMaxMini } from './styleds';
 
 interface TradePriceProps {
-  price?: Price;
+  price?: Price<Currency, Currency>;
   showInverted: boolean;
   setShowInverted: (showInverted: boolean) => void;
 }

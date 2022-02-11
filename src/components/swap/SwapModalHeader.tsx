@@ -1,4 +1,5 @@
-import { Trade, TradeType } from '@intercroneswap/sdk-core';
+import { Currency, TradeType } from '@intercroneswap/sdk-core';
+import { Trade } from '@intercroneswap/v2-sdk';
 import { useContext, useMemo } from 'react';
 import { AlertTriangle, ArrowRight } from 'react-feather';
 import { Text } from 'rebass';
@@ -21,7 +22,7 @@ export default function SwapModalHeader({
   showAcceptChanges,
   onAcceptChanges,
 }: {
-  trade: Trade;
+  trade: Trade<Currency, Currency, TradeType>;
   allowedSlippage: number;
   recipient: string | null;
   showAcceptChanges: boolean;

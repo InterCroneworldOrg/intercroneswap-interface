@@ -1,4 +1,6 @@
-import { CurrencyAmount, JSBI, Token, Trade } from '@intercroneswap/sdk-core';
+import { CurrencyAmount, Token } from '@intercroneswap/sdk-core';
+import { Trade } from '@intercroneswap/v2-sdk';
+import JSBI from 'jsbi';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { ArrowDown } from 'react-feather';
 import ReactGA from 'react-ga';
@@ -171,7 +173,7 @@ export default function Swap() {
   // modal and loading
   const [{ showConfirm, tradeToConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
     showConfirm: boolean;
-    tradeToConfirm: Trade | undefined;
+    tradeToConfirm: Trade<Token, Token, TradeType> | undefined;
     attemptingTxn: boolean;
     swapErrorMessage: string | undefined;
     txHash: string | undefined;
@@ -209,7 +211,7 @@ export default function Swap() {
     }
   }, [approval, approvalSubmitted]);
 
-  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT]);
+  const maxAmountInput: CurrencyAmount<Token> | undefined = maxAmountSpend(currencyBalances[Field.INPUT]);
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput));
 
   // the callback to execute the swap

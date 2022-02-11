@@ -1,4 +1,5 @@
-import { ChainId, Pair, Token } from '@intercroneswap/sdk-core';
+import { ChainId, Token } from '@intercroneswap/sdk-core';
+import { Pair } from '@intercroneswap/v2-sdk';
 import flatMap from 'lodash.flatmap';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -193,7 +194,7 @@ export function useAsyncV1LiquidityTokens(
     if (library) {
       Promise.all(
         tokens.map(([tokenA, tokenB]: [Token, Token]) => {
-          return Pair.getAddressAsync(tokenA, tokenB, library);
+          return Pair.getAddress(tokenA, tokenB);
         }),
       )
         .then((res: string[]) => {

@@ -1,4 +1,5 @@
-import { JSBI, Token, TokenAmount } from '@intercroneswap/sdk-core';
+import { Token, CurrencyAmount } from '@intercroneswap/sdk-core';
+import JSBI from 'jsbi';
 import { BigNumber } from 'ethers';
 
 const STAKING_END = 0 + 60 * 60 * 24 * 60;
@@ -55,8 +56,8 @@ function withVesting(before: JSBI, time: BigNumber, amount: number, start: numbe
 export function computeKwikCirculation(
   kwik: Token,
   blockTimestamp: BigNumber,
-  unclaimedKwik: TokenAmount | undefined,
-): TokenAmount {
+  unclaimedKwik: CurrencyAmount<Token> | undefined,
+): CurrencyAmount<Token> {
   let wholeAmount = JSBI.BigInt(USERS_AMOUNT);
 
   // staking rewards
@@ -124,6 +125,9 @@ export function computeKwikCirculation(
     TREASURY_END_YEAR_4,
   );
 
-  const total = new TokenAmount(kwik, JSBI.multiply(wholeAmount, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))));
+  const total = CurrencyAmount.fromRawAmount(
+    kwik,
+    JSBI.multiply(wholeAmount, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))),
+  );
   return unclaimedKwik ? total.subtract(unclaimedKwik) : total;
 }

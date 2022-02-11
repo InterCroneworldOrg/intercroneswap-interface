@@ -1,5 +1,7 @@
 import { BLOCKED_PRICE_IMPACT_NON_EXPERT } from '../constants';
-import { CurrencyAmount, Fraction, JSBI, Percent, TokenAmount, Trade } from '@intercroneswap/sdk-core';
+import JSBI from 'jsbi';
+import { Currency, CurrencyAmount, Fraction, Percent, Token, TradeType } from '@intercroneswap/sdk-core';
+import { Trade } from '@intercroneswap/v2-sdk';
 import { ALLOWED_PRICE_IMPACT_HIGH, ALLOWED_PRICE_IMPACT_LOW, ALLOWED_PRICE_IMPACT_MEDIUM } from '../constants';
 import { Field } from '../state/swap/actions';
 import { basisPointsToPercent } from './index';
@@ -11,9 +13,9 @@ const INPUT_FRACTION_AFTER_FEE = ONE_HUNDRED_PERCENT.subtract(BASE_FEE);
 // console.log(ONE_HUNDRED_PERCENT,"ONE_HUNDRED_PERCENT")
 // console.log(INPUT_FRACTION_AFTER_FEE,"INPUT_FRACTION_AFTER_FEE")
 // computes price breakdown for the trade
-export function computeTradePriceBreakdown(trade?: Trade): {
+export function computeTradePriceBreakdown(trade?: Trade<Currency, Currency, TradeType>): {
   priceImpactWithoutFee?: Percent;
-  realizedLPFee?: CurrencyAmount;
+  realizedLPFee?: CurrencyAmount<Currency>;
 } {
   // for each hop in our trade, take away the x*y=k price impact from 0.3% fees
   // e.g. for 3 tokens/2 hops: 1 - ((1 - .03) * (1-.03))
@@ -38,18 +40,21 @@ export function computeTradePriceBreakdown(trade?: Trade): {
   const realizedLPFeeAmount =
     realizedLPFee &&
     trade &&
-    (trade.inputAmount instanceof TokenAmount
-      ? new TokenAmount(trade.inputAmount.token, realizedLPFee.multiply(trade.inputAmount.raw).quotient)
-      : CurrencyAmount.ether(realizedLPFee.multiply(trade.inputAmount.raw).quotient));
+    (trade.inputAmount.currency instanceof Token
+      ? CurrencyAmount.fromRawAmount(
+          trade.inputAmount.currency,
+          realizedLPFee.multiply(trade.inputAmount.quotient).quotient,
+        )
+      : CurrencyAmount.fromRawAmount(ETHER, realizedLPFee.multiply(trade.inputAmount.raw).quotient));
 
   return { priceImpactWithoutFee: priceImpactWithoutFeePercent, realizedLPFee: realizedLPFeeAmount };
 }
 
 // computes the minimum amount out and maximum amount in for a trade given a user specified allowed slippage in bips
 export function computeSlippageAdjustedAmounts(
-  trade: Trade | undefined,
+  trade: Trade<Currency, Currency, TradeType> | undefined,
   allowedSlippage: number,
-): { [field in Field]?: CurrencyAmount } {
+): { [field in Field]?: CurrencyAmount<Currency> } {
   const pct = basisPointsToPercent(allowedSlippage);
   return {
     [Field.INPUT]: trade?.maximumAmountIn(pct),
@@ -65,7 +70,7 @@ export function warningSeverity(priceImpact: Percent | undefined): 0 | 1 | 2 | 3
   return 0;
 }
 
-export function formatExecutionPrice(trade?: Trade, inverted?: boolean): string {
+export function formatExecutionPrice(trade?: Trade<Currency, Currency, TradeType>, inverted?: boolean): string {
   if (!trade) {
     return '';
   }

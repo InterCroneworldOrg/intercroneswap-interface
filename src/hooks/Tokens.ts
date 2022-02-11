@@ -1,5 +1,5 @@
 import { parseBytes32String } from '@ethersproject/strings';
-import { Currency, ETHER, Token, currencyEquals } from '@intercroneswap/sdk-core';
+import { Currency, ETHER, Token } from '@intercroneswap/sdk-core';
 import { useMemo } from 'react';
 import { useSelectedTokenList } from '../state/lists/hooks';
 import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks';
@@ -35,7 +35,7 @@ export function useAllTokens(): { [address: string]: Token } {
 // Check if currency is included in custom list from user storage
 export function useIsUserAddedToken(currency: Currency): boolean {
   const userAddedTokens = useUserAddedTokens();
-  return !!userAddedTokens.find((token) => currencyEquals(currency, token));
+  return !!userAddedTokens.find((token) => currency.equals(token));
 }
 
 // parse a name or symbol from a token response

@@ -1,7 +1,7 @@
 // import { splitSignature } from '@ethersproject/bytes';
 import { Contract } from '@ethersproject/contracts';
 import { TransactionResponse } from '@ethersproject/providers';
-import { Currency, currencyEquals, ETHER, Percent, WETH } from '@intercroneswap/sdk-core';
+import { Currency, ETHER, Percent, WETH } from '@intercroneswap/sdk-core';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import { ArrowDown, Plus } from 'react-feather';
 import ReactGA from 'react-ga';
@@ -456,9 +456,7 @@ export default function RemoveLiquidity({
 
   const oneCurrencyIsETH = currencyA === ETHER || currencyB === ETHER;
   const oneCurrencyIsWETH = Boolean(
-    chainId &&
-      ((currencyA && currencyEquals(WETH[chainId], currencyA)) ||
-        (currencyB && currencyEquals(WETH[chainId], currencyB))),
+    chainId && ((currencyA && WETH[chainId].equals(currencyA)) || (currencyB && WETH[chainId].equals(currencyB))),
   );
 
   const handleSelectCurrencyA = useCallback(
@@ -622,8 +620,8 @@ export default function RemoveLiquidity({
                       </StyledInternalLink>
                     ) : oneCurrencyIsWETH ? (
                       <StyledInternalLink
-                        to={`/remove/${currencyA && currencyEquals(currencyA, WETH[chainId]) ? 'TRX' : currencyIdA}/${
-                          currencyB && currencyEquals(currencyB, WETH[chainId]) ? 'TRX' : currencyIdB
+                        to={`/remove/${currencyA && currencyA.equals(WETH[chainId]) ? 'TRX' : currencyIdA}/${
+                          currencyB && currencyB.equals(WETH[chainId]) ? 'TRX' : currencyIdB
                         }`}
                       >
                         <Text color={theme.primary3}>Receive TRX</Text>

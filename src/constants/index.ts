@@ -1,5 +1,6 @@
-import { ChainId, JSBI, Percent, Token, WETH } from '@intercroneswap/sdk-core';
+import { Percent, Token, WETH, ChainId } from '@intercroneswap/sdk-core';
 import { AbstractConnector } from '@web3-react/abstract-connector';
+import JSBI from 'jsbi';
 
 import { injected } from '../connectors';
 

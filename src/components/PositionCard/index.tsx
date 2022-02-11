@@ -1,4 +1,6 @@
-import { FACTORY_ADDRESS, JSBI, Pair, Percent } from '@intercroneswap/sdk-core';
+import { Percent } from '@intercroneswap/sdk-core';
+import JSBI from 'jsbi';
+import { FACTORY_ADDRESS, Pair } from '@intercroneswap/v2-sdk';
 import { darken } from 'polished';
 import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';

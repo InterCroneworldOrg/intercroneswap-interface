@@ -1,4 +1,5 @@
-import { Currency, CurrencyAmount, Pair, Token, Trade } from '@intercroneswap/sdk-core';
+import { Currency, CurrencyAmount, Token, TradeType } from '@intercroneswap/sdk-core';
+import { Pair, Trade } from '@intercroneswap/v2-sdk';
 import flatMap from 'lodash.flatmap';
 import { useMemo } from 'react';
 
@@ -81,7 +82,10 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
 /**
  * Returns the best trade for the exact amount of tokens in to the given token out
  */
-export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?: Currency): Trade | null {
+export function useTradeExactIn(
+  currencyAmountIn?: CurrencyAmount<Token>,
+  currencyOut?: Currency,
+): Trade<Currency, Currency, TradeType> | null {
   const allowedPairs = useAllCommonPairs(currencyAmountIn?.currency, currencyOut);
   return useMemo(() => {
     if (currencyAmountIn && currencyOut && allowedPairs.length > 0) {
@@ -96,7 +100,10 @@ export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?:
 /**
  * Returns the best trade for the token in to the exact amount of token out
  */
-export function useTradeExactOut(currencyIn?: Currency, currencyAmountOut?: CurrencyAmount): Trade | null {
+export function useTradeExactOut(
+  currencyIn?: Currency,
+  currencyAmountOut?: CurrencyAmount<Token>,
+): Trade<Currency, Currency, TradeType> | null {
   const allowedPairs = useAllCommonPairs(currencyIn, currencyAmountOut?.currency);
 
   return useMemo(() => {
