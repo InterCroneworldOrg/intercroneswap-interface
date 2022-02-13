@@ -1,13 +1,13 @@
-import { CurrencyAmount, Fraction } from '@intercroneswap/sdk-core';
+import { Currency, CurrencyAmount, Fraction } from '@intercroneswap/sdk-core';
 import JSBI from 'jsbi';
 
 const CURRENCY_AMOUNT_MIN = new Fraction(JSBI.BigInt(1), JSBI.BigInt(1000000));
 
-export default function FormattedCurrencyAmount({
+export default function FormattedCurrencyAmount<T extends Currency>({
   currencyAmount,
   significantDigits = 4,
 }: {
-  currencyAmount: CurrencyAmount;
+  currencyAmount: CurrencyAmount<T>;
   significantDigits?: number;
 }) {
   return (

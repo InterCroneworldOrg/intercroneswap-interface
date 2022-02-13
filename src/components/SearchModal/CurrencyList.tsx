@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Ether, Token } from '@intercroneswap/sdk-core';
+import { Currency, CurrencyAmount, Tron, Token } from '@intercroneswap/sdk-core';
 import { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react';
 import { FixedSizeList } from 'react-window';
 import { Text } from 'rebass';
@@ -18,7 +18,7 @@ import Loader from '../Loader';
 import { isTokenOnList } from '../../utils';
 
 function currencyKey(currency: Currency): string {
-  return currency instanceof Token ? currency.address : currency === new Ether(8) ? 'ETHER' : '';
+  return currency instanceof Token ? currency.address : currency === Tron.onChain(6) ? 'ETHER' : '';
 }
 
 const StyledBalanceText = styled(Text)`
@@ -171,12 +171,12 @@ export default function CurrencyList({
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>;
   showETH: boolean;
 }) {
-  const itemData = useMemo(() => (showETH ? [new Ether(8), ...currencies] : currencies), [currencies, showETH]);
+  const itemData = useMemo(() => (showETH ? [Tron.onChain(6), ...currencies] : currencies), [currencies, showETH]);
 
   const Row = useCallback(
     ({ data, index, style }) => {
       const currency: Currency = data[index];
-      const isSelected = Boolean(selectedCurrency && selectedCurrency.equals(currenct));
+      const isSelected = Boolean(selectedCurrency && selectedCurrency.equals(currency));
       const otherSelected = Boolean(otherCurrency && otherCurrency.equals(currency));
       const handleSelect = () => onCurrencySelect(currency);
       return (

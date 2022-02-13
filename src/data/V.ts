@@ -3,18 +3,14 @@ import {
   BigintIsh,
   Currency,
   CurrencyAmount,
-  currencyEquals,
-  ETHER,
-  JSBI,
-  Pair,
+  NativeCurrency,
   Percent,
-  Route,
   Token,
-  TokenAmount,
-  Trade,
   TradeType,
-  WETH,
+  WTRX as WETH,
 } from '@intercroneswap/sdk-core';
+import { Trade, Pair, Route } from '@intercroneswap/v2-sdk';
+import JSBI from 'jsbi';
 import { useMemo } from 'react';
 import { useActiveWeb3React } from '../hooks';
 import { useAllTokens } from '../hooks/Tokens';
@@ -31,8 +27,8 @@ export function useVExchangeAddress(tokenAddress?: string): string | undefined {
 }
 
 export class MockVPair extends Pair {
-  constructor(etherAmount: BigintIsh, tokenAmount: TokenAmount) {
-    super(tokenAmount, new TokenAmount(WETH[tokenAmount.token.chainId], etherAmount));
+  constructor(etherAmount: BigintIsh, tokenAmount: CurrencyAmount<Token>) {
+    super(tokenAmount, CurrencyAmount.fromRawAmount(WETH[tokenAmount.currency.chainId], etherAmount));
   }
 }
 
@@ -46,7 +42,9 @@ function useMockVPair(inputCurrency?: Currency): MockVPair | undefined {
 
   return useMemo(
     () =>
-      token && tokenBalance && ETHBalance && inputCurrency ? new MockVPair(ETHBalance.raw, tokenBalance) : undefined,
+      token && tokenBalance && ETHBalance && inputCurrency
+        ? new MockVPair(ETHBalance.quotient, tokenBalance)
+        : undefined,
     [ETHBalance, inputCurrency, token, tokenBalance],
   );
 }
@@ -87,7 +85,7 @@ export function useUserHasLiquidityInAllTokens(): boolean | undefined {
   return useMemo(
     () =>
       Object.keys(balances).some((tokenAddress) => {
-        const b = balances[tokenAddress]?.raw;
+        const b = balances[tokenAddress]?.quotient;
         return b && JSBI.greaterThan(b, JSBI.BigInt(0));
       }),
     [balances],
@@ -98,17 +96,17 @@ export function useUserHasLiquidityInAllTokens(): boolean | undefined {
  * Returns the trade to execute on V to go between input and output token
  */
 export function useVTrade(
-  isExactIn?: boolean,
-  inputCurrency?: Currency,
-  outputCurrency?: Currency,
-  exactAmount?: CurrencyAmount,
-): Trade | undefined {
+  isExactIn: boolean,
+  inputCurrency: Currency,
+  outputCurrency: Currency,
+  exactAmount: CurrencyAmount<Currency>,
+): Trade<Currency, Currency, TradeType> | undefined {
   // get the mock v pairs
   const inputPair = useMockVPair(inputCurrency);
   const outputPair = useMockVPair(outputCurrency);
 
-  const inputIsETH = inputCurrency === ETHER;
-  const outputIsETH = outputCurrency === ETHER;
+  const inputIsETH = inputCurrency instanceof NativeCurrency;
+  const outputIsETH = outputCurrency instanceof NativeCurrency;
 
   // construct a direct or through ETH v route
   let pairs: Pair[] = [];
@@ -123,7 +121,7 @@ export function useVTrade(
   }
 
   const route = inputCurrency && pairs && pairs.length > 0 && new Route(pairs, inputCurrency, outputCurrency);
-  let vTrade: Trade | undefined;
+  let vTrade: Trade<Currency, Currency, TradeType> | undefined;
   try {
     vTrade =
       route && exactAmount
@@ -135,7 +133,7 @@ export function useVTrade(
   return vTrade;
 }
 
-export function getTradeVersion(trade?: Trade): Version | undefined {
+export function getTradeVersion(trade?: Trade<Currency, Currency, TradeType>): Version | undefined {
   const isV = trade?.route?.pairs?.some((pair) => pair instanceof MockVPair);
   if (isV) return Version.v;
   if (isV === false) return Version.v1;
@@ -143,15 +141,15 @@ export function getTradeVersion(trade?: Trade): Version | undefined {
 }
 
 // returns the v exchange against which a trade should be executed
-export function useVTradeExchangeAddress(trade: Trade | undefined): string | undefined {
+export function useVTradeExchangeAddress(trade: Trade<Currency, Currency, TradeType> | undefined): string | undefined {
   const tokenAddress: string | undefined = useMemo(() => {
     if (!trade) return undefined;
     const isV = getTradeVersion(trade) === Version.v;
     if (!isV) return undefined;
-    return trade.inputAmount instanceof TokenAmount
-      ? trade.inputAmount.token.address
-      : trade.outputAmount instanceof TokenAmount
-      ? trade.outputAmount.token.address
+    return trade.inputAmount.currency instanceof Token
+      ? trade.inputAmount.currency.address
+      : trade.outputAmount.currency instanceof Token
+      ? trade.outputAmount.currency.address
       : undefined;
   }, [trade]);
   return useVExchangeAddress(tokenAddress);
@@ -162,8 +160,8 @@ const ONE_HUNDRED_PERCENT = new Percent('1');
 
 // returns whether tradeB is better than tradeA by at least a threshold percentage amount
 export function isTradeBetter(
-  tradeA: Trade | undefined,
-  tradeB: Trade | undefined,
+  tradeA: Trade<Currency, Currency, TradeType> | undefined,
+  tradeB: Trade<Currency, Currency, TradeType> | undefined,
   minimumDelta: Percent = ZERO_PERCENT,
 ): boolean | undefined {
   if (tradeA && !tradeB) return false;
@@ -172,8 +170,8 @@ export function isTradeBetter(
 
   if (
     tradeA.tradeType !== tradeB.tradeType ||
-    !currencyEquals(tradeA.inputAmount.currency, tradeB.inputAmount.currency) ||
-    !currencyEquals(tradeB.outputAmount.currency, tradeB.outputAmount.currency)
+    !tradeA.inputAmount.currency.equals(tradeB.inputAmount.currency) ||
+    !tradeB.outputAmount.currency.equals(tradeB.outputAmount.currency)
   ) {
     throw new Error('Trades are not comparable');
   }
@@ -181,6 +179,8 @@ export function isTradeBetter(
   if (minimumDelta.equalTo(ZERO_PERCENT)) {
     return tradeA.executionPrice.lessThan(tradeB.executionPrice);
   } else {
-    return tradeA.executionPrice.raw.multiply(minimumDelta.add(ONE_HUNDRED_PERCENT)).lessThan(tradeB.executionPrice);
+    return tradeA.executionPrice.asFraction
+      .multiply(minimumDelta.add(ONE_HUNDRED_PERCENT))
+      .lessThan(tradeB.executionPrice);
   }
 }

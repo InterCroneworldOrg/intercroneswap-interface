@@ -1,7 +1,7 @@
 // import { splitSignature } from '@ethersproject/bytes';
 import { Contract } from '@ethersproject/contracts';
 import { TransactionResponse } from '@ethersproject/providers';
-import { Currency, ETHER, Percent, WETH } from '@intercroneswap/sdk-core';
+import { Currency, Percent, WTRX } from '@intercroneswap/sdk-core';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import { ArrowDown, Plus } from 'react-feather';
 import ReactGA from 'react-ga';
@@ -147,7 +147,7 @@ export default function RemoveLiquidity({
     const message = {
       owner: account,
       spender: ROUTER_ADDRESS,
-      value: liquidityAmount.raw.toString(),
+      value: liquidityAmount.quotient.toString(),
       nonce: nonce.toHexString(),
       deadline: deadline.toNumber(),
     };
@@ -222,8 +222,8 @@ export default function RemoveLiquidity({
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY];
     if (!liquidityAmount) throw new Error('missing liquidity amount');
 
-    const currencyBIsETH = currencyB === ETHER;
-    const oneCurrencyIsETH = currencyA === ETHER || currencyBIsETH;
+    const currencyBIsETH = currencyB.isNative;
+    const oneCurrencyIsETH = currencyA.isNative || currencyBIsETH;
 
     if (!tokenA || !tokenB) throw new Error('could not wrap');
 
@@ -235,7 +235,7 @@ export default function RemoveLiquidity({
         methodNames = ['removeLiquidityTRX', 'removeLiquidityTRXSupportingFeeOnTransferTokens'];
         args = [
           currencyBIsETH ? tokenA.address : tokenB.address,
-          liquidityAmount.raw.toString(),
+          liquidityAmount.quotient.toString(),
           amountsMin[currencyBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
           amountsMin[currencyBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
           account,
@@ -248,7 +248,7 @@ export default function RemoveLiquidity({
         args = [
           tokenA.address,
           tokenB.address,
-          liquidityAmount.raw.toString(),
+          liquidityAmount.quotient.toString(),
           amountsMin[Field.CURRENCY_A].toString(),
           amountsMin[Field.CURRENCY_B].toString(),
           account,
@@ -263,7 +263,7 @@ export default function RemoveLiquidity({
         methodNames = ['removeLiquidityETHWithPermit', 'removeLiquidityETHWithPermitSupportingFeeOnTransferTokens'];
         args = [
           currencyBIsETH ? tokenA.address : tokenB.address,
-          liquidityAmount.raw.toString(),
+          liquidityAmount.quotient.toString(),
           amountsMin[currencyBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
           amountsMin[currencyBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
           account,
@@ -280,7 +280,7 @@ export default function RemoveLiquidity({
         args = [
           tokenA.address,
           tokenB.address,
-          liquidityAmount.raw.toString(),
+          liquidityAmount.quotient.toString(),
           amountsMin[Field.CURRENCY_A].toString(),
           amountsMin[Field.CURRENCY_B].toString(),
           account,
@@ -454,9 +454,9 @@ export default function RemoveLiquidity({
   //   [onUserInput],
   // );
 
-  const oneCurrencyIsETH = currencyA === ETHER || currencyB === ETHER;
+  const oneCurrencyIsETH = currencyA?.isNative || currencyB?.isNative;
   const oneCurrencyIsWETH = Boolean(
-    chainId && ((currencyA && WETH[chainId].equals(currencyA)) || (currencyB && WETH[chainId].equals(currencyB))),
+    chainId && ((currencyA && WTRX[chainId].equals(currencyA)) || (currencyB && WTRX[chainId].equals(currencyB))),
   );
 
   const handleSelectCurrencyA = useCallback(
@@ -612,16 +612,16 @@ export default function RemoveLiquidity({
                   <RowBetween style={{ justifyContent: 'flex-end' }}>
                     {oneCurrencyIsETH ? (
                       <StyledInternalLink
-                        to={`/remove/${currencyA === ETHER ? WETH[chainId].address : currencyIdA}/${
-                          currencyB === ETHER ? WETH[chainId].address : currencyIdB
+                        to={`/remove/${currencyA?.isNative ? WTRX[chainId].address : currencyIdA}/${
+                          currencyB?.isNative ? WTRX[chainId].address : currencyIdB
                         }`}
                       >
                         <Text color={theme.primary3}> Receive WTRX</Text>
                       </StyledInternalLink>
                     ) : oneCurrencyIsWETH ? (
                       <StyledInternalLink
-                        to={`/remove/${currencyA && currencyA.equals(WETH[chainId]) ? 'TRX' : currencyIdA}/${
-                          currencyB && currencyB.equals(WETH[chainId]) ? 'TRX' : currencyIdB
+                        to={`/remove/${currencyA && currencyA.equals(WTRX[chainId]) ? 'TRX' : currencyIdA}/${
+                          currencyB && currencyB.equals(WTRX[chainId]) ? 'TRX' : currencyIdB
                         }`}
                       >
                         <Text color={theme.primary3}>Receive TRX</Text>

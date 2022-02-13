@@ -1,3 +1,4 @@
+import { Currency, TradeType } from '@intercroneswap/sdk-core';
 import { Trade } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
@@ -5,7 +6,7 @@ import { Divider, TYPE } from '../../theme';
 import { AutoColumn } from '../Column';
 import Row, { RowBetween } from '../Row';
 
-export default function AdvancedPriceDetails({ trade }: { trade?: Trade }) {
+export default function AdvancedPriceDetails({ trade }: { trade?: Trade<Currency, Currency, TradeType> }) {
   const theme = useContext(ThemeContext);
   const price = trade?.executionPrice;
   const formattedPrice = price?.toSignificant(6);

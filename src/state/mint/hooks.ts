@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, ETHER, Percent, Price, Token } from '@intercroneswap/sdk-core';
+import { Currency, CurrencyAmount, Percent, Price, Token, Tron } from '@intercroneswap/sdk-core';
 import JSBI from 'jsbi';
 import { Pair } from '@intercroneswap/v2-sdk';
 import { useCallback, useMemo } from 'react';
@@ -19,19 +19,19 @@ export function useMintState(): AppState['mint'] {
   return useSelector<AppState, AppState['mint']>((state) => state.mint);
 }
 
-export function useDerivedMintInfo(
-  currencyA: Currency | undefined,
-  currencyB: Currency | undefined,
+export function useDerivedMintInfo<T extends Currency>(
+  currencyA: T | undefined,
+  currencyB: T | undefined,
 ): {
   dependentField: Field;
-  currencies: { [field in Field]?: Currency };
+  currencies: { [field in Field]?: T };
   pair?: Pair | null;
   pairState: PairState;
-  currencyBalances: { [field in Field]?: CurrencyAmount<Currency> };
-  parsedAmounts: { [field in Field]?: CurrencyAmount<Currency> };
-  price?: Price<Currency, Currency>;
+  currencyBalances: { [field in Field]?: CurrencyAmount<T> };
+  parsedAmounts: { [field in Field]?: CurrencyAmount<T> };
+  price?: Price<T, T>;
   noLiquidity?: boolean;
-  liquidityMinted?: CurrencyAmount<Token>;
+  liquidityMinted?: CurrencyAmount<T>;
   poolTokenPercentage?: Percent;
   error?: string;
 } {
@@ -62,7 +62,7 @@ export function useDerivedMintInfo(
     currencies[Field.CURRENCY_A],
     currencies[Field.CURRENCY_B],
   ]);
-  const currencyBalances: { [field in Field]?: CurrencyAmount<Currency> } = {
+  const currencyBalances: { [field in Field]?: CurrencyAmount<T> } = {
     [Field.CURRENCY_A]: balances[0],
     [Field.CURRENCY_B]: balances[1],
   };
@@ -88,7 +88,9 @@ export function useDerivedMintInfo(
           dependentField === Field.CURRENCY_B
             ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
             : pair.priceOf(tokenB).quote(wrappedIndependentAmount);
-        return dependentCurrency === ETHER ? CurrencyAmount.fromRawAmount(ETHER, dependentTokenAmount.quotient) : dependentTokenAmount;
+        return dependentCurrency?.isNative
+          ? CurrencyAmount.fromRawAmount(Tron.onChain(6), dependentTokenAmount.quotient)
+          : dependentTokenAmount;
       }
       return undefined;
     } else {

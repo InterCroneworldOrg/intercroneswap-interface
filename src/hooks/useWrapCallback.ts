@@ -1,4 +1,4 @@
-import { Currency, ETHER, WETH } from '@intercroneswap/sdk-core';
+import { Currency, WTRX } from '@intercroneswap/sdk-core';
 import { useMemo } from 'react';
 import { tryParseAmount } from '../state/swap/hooks';
 import { useTransactionAdder } from '../state/transactions/hooks';
@@ -36,14 +36,14 @@ export default function useWrapCallback(
 
     const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount);
 
-    if (inputCurrency === ETHER && WETH[chainId].equals(outputCurrency)) {
+    if (inputCurrency.isNative && WTRX[chainId].equals(outputCurrency)) {
       return {
         wrapType: WrapType.WRAP,
         execute:
           sufficientBalance && inputAmount
             ? async () => {
                 try {
-                  const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.raw.toString(16)}` });
+                  const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.quotient.toString(16)}` });
                   addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} TRX to WTRX` });
                 } catch (error) {
                   console.error('Could not deposit', error);
@@ -52,14 +52,14 @@ export default function useWrapCallback(
             : undefined,
         inputError: sufficientBalance ? undefined : 'Insufficient TRX balance',
       };
-    } else if (WETH[chainId].equals(inputCurrency) && outputCurrency === ETHER) {
+    } else if (WTRX[chainId].equals(inputCurrency) && outputCurrency.isNative) {
       return {
         wrapType: WrapType.UNWRAP,
         execute:
           sufficientBalance && inputAmount
             ? async () => {
                 try {
-                  const txReceipt = await wethContract.withdraw(`0x${inputAmount.raw.toString(16)}`);
+                  const txReceipt = await wethContract.withdraw(`0x${inputAmount.quotient.toString(16)}`);
                   addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} WTRX to TRX` });
                 } catch (error) {
                   console.error('Could not withdraw', error);

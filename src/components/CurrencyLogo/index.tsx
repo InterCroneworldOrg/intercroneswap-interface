@@ -1,4 +1,4 @@
-import { Currency, Ether, Token } from '@intercroneswap/sdk-core';
+import { Currency, Token } from '@intercroneswap/sdk-core';
 import { useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -39,7 +39,7 @@ export default function CurrencyLogo({
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined);
 
   const srcs: string[] = useMemo(() => {
-    if (currency === Ether) return [];
+    if (currency?.isNative) return [];
 
     if (currency instanceof Token) {
       if (currency instanceof WrappedTokenInfo) {
@@ -51,7 +51,7 @@ export default function CurrencyLogo({
     return [];
   }, [currency, uriLocations]);
 
-  if (currency === Ether) {
+  if (currency?.isNative) {
     return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />;
   }
 

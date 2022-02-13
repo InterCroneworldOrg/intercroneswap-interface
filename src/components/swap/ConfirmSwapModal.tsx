@@ -1,3 +1,4 @@
+import { Currency, TradeType } from '@intercroneswap/sdk-core';
 import { Trade } from '@intercroneswap/v2-sdk';
 import { useCallback, useMemo } from 'react';
 import TransactionConfirmationModal, {
@@ -12,7 +13,10 @@ import SwapModalHeader from './SwapModalHeader';
  * @param tradeA trade A
  * @param tradeB trade B
  */
-function tradeMeaningfullyDiffers(tradeA: Trade, tradeB: Trade): boolean {
+function tradeMeaningfullyDiffers(
+  tradeA: Trade<Currency, Currency, TradeType>,
+  tradeB: Trade<Currency, Currency, TradeType>,
+): boolean {
   return (
     tradeA.tradeType !== tradeB.tradeType ||
     !tradeA.inputAmount.currency.equals(tradeB.inputAmount.currency) ||
@@ -36,8 +40,8 @@ export default function ConfirmSwapModal({
   txHash,
 }: {
   isOpen: boolean;
-  trade: Trade | undefined;
-  originalTrade: Trade | undefined;
+  trade: Trade<Currency, Currency, TradeType> | undefined;
+  originalTrade: Trade<Currency, Currency, TradeType> | undefined;
   attemptingTxn: boolean;
   txHash: string | undefined;
   recipient: string | null;

@@ -1,4 +1,5 @@
-import { Trade, TradeType } from '@intercroneswap/sdk-core';
+import { Currency, TradeType } from '@intercroneswap/sdk-core';
+import { Trade } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 // styled,
@@ -24,7 +25,13 @@ import SwapRoute from './SwapRoute';
 //   color: ${({ theme }) => theme.text1};
 // `;
 
-function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippage: number }) {
+function TradeSummary({
+  trade,
+  allowedSlippage,
+}: {
+  trade: Trade<Currency, Currency, TradeType>;
+  allowedSlippage: number;
+}) {
   const theme = useContext(ThemeContext);
   const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade);
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT;
@@ -88,7 +95,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
 }
 
 export interface AdvancedSwapDetailsProps {
-  trade?: Trade;
+  trade?: Trade<Currency, Currency, TradeType>;
 }
 
 export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
-import { Token, CurrencyAmount as TokenAmount, WETH } from '@intercroneswap/sdk-core';
+import { Token, CurrencyAmount, WTRX } from '@intercroneswap/sdk-core';
 
 import { Text } from 'rebass';
 import { AutoColumn } from '../Column';
@@ -11,9 +11,9 @@ import DoubleCurrencyLogo from '../DoubleLogo';
 import { useActiveWeb3React } from '../../hooks';
 import { ThemeContext } from 'styled-components';
 
-interface PositionCardProps extends RouteComponentProps<T> {
+interface PositionCardProps extends RouteComponentProps<{}> {
   token: Token;
-  VLiquidityBalance: TokenAmount<T>;
+  VLiquidityBalance: CurrencyAmount<Token>;
 }
 
 function VPositionCard({ token, VLiquidityBalance }: PositionCardProps) {
@@ -28,7 +28,7 @@ function VPositionCard({ token, VLiquidityBalance }: PositionCardProps) {
           <RowFixed>
             <DoubleCurrencyLogo currency0={token} margin={true} size={20} />
             <Text fontWeight={500} fontSize={20} style={{ marginLeft: '' }}>
-              {`${chainId && token.equals(WETH[chainId]) ? 'WETH' : token.symbol}/TRX`}
+              {`${chainId && token.equals(WTRX[chainId]) ? 'WTRX' : token.symbol}/TRX`}
             </Text>
             <Text
               fontSize={12}
@@ -47,7 +47,7 @@ function VPositionCard({ token, VLiquidityBalance }: PositionCardProps) {
 
         <AutoColumn gap="8px">
           <RowBetween marginTop="10px">
-            <ButtonSecondary width="68%" as={Link} to={`/migrate/v/${VLiquidityBalance.token.address}`}>
+            <ButtonSecondary width="68%" as={Link} to={`/migrate/v/${VLiquidityBalance.currency.address}`}>
               Migrate
             </ButtonSecondary>
 
@@ -55,7 +55,7 @@ function VPositionCard({ token, VLiquidityBalance }: PositionCardProps) {
               style={{ backgroundColor: 'transparent' }}
               width="28%"
               as={Link}
-              to={`/remove/v/${VLiquidityBalance.token.address}`}
+              to={`/remove/v/${VLiquidityBalance.currency.address}`}
             >
               Remove
             </ButtonSecondary>

@@ -1,7 +1,7 @@
 import { Contract } from '@ethersproject/contracts';
 // import { abi as KWIK_ABI } from '@intercroneswap/governance/build/Love.json';
 import MERKLE_DISTRIBUTOR_ABI from '../constants/abis/merkle.json';
-import { ChainId, WETH } from '@intercroneswap/sdk-core';
+import { ChainId, WTRX } from '@intercroneswap/sdk-core';
 import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/IISwapV1Pair.json';
 import { useMemo } from 'react';
 import { MERKLE_DISTRIBUTOR_ADDRESS } from '../constants';
@@ -55,7 +55,7 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
 
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React();
-  return useContract(chainId ? WETH[chainId].address : undefined, WETH_ABI, withSignerIfPossible);
+  return useContract(chainId ? WTRX[chainId].address : undefined, WETH_ABI, withSignerIfPossible);
 }
 
 export function useArgentWalletDetectorContract(): Contract | null {

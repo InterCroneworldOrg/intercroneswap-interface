@@ -1,7 +1,7 @@
 import useENS from '../../hooks/useENS';
 import { Version } from '../../hooks/useToggledVersion';
 import { parseUnits } from '@ethersproject/units';
-import { Currency, CurrencyAmount, ETHER, Token, TradeType } from '@intercroneswap/sdk-core';
+import { Currency, CurrencyAmount, Token, TradeType, Tron } from '@intercroneswap/sdk-core';
 import { Trade } from '@intercroneswap/v2-sdk';
 import JSBI from 'jsbi';
 import { ParsedQs } from 'qs';
@@ -37,7 +37,7 @@ export function useSwapActionHandlers(): {
       dispatch(
         selectCurrency({
           field,
-          currencyId: currency instanceof Token ? currency.address : currency === ETHER ? 'TRX' : '',
+          currencyId: currency instanceof Token ? currency.address : currency.isNative ? 'TRX' : '',
         }),
       );
     },
@@ -71,16 +71,14 @@ export function useSwapActionHandlers(): {
 }
 
 // try to parse a user entered amount for a given token
-export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmount<Token> | undefined {
+export function tryParseAmount<T extends Currency>(value?: string, currency?: T): CurrencyAmount<T> | undefined {
   if (!value || !currency) {
     return undefined;
   }
   try {
     const typedValueParsed = parseUnits(value, currency.decimals).toString();
     if (typedValueParsed !== '0') {
-      return currency instanceof Token
-        ? CurrencyAmount.fromRawAmount(currency, JSBI.BigInt(typedValueParsed))
-        : CurrencyAmount.fromRawAmount(ETHER, JSBI.BigInt(typedValueParsed));
+      return CurrencyAmount.fromRawAmount(currency, JSBI.BigInt(typedValueParsed));
     }
   } catch (error) {
     // should fail if the user specifies too many decimal places of precision (or maybe exceed max uint?)

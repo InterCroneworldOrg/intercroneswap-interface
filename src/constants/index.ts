@@ -1,4 +1,4 @@
-import { Percent, Token, WETH, ChainId } from '@intercroneswap/sdk-core';
+import { Percent, Token, WTRX, ChainId } from '@intercroneswap/sdk-core';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import JSBI from 'jsbi';
 
@@ -49,9 +49,9 @@ export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {
 };
 
 const WETH_ONLY: ChainTokenList = {
-  [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
-  [ChainId.NILE]: [WETH[ChainId.NILE]],
-  [ChainId.SHASTA]: [WETH[ChainId.SHASTA]],
+  [ChainId.MAINNET]: [WTRX[ChainId.MAINNET]],
+  [ChainId.NILE]: [WTRX[ChainId.NILE]],
+  [ChainId.SHASTA]: [WTRX[ChainId.SHASTA]],
 };
 
 // used to construct intermediary pairs for trading

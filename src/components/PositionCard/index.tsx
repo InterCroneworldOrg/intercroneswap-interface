@@ -82,8 +82,10 @@ PositionCardProps) {
   const totalPoolTokens = useTotalSupply(pair.liquidityToken);
 
   const poolTokenPercentage =
-    !!userPoolBalance && !!totalPoolTokens && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
-      ? new Percent(userPoolBalance.raw, totalPoolTokens.raw)
+    !!userPoolBalance &&
+    !!totalPoolTokens &&
+    JSBI.greaterThanOrEqual(totalPoolTokens.quotient, userPoolBalance.quotient)
+      ? new Percent(userPoolBalance.quotient, totalPoolTokens.quotient)
       : undefined;
 
   const [token0Deposited, token1Deposited] =
@@ -91,7 +93,7 @@ PositionCardProps) {
     !!totalPoolTokens &&
     !!userPoolBalance &&
     // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+    JSBI.greaterThanOrEqual(totalPoolTokens.quotient, userPoolBalance.quotient)
       ? [
           pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
           pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),
@@ -100,7 +102,7 @@ PositionCardProps) {
 
   return (
     <>
-      {userPoolBalance && JSBI.greaterThan(userPoolBalance.raw, JSBI.BigInt('0')) ? (
+      {userPoolBalance && JSBI.greaterThan(userPoolBalance.quotient, JSBI.BigInt('0')) ? (
         <LightCard style={{ marginTop: '1rem' }}>
           <AutoColumn gap="12px">
             <FixedHeightRow>
@@ -210,8 +212,10 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
   const totalPoolTokens = useTotalSupply(pair.liquidityToken);
 
   const poolTokenPercentage =
-    !!userPoolBalance && !!totalPoolTokens && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
-      ? new Percent(userPoolBalance.raw, totalPoolTokens.raw)
+    !!userPoolBalance &&
+    !!totalPoolTokens &&
+    JSBI.greaterThanOrEqual(totalPoolTokens.quotient, userPoolBalance.quotient)
+      ? new Percent(userPoolBalance.quotient, totalPoolTokens.quotient)
       : undefined;
 
   const [token0Deposited, token1Deposited] =
@@ -219,7 +223,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
     !!totalPoolTokens &&
     !!userPoolBalance &&
     // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+    JSBI.greaterThanOrEqual(totalPoolTokens.quotient, userPoolBalance.quotient)
       ? [
           pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
           pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),

@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Fraction, Percent } from '@intercroneswap/sdk-core';
+import { Currency, CurrencyAmount, Fraction, Percent, Token } from '@intercroneswap/sdk-core';
 import { Text } from 'rebass';
 import { ButtonPrimary } from '../../components/Button';
 import { RowBetween, RowFixed } from '../../components/Row';
@@ -19,7 +19,7 @@ export function ConfirmAddModalBottom({
   noLiquidity?: boolean;
   price?: Fraction;
   currencies: { [field in Field]?: Currency };
-  parsedAmounts: { [field in Field]?: CurrencyAmount<Token, Token> };
+  parsedAmounts: { [field in Field]?: CurrencyAmount<Token> };
   poolTokenPercentage?: Percent;
   onAdd: () => void;
 }) {

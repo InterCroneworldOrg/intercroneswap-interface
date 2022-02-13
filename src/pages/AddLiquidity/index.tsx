@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
-import { Currency, ETHER, CurrencyAmount, WETH, Token } from '@intercroneswap/sdk-core';
+import { Currency, CurrencyAmount, Token, WTRX } from '@intercroneswap/sdk-core';
 import { useCallback, useContext, useState } from 'react';
 import { Plus } from 'react-feather';
 import ReactGA from 'react-ga';
@@ -20,7 +20,6 @@ import { RowBetween, RowFixed, RowFlat } from '../../components/Row';
 import { ROUTER_ADDRESS } from '../../constants';
 import { PairState } from '../../data/Reserves';
 import { useActiveWeb3React } from '../../hooks';
-import { useCurrency } from '../../hooks/Tokens';
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback';
 // import useTransactionDeadline from '../../hooks/useTransactionDeadline'
 import { useWalletModalToggle } from '../../state/application/hooks';
@@ -41,6 +40,7 @@ import { PoolPriceBar } from './PoolPriceBar';
 import CurrencyLogo from '../../components/CurrencyLogo';
 
 import { DEFAULT_FEE_LIMIT } from '../../tron-config.js';
+import { useToken } from '../../hooks/Tokens';
 
 export default function AddLiquidity({
   match: {
@@ -51,11 +51,11 @@ export default function AddLiquidity({
   const { account, chainId, library } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
 
-  const currencyA = useCurrency(currencyIdA);
-  const currencyB = useCurrency(currencyIdB);
+  const currencyA = useToken(currencyIdA);
+  const currencyB = useToken(currencyIdB);
 
   const oneCurrencyIsWETH = Boolean(
-    chainId && ((currencyA && currencyA.equals(WETH[chainId])) || (currencyB && currencyB.equals(WETH[chainId]))),
+    chainId && ((currencyA && currencyA.equals(WTRX[chainId])) || (currencyB && currencyB.equals(WTRX[chainId]))),
   );
 
   const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
@@ -142,27 +142,27 @@ export default function AddLiquidity({
       method: (...args: any) => Promise<TransactionResponse>,
       args: Array<string | string[] | number>,
       value: BigNumber | null;
-    if (currencyA === ETHER || currencyB === ETHER) {
-      const tokenBIsETH = currencyB === ETHER;
+    if (currencyA.isNative || currencyB.isNative) {
+      const tokenBIsETH = currencyB.isNative;
       estimate = router.estimateGas.addLiquidityTRX;
       method = router.addLiquidityTRX;
       args = [
         wrappedCurrency(tokenBIsETH ? currencyA : currencyB, chainId)?.address ?? '', // token
-        (tokenBIsETH ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
+        (tokenBIsETH ? parsedAmountA : parsedAmountB).quotient.toString(), // token desired
         amountsMin[tokenBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
         amountsMin[tokenBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
         account,
         deadlineFromNow,
       ];
-      value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).raw.toString());
+      value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).quotient.toString());
     } else {
       estimate = router.estimateGas.addLiquidity;
       method = router.addLiquidity;
       args = [
         wrappedCurrency(currencyA, chainId)?.address ?? '',
         wrappedCurrency(currencyB, chainId)?.address ?? '',
-        parsedAmountA.raw.toString(),
-        parsedAmountB.raw.toString(),
+        parsedAmountA.quotient.toString(),
+        parsedAmountB.quotient.toString(),
         amountsMin[Field.CURRENCY_A].toString(),
         amountsMin[Field.CURRENCY_B].toString(),
         account,

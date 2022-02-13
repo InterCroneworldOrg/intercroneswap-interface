@@ -1,5 +1,5 @@
 import { MaxUint256 } from '@ethersproject/constants';
-import { Currency, CurrencyAmount, ETHER, Token, TradeType } from '@intercroneswap/sdk-core';
+import { Currency, CurrencyAmount, Token, TradeType } from '@intercroneswap/sdk-core';
 import { SwapParameters, Trade, TradeOptions } from '@intercroneswap/v2-sdk';
 import { getTradeVersion } from '../data/V';
 import { Version } from '../hooks/useToggledVersion';
@@ -26,8 +26,8 @@ export default function vSwapArguments(
     throw new Error('too many pairs');
   }
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT;
-  const inputETH = trade.inputAmount.currency === ETHER;
-  const outputETH = trade.outputAmount.currency === ETHER;
+  const inputETH = trade.inputAmount.currency.isNative;
+  const outputETH = trade.outputAmount.currency.isNative;
   if (inputETH && outputETH) throw new Error('ETHER to ETHER');
   const minimumAmountOut = toHex(trade.minimumAmountOut(options.allowedSlippage));
   const maximumAmountIn = toHex(trade.maximumAmountIn(options.allowedSlippage));

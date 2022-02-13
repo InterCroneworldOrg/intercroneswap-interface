@@ -1,5 +1,5 @@
 // import { KWIK } from './../../constants/index'
-import { Currency, CurrencyAmount, ETHER, Token } from '@intercroneswap/sdk-core';
+import { Currency, CurrencyAmount, Token } from '@intercroneswap/sdk-core';
 import JSBI from 'jsbi';
 import { useMemo } from 'react';
 import ERC20_INTERFACE from '../../constants/abis/erc20';
@@ -38,7 +38,7 @@ export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
     () =>
       addresses.reduce<{ [address: string]: CurrencyAmount<Currency> }>((memo, address, i) => {
         const value = results?.[i]?.result?.[0];
-        if (value) memo[address] = CurrencyAmount.fromRawAmount(ETHER, JSBI.BigInt(value.toString()));
+        if (value) memo[address] = CurrencyAmount.fromRawAmount(Tron.onChain(6), JSBI.BigInt(value.toString()));
         return memo;
       }, {}),
     [addresses, results],
@@ -98,15 +98,15 @@ export function useTokenBalance(account?: string, token?: Token): CurrencyAmount
 
 export function useCurrencyBalances(
   account?: string,
-  currencies?: (Currency | undefined)[],
-): (CurrencyAmount<Currency> | undefined)[] {
+  currencies?: (Currency | Token | undefined)[],
+): (CurrencyAmount<Token> | undefined)[] {
   const tokens = useMemo(
     () => currencies?.filter((currency): currency is Token => currency instanceof Token) ?? [],
     [currencies],
   );
 
   const tokenBalances = useTokenBalances(account, tokens);
-  const containsETH: boolean = useMemo(() => currencies?.some((currency) => currency === ETHER) ?? false, [currencies]);
+  const containsETH: boolean = useMemo(() => currencies?.some((currency) => currency?.isNative) ?? false, [currencies]);
   const ethBalance = useETHBalances(containsETH ? [account] : []);
 
   return useMemo(
@@ -114,14 +114,14 @@ export function useCurrencyBalances(
       currencies?.map((currency) => {
         if (!account || !currency) return undefined;
         if (currency instanceof Token) return tokenBalances[currency.address];
-        if (currency === ETHER) return ethBalance[account];
+        if (currency.isNative) return ethBalance[account];
         return undefined;
       }) ?? [],
     [account, currencies, ethBalance, tokenBalances],
   );
 }
 
-export function useCurrencyBalance(account?: string, currency?: Currency): CurrencyAmount<Currency> | undefined {
+export function useCurrencyBalance(account?: string, currency?: Currency): CurrencyAmount<Token> | undefined {
   return useCurrencyBalances(account, [currency])[0];
 }
 
