@@ -1,6 +1,7 @@
 import { MaxUint256 } from '@ethersproject/constants';
 import { TransactionResponse } from '@ethersproject/providers';
-import { Trade, TokenAmount, CurrencyAmount, ETHER } from '@intercroneswap/sdk-core';
+import { TokenAmount, CurrencyAmount, ETHER } from '@intercroneswap/sdk-core';
+import { Trade } from '@intercroneswap/v2-sdk';
 import { useCallback, useMemo } from 'react';
 import { ROUTER_ADDRESS } from '../constants';
 import { useTokenAllowance } from '../data/Allowances';
