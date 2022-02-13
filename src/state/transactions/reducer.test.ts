@@ -1,4 +1,4 @@
-import { ChainId } from '@intercroneswap/swap-sdk';
+import { ChainId } from '@intercroneswap/sdk-core';
 import { createStore, Store } from 'redux';
 import { addTransaction, checkedTransaction, clearAllTransactions, finalizeTransaction } from './actions';
 import reducer, { initialState, TransactionState } from './reducer';

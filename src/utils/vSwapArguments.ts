@@ -1,5 +1,5 @@
 import { MaxUint256 } from '@ethersproject/constants';
-import { CurrencyAmount, ETHER, SwapParameters, Token, Trade, TradeOptions, TradeType } from '@intercroneswap/swap-sdk';
+import { CurrencyAmount, ETHER, SwapParameters, Token, Trade, TradeOptions, TradeType } from '@intercroneswap/sdk-core';
 import { getTradeVersion } from '../data/V';
 import { Version } from '../hooks/useToggledVersion';
 

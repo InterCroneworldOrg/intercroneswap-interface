@@ -1,4 +1,4 @@
-import { Token, TokenAmount } from '@intercroneswap/swap-sdk';
+import { Token, TokenAmount } from '@intercroneswap/sdk-core';
 import { useMemo } from 'react';
 import { useAllTokenBalances } from '../../state/wallet/hooks';
 

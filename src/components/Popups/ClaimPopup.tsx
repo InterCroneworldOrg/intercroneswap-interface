@@ -1,4 +1,4 @@
-// import { TokenAmount } from '@intercroneswap/swap-sdk'
+// import { TokenAmount } from '@intercroneswap/sdk-core'
 import { X } from 'react-feather';
 import styled, { keyframes } from 'styled-components';
 import tokenLogo from '../../assets/images/token-logo.png';

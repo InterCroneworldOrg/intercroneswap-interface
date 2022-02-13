@@ -1,4 +1,4 @@
-import { Currency, ETHER, Token } from '@intercroneswap/swap-sdk';
+import { Currency, ETHER, Token } from '@intercroneswap/sdk-core';
 
 export function currencyId(currency: Currency): string {
   if (currency === ETHER) return 'TRX';

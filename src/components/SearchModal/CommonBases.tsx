@@ -1,5 +1,5 @@
 import { Text } from 'rebass';
-import { ChainId, Currency, currencyEquals, ETHER, Token } from '@intercroneswap/swap-sdk';
+import { ChainId, Currency, currencyEquals, ETHER, Token } from '@intercroneswap/sdk-core';
 import styled from 'styled-components';
 
 import { SUGGESTED_BASES } from '../../constants';

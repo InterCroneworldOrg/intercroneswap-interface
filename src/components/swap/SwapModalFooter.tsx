@@ -1,4 +1,5 @@
-import { Trade, TradeType } from '@intercroneswap/swap-sdk';
+import { TradeType } from '@intercroneswap/sdk-core';
+import { Trade } from '@intercroneswap/v2-sdk';
 import { useContext, useMemo, useState } from 'react';
 import { Repeat } from 'react-feather';
 import { Text } from 'rebass';

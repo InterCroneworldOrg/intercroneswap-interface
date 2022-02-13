@@ -1,4 +1,5 @@
-import { CurrencyAmount, ETHER, JSBI } from '@intercroneswap/swap-sdk';
+import { CurrencyAmount, ETHER } from '@intercroneswap/sdk-core';
+import JSBI from 'jsbi';
 import { MIN_ETH } from '../constants';
 
 /**

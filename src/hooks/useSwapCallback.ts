@@ -1,5 +1,7 @@
 import { Contract } from '@ethersproject/contracts';
-import { JSBI, Percent, Router, SwapParameters, Trade, TradeType } from '@intercroneswap/swap-sdk';
+import JSBI from 'jsbi';
+import { Percent, TradeType } from '@intercroneswap/sdk-core';
+import { Router, SwapParameters, Trade } from '@intercroneswap/v2-sdk';
 import { useMemo } from 'react';
 import { BIPS_BASE, INITIAL_ALLOWED_SLIPPAGE } from '../constants';
 import { getTradeVersion, useVTradeExchangeAddress } from '../data/V';

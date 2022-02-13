@@ -1,4 +1,6 @@
-import { ChainId, JSBI, Pair, Route, Token, TokenAmount, Trade, TradeType } from '@intercroneswap/swap-sdk';
+import { ChainId, Token, TokenAmount, TradeType } from '@intercroneswap/sdk-core';
+import { Pair, Route, Trade } from '@intercroneswap/v2-sdk';
+import JSBI from 'jsbi';
 import { computeTradePriceBreakdown } from './prices';
 
 describe('prices', () => {

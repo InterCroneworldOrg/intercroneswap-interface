@@ -1,4 +1,5 @@
-import { JSBI, Token, TokenAmount } from '@intercroneswap/swap-sdk';
+import { Token, TokenAmount } from '@intercroneswap/sdk-core';
+import JSBI from 'jsbi';
 import { BigNumber } from 'ethers';
 
 const STAKING_END = 0 + 60 * 60 * 24 * 60;
