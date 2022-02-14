@@ -8,8 +8,8 @@
   },
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
-    "@intercroneswap/v2-sdk": "^0.0.2-unstable7",
-    "@intercroneswap/sdk-core": "^0.0.3-unstable5",
+    "@intercroneswap/v2-sdk": "^0.0.2-unstable9",
+    "@intercroneswap/sdk-core": "^0.0.3-unstable6",
     "@intercroneswap/token-lists": "^0.0.5",
     "@intercroneswap/v2-periphery": "^0.1.1",
     "@popperjs/core": "^2.4.4",
@@ -113,7 +113,7 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^4.0.2",
     "@intercroneswap/java-tron-provider": "^0.0.12",
     "@intercroneswap/tronlink-provider": "^0.0.4"
   }
