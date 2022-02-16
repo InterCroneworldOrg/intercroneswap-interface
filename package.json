@@ -112,7 +112,7 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.0",
     "@intercroneswap/java-tron-provider": "^0.0.12",
     "@intercroneswap/tronlink-provider": "^0.0.4"
   }
