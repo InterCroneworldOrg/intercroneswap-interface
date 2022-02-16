@@ -1,4 +1,6 @@
-import { CurrencyAmount, JSBI, Token, Trade } from '@intercroneswap/swap-sdk';
+import { CurrencyAmount, Token } from '@intercroneswap/sdk-core';
+import { Trade } from '@intercroneswap/v2-sdk';
+import JSBI from 'jsbi';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { ArrowDown } from 'react-feather';
 import ReactGA from 'react-ga';

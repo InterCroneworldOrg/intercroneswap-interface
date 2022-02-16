@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { Token, TokenAmount } from '@intercroneswap/swap-sdk';
+import { Token, TokenAmount } from '@intercroneswap/sdk-core';
 import { useTokenContract } from '../hooks/useContract';
 import { useSingleCallResult } from '../state/multicall/hooks';
 

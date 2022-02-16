@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { ChainId } from '@intercroneswap/swap-sdk';
+import { ChainId } from '@intercroneswap/sdk-core';
 
 export interface SerializableTransactionReceipt {
   to: string;

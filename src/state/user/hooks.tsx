@@ -1,4 +1,5 @@
-import { ChainId, Pair, Token } from '@intercroneswap/swap-sdk';
+import { ChainId, Token } from '@intercroneswap/sdk-core';
+import { Pair } from '@intercroneswap/v2-sdk';
 import flatMap from 'lodash.flatmap';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';

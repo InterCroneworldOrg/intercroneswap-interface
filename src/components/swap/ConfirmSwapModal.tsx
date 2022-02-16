@@ -1,4 +1,5 @@
-import { currencyEquals, Trade } from '@intercroneswap/swap-sdk';
+import { currencyEquals } from '@intercroneswap/sdk-core';
+import { Trade } from '@intercroneswap/v2-sdk';
 import { useCallback, useMemo } from 'react';
 import TransactionConfirmationModal, {
   ConfirmationModalContent,

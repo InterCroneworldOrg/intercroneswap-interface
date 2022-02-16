@@ -1,4 +1,4 @@
-import { Percent } from '@intercroneswap/swap-sdk';
+import { Percent } from '@intercroneswap/sdk-core';
 import { ONE_BIPS } from '../../constants';
 import { warningSeverity } from '../../utils/prices';
 import { ErrorText } from './styleds';

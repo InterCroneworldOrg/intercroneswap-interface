@@ -1,4 +1,4 @@
-import { ChainId } from '@intercroneswap/swap-sdk';
+import { ChainId } from '@intercroneswap/sdk-core';
 import { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import Modal from '../Modal';

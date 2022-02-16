@@ -1,5 +1,5 @@
 import { nanoid } from '@reduxjs/toolkit';
-import { ChainId } from '@intercroneswap/swap-sdk';
+import { ChainId } from '@intercroneswap/sdk-core';
 import { TokenList } from '@intercroneswap/token-lists';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';

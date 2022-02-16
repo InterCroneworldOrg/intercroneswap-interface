@@ -1,4 +1,6 @@
-import { Currency, CurrencyAmount, ETHER, JSBI, Pair, Percent, Price, TokenAmount } from '@intercroneswap/swap-sdk';
+import { Currency, CurrencyAmount, ETHER, Percent, Price, TokenAmount } from '@intercroneswap/sdk-core';
+import { Pair } from '@intercroneswap/v2-sdk';
+import JSBI from 'jsbi';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PairState, usePair } from '../../data/Reserves';

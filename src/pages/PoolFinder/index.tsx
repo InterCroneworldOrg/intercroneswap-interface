@@ -1,4 +1,5 @@
-import { Currency, ETHER, JSBI, TokenAmount } from '@intercroneswap/swap-sdk';
+import { Currency, ETHER, TokenAmount } from '@intercroneswap/sdk-core';
+import JSBI from 'jsbi';
 import { useCallback, useEffect, useState, useContext } from 'react';
 import { Plus } from 'react-feather';
 import { Text } from 'rebass';

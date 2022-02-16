@@ -1,20 +1,18 @@
 import { AddressZero } from '@ethersproject/constants';
+import JSBI from 'jsbi';
 import {
   BigintIsh,
   Currency,
   CurrencyAmount,
   currencyEquals,
   ETHER,
-  JSBI,
-  Pair,
   Percent,
-  Route,
   Token,
   TokenAmount,
-  Trade,
   TradeType,
   WETH,
-} from '@intercroneswap/swap-sdk';
+} from '@intercroneswap/sdk-core';
+import { Pair, Route, Trade } from '@intercroneswap/v2-sdk';
 import { useMemo } from 'react';
 import { useActiveWeb3React } from '../hooks';
 import { useAllTokens } from '../hooks/Tokens';

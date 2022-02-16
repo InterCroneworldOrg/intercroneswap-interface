@@ -1,4 +1,4 @@
-import { Currency } from '@intercroneswap/swap-sdk';
+import { Currency } from '@intercroneswap/sdk-core';
 import styled from 'styled-components';
 import CurrencyLogo from '../CurrencyLogo';
 

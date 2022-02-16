@@ -1,6 +1,7 @@
 import { MaxUint256 } from '@ethersproject/constants';
 import { TransactionResponse } from '@ethersproject/providers';
-import { Trade, TokenAmount, CurrencyAmount, ETHER } from '@intercroneswap/swap-sdk';
+import { TokenAmount, CurrencyAmount, ETHER } from '@intercroneswap/sdk-core';
+import { Trade } from '@intercroneswap/v2-sdk';
 import { useCallback, useMemo } from 'react';
 import { ROUTER_ADDRESS } from '../constants';
 import { useTokenAllowance } from '../data/Allowances';
@@ -28,7 +29,7 @@ export function useApproveCallback(
 ): [ApprovalState, () => Promise<void>] {
   const { account } = useActiveWeb3React();
   const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined;
-  // console.log(token, 'token');
+
   const currentAllowance = useTokenAllowance(token, account ?? undefined, spender);
   const pendingApproval = useHasPendingApproval(token?.address, spender);
 

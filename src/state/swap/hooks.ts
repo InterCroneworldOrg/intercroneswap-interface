@@ -1,7 +1,9 @@
 import useENS from '../../hooks/useENS';
 import { Version } from '../../hooks/useToggledVersion';
 import { parseUnits } from '@ethersproject/units';
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade } from '@intercroneswap/swap-sdk';
+import { Currency, CurrencyAmount, ETHER, Token, TokenAmount } from '@intercroneswap/sdk-core';
+import JSBI from 'jsbi';
+import { Trade } from '@intercroneswap/v2-sdk';
 import { ParsedQs } from 'qs';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
