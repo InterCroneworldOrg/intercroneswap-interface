@@ -194,7 +194,7 @@ export function useAsyncV1LiquidityTokens(
     if (library) {
       Promise.all(
         tokens.map(([tokenA, tokenB]: [Token, Token]) => {
-          return Pair.getAddress(tokenA, tokenB);
+          return Pair.getAddressAsync(tokenA, tokenB, library);
         }),
       )
         .then((res: string[]) => {
