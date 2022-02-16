@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
-    "@intercroneswap/v2-sdk": "^0.0.2-unstable13",
+    "@intercroneswap/v2-sdk": "^0.0.2-unstable14",
     "@intercroneswap/sdk-core": "^0.0.3-unstable8",
     "@intercroneswap/token-lists": "^0.0.5",
     "@intercroneswap/v2-periphery": "^0.1.1",

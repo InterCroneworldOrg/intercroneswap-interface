@@ -98,6 +98,9 @@ export default function AddLiquidity({
     [independentField]: typedValue,
     [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
   };
+  if (formattedAmounts) {
+    console.log(formattedAmounts, 'formattedAmounts', pair, 'pair', price, 'price');
+  }
 
   // get the max amounts user can add
   const maxAmounts: { [field in Field]?: TokenAmount } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
@@ -170,6 +173,8 @@ export default function AddLiquidity({
         account,
         deadlineFromNow,
       ];
+      console.log(args, 'args');
+
       value = null;
     }
 
