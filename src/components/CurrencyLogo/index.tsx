@@ -10,7 +10,7 @@ import { ethAddress } from '@intercroneswap/java-tron-provider';
 
 const getTokenLogoURL = (address: string) => {
   const tronAddress = ethAddress.toTron(address);
-  return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/tron/assets/${tronAddress}/logo.png`;
+  return `https://coin.top/production/logo/${tronAddress}.png`;
 };
 
 const StyledEthereumLogo = styled.img<{ size: string }>`
