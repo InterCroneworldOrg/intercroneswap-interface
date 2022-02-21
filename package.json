@@ -10,6 +10,7 @@
     "@ethersproject/experimental": "^5.0.1",
     "@intercroneswap/swap-sdk": "^0.1.2-dev",
     "@intercroneswap/token-lists": "^0.0.5",
+    "@intercroneswap/v2-periphery": "0.1.2-trx",
     "@intercroneswap/v1-core": "^0.0.6",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.16.0",
