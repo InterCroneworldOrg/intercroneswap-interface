@@ -1,4 +1,4 @@
-import { Token } from '@intercroneswap/swap-sdk';
+import { Token } from '@intercroneswap/v2-sdk';
 import { transparentize } from 'polished';
 import { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
