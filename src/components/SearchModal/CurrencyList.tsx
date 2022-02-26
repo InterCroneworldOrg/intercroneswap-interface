@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from '@intercroneswap/swap-sdk';
+import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from '@intercroneswap/v2-sdk';
 import { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react';
 import { FixedSizeList } from 'react-window';
 import { Text } from 'rebass';

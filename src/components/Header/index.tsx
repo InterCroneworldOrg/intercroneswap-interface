@@ -1,4 +1,4 @@
-// import { ChainId } from '@intercroneswap/swap-sdk';
+// import { ChainId } from '@intercroneswap/v2-sdk';
 import { useState } from 'react';
 import { Text } from 'rebass';
 import { NavLink } from 'react-router-dom';

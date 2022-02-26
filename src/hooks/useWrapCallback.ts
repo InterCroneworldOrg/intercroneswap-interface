@@ -1,4 +1,4 @@
-import { Currency, currencyEquals, ETHER, WETH } from '@intercroneswap/swap-sdk';
+import { Currency, currencyEquals, ETHER, WETH } from '@intercroneswap/v2-sdk';
 import { useMemo } from 'react';
 import { tryParseAmount } from '../state/swap/hooks';
 import { useTransactionAdder } from '../state/transactions/hooks';

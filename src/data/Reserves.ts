@@ -1,4 +1,4 @@
-import { TokenAmount, Pair, Currency, ChainId, FACTORY_ADDRESS } from '@intercroneswap/swap-sdk';
+import { TokenAmount, Pair, Currency, ChainId, FACTORY_ADDRESS } from '@intercroneswap/v2-sdk';
 import { useMemo, useState } from 'react';
 import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/IISwapV1Pair.json';
 import { Interface } from '@ethersproject/abi';

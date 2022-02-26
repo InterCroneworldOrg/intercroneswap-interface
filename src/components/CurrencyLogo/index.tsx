@@ -1,4 +1,4 @@
-import { Currency, ETHER, Token } from '@intercroneswap/swap-sdk';
+import { Currency, ETHER, Token } from '@intercroneswap/v2-sdk';
 import { useMemo } from 'react';
 import styled from 'styled-components';
 

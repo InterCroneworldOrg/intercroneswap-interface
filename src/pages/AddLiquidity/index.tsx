@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
-import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from '@intercroneswap/swap-sdk';
+import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from '@intercroneswap/v2-sdk';
 import { useCallback, useContext, useState } from 'react';
 import { Plus } from 'react-feather';
 import ReactGA from 'react-ga';
