@@ -9,10 +9,14 @@
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@intercroneswap/v2-sdk": "1.0.0-trx",
 =======
     "@intercroneswap/v2-sdk": "0.0.3-trx-stable",
 >>>>>>> c83c667 (Swap to stable sdk dependency)
+=======
+    "@intercroneswap/v2-sdk": "0.0.4-trx-stable",
+>>>>>>> 0cca106 (Update v2-sdk for price impact fix)
     "@intercroneswap/token-lists": "^0.0.5",
     "@intercroneswap/v2-periphery": "0.1.2-trx",
     "@intercroneswap/v1-core": "^0.0.6",
