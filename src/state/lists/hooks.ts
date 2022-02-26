@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@intercroneswap/swap-sdk';
+import { ChainId, Token } from '@intercroneswap/v2-sdk';
 import { Tags, TokenInfo, TokenList } from '@intercroneswap/token-lists';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';

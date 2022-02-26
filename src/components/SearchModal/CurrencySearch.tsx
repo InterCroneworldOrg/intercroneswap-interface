@@ -1,4 +1,4 @@
-import { Currency, ETHER, Token } from '@intercroneswap/swap-sdk';
+import { Currency, ETHER, Token } from '@intercroneswap/v2-sdk';
 import { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import ReactGA from 'react-ga';
 import { useTranslation } from 'react-i18next';

@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { AddressZero } from '@ethersproject/constants';
-import { TokenAmount, Token, ChainId, Percent, JSBI } from '@intercroneswap/swap-sdk';
+import { TokenAmount, Token, ChainId, Percent, JSBI } from '@intercroneswap/v2-sdk';
 
 import {
   getEtherscanLink,

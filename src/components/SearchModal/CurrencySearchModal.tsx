@@ -1,4 +1,4 @@
-import { Currency } from '@intercroneswap/swap-sdk';
+import { Currency } from '@intercroneswap/v2-sdk';
 import { useCallback, useEffect, useState } from 'react';
 import ReactGA from 'react-ga';
 import useLast from '../../hooks/useLast';

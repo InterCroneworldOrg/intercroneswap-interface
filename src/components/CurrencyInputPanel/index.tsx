@@ -1,4 +1,4 @@
-import { Currency, Pair } from '@intercroneswap/swap-sdk';
+import { Currency, Pair } from '@intercroneswap/v2-sdk';
 import { useState, useContext, useCallback } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import { darken } from 'polished';

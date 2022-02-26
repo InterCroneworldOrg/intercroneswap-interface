@@ -1,5 +1,5 @@
 import { Interface } from '@ethersproject/abi';
-import { ChainId } from '@intercroneswap/swap-sdk';
+import { ChainId } from '@intercroneswap/v2-sdk';
 import V_EXCHANGE_ABI from './v_exchange.json';
 import V_FACTORY_ABI from './v_factory.json';
 

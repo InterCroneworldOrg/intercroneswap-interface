@@ -1,4 +1,4 @@
-import { Currency, Percent, Price } from '@intercroneswap/swap-sdk';
+import { Currency, Percent, Price } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
 import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
