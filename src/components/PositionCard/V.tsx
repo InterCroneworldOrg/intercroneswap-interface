@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
-import { Token, TokenAmount, WETH } from '@intercroneswap/swap-sdk';
+import { Token, TokenAmount, WETH } from '@intercroneswap/v2-sdk';
 
 import { Text } from 'rebass';
 import { AutoColumn } from '../Column';

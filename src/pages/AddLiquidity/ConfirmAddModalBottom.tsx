@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Fraction, Percent } from '@intercroneswap/swap-sdk';
+import { Currency, CurrencyAmount, Fraction, Percent } from '@intercroneswap/v2-sdk';
 import { Text } from 'rebass';
 import { ButtonPrimary } from '../../components/Button';
 import { RowBetween, RowFixed } from '../../components/Row';
