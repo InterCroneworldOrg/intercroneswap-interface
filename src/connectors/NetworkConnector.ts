@@ -7,7 +7,7 @@ export class NetworkConnector extends InjectedTronConnector {
     super(kwargs);
     this.provider = createJavaTronProvider({
       network: process.env.REACT_APP_TRON_NETWORK,
-      tronApiUrl: process.env.REACT_APP_TRON_NETWORK_URL,
+      tronApiUrl: process.env.REACT_APP_NETWORK_URL,
     });
   }
 
