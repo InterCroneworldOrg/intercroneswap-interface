@@ -57,7 +57,7 @@ export class InjectedTronConnector extends AbstractConnector {
     // TODO(tron): should auto-use same network as one selected in tronlink!
     this.provider = createTronLinkProvider({
       network: process.env.REACT_APP_TRON_NETWORK,
-      tronApiUrl: process.env.REACT_APP_TRON_NETWORK_URL,
+      tronApiUrl: process.env.REACT_APP_NETWORK_URL,
       functionSignatures: abis,
       signs,
     });
