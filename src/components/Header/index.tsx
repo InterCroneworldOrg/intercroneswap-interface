@@ -1,4 +1,4 @@
-// import { ChainId } from '@intercroneswap/swap-sdk';
+// import { ChainId } from '@intercroneswap/v2-sdk';
 import { useState } from 'react';
 import { Text } from 'rebass';
 import { NavLink } from 'react-router-dom';
@@ -400,11 +400,6 @@ const LinksContainer = styled.div`
 // display:none;
 // z-index:1000;
 // `
-// const NETWORK_LABELS: { [chainId in ChainId]: string | undefined } = {
-//   [ChainId.MAINNET]: undefined,
-//   [ChainId.NILE]: 'Nile',
-//   [ChainId.SHASTA]: 'Shasta',
-// };
 
 export default function Header() {
   const {

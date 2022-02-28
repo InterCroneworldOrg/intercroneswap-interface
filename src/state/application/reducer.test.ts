@@ -1,4 +1,4 @@
-import { ChainId } from '@intercroneswap/swap-sdk';
+import { ChainId } from '@intercroneswap/v2-sdk';
 import { createStore, Store } from 'redux';
 import { addPopup, ApplicationModal, removePopup, setOpenModal, updateBlockNumber } from './actions';
 import reducer, { ApplicationState } from './reducer';

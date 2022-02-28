@@ -1,4 +1,4 @@
-import { Trade, TradeType } from '@intercroneswap/swap-sdk';
+import { Trade, TradeType } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 // styled,
@@ -119,7 +119,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
           )}
           {/* <AutoColumn style={{ padding: '0 24px' }}>
             <InfoLink
-              href={'https://info.ISwap.io/#/pair/' + trade.route.pairs[0].liquidityToken.address}
+              href={'https://info.intercroneswap.com/#/pair/' + trade.route.pairs[0].liquidityToken.address}
               target="_blank"
             >
               View pair analytics ↗

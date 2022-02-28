@@ -1,4 +1,4 @@
-import { FACTORY_ADDRESS, JSBI, Pair, Percent } from '@intercroneswap/swap-sdk';
+import { FACTORY_ADDRESSES, JSBI, Pair, Percent } from '@intercroneswap/v2-sdk';
 import { darken } from 'polished';
 import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
@@ -395,7 +395,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 </ExternalLink>
                 <ExternalLink
                   style={{ marginTop: '10px', width: '100%', textAlign: 'center', color: '#fff' }}
-                  href={chainId ? getEtherscanLink(chainId, FACTORY_ADDRESS, 'address') : '#'}
+                  href={chainId ? getEtherscanLink(chainId, FACTORY_ADDRESSES[chainId], 'address') : '#'}
                 >
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     View Contract
@@ -404,7 +404,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 </ExternalLink>
                 <ExternalLink
                   style={{ marginTop: '10px', width: '100%', textAlign: 'center', color: '#fff' }}
-                  href={`https://info.ISwap.io/#/pair/${ethAddress.toTron(pair.liquidityToken.address)}`}
+                  href={`https://info.intercroneswap.com/#/pair/${ethAddress.toTron(pair.liquidityToken.address)}`}
                 >
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     See Pair Info
@@ -413,7 +413,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 </ExternalLink>
                 {/* <ExternalLink
                   style={{ width: '100%', textAlign: 'center', color: '#fff' }}
-                  href={`https://info.ISwap.io/#/account/${account}`}
+                  href={`https://info.intercroneswap.com/#/account/${account}`}
                 >
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     View accrued fees and analytics

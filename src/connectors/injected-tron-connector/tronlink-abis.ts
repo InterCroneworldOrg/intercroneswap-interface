@@ -1,7 +1,7 @@
 // all abis...
 import { V_FACTORY_ABI, V_EXCHANGE_ABI } from '../../constants/v';
 import ENS_ABI from '../../constants/abis/ens-registrar.json';
-import IntercroneswapV1Router02ABI from '../../constants/abis/router02.json';
+import { abi as IntercroneswapV1Router02ABI } from '@intercroneswap/v2-periphery/build/IIswapV1Router02.json';
 
 import ENS_PUBLIC_RESOLVER_ABI from '../../constants/abis/ens-public-resolver.json';
 // import UNISOCKS_ABI from '../../constants/abis/unisocks.json'
@@ -9,7 +9,7 @@ import WETH_ABI from '../../constants/abis/weth.json';
 import { MIGRATOR_ABI } from '../../constants/abis/migrator';
 import ERC20_ABI from '../../constants/abis/erc20.json';
 import { MULTICALL_ABI } from '../../constants/multicall';
-import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/IISwapV1Pair.json';
+import { abi as ISwapV1PairABI } from '@intercroneswap/v2-periphery/build/IIswapV1Pair.json';
 
 export const abis = [
   ...ERC20_ABI,

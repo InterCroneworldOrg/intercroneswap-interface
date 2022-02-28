@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react';
 import styled, { ThemeContext } from 'styled-components';
-import { Pair } from '@intercroneswap/swap-sdk';
+import { Pair } from '@intercroneswap/v2-sdk';
 import { Link } from 'react-router-dom';
 import { SwapPoolTabs } from '../../components/NavigationTabs';
 
@@ -229,7 +229,7 @@ export default function Pool() {
                 <>
                   {/* <ButtonSecondary>
                     <RowBetween>
-                      <ExternalLink href={'https://info.ISwap.io/#/account/' + account}>
+                      <ExternalLink href={'https://info.intercroneswap.com/#/account/' + account}>
                         Account analytics and accrued fees
                       </ExternalLink>
                       <span> ↗</span>

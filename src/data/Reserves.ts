@@ -1,4 +1,4 @@
-import { TokenAmount, Pair, Currency, ChainId, FACTORY_ADDRESS } from '@intercroneswap/swap-sdk';
+import { TokenAmount, Pair, Currency, ChainId, FACTORY_ADDRESSES } from '@intercroneswap/v2-sdk';
 import { useMemo, useState } from 'react';
 import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/IISwapV1Pair.json';
 import { Interface } from '@ethersproject/abi';
@@ -23,7 +23,7 @@ async function queryPair(
 ): Promise<string | undefined> {
   if (window.tronWeb && chainId) {
     //@ts-ignore
-    const factoryContract = await window.tronWeb?.contract().at(ethAddress.toTron(FACTORY_ADDRESS));
+    const factoryContract = await window.tronWeb?.contract().at(ethAddress.toTron(FACTORY_ADDRESSES[chainId]));
     if (tokenA && tokenB && factoryContract) {
       const pairAddress = await factoryContract.getPair(tokenA, tokenB).call();
       if (tronWeb.isAddress(pairAddress)) {

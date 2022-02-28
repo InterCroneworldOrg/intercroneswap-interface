@@ -56,11 +56,10 @@ export class InjectedTronConnector extends AbstractConnector {
     });
     // TODO(tron): should auto-use same network as one selected in tronlink!
     this.provider = createTronLinkProvider({
-      // network: 'mainnet',
-      network: 'mainnet',
+      network: process.env.REACT_APP_TRON_NETWORK,
+      tronApiUrl: process.env.REACT_APP_NETWORK_URL,
       functionSignatures: abis,
       signs,
-      tronApiUrl: 'https://api.trongrid.io',
     });
     /*
     this.handleNetworkChanged = this.handleNetworkChanged.bind(this)

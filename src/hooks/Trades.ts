@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Pair, Token, Trade } from '@intercroneswap/swap-sdk';
+import { Currency, CurrencyAmount, Pair, Token, Trade } from '@intercroneswap/v2-sdk';
 import flatMap from 'lodash.flatmap';
 import { useMemo } from 'react';
 

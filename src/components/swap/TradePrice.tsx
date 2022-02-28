@@ -1,4 +1,4 @@
-import { Price } from '@intercroneswap/swap-sdk';
+import { Price } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
 import { Repeat } from 'react-feather';
 import { Text } from 'rebass';

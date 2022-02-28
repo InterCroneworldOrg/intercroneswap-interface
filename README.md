@@ -13,7 +13,7 @@ An open source interface for ISwap -- a protocol for decentralized exchange of E
 
 To access the ISwap Interface, use an IPFS gateway link from the
 [latest release](https://github.com/ISwap/ISwap-interface/releases/latest), 
-or visit [tron.ISwap.io](https://tron.ISwap.io).
+or visit [tron.ISwap.io](https://Intercroneswap.com).
 
 ## Listing a token
 
@@ -44,7 +44,7 @@ To have the interface default to a different network when a wallet is not connec
 3. Change `REACT_APP_NETWORK_URL` to e.g. `"https://{YOUR_NETWORK_ID}.infura.io/v3/{YOUR_INFURA_KEY}"` 
 
 Note that the interface only works on testnets where both 
-[ISwap V1](https://ISwap.io/docs/v1/smart-contracts/factory/) and 
+[ISwap V1](https://intercroneswap.com/docs/v1/smart-contracts/factory/) and 
 [multicall](https://github.com/makerdao/multicall) are deployed.
 The interface will not work on other networks.
 

@@ -14,7 +14,7 @@ import DelegateModal from '../../components/vote/DelegateModal';
 // import { useTokenBalance } from '../../state/wallet/hooks'
 // import { useActiveWeb3React } from '../../hooks'
 // import { KWIK } from '../../constants'
-// import { TokenAmount } from '@intercroneswap/swap-sdk'
+// import { TokenAmount } from '@intercroneswap/v2-sdk'
 // import { shortenAddress, getEtherscanLink } from '../../utils'
 // import Loader from '../../components/Loader'
 // import FormattedCurrencyAmount from '../../components/FormattedCurrencyAmount'
@@ -146,7 +146,7 @@ export default function Vote() {
               </RowBetween>
               <ExternalLink
                 style={{ color: 'white', textDecoration: 'underline' }}
-                href="https://ISwap.io/blog/kwik"
+                href="https://intercroneswap.com/blog/kwik"
                 target="_blank"
               >
                 <TYPE.white fontSize={14}>Read more about ISwap governance</TYPE.white>

@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Token, TokenAmount } from '@intercroneswap/swap-sdk';
+import { ChainId, JSBI, Token, TokenAmount } from '@intercroneswap/v2-sdk';
 import { BigNumber } from 'ethers';
 import { ZERO_ADDRESS } from '../constants';
 import { computeKwikCirculation } from './computeKwikCirculation';
