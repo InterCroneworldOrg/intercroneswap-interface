@@ -55,6 +55,7 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
 
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React();
+  console.log(chainId, chainId);
   return useContract(chainId ? WETH[chainId].address : undefined, WETH_ABI, withSignerIfPossible);
 }
 
@@ -77,7 +78,7 @@ export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contrac
         address = '0x99fb68F0672E3E16AbB071342eF03355dfcb1797';
         break;
       // TODO
-      case ChainId.NILE:
+      case ChainId.DONAU:
         address = '0xD2577ec90C6Fb23EC208B27609867E30D69bDc89';
         break;
     }

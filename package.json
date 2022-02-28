@@ -8,10 +8,10 @@
   },
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
-    "@intercroneswap/v2-sdk": "0.0.4-trx-stable",
     "@intercroneswap/token-lists": "^0.0.5",
-    "@intercroneswap/v2-periphery": "0.1.2-trx",
     "@intercroneswap/v1-core": "^0.0.6",
+    "@intercroneswap/v2-periphery": "0.1.2-trx",
+    "@intercroneswap/v2-sdk": "file:../v2-sdk",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.16.0",
     "@reach/portal": "^0.16.0",
@@ -35,6 +35,7 @@
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
     "@web3-react/core": "^6.0.9",
+    "@web3-react/metamask": "^8.0.0-beta.0",
     "ajv": "^6.12.3",
     "cids": "^1.0.0",
     "copy-to-clipboard": "^3.2.0",
@@ -81,6 +82,10 @@
     "styled-components": "^5.3.1",
     "typescript": "^4.4.3",
     "use-count-up": "^3.0.1",
+    "web3-react-fortmatic-connector": "npm:@web3-react/fortmatic-connector@^6.0.9",
+    "web3-react-abstract-connector": "npm:@web3-react/abstract-connector@^6.0.7",
+    "web3-react-injected-connector": "npm:@web3-react/injected-connector@^6.0.7",
+    "web3-react-types": "npm:@web3-react/types@^6.0.7",
     "wcag-contrast": "^3.0.0"
   },
   "resolutions": {
@@ -113,8 +118,8 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "react-scripts": "^4.0.3",
     "@intercroneswap/java-tron-provider": "^0.0.12",
-    "@intercroneswap/tronlink-provider": "^0.0.4"
+    "@intercroneswap/tronlink-provider": "^0.0.4",
+    "react-scripts": "^4.0.3"
   }
 }

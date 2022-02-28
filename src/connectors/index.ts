@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
 import { NetworkConnector } from './NetworkConnector';
-import { InjectedTronConnector } from './injected-tron-connector';
+import { InjectedConnector } from 'web3-react-injected-connector';
 
 const NETWORK_URL = process.env.REACT_APP_NETWORK_URL;
 
@@ -19,6 +19,6 @@ export function getNetworkLibrary(): Web3Provider {
   return (networkLibrary = networkLibrary ?? new Web3Provider(network.provider as any));
 }
 
-export const injected = new InjectedTronConnector({
-  supportedChainIds: [11111, 1],
+export const injected = new InjectedConnector({
+  supportedChainIds: [NETWORK_CHAIN_ID],
 });

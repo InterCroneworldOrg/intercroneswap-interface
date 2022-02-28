@@ -5,8 +5,7 @@ import { injected } from '../connectors';
 
 export const ROUTER_ADDRESSES: { [chainId: number]: string } = {
   [ChainId.MAINNET]: '0x60162da0738bbb6def8730f76bf4661a6f705ce3',
-  [ChainId.NILE]: '',
-  [ChainId.SHASTA]: '0x0c7da363814e5e93582bcabc74affdd5037d5716',
+  [ChainId.DONAU]: '0x096c64d79a85c8fd2e963c4abd9373301d2cf801',
 };
 const chainId: number = parseInt(process.env.REACT_APP_CHAIN_ID ?? '11111');
 export const ROUTER_ADDRESS = ROUTER_ADDRESSES[chainId];
@@ -29,8 +28,7 @@ export const TIMELOCK_ADDRESS = '0x1a9C8182C09F50C8318d769245beA52c32BE35BC';
 const KWIK_ADDRESS = '0x286c0936c7eaf6651099ab5dab9ee5a6cb5d229d';
 export const KWIK: { [chainId in ChainId]: Token } = {
   [ChainId.MAINNET]: new Token(ChainId.MAINNET, KWIK_ADDRESS, 18, 'KWIK', 'ISwap'),
-  [ChainId.SHASTA]: new Token(ChainId.MAINNET, KWIK_ADDRESS, 18, 'KWIK', 'ISwap'),
-  [ChainId.NILE]: new Token(ChainId.MAINNET, KWIK_ADDRESS, 18, 'KWIK', 'ISwap'),
+  [ChainId.DONAU]: new Token(ChainId.MAINNET, KWIK_ADDRESS, 18, 'KWIK', 'ISwap'),
 };
 
 export const COMMON_CONTRACT_NAMES: { [address: string]: string } = {
@@ -46,8 +44,7 @@ export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {
 
 const WETH_ONLY: ChainTokenList = {
   [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
-  [ChainId.NILE]: [WETH[ChainId.NILE]],
-  [ChainId.SHASTA]: [WETH[ChainId.SHASTA]],
+  [ChainId.DONAU]: [WETH[ChainId.DONAU]],
 };
 
 // used to construct intermediary pairs for trading
@@ -119,14 +116,14 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
   //   color: '#010101',
   //   primary: true
   // },
-  // METAMASK: {
-  //   connector: injected,
-  //   name: 'MetaMask',
-  //   iconName: 'metamask.png',
-  //   description: 'Easy-to-use browser extension.',
-  //   href: null,
-  //   color: '#E8831D'
-  // },
+  METAMASK: {
+    connector: injected,
+    name: 'MetaMask',
+    iconName: 'metamask.png',
+    description: 'Easy-to-use browser extension.',
+    href: null,
+    color: '#E8831D',
+  },
   // WALLET_CONNECT: {
   //   connector: walletconnect,
   //   name: 'WalletConnect',
