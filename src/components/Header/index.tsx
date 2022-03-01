@@ -400,11 +400,6 @@ const LinksContainer = styled.div`
 // display:none;
 // z-index:1000;
 // `
-// const NETWORK_LABELS: { [chainId in ChainId]: string | undefined } = {
-//   [ChainId.MAINNET]: undefined,
-//   [ChainId.NILE]: 'Nile',
-//   [ChainId.SHASTA]: 'Shasta',
-// };
 
 export default function Header() {
   const {

@@ -1,4 +1,4 @@
-import { FACTORY_ADDRESS, JSBI, Pair, Percent } from '@intercroneswap/v2-sdk';
+import { FACTORY_ADDRESSES, JSBI, Pair, Percent } from '@intercroneswap/v2-sdk';
 import { darken } from 'polished';
 import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
@@ -395,7 +395,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 </ExternalLink>
                 <ExternalLink
                   style={{ marginTop: '10px', width: '100%', textAlign: 'center', color: '#fff' }}
-                  href={chainId ? getEtherscanLink(chainId, FACTORY_ADDRESS, 'address') : '#'}
+                  href={chainId ? getEtherscanLink(chainId, FACTORY_ADDRESSES[chainId], 'address') : '#'}
                 >
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     View Contract
