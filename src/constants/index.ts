@@ -4,7 +4,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 import { injected } from '../connectors';
 
 export const ROUTER_ADDRESSES: { [chainId: number]: string } = {
-  [ChainId.MAINNET]: '0x5ee4baac13e4d63c3425228eb01644060b1daf96',
+  [ChainId.MAINNET]: '0x8e1d1d9b31a603b14a58b822b075050ddced7e94',
   [ChainId.NILE]: '',
   [ChainId.SHASTA]: '0x0c7da363814e5e93582bcabc74affdd5037d5716',
 };
