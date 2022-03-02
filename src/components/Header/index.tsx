@@ -15,7 +15,7 @@ import { useETHBalances } from '../../state/wallet/hooks';
 // import { CardNoise } from '../vote/styled'
 // import { CountUp } from 'use-count-up'
 // ExternalLink
-// import { ExternalLink } from '../../theme'
+import { ExternalLink } from '../../theme';
 
 // import { YellowCard } from '../Card';
 import Settings from '../Settings';
@@ -320,37 +320,37 @@ const StyledNavLink = styled(NavLink).attrs({
   }
 `;
 
-// const StyledExternalLink = styled(ExternalLink).attrs({
-//   activeClassName
-// }) <{ isActive?: boolean }>`
-//   ${({ theme }) => theme.flexRowNoWrap}
-//   align-items: left;
+const StyledExternalLink = styled(ExternalLink).attrs({
+  activeClassName,
+})<{ isActive?: boolean }>`
+  ${({ theme }) => theme.flexRowNoWrap}
+  align-items: left;
 
-//   border-radius: 3rem;
-//   outline: none;
-//   cursor: pointer;
-//   text-decoration: none;
-//   color: ${({ theme }) => theme.text2};
-//   font-size: 1rem;
-//   width: fit-content;
-//   margin: 0 12px;
-//   font-weight: 500;
+  border-radius: 3rem;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: ${({ theme }) => theme.text2};
+  font-size: 1rem;
+  width: fit-content;
+  margin: 0 12px;
+  font-weight: 500;
 
-//   &.${activeClassName} {
-//     border-radius: 12px;
-//     font-weight: 600;
-//     color: ${({ theme }) => theme.text1};
-//   }
+  &.${activeClassName} {
+    border-radius: 12px;
+    font-weight: 600;
+    color: ${({ theme }) => theme.text1};
+  }
 
-//   :hover,
-//   :focus {
-//     color: ${({ theme }) => darken(0.1, theme.text1)};
-//   }
+  :hover,
+  :focus {
+    color: ${({ theme }) => darken(0.1, theme.text1)};
+  }
 
-//   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-//       display: none;
-// `}
-// `
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+      display: none;
+`}
+`;
 // const StyledExternalLocalLink = styled(ExternalLink).attrs({
 //   activeClassName
 // }) <{ isActive?: boolean }>`
@@ -436,6 +436,11 @@ export default function Header() {
           </KwikIcon>
         </Title>
         <HeaderLinks>
+          <div style={{ float: 'left' }}>
+            <StyledExternalLink id={`charts-nav-link`} href={'https://trx.intercroneswap.com/'}>
+              {t('TRON')}
+            </StyledExternalLink>
+          </div>
           <div style={{ display: 'none' }}>
             <LinksContainer>
               <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
