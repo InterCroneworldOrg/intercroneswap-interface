@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Facebook, Youtube, Twitter, Instagram, Wifi } from 'react-feather';
+import { Facebook, Youtube, Twitter, Instagram, Send } from 'react-feather';
 import styled from 'styled-components';
 import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg';
 // import { useActiveWeb3React } from '../../hooks'
@@ -114,7 +114,7 @@ export default function Menu() {
             Docs
           </MenuItem> */}
           <MenuItem id="link" href="https://t.me/intercroneworld">
-            <Wifi size={14} />
+            <Send size={14} />
             Telegram
           </MenuItem>
           <MenuItem id="link" href="https://www.facebook.com/InterCrone">
