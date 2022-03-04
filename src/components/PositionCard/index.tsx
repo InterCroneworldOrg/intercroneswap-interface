@@ -196,6 +196,14 @@ PositionCardProps) {
   );
 }
 
+export const MinimalAutoColumn = styled(AutoColumn)`
+  height: 100%;
+  flex-grow: 1;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    height: 25%;
+  `}
+`;
+
 export default function FullPositionCard({ pair, border }: PositionCardProps) {
   const { account, chainId } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
@@ -422,7 +430,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 </ExternalLink> */}
                 {/* </ButtonSecondary> */}
               </AutoColumn>
-              <AutoColumn style={{ flexGrow: 1, height: '100%' }} justify="end">
+              <MinimalAutoColumn justify="end">
                 <RowBetween style={{ maxWidth: '330px', width: '100%', alignItems: 'flex-end' }} marginTop="10px">
                   <ButtonPrimary
                     padding="8px"
@@ -445,7 +453,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                     Remove
                   </ButtonPrimary>
                 </RowBetween>
-              </AutoColumn>
+              </MinimalAutoColumn>
             </AutoRow>
           </AutoColumn>
         )}
