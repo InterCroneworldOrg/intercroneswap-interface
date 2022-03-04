@@ -20,6 +20,7 @@ import { ExternalLink } from '../../theme';
 // import { YellowCard } from '../Card';
 import Settings from '../Settings';
 import Menu from '../Menu';
+import LeftMenu from '../LeftMenu';
 import { Box } from 'rebass/styled-components';
 // import Row from '../Row'
 import Web3Status from '../Web3Status';
@@ -436,7 +437,7 @@ export default function Header() {
           </KwikIcon>
         </Title>
         <HeaderLinks>
-          <div style={{ float: 'left' }}>
+          <div style={{ display: 'none', float: 'left' }}>
             <StyledExternalLink id={`charts-nav-link`} href={'https://trx.intercroneswap.com/'}>
               {t('TRON')}
             </StyledExternalLink>
@@ -470,6 +471,7 @@ export default function Header() {
             <Web3Status />
           </AccountElement>
           <Settings />
+          <LeftMenu />
           <Menu />
         </HeaderLinks>
       </HeaderRow>
