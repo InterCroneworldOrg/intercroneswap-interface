@@ -7,10 +7,14 @@ import useHttpLocations from '../../hooks/useHttpLocations';
 import { WrappedTokenInfo } from '../../state/lists/hooks';
 import Logo from '../Logo';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
+import { useAllLists } from '../../state/lists/hooks';
+import { TokenList } from '@intercroneswap/token-lists';
 
-const getTokenLogoURL = (address: string) => {
-  const tronAddress = ethAddress.toTron(address);
-  return `https://coin.top/production/upload/logo/${tronAddress}.png`;
+const getTokenLogoURL = (address: string, allTokens: TokenList[]): string => {
+  return (
+    allTokens.flatMap((tokens) => tokens.tokens).find((token) => token.address.toLowerCase() === address.toLowerCase())
+      ?.logoURI ?? `https://coin.top/production/upload/logo/${ethAddress.toTron(address)}.png`
+  );
 };
 
 const StyledEthereumLogo = styled.img<{ size: string }>`
@@ -37,16 +41,17 @@ export default function CurrencyLogo({
   style?: React.CSSProperties;
 }) {
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined);
+  const allTokens = useAllLists();
 
   const srcs: string[] = useMemo(() => {
     if (currency === ETHER) return [];
 
     if (currency instanceof Token) {
       if (currency instanceof WrappedTokenInfo) {
-        return [...uriLocations, getTokenLogoURL(currency.address)];
+        return [...uriLocations, getTokenLogoURL(currency.address, allTokens)];
       }
 
-      return [getTokenLogoURL(currency.address)];
+      return [getTokenLogoURL(currency.address, allTokens)];
     }
     return [];
   }, [currency, uriLocations]);
