@@ -197,7 +197,6 @@ export function useAsyncV1LiquidityTokens(
         }),
       )
         .then((res: string[]) => {
-          console.log(res, 'pair we got');
           setPairAddresses(res);
         })
         .catch((err: any) => {
@@ -206,7 +205,6 @@ export function useAsyncV1LiquidityTokens(
     }
   }, [tokens, library]);
   return useMemo(() => {
-    console.log(pairAddresses, tokens, 'pairaddresses');
     return pairAddresses.map((pairAddress, i) => {
       const pairTokens = tokens[i];
       return {
