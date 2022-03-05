@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Facebook, Youtube, Twitter, Instagram, Send, Info, BookOpen } from 'react-feather';
+import { Facebook, Youtube, Twitter, Instagram, Send, Info, BookOpen, Image, Activity } from 'react-feather';
 import styled from 'styled-components';
 import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg';
 // import { useActiveWeb3React } from '../../hooks'
@@ -113,6 +113,14 @@ export default function Menu() {
             <BookOpen size={14} />
             Docs
           </MenuItem> */}
+          <MenuItem id="link" href="https://intercroneswap.com/nft/minting">
+            <Image size={14} />
+            NFT
+          </MenuItem>
+          <MenuItem id="link" href="https://trx.intercroneswap.com">
+            <Activity size={14} />
+            TRADING
+          </MenuItem>
           <MenuItem id="link" href="https://t.me/intercroneworld">
             <Send size={14} />
             Telegram

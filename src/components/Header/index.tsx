@@ -20,7 +20,7 @@ import { ExternalLink } from '../../theme';
 // import { YellowCard } from '../Card';
 import Settings from '../Settings';
 import Menu from '../Menu';
-import LeftMenu from '../LeftMenu';
+// import LeftMenu from '../LeftMenu';
 import { Box } from 'rebass/styled-components';
 // import Row from '../Row'
 import Web3Status from '../Web3Status';
@@ -471,7 +471,7 @@ export default function Header() {
             <Web3Status />
           </AccountElement>
           <Settings />
-          <LeftMenu />
+          {/* <LeftMenu /> */}
           <Menu />
         </HeaderLinks>
       </HeaderRow>
