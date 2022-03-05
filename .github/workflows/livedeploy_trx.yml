@@ -6,15 +6,15 @@ name: Deploy live Site TRX subdomain
 on:
   push:
     branches: [ main-trx ]
+  pull_request:
+    branches: [ main-trx ]
 
   workflow_dispatch:
-
-  defaults:
-    run:
-      working-directory: ./trx-interface
     
 jobs:
   build:
+    defaults:
+      working-directory: trx-interface
 
     runs-on: self-hosted
 
@@ -32,5 +32,4 @@ jobs:
     - run: cp .env.production .env
     - run: npm i
     - run: CI=false npm run build
-    - run: rsync -av /root/actions-runner/_work/intercroneswap-interface/trx-interface/build/ /var/www/html/trx-interface/
-
+    - run: rsync -av /root/actions-runner/_work/intercroneswap-interface/trx-interface/build/ /var/www/html/btt-interface/
