@@ -1,11 +1,11 @@
 # This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Deploy live Site
+name: Deploy live Site TRX subdomain
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main-trx ]
 
   workflow_dispatch:
     
@@ -14,12 +14,18 @@ jobs:
 
     runs-on: self-hosted
 
+    defaults:
+      run:
+        working-directory: trx-interface
+
     strategy:
       matrix:
         node-version: [16.x]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+      with:
+        path: 'trx-interface'
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -28,5 +34,4 @@ jobs:
     - run: cp .env.production .env
     - run: npm i
     - run: CI=false npm run build
-    - run: rsync -av /root/actions-runner/_work/intercroneswap-interface/intercroneswap-interface/build/ /var/www/html/iswap/
-
+    - run: rsync -av /root/actions-runner/_work/intercroneswap-interface/intercroneswap-interface/trx-interface/build/ /var/www/html/btt-interface/
