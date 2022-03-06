@@ -343,7 +343,6 @@ export default function App() {
               <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/pool" component={Pool} />
-              {/* <Route exact strict path="/kwik" component={Earn} /> */}
               {/* <Route exact strict path="/vote" component={Vote} /> */}
               <Route exact strict path="/votepage" component={VoteComingSoon} />
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
@@ -358,7 +357,6 @@ export default function App() {
               <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
               {/* <Route exact strict path="/migrate/v" component={MigrateV} /> */}
               {/* <Route exact strict path="/migrate/v/:address" component={MigrateVExchange} /> */}
-              {/* <Route exact strict path="/kwik/:currencyIdA/:currencyIdB" component={Manage} /> */}
               {/* <Route exact strict path="/vote/:id" component={VotePage} /> */}
               <Route component={RedirectPathToSwapOnly} />
             </Switch>

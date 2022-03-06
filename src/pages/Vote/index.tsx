@@ -13,7 +13,6 @@ import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/
 import DelegateModal from '../../components/vote/DelegateModal';
 // import { useTokenBalance } from '../../state/wallet/hooks'
 // import { useActiveWeb3React } from '../../hooks'
-// import { KWIK } from '../../constants'
 // import { TokenAmount } from '@intercroneswap/v2-sdk'
 // import { shortenAddress, getEtherscanLink } from '../../utils'
 // import Loader from '../../components/Loader'
@@ -113,14 +112,10 @@ export default function Vote() {
 
   // user data
   // const availableVotes: TokenAmount | undefined = useUserVotes()
-  // const kwikBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, chainId ? KWIK[chainId] : undefined)
   // const userDelegatee: string | undefined = useUserDelegatee()
 
   // show delegation option if they have have a balance, but have not delegated
   const showUnlockVoting = false;
-  //  Boolean(
-  //   kwikBalance && JSBI.notEqual(kwikBalance.raw, JSBI.BigInt(0)) === ZERO_ADDRESS
-  // )
 
   return (
     <PageWrapper gap="lg" justify="center">
@@ -140,13 +135,13 @@ export default function Vote() {
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  KWIK tokens represent voting shares in ISwap governance. You can vote on each proposal yourself or
+                  ISWAP tokens represent voting shares in ISwap governance. You can vote on each proposal yourself or
                   delegate your votes to a third party.
                 </TYPE.white>
               </RowBetween>
               <ExternalLink
                 style={{ color: 'white', textDecoration: 'underline' }}
-                href="https://intercroneswap.com/blog/kwik"
+                href="https://intercroneswap.com/blog/iswap"
                 target="_blank"
               >
                 <TYPE.white fontSize={14}>Read more about ISwap governance</TYPE.white>
@@ -229,7 +224,7 @@ export default function Vote() {
         })}
       </TopSection> */}
       <TYPE.subHeader color="text3">
-        A minimum threshhold of 1% of the total KWIK supply is required to submit proposals
+        A minimum threshhold of 1% of the total ISWAP supply is required to submit proposals
       </TYPE.subHeader>
     </PageWrapper>
   );

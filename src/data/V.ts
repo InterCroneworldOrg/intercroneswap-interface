@@ -78,7 +78,7 @@ export function useUserHasLiquidityInAllTokens(): boolean | undefined {
   const exchanges = useAllTokenVExchanges();
 
   const vExchangeLiquidityTokens = useMemo(
-    () => (chainId ? Object.keys(exchanges).map((address) => new Token(chainId, address, 18, 'KWIK', 'ISwap')) : []),
+    () => (chainId ? Object.keys(exchanges).map((address) => new Token(chainId, address, 8, 'ISwap', 'ISwap')) : []),
     [chainId, exchanges],
   );
 

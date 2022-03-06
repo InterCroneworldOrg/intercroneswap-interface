@@ -1,5 +1,4 @@
 import { Contract } from '@ethersproject/contracts';
-// import { abi as KWIK_ABI } from '@intercroneswap/governance/build/Love.json';
 import MERKLE_DISTRIBUTOR_ABI from '../constants/abis/merkle.json';
 import { ChainId, WETH } from '@intercroneswap/v2-sdk';
 import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/IISwapV1Pair.json';
@@ -14,7 +13,6 @@ import ENS_ABI from '../constants/abis/ens-registrar.json';
 import { ERC20_BYTES32_ABI } from '../constants/abis/erc20';
 import ERC20_ABI from '../constants/abis/erc20.json';
 import { MIGRATOR_ABI, MIGRATOR_ADDRESS } from '../constants/abis/migrator';
-import KWIKHAWK_ABI from '../constants/abis/kwikhawk.json';
 import WETH_ABI from '../constants/abis/weth.json';
 import { MULTICALL_ABI, MULTICALL_NETWORKS } from '../constants/multicall';
 import { V_EXCHANGE_ABI, V_FACTORY_ABI, V_FACTORY_ADDRESSES } from '../constants/v';
@@ -105,18 +103,4 @@ export function useMulticallContract(): Contract | null {
 export function useMerkleDistributorContract(): Contract | null {
   const { chainId } = useActiveWeb3React();
   return useContract(chainId ? MERKLE_DISTRIBUTOR_ADDRESS[chainId] : undefined, MERKLE_DISTRIBUTOR_ABI, true);
-}
-
-// export function useKwikContract(): Contract | null {
-//   const { chainId } = useActiveWeb3React();
-//   return useContract(chainId ? KWIK[chainId].address : undefined, KWIK_ABI, true);
-// }
-
-export function useSocksController(): Contract | null {
-  const { chainId } = useActiveWeb3React();
-  return useContract(
-    chainId === ChainId.MAINNET ? '0x65770b5283117639760beA3F867b69b3697a91dd' : undefined,
-    KWIKHAWK_ABI,
-    false,
-  );
 }

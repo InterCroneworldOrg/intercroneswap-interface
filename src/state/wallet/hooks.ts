@@ -1,4 +1,3 @@
-// import { KWIK } from './../../constants/index'
 import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount } from '@intercroneswap/v2-sdk';
 import { useMemo } from 'react';
 import ERC20_INTERFACE from '../../constants/abis/erc20';
@@ -8,7 +7,6 @@ import { useMulticallContract } from '../../hooks/useContract';
 import { isAddress } from '../../utils';
 import { useSingleContractMultipleData, useMultipleContractSingleData } from '../multicall/hooks';
 // import { useUserUnclaimedAmount } from '../claim/hooks'
-// import { useTotalKwikEarned } from '../stake/hooks'
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
@@ -131,26 +129,4 @@ export function useAllTokenBalances(): { [tokenAddress: string]: TokenAmount | u
   const allTokensArray = useMemo(() => Object.values(allTokens ?? {}), [allTokens]);
   const balances = useTokenBalances(account ?? undefined, allTokensArray);
   return balances ?? {};
-}
-
-// get the total owned, unclaimed, and unharvested KWIK for account
-export function useAggregateKwikBalance(): TokenAmount | undefined {
-  // const { account, chainId } = useActiveWeb3React()
-
-  // const kwik = chainId ? KWIK[chainId] : undefined
-
-  // const kwikBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, kwik)
-  // // const kwikUnclaimed: TokenAmount | undefined = useUserUnclaimedAmount(account)
-  // // const kwikUnHarvested: TokenAmount | undefined = useTotalKwikEarned()
-
-  // if (!kwik) return undefined
-
-  // return new TokenAmount(
-  //   kwik,
-  //   JSBI.add(
-  //     JSBI.add(kwikBalance?.raw ?? JSBI.BigInt(0), kwikUnclaimed?.raw ?? JSBI.BigInt(0)),
-  //     kwikUnHarvested?.raw ?? JSBI.BigInt(0)
-  //   )
-  // )
-  return undefined;
 }
