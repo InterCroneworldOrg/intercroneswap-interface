@@ -1,4 +1,3 @@
-// import { ChainId } from '@intercroneswap/v2-sdk';
 import { useState } from 'react';
 import { Text } from 'rebass';
 import { NavLink } from 'react-router-dom';
@@ -12,25 +11,11 @@ import Logo from '../../assets/images/ISwap.svg';
 import { useActiveWeb3React } from '../../hooks';
 // import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances } from '../../state/wallet/hooks';
-// import { CardNoise } from '../vote/styled'
-// import { CountUp } from 'use-count-up'
-// ExternalLink
-// import { ExternalLink } from '../../theme'
-
-// import { YellowCard } from '../Card';
 import Settings from '../Settings';
 import Menu from '../Menu';
 import { Box } from 'rebass/styled-components';
-// import Row from '../Row'
 import Web3Status from '../Web3Status';
-// import ClaimModal from '../claim/ClaimModal'
-// import { useShowClaimPopup } from '../../state/application/hooks'
-// import { useUserHasAvailableClaim } from '../../state/claim/hooks'
-// import { useUserHasSubmittedClaim } from '../../state/transactions/hooks'
-// import { Dots } from '../swap/styleds'
 import Modal from '../Modal';
-// import KwikBalanceContent from './KwikBalanceContent'
-// import usePrevious from '../../hooks/usePrevious'
 
 const HeaderFrame = styled.div`
   // display: grid;
@@ -189,53 +174,6 @@ const AccountElement = styled.div<{ active: boolean }>`
   } */
 `;
 
-// const KWIKAmount = styled(AccountElement)`
-//   color: black;
-//   padding: 4px 8px;
-//   height: 36px;
-//   border-radius: 10px;
-//   font-weight: 500;
-//   border:${({ theme }) => `1px solid ${theme.BorderColor}`};
-//   color: ${({ theme }) => theme.BUYTEXT};
-//   // background-color:  ${({ theme }) => theme.BorderColor};
-//   // background-color: ${({ theme }) => theme.bg3};
-//   // background-color: ${({ theme }) => theme.bgSWAP6};
-// `
-// // background: radial-gradient(174.47% 188.91% at 1.84% 0%, #ff007a 0%, #2172e5 100%), #edeef2;
-// const KWIKWrapper = styled.span`
-//   width: fit-content;
-//   position: relative;
-//   cursor: pointer;
-
-//   :hover {
-//     opacity: 0.8;
-//   }
-
-//   :active {
-//     opacity: 0.9;
-//   }
-// `
-
-// const HideSmall = styled.span`
-//   ${({ theme }) => theme.mediaWidth.upToSmall`
-//     display: none;
-//   `};
-// `;
-
-// const NetworkCard = styled(YellowCard)`
-//   border-radius: 12px;
-//   color: ${({ theme }) => theme.text1};
-//   padding: 8px 12px;
-//   ${({ theme }) => theme.mediaWidth.upToSmall`
-//     margin: 0;
-//     margin-right: 0.5rem;
-//     width: initial;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     flex-shrink: 1;
-//   `};
-// `;
-
 const BalanceText = styled(Text)`
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     display: none;
@@ -256,7 +194,7 @@ const Title = styled.a`
   }
 `;
 
-const KwikIcon = styled.div`
+const IswapIcon = styled.div`
   filter: ${({ theme }) => theme.pngLOGOCOLOR};
   transition: transform 0.3s ease;
   :hover {
@@ -411,15 +349,7 @@ export default function Header() {
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? ''];
   // const [isDark] = useDarkModeManager()
 
-  // const toggleClaimModal = useToggleSelfClaimModal()
-
-  // const availableClaim: boolean = useUserHasAvailableClaim(account)
-
-  // const { claimTxn } = useUserHasSubmittedClaim(account ?? undefined)
-
-  // const aggregateBalance: TokenAmount | undefined = useAggregateKwikBalance()
-
-  const [showKwikBalanceModal, setShowKwikBalanceModal] = useState(false);
+  const [showIswapBalanceModal, setShowIswapBalanceModal] = useState(false);
   // const showClaimPopup = useShowClaimPopup()
 
   // const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
@@ -428,12 +358,12 @@ export default function Header() {
   return (
     <HeaderFrame>
       {/* <ClaimModal /> */}
-      <Modal isOpen={showKwikBalanceModal} onDismiss={() => setShowKwikBalanceModal(false)}></Modal>
+      <Modal isOpen={showIswapBalanceModal} onDismiss={() => setShowIswapBalanceModal(false)}></Modal>
       <HeaderRow>
         <Title href=".">
-          <KwikIcon>
+          <IswapIcon>
             <img width={'115px'} src={Logo} alt="logo" />
-          </KwikIcon>
+          </IswapIcon>
         </Title>
         <HeaderLinks>
           <div style={{ display: 'none' }}>
@@ -476,32 +406,6 @@ export default function Header() {
             )}
           </HideSmall> */}
       {/* {availableClaim && !showClaimPopup} */}
-      {/* {!availableClaim && aggregateBalance && (
-            <KWIKWrapper onClick={() => setShowKwikBalanceModal(true)}>
-              <KWIKAmount active={!!account && !availableClaim} style={{ pointerEvents: 'auto' }}>
-                {account && (
-                  <HideSmall>
-                    <TYPE.white
-                      style={{
-                        paddingRight: '.4rem'
-                      }}
-                    >
-                      <CountUp
-                        key={countUpValue}
-                        isCounting
-                        start={parseFloat(countUpValuePrevious)}
-                        end={parseFloat(countUpValue)}
-                        thousandsSeparator={','}
-                        duration={1}
-                      />
-                    </TYPE.white>
-                  </HideSmall>
-                )}
-                KWIK
-              </KWIKAmount>
-              <CardNoise />
-            </KWIKWrapper>
-          )} */}
       {/* <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>

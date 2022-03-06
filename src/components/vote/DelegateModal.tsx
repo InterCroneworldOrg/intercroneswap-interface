@@ -13,7 +13,6 @@ import { isAddress } from 'ethers/lib/utils';
 import useENS from '../../hooks/useENS';
 // import { useDelegateCallback } from '../../state/governance/hooks'
 import { useTokenBalance } from '../../state/wallet/hooks';
-import { KWIK } from '../../constants';
 import { LoadingView, SubmittedView } from '../ModalViews';
 
 const ContentWrapper = styled(AutoColumn)`
@@ -55,7 +54,8 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
   const { address: parsedAddress } = useENS(activeDelegate);
 
   // get the number of votes available to delegate
-  const kwikBalance = useTokenBalance(account ?? undefined, chainId ? KWIK[chainId] : undefined);
+  // TODO: Define ISWAP addresses
+  const iSwapBalance = useTokenBalance(account ?? undefined, chainId ? undefined : undefined);
 
   // const delegateCallback = useDelegateCallback()
 
@@ -96,7 +96,7 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
               <TYPE.mediumHeader fontWeight={500}>{title}</TYPE.mediumHeader>
               <StyledClosed stroke="black" onClick={wrappedOndismiss} />
             </RowBetween>
-            <TYPE.body>Earned KWIK tokens represent voting shares in ISwap governance.</TYPE.body>
+            <TYPE.body>Earned ISWAP tokens represent voting shares in ISwap governance.</TYPE.body>
             <TYPE.body>
               You can either vote on each proposal yourself or delegate your votes to a third party.
             </TYPE.body>
@@ -116,7 +116,7 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
         <LoadingView onDismiss={wrappedOndismiss}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{usingDelegate ? 'Delegating votes' : 'Unlocking Votes'}</TYPE.largeHeader>
-            <TYPE.main fontSize={36}>{kwikBalance?.toSignificant(4)}</TYPE.main>
+            <TYPE.main fontSize={36}>{iSwapBalance?.toSignificant(4)}</TYPE.main>
           </AutoColumn>
         </LoadingView>
       )}
@@ -124,7 +124,7 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
         <SubmittedView onDismiss={wrappedOndismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>Transaction Submitted</TYPE.largeHeader>
-            <TYPE.main fontSize={36}>{kwikBalance?.toSignificant(4)}</TYPE.main>
+            <TYPE.main fontSize={36}>{iSwapBalance?.toSignificant(4)}</TYPE.main>
           </AutoColumn>
         </SubmittedView>
       )}

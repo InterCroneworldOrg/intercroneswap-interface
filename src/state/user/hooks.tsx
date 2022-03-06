@@ -221,7 +221,7 @@ export function useAsyncV1LiquidityTokens(
  * @param tokenB the other token
  */
 export function toV1LiquidityToken([tokenA, tokenB]: [Token, Token]): Token {
-  return new Token(tokenA.chainId, Pair.getAddress(tokenA, tokenB), 18, 'KWIK', 'ISwap');
+  return new Token(tokenA.chainId, Pair.getAddress(tokenA, tokenB), 18, 'ISwap', 'ISwap');
 }
 
 /**

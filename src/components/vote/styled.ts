@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { AutoColumn } from '../Column';
 
-import uImage from '../../assets/images/big_kwikcorn.png';
-import xlKwikcorn from '../../assets/images/xl_kwik.png';
+import uImage from '../../assets/images/big_iswapcorn.png';
+import xlIswapcorn from '../../assets/images/xl_iswap.png';
 import noise from '../../assets/images/noise.png';
 
 export const TextBox = styled.div`
@@ -40,7 +40,7 @@ export const CardBGImage = styled.span<{ desaturate?: boolean }>`
 `;
 
 export const CardBGImageSmaller = styled.span<{ desaturate?: boolean }>`
-  background: url(${xlKwikcorn});
+  background: url(${xlIswapcorn});
   width: 1200px;
   height: 1200px;
   position: absolute;
