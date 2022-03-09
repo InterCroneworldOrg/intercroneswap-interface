@@ -116,6 +116,8 @@ export default function Pool() {
     () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
     [tokenPairsWithLiquidityTokens],
   );
+  // TODO: need to change the below Token balance hook to reduce api calls
+  console.log(liquidityTokens, 'Getting token balances for account: ' + account);
   const [v1PairsBalances, fetchingV1PairBalances] = useTokenBalancesWithLoadingIndicator(
     account ?? undefined,
     liquidityTokens,

@@ -345,7 +345,8 @@ export default function Header() {
     //  chainId
   } = useActiveWeb3React();
   const { t } = useTranslation();
-
+  console.log('getting eth balance for header');
+  // TODO: Need to adjust this hook to be only called when the account is changed
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? ''];
   // const [isDark] = useDarkModeManager()
 

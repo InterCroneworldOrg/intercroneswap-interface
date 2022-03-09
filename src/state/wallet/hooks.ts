@@ -26,6 +26,8 @@ export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
     [uncheckedAddresses],
   );
 
+  // TODO: need to change this to only call max once per minute
+  console.log(addresses, 'calling getEthbalance for addresses');
   const results = useSingleContractMultipleData(
     multicallContract,
     'getEthBalance',
@@ -57,6 +59,8 @@ export function useTokenBalancesWithLoadingIndicator(
   const validatedTokenAddresses = useMemo(() => validatedTokens.map((vt) => vt.address), [validatedTokens]);
 
   const balances = useMultipleContractSingleData(validatedTokenAddresses, ERC20_INTERFACE, 'balanceOf', [address]);
+  // TODO: need to change this to fetch the data from cache, and somehow get all token balances at once per minute
+  console.log(balances, 'calling multicall for balances on adresses: ' + address);
 
   const anyLoading: boolean = useMemo(() => balances.some((callState) => callState.loading), [balances]);
 
