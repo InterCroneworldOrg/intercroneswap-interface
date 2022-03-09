@@ -1,7 +1,7 @@
 import { useRef } from 'react';
-import { Facebook, Youtube, Twitter, Instagram, Send, Info, BookOpen, Image, Activity } from 'react-feather';
+import { Image, Activity } from 'react-feather';
 import styled from 'styled-components';
-import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg';
+import { ExternalLink as MenuIcon } from 'react-feather';
 // import { useActiveWeb3React } from '../../hooks'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
 import { ApplicationModal } from '../../state/application/actions';
@@ -89,10 +89,10 @@ const MenuItem = styled(ExternalLink)`
 
 // const CODE_LINK = 'https://github.com/ISwap/ISwap-interface'
 
-export default function Menu() {
+export default function LeftMenu() {
   const node = useRef<HTMLDivElement>();
-  const open = useModalOpen(ApplicationModal.MENU);
-  const toggle = useToggleModal(ApplicationModal.MENU);
+  const open = useModalOpen(ApplicationModal.LEFTMENU);
+  const toggle = useToggleModal(ApplicationModal.LEFTMENU);
   useOnClickOutside(node, open ? toggle : undefined);
   // const openClaimModal = useToggleModal(ApplicationModal.ADDRESS_CLAIM)
 
@@ -105,49 +105,13 @@ export default function Menu() {
 
       {open && (
         <MenuFlyout>
-          {/* <MenuItem id="link" href="https://intercroneswap.com/">
-            <Info size={14} />
-            About
-          </MenuItem>
-          <MenuItem id="link" href="https://intercroneswap.com/docs/v1">
-            <BookOpen size={14} />
-            Docs
-          </MenuItem> */}
           <MenuItem id="link" href="https://intercroneswap.com/nft/minting">
             <Image size={14} />
             NFT
           </MenuItem>
           <MenuItem id="link" href="https://trx.intercroneswap.com">
             <Activity size={14} />
-            TRADING
-          </MenuItem>
-          <MenuItem id="link" href="https://t.me/intercroneworld">
-            <Send size={14} />
-            Telegram
-          </MenuItem>
-          <MenuItem id="link" href="https://www.facebook.com/InterCrone">
-            <Facebook size={14} />
-            Facebook
-          </MenuItem>
-          <MenuItem id="link" href="https://twitter.com/IntercroneWorld">
-            <Twitter size={14} />
-            Twitter
-          </MenuItem>
-          <MenuItem id="link" href="https://www.youtube.com/c/InterCroneWorld">
-            <Youtube size={14} />
-            Youtube
-          </MenuItem>
-          <MenuItem id="link" href="https://www.instagram.com/intercrone">
-            <Instagram size={14} />
-            Instagram
-          </MenuItem>
-          <MenuItem id="link" href="https://docs.intercroneswap.finance">
-            <Info size={14} />
-            FAQs
-          </MenuItem>
-          <MenuItem id="link" href="https://github.com/InterCroneworldOrg">
-            <BookOpen size={14} />
-            Docs
+            TRON
           </MenuItem>
           {/* <MenuItem id="link" href={CODE_LINK}>
             <Code size={14} />
