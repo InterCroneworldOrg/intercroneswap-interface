@@ -162,7 +162,9 @@ export default function PoolFinder() {
               Pool Found!
             </Text>
             <StyledInternalLink to={`/pool`}>
-              <Text textAlign="center">Manage this pool.</Text>
+              <Text textAlign="center" color={theme.yellow2}>
+                Manage this pool.
+              </Text>
             </StyledInternalLink>
           </ColumnCenter>
         )}
