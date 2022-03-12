@@ -1,4 +1,4 @@
-import { TokenAmount, Pair, Currency, ChainId, FACTORY_ADDRESSES } from '@intercroneswap/v2-sdk';
+import { TokenAmount, Pair, Currency } from '@intercroneswap/v2-sdk';
 import { useMemo, useState } from 'react';
 import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/IISwapV1Pair.json';
 import { Interface } from '@ethersproject/abi';
@@ -6,8 +6,6 @@ import { useActiveWeb3React } from '../hooks';
 
 import { useMultipleContractSingleData } from '../state/multicall/hooks';
 import { wrappedCurrency } from '../utils/wrappedCurrency';
-import tronWeb from 'tronweb';
-import { ethAddress } from '@intercroneswap/java-tron-provider';
 const PAIR_INTERFACE = new Interface(ISwapV1PairABI);
 
 export enum PairState {
@@ -16,27 +14,9 @@ export enum PairState {
   EXISTS,
   INVALID,
 }
-async function queryPair(
-  tokenA: string | undefined,
-  tokenB: string | undefined,
-  chainId: ChainId | undefined,
-): Promise<string | undefined> {
-  if (window.tronWeb && chainId) {
-    //@ts-ignore
-    const factoryContract = await window.tronWeb?.contract().at(ethAddress.toTron(FACTORY_ADDRESSES[chainId]));
-    if (tokenA && tokenB && factoryContract) {
-      const pairAddress = await factoryContract.getPair(tokenA, tokenB).call();
-      if (tronWeb.isAddress(pairAddress)) {
-        return ethAddress.fromTron(pairAddress);
-      } else {
-        return '0x0000000000000000000000000000000000000000';
-      }
-    }
-  }
-  return undefined;
-}
+
 export function usePairs(currencies: [Currency | undefined, Currency | undefined][]): [PairState, Pair | null][] {
-  const { chainId } = useActiveWeb3React();
+  const { chainId, library } = useActiveWeb3React();
   const [pairAddresses, setPairAddresses] = useState<(string | undefined)[]>([]);
   const tokens = useMemo(
     () =>
@@ -48,17 +28,18 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
   );
 
   useMemo(() => {
-    const callTokens = tokens.map(([tokenA, tokenB]) => {
-      return [tokenA?.address, tokenB?.address];
-    });
-
-    Promise.all(
-      callTokens.map(([tokenA, tokenB]) => {
-        return queryPair(tokenA, tokenB, chainId);
-      }),
-    ).then((res) => {
-      setPairAddresses(res);
-    });
+    if (library) {
+      Promise.all(
+        tokens.map(([tokenA, tokenB]) => {
+          if (tokenA && tokenB) {
+            return Pair.getAddressAsync(tokenA, tokenB, library);
+          }
+          return undefined;
+        }),
+      ).then((res) => {
+        setPairAddresses(res);
+      });
+    }
   }, [JSON.stringify(tokens)]);
 
   const results = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getReserves');
