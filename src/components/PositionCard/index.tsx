@@ -1,4 +1,4 @@
-import { FACTORY_ADDRESSES, JSBI, Pair, Percent } from '@intercroneswap/v2-sdk';
+import { ETHER, JSBI, Pair, Percent } from '@intercroneswap/v2-sdk';
 import { darken } from 'polished';
 import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
@@ -209,6 +209,8 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
   const theme = useContext(ThemeContext);
   const currency0 = unwrappedToken(pair.token0);
   const currency1 = unwrappedToken(pair.token1);
+  const isCurrency0ETH = currency0 === ETHER;
+  const isCurrency1ETH = currency1 === ETHER;
 
   const [showMore, setShowMore] = useState(false);
 
@@ -394,7 +396,9 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 {/* <ButtonSecondary padding="8px" borderRadius="8px"> */}
                 <ExternalLink
                   style={{ marginTop: '10px', width: '100%', textAlign: 'center', color: '#fff' }}
-                  href={'#'}
+                  href={`#/add/${isCurrency0ETH ? ETHER.symbol : pair.token0.address}/${
+                    isCurrency1ETH ? ETHER.symbol : pair.token1.address
+                  }`}
                 >
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     Get {currency0.symbol} - {currency1.symbol} LP
@@ -403,7 +407,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 </ExternalLink>
                 <ExternalLink
                   style={{ marginTop: '10px', width: '100%', textAlign: 'center', color: '#fff' }}
-                  href={chainId ? getEtherscanLink(chainId, FACTORY_ADDRESSES[chainId], 'address') : '#'}
+                  href={chainId ? getEtherscanLink(chainId, pair.liquidityToken.address, 'address') : '#'}
                 >
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     View Contract
