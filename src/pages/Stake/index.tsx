@@ -17,6 +17,7 @@ import { useAsyncV1LiquidityTokens, useTrackedTokenPairs } from '../../state/use
 import { Dots } from '../../components/swap/styleds';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import StakingPositionCard, { StakeContract } from '../../components/PositionCard/Stake';
+import { useStakingBalancesWithLoadingIndicator } from '../../state/stake/hooks';
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 80%;
@@ -114,7 +115,7 @@ const dummyStakingContract: StakeContract[] = [
     totalStaked: '53453452.23',
     inusd: '2.34',
     ends_in: '43252',
-    address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+    address: '0x6b175474e89094c44da98b954eedeac495271d0rf',
   },
   {
     earn: 'ICR',
@@ -125,9 +126,11 @@ const dummyStakingContract: StakeContract[] = [
     totalStaked: '53453452.23',
     inusd: '2.34',
     ends_in: '43252',
-    address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+    address: '0x6b175474e89094c44da98b954eedeac495271d0fs',
   },
 ];
+
+const rewardsAddresses: string[] = ['0x85c4a3ca3cc1771ccdcd31cc9c58f18a24be62b6'];
 
 export default function Stake() {
   const theme = useContext(ThemeContext);
@@ -144,6 +147,8 @@ export default function Stake() {
     account ?? undefined,
     liquidityTokens,
   );
+  const stakingBalances = useStakingBalancesWithLoadingIndicator(rewardsAddresses, account ?? undefined);
+  console.log(stakingBalances, 'stakingBalances');
 
   // fetch the reserves for all V1 pools in which the user has a balance
   const liquidityTokensWithBalances = useMemo(
