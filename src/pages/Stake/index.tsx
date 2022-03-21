@@ -16,7 +16,7 @@ import { usePairs } from '../../data/Reserves';
 import { useAsyncV1LiquidityTokens, useTrackedTokenPairs } from '../../state/user/hooks';
 import { Dots } from '../../components/swap/styleds';
 import { useWalletModalToggle } from '../../state/application/hooks';
-import StakingPositionCard, { StakeContract } from '../../components/PositionCard/Stake';
+import StakingPositionCard from '../../components/PositionCard/Stake';
 import { useStakingBalancesWithLoadingIndicator } from '../../state/stake/hooks';
 
 const PageWrapper = styled(AutoColumn)`
@@ -94,43 +94,10 @@ const ResponsiveButtonSecondary = styled(ButtonSecondary)`
 //   align-items: center;
 // `;
 
-const dummyStakingContract: StakeContract[] = [
-  {
-    earn: 'ICR',
-    stake: 'BTT',
-    name: 'dummy',
-    APR: '35',
-    earned: '2323.345',
-    totalStaked: '53453452.23',
-    inusd: '2.34',
-    ends_in: '43252',
-    address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-  },
-  {
-    earn: 'ICR',
-    stake: 'BTT',
-    name: 'dummy',
-    APR: '35',
-    earned: '2323.345',
-    totalStaked: '53453452.23',
-    inusd: '2.34',
-    ends_in: '43252',
-    address: '0x6b175474e89094c44da98b954eedeac495271d0rf',
-  },
-  {
-    earn: 'ICR',
-    stake: 'BTT',
-    name: 'dummy',
-    APR: '35',
-    earned: '2323.345',
-    totalStaked: '53453452.23',
-    inusd: '2.34',
-    ends_in: '43252',
-    address: '0x6b175474e89094c44da98b954eedeac495271d0fs',
-  },
+const rewardsAddresses: string[] = [
+  '0x85c4a3ca3cc1771ccdcd31cc9c58f18a24be62b6',
+  '0x12cc8d307c3fb3bdea8f6b0d1784b1bcc4dff599',
 ];
-
-const rewardsAddresses: string[] = ['0x85c4a3ca3cc1771ccdcd31cc9c58f18a24be62b6'];
 
 export default function Stake() {
   const theme = useContext(ThemeContext);
@@ -147,8 +114,10 @@ export default function Stake() {
     account ?? undefined,
     liquidityTokens,
   );
-  const stakingBalances = useStakingBalancesWithLoadingIndicator(rewardsAddresses, account ?? undefined);
-  console.log(stakingBalances, 'stakingBalances');
+  const [stakingInfos, fetchingStakingInfos] = useStakingBalancesWithLoadingIndicator(
+    rewardsAddresses,
+    account ?? undefined,
+  );
 
   // fetch the reserves for all V1 pools in which the user has a balance
   const liquidityTokensWithBalances = useMemo(
@@ -162,6 +131,7 @@ export default function Stake() {
   const v1Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens));
   const v1IsLoading =
     fetchingV1PairBalances ||
+    fetchingStakingInfos ||
     v1Pairs?.length < liquidityTokensWithBalances.length ||
     v1Pairs?.some((V1Pair) => !V1Pair);
 
@@ -216,10 +186,14 @@ export default function Stake() {
                     <Dots>Loading</Dots>
                   </TYPE.body>
                 </GreyCard>
-              ) : dummyStakingContract?.length > 0 ? (
+              ) : rewardsAddresses?.length > 0 ? (
                 <>
-                  {dummyStakingContract.map((contract) => (
-                    <StakingPositionCard key={contract.address} contract={contract}></StakingPositionCard>
+                  {rewardsAddresses.map((contract) => (
+                    <StakingPositionCard
+                      key={contract}
+                      info={stakingInfos[contract]}
+                      address={contract}
+                    ></StakingPositionCard>
                   ))}
                 </>
               ) : (

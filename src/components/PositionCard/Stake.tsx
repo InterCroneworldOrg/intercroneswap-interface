@@ -11,49 +11,38 @@ import { useContext, useState } from 'react';
 import { ThemeContext } from 'styled-components';
 import { ChevronUp, ChevronDown, ExternalLink } from 'react-feather';
 import { Divider } from '../../theme';
+import { StakingInfo } from '../../state/stake/hooks';
+import { useToken } from '../../hooks/Tokens';
 
-export interface StakeContract {
-  earn: string;
-  stake: string;
-  name: string;
-  APR: string;
-  earned: string;
-  totalStaked: string;
-  inusd: string;
-  ends_in: string;
-  address: string;
-}
-
-interface StakeArgs {
-  contract: StakeContract;
-}
-
-export default function StakingPositionCard({ contract }: StakeArgs) {
+export default function StakingPositionCard({ info, address }: { info: StakingInfo; address: string }) {
   //const { account, chainId } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
 
   const [showMore, setShowMore] = useState(false);
+  console.log(info, 'stakingInfo');
+  const stakingToken = useToken(info.stakingToken);
+  const rewardsToken = useToken(info.rewardsToken);
 
   return (
     <LightCard style={{ marginTop: '1px' }}>
       <AutoRow justify="space-between" gap="4px">
         <AutoColumn gap="0px">
           <Text fontSize={18} fontWeight={700}>
-            Earn {contract.earn}
+            Earn {rewardsToken?.symbol}
           </Text>
           <Text fontSize={16} fontWeight={200} color={theme.primary3}>
-            Stake {contract.stake}
+            Stake {stakingToken?.symbol}
           </Text>
         </AutoColumn>
         <AutoColumn gap="2px">
           <Text fontSize={16} fontWeight={500}>
-            {contract.earn} earned
+            {info.earned.toString()} earned
           </Text>
           <Text fontSize={13} fontWeight={300} color={theme.primary3}>
-            {contract.earned}
+            {info.earned.toString()}
           </Text>
           <Text fontSize={13} fontWeight={300} color={theme.primary3}>
-            {contract.inusd} USD
+            {info.earned.toString()} USD
           </Text>
         </AutoColumn>
         <AutoColumn gap="2px">
@@ -61,7 +50,7 @@ export default function StakingPositionCard({ contract }: StakeArgs) {
             Total staked
           </Text>
           <Text fontSize={16} fontWeight={300} color={theme.primary3}>
-            {contract.totalStaked} {contract.stake.toUpperCase()}
+            {info.earned} {stakingToken?.name?.toUpperCase()}
           </Text>
         </AutoColumn>
         <AutoColumn gap="2px">
@@ -69,7 +58,7 @@ export default function StakingPositionCard({ contract }: StakeArgs) {
             APR
           </Text>
           <Text fontSize={16} fontWeight={300} color={theme.primary3}>
-            {contract.APR}%
+            {info.rewardRate}%
           </Text>
         </AutoColumn>
         <AutoColumn gap="2px">
@@ -77,7 +66,7 @@ export default function StakingPositionCard({ contract }: StakeArgs) {
             Ends in
           </Text>
           <Text fontSize={16} fontWeight={300} color={theme.primary3}>
-            {contract.ends_in} blocks
+            {info.earned} blocks
           </Text>
         </AutoColumn>
         <AutoColumn gap="2px">
@@ -105,7 +94,7 @@ export default function StakingPositionCard({ contract }: StakeArgs) {
             <AutoColumn>
               <ExternalLink
                 style={{ marginTop: '10px', width: '100%', textAlign: 'center', color: '#fff' }}
-                href={`https://info.intercroneswap.com/#/pair/${contract.address}`}
+                href={`https://info.intercroneswap.com/#/pair/${address}`}
               >
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   See Pair Info
@@ -114,7 +103,7 @@ export default function StakingPositionCard({ contract }: StakeArgs) {
               </ExternalLink>
               <ExternalLink
                 style={{ marginTop: '10px', width: '100%', textAlign: 'center', color: '#fff' }}
-                href={`https://info.intercroneswap.com/#/pair/${contract.address}`}
+                href={`https://info.intercroneswap.com/#/pair/${address}`}
               >
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   See Pair Info
@@ -123,7 +112,7 @@ export default function StakingPositionCard({ contract }: StakeArgs) {
               </ExternalLink>
               <ExternalLink
                 style={{ marginTop: '10px', width: '100%', textAlign: 'center', color: '#fff' }}
-                href={`https://info.intercroneswap.com/#/pair/${contract.address}`}
+                href={`https://info.intercroneswap.com/#/pair/${address}`}
               >
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   See Pair Info
@@ -137,7 +126,7 @@ export default function StakingPositionCard({ contract }: StakeArgs) {
                   padding="8px"
                   borderRadius="8px"
                   as={Link}
-                  to={`/stake/${contract.address}`}
+                  to={`/stake/${address}`}
                   width="48%"
                   style={{ color: '#000' }}
                 >
@@ -149,7 +138,7 @@ export default function StakingPositionCard({ contract }: StakeArgs) {
                   as={Link}
                   width="48%"
                   style={{ color: '#000' }}
-                  to={`/unstake/${contract.address}`}
+                  to={`/unstake/${address}`}
                 >
                   Unstake
                 </ButtonPrimary>
