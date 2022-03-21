@@ -11,17 +11,19 @@ import { useContext, useState } from 'react';
 import { ThemeContext } from 'styled-components';
 import { ChevronUp, ChevronDown, ExternalLink } from 'react-feather';
 import { Divider } from '../../theme';
-import { StakingInfo } from '../../state/stake/hooks';
+import { StakingInfo, useTotalStakedAmount } from '../../state/stake/hooks';
 import { useToken } from '../../hooks/Tokens';
+import { ChainId, Percent, TokenAmount, WETH } from '@intercroneswap/v2-sdk';
 
 export default function StakingPositionCard({ info, address }: { info: StakingInfo; address: string }) {
-  //const { account, chainId } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
 
   const [showMore, setShowMore] = useState(false);
-  console.log(info, 'stakingInfo');
   const stakingToken = useToken(info.stakingToken);
   const rewardsToken = useToken(info.rewardsToken);
+  const earnedRewards = new TokenAmount(rewardsToken ?? WETH[ChainId.SHASTA], info.earned);
+  const rate = new Percent(info.rewardRate, 8640);
+  const totalSupply = useTotalStakedAmount(address);
 
   return (
     <LightCard style={{ marginTop: '1px' }}>
@@ -36,13 +38,13 @@ export default function StakingPositionCard({ info, address }: { info: StakingIn
         </AutoColumn>
         <AutoColumn gap="2px">
           <Text fontSize={16} fontWeight={500}>
-            {info.earned.toString()} earned
+            {earnedRewards.toSignificant()} earned
           </Text>
           <Text fontSize={13} fontWeight={300} color={theme.primary3}>
-            {info.earned.toString()}
+            {earnedRewards.toSignificant()}
           </Text>
           <Text fontSize={13} fontWeight={300} color={theme.primary3}>
-            {info.earned.toString()} USD
+            {earnedRewards.toSignificant()} USD
           </Text>
         </AutoColumn>
         <AutoColumn gap="2px">
@@ -50,7 +52,7 @@ export default function StakingPositionCard({ info, address }: { info: StakingIn
             Total staked
           </Text>
           <Text fontSize={16} fontWeight={300} color={theme.primary3}>
-            {info.earned} {stakingToken?.name?.toUpperCase()}
+            {totalSupply.toString()} {stakingToken?.symbol?.toUpperCase()}
           </Text>
         </AutoColumn>
         <AutoColumn gap="2px">
@@ -58,7 +60,7 @@ export default function StakingPositionCard({ info, address }: { info: StakingIn
             APR
           </Text>
           <Text fontSize={16} fontWeight={300} color={theme.primary3}>
-            {info.rewardRate}%
+            {rate.toSignificant()}%
           </Text>
         </AutoColumn>
         <AutoColumn gap="2px">

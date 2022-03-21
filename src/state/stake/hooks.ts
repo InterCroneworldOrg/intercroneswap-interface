@@ -1,8 +1,9 @@
 import { JSBI, ZERO } from '@intercroneswap/v2-sdk';
 import { Interface, isAddress } from 'ethers/lib/utils';
 import { useMemo } from 'react';
-import { useMultipleContractSingleData } from '../multicall/hooks';
+import { useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks';
 import { abi as ISwapV2StakingRewards } from '@intercroneswap/v2-staking/build/StakingRewards.json';
+import { useStakingContract } from '../../hooks/useContract';
 
 const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards);
 
@@ -13,6 +14,44 @@ export type StakingInfo = {
   rewardsToken: string | undefined;
   stakingToken: string | undefined;
 };
+
+export function useTotalStakedAmount(address: string): JSBI {
+  const contract = useStakingContract(address);
+
+  const totalSupply = useSingleCallResult(contract, 'totalSupply')?.result?.[0];
+  return totalSupply ? JSBI.BigInt(totalSupply.toString()) : ZERO;
+}
+
+export function useStakingInfo(rewardsAddress: string, address?: string): StakingInfo | undefined {
+  const validatedAddress = useMemo(() => [], [rewardsAddress, address]);
+
+  const contract = useStakingContract(rewardsAddress);
+  const balance = useSingleCallResult(contract, 'balanceOf', [address]);
+  const earned = useSingleCallResult(contract, 'earned', [address]);
+  const rewardRate = useSingleCallResult(contract, 'rewardRate');
+  const rewardsToken = useSingleCallResult(contract, 'rewardsToken');
+  const stakingToken = useSingleCallResult(contract, 'stakingToken');
+
+  return useMemo(() => {
+    let value = balance.result?.[0];
+    let amount = value ? JSBI.BigInt(value.toString()) : ZERO;
+    const balanceAmount = amount;
+    value = earned?.result?.[0];
+    amount = value ? JSBI.BigInt(value.toString()) : ZERO;
+    const earnedValue = amount;
+    value = rewardRate?.result?.[0];
+    amount = value ? JSBI.BigInt(value.toString()) : ZERO;
+    const rate = amount;
+
+    return {
+      balance: balanceAmount,
+      earned: earnedValue,
+      rewardRate: rate,
+      stakingToken: stakingToken?.result?.[0],
+      rewardsToken: rewardsToken?.result?.[0],
+    };
+  }, [validatedAddress, address]);
+}
 
 /**
  * Returns a map of token addresses to their eventually consistent token balances for a single account.
