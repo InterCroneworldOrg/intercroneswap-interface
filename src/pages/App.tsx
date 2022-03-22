@@ -30,8 +30,6 @@ import RemoveLiquidity from './RemoveLiquidity';
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects';
 import Swap from './Swap';
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects';
-import { RedirectToStake, RedirectToUnStake } from './Stake/redirects';
-
 // import Vote from './Vote'
 // import VotePage from './Vote/VotePage'
 
@@ -346,8 +344,6 @@ export default function App() {
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/pool" component={Pool} />
               <Route exact strict path="/stake" component={Stake} />
-              <Route exact strict path="/stake/:stakingAddress" component={RedirectToStake} />
-              <Route exact strict path="/unstake/:stakingAddress" component={RedirectToUnStake} />
               {/* <Route exact strict path="/vote" component={Vote} /> */}
               <Route exact strict path="/votepage" component={VoteComingSoon} />
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />

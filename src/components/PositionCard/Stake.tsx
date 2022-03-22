@@ -1,9 +1,9 @@
 import { LightCard } from '../Card';
+import { unwrappedToken } from '../../utils/wrappedCurrency';
 import ExternalIcon from '../../assets/images/arrrow-external.svg';
 // GreyCard,
 import { AutoColumn } from '../Column';
 import { Text } from 'rebass';
-import { Link } from 'react-router-dom';
 // import DoubleCurrencyLogo from '../DoubleLogo';
 import { AutoRow, RowBetween } from '../Row';
 import { ButtonEmpty, ButtonPrimary } from '../Button';
@@ -13,14 +13,21 @@ import { ChevronUp, ChevronDown, ExternalLink } from 'react-feather';
 import { Divider } from '../../theme';
 import { StakingInfo, useTotalStakedAmount } from '../../state/stake/hooks';
 import { useToken } from '../../hooks/Tokens';
-import { ChainId, Percent, TokenAmount, WETH } from '@intercroneswap/v2-sdk';
+import { ChainId, Percent, Token, TokenAmount, WETH } from '@intercroneswap/v2-sdk';
+import CurrencyLogo from '../CurrencyLogo';
 
-export default function StakingPositionCard({ info, address }: { info: StakingInfo; address: string }) {
+interface StakingPositionCardProps {
+  info: StakingInfo;
+  address: string;
+  handleStake: (isStaking: boolean, address: string) => void;
+}
+
+export default function StakingPositionCard({ info, address, handleStake }: StakingPositionCardProps) {
   const theme = useContext(ThemeContext);
 
   const [showMore, setShowMore] = useState(false);
-  const stakingToken = useToken(info.stakingToken);
-  const rewardsToken = useToken(info.rewardsToken);
+  const stakingToken: Token = useToken(info.stakingPair?.token0) ?? WETH[ChainId.SHASTA];
+  const rewardsToken: Token = useToken(info.stakingPair?.token1) ?? WETH[ChainId.SHASTA];
   const earnedRewards = new TokenAmount(rewardsToken ?? WETH[ChainId.SHASTA], info.earned);
   const rate = new Percent(info.rewardRate, 8640);
   const totalSupply = useTotalStakedAmount(address);
@@ -29,11 +36,16 @@ export default function StakingPositionCard({ info, address }: { info: StakingIn
     <LightCard style={{ marginTop: '1px' }}>
       <AutoRow justify="space-between" gap="4px">
         <AutoColumn gap="0px">
-          <Text fontSize={18} fontWeight={700}>
-            Earn {rewardsToken?.symbol}
+          <CurrencyLogo currency={unwrappedToken(stakingToken)} />
+          &nbsp;
+          <Text fontWeight={500} fontSize={20}>
+            {stakingToken?.symbol}&nbsp;/
           </Text>
-          <Text fontSize={16} fontWeight={200} color={theme.primary3}>
-            Stake {stakingToken?.symbol}
+          &nbsp;
+          <CurrencyLogo currency={unwrappedToken(rewardsToken)} />
+          &nbsp;
+          <Text fontWeight={500} fontSize={20}>
+            {rewardsToken?.symbol}
           </Text>
         </AutoColumn>
         <AutoColumn gap="2px">
@@ -127,20 +139,18 @@ export default function StakingPositionCard({ info, address }: { info: StakingIn
                 <ButtonPrimary
                   padding="8px"
                   borderRadius="8px"
-                  as={Link}
-                  to={`/stake/${address}`}
                   width="48%"
                   style={{ color: '#000' }}
+                  onClick={() => handleStake(true, address)}
                 >
                   Stake
                 </ButtonPrimary>
                 <ButtonPrimary
                   padding="8px"
                   borderRadius="8px"
-                  as={Link}
                   width="48%"
                   style={{ color: '#000' }}
-                  to={`/unstake/${address}`}
+                  onClick={() => handleStake(false, address)}
                 >
                   Unstake
                 </ButtonPrimary>

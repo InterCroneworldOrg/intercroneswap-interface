@@ -3,9 +3,18 @@ import { Interface, isAddress } from 'ethers/lib/utils';
 import { useMemo } from 'react';
 import { useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks';
 import { abi as ISwapV2StakingRewards } from '@intercroneswap/v2-staking/build/StakingRewards.json';
+import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/IISwapV1Pair.json';
 import { useStakingContract } from '../../hooks/useContract';
 
+const PairInterface = new Interface(ISwapV1PairABI);
 const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards);
+
+interface PairInfo {
+  token0: string;
+  token1: string;
+  reserve0: JSBI;
+  reserve1: JSBI;
+}
 
 export type StakingInfo = {
   balance: JSBI;
@@ -13,6 +22,7 @@ export type StakingInfo = {
   rewardRate: JSBI;
   rewardsToken: string | undefined;
   stakingToken: string | undefined;
+  stakingPair: PairInfo | undefined;
 };
 
 export function useTotalStakedAmount(address: string): JSBI {
@@ -20,37 +30,6 @@ export function useTotalStakedAmount(address: string): JSBI {
 
   const totalSupply = useSingleCallResult(contract, 'totalSupply')?.result?.[0];
   return totalSupply ? JSBI.BigInt(totalSupply.toString()) : ZERO;
-}
-
-export function useStakingInfo(rewardsAddress: string, address?: string): StakingInfo | undefined {
-  const validatedAddress = useMemo(() => [], [rewardsAddress, address]);
-
-  const contract = useStakingContract(rewardsAddress);
-  const balance = useSingleCallResult(contract, 'balanceOf', [address]);
-  const earned = useSingleCallResult(contract, 'earned', [address]);
-  const rewardRate = useSingleCallResult(contract, 'rewardRate');
-  const rewardsToken = useSingleCallResult(contract, 'rewardsToken');
-  const stakingToken = useSingleCallResult(contract, 'stakingToken');
-
-  return useMemo(() => {
-    let value = balance.result?.[0];
-    let amount = value ? JSBI.BigInt(value.toString()) : ZERO;
-    const balanceAmount = amount;
-    value = earned?.result?.[0];
-    amount = value ? JSBI.BigInt(value.toString()) : ZERO;
-    const earnedValue = amount;
-    value = rewardRate?.result?.[0];
-    amount = value ? JSBI.BigInt(value.toString()) : ZERO;
-    const rate = amount;
-
-    return {
-      balance: balanceAmount,
-      earned: earnedValue,
-      rewardRate: rate,
-      stakingToken: stakingToken?.result?.[0],
-      rewardsToken: rewardsToken?.result?.[0],
-    };
-  }, [validatedAddress, address]);
 }
 
 /**
@@ -89,6 +68,10 @@ export function useStakingBalancesWithLoadingIndicator(
     ISwapV2StakingRewardsInterface,
     'stakingToken',
   );
+  const stakingPools = stakingToken?.map((stakingToken) => stakingToken?.result?.[0]);
+  const stakingPoolToken0 = useMultipleContractSingleData(stakingPools, PairInterface, 'token0');
+  const stakingPoolToken1 = useMultipleContractSingleData(stakingPools, PairInterface, 'token1');
+  const stakingPoolReserves = useMultipleContractSingleData(stakingPools, PairInterface, 'getReserves');
 
   const anyLoading: boolean = useMemo(() => balances.some((callState) => callState.loading), [balances]);
 
@@ -107,12 +90,23 @@ export function useStakingBalancesWithLoadingIndicator(
               amount = value ? JSBI.BigInt(value.toString()) : ZERO;
               const rate = amount;
 
+              value = stakingPoolReserves?.[i]?.result?.reserve0;
+              const reserve0 = value ? JSBI.BigInt(value.toString()) : ZERO;
+              value = stakingPoolReserves?.[i]?.result?.reserve1;
+              const reserve1 = value ? JSBI.BigInt(value.toString()) : ZERO;
+
               memo[reward] = {
                 balance: balance,
                 earned: earnedValue,
                 rewardRate: rate,
                 rewardsToken: rewardsToken?.[i]?.result?.[0],
                 stakingToken: stakingToken?.[i]?.result?.[0],
+                stakingPair: {
+                  token0: stakingPoolToken0?.[i]?.result?.[0],
+                  token1: stakingPoolToken1?.[i]?.result?.[0],
+                  reserve0,
+                  reserve1,
+                },
               };
               return memo;
             }, {})

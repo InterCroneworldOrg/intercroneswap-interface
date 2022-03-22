@@ -1,9 +1,8 @@
-import { useContext, useMemo } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 // import { useUserHasLiquidityInAllTokens } from '../../data/V';
-import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks';
 import { TYPE, HideSmall, Divider, Button } from '../../theme';
 import { Text } from 'rebass';
 import { GreyCard, LightCard } from '../../components/Card';
@@ -12,12 +11,11 @@ import { ButtonPrimary, ButtonSecondary } from '../../components/Button';
 import { AutoColumn } from '../../components/Column';
 
 import { useActiveWeb3React } from '../../hooks';
-import { usePairs } from '../../data/Reserves';
-import { useAsyncV1LiquidityTokens, useTrackedTokenPairs } from '../../state/user/hooks';
 import { Dots } from '../../components/swap/styleds';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import StakingPositionCard from '../../components/PositionCard/Stake';
-import { useStakingBalancesWithLoadingIndicator } from '../../state/stake/hooks';
+import { StakingInfo, useStakingBalancesWithLoadingIndicator } from '../../state/stake/hooks';
+import StakeModal from './StakeModal';
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 80%;
@@ -103,44 +101,60 @@ export default function Stake() {
   const theme = useContext(ThemeContext);
   const { account } = useActiveWeb3React();
 
-  // fetch the user's balances of all tracked V1 LP tokens
-  const trackedTokenPairs = useTrackedTokenPairs();
-  const tokenPairsWithLiquidityTokens = useAsyncV1LiquidityTokens(trackedTokenPairs);
-  const liquidityTokens = useMemo(
-    () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
-    [tokenPairsWithLiquidityTokens],
-  );
-  const [v1PairsBalances, fetchingV1PairBalances] = useTokenBalancesWithLoadingIndicator(
-    account ?? undefined,
-    liquidityTokens,
-  );
   const [stakingInfos, fetchingStakingInfos] = useStakingBalancesWithLoadingIndicator(
     rewardsAddresses,
     account ?? undefined,
   );
 
-  // fetch the reserves for all V1 pools in which the user has a balance
-  const liquidityTokensWithBalances = useMemo(
-    () =>
-      tokenPairsWithLiquidityTokens.filter(({ liquidityToken }) =>
-        v1PairsBalances[liquidityToken.address]?.greaterThan('0'),
-      ),
-    [tokenPairsWithLiquidityTokens, v1PairsBalances],
-  );
+  const [stakeAddress, setStakeAddress] = useState<string>('');
+  const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
+  const [showStake, setShowStake] = useState<boolean>(false);
+  const [showUnStake, setShowUnstake] = useState<boolean>(false);
 
-  const v1Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens));
-  const v1IsLoading =
-    fetchingV1PairBalances ||
-    fetchingStakingInfos ||
-    v1Pairs?.length < liquidityTokensWithBalances.length ||
-    v1Pairs?.some((V1Pair) => !V1Pair);
+  const v1IsLoading = fetchingStakingInfos;
 
-  // const allV1PairsWithLiquidity = v1Pairs.map(([, pair]) => pair).filter((v1Pair): v1Pair is Pair => Boolean(v1Pair));
   const toggleWalletModal = useWalletModalToggle();
+
+  const handleStake = (isStaking: boolean, address: string) => {
+    if (isStaking) {
+      setShowStake(true);
+    } else {
+      setShowUnstake(true);
+    }
+    setStakeAddress(address);
+    setStakeInfo(stakingInfos[address]);
+  };
+
+  const handleDismissStake = useCallback(() => {
+    setShowStake(false);
+    setStakeAddress('');
+    setStakeInfo(undefined);
+  }, [stakeAddress]);
+
+  const handleDismissUnStake = useCallback(() => {
+    setShowUnstake(false);
+    setStakeAddress('');
+    setStakeInfo(undefined);
+  }, [stakeAddress]);
 
   return (
     <>
       <PageWrapper>
+        <StakeModal
+          isOpen={showStake}
+          isStaking={true}
+          stakingAddress={stakeAddress}
+          stakingInfo={stakeInfo}
+          onDismiss={handleDismissStake}
+        />
+        <StakeModal
+          isOpen={showUnStake}
+          isStaking={false}
+          stakingAddress={stakeAddress}
+          stakingInfo={stakeInfo}
+          onDismiss={handleDismissUnStake}
+        />
+
         <LightCard style={{ marginTop: '20px' }}>
           {!account ? (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -193,6 +207,7 @@ export default function Stake() {
                       key={contract}
                       info={stakingInfos[contract]}
                       address={contract}
+                      handleStake={handleStake}
                     ></StakingPositionCard>
                   ))}
                 </>
