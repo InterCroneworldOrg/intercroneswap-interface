@@ -277,7 +277,7 @@ const Marginer = styled.div`
 // }
 // `
 
-const StyledHeading = styled.h1`
+export const StyledHeading = styled.h1`
   text-transform: uppercase;
   font-family: Jost;
   font-style: normal;
@@ -318,7 +318,6 @@ export default function App() {
         <HeaderWrapper>
           <Header />
         </HeaderWrapper>
-        <StyledHeading>Welcome to InterCrone World</StyledHeading>
         <BodyWrapper>
           {/* <YellowStar></YellowStar>
           <CGreen></CGreen>

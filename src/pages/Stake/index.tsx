@@ -16,6 +16,7 @@ import { useWalletModalToggle } from '../../state/application/hooks';
 import StakingPositionCard from '../../components/PositionCard/Stake';
 import { StakingInfo, useStakingBalancesWithLoadingIndicator } from '../../state/stake/hooks';
 import StakeModal from './StakeModal';
+import { StyledHeading } from '../App';
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 80%;
@@ -108,37 +109,34 @@ export default function Stake() {
 
   const [stakeAddress, setStakeAddress] = useState<string>('');
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
+  const [lpBalance, setLPBalance] = useState<string | undefined>(undefined);
   const [showStake, setShowStake] = useState<boolean>(false);
-  const [showUnStake, setShowUnstake] = useState<boolean>(false);
 
   const v1IsLoading = fetchingStakingInfos;
 
   const toggleWalletModal = useWalletModalToggle();
 
-  const handleStake = (isStaking: boolean, address: string) => {
-    if (isStaking) {
-      setShowStake(true);
-    } else {
-      setShowUnstake(true);
-    }
+  const handleStake = (isStaking: boolean, address: string, pairSupply?: string) => {
+    setShowStake(true);
     setStakeAddress(address);
     setStakeInfo(stakingInfos[address]);
+    setLPBalance(pairSupply);
   };
 
   const handleDismissStake = useCallback(() => {
     setShowStake(false);
     setStakeAddress('');
     setStakeInfo(undefined);
+    setLPBalance(undefined);
   }, [stakeAddress]);
-
-  const handleDismissUnStake = useCallback(() => {
-    setShowUnstake(false);
-    setStakeAddress('');
-    setStakeInfo(undefined);
-  }, [stakeAddress]);
+  console.log(lpBalance, 'lpBalance');
+  
 
   return (
     <>
+      <StyledHeading>
+        LP Staking
+      </StyledHeading>
       <PageWrapper>
         <StakeModal
           isOpen={showStake}
@@ -146,15 +144,8 @@ export default function Stake() {
           stakingAddress={stakeAddress}
           stakingInfo={stakeInfo}
           onDismiss={handleDismissStake}
+          balance={lpBalance}
         />
-        <StakeModal
-          isOpen={showUnStake}
-          isStaking={false}
-          stakingAddress={stakeAddress}
-          stakingInfo={stakeInfo}
-          onDismiss={handleDismissUnStake}
-        />
-
         <LightCard style={{ marginTop: '20px' }}>
           {!account ? (
             <div style={{ display: 'flex', justifyContent: 'center' }}>

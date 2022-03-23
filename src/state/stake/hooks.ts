@@ -1,10 +1,13 @@
 import { JSBI, ZERO } from '@intercroneswap/v2-sdk';
 import { Interface, isAddress } from 'ethers/lib/utils';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks';
 import { abi as ISwapV2StakingRewards } from '@intercroneswap/v2-staking/build/StakingRewards.json';
 import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/IISwapV1Pair.json';
 import { useStakingContract } from '../../hooks/useContract';
+import { AppDispatch, AppState } from '..';
+import { useDispatch, useSelector } from 'react-redux';
+import { typeInput } from './actions';
 
 const PairInterface = new Interface(ISwapV1PairABI);
 const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards);
@@ -24,6 +27,27 @@ export type StakingInfo = {
   stakingToken: string | undefined;
   stakingPair: PairInfo | undefined;
 };
+
+export function useStakeState(): AppState['stake'] {
+  return useSelector<AppState, AppState['stake']>((state) => state.stake);
+}
+
+export function useStakeActionHandlers(): {
+  onUserInput: (typedValue: string) => void;
+} {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const onFieldChange = useCallback(
+    (typedValue: string) => {
+      dispatch(typeInput({ typedValue }));
+    },
+    [dispatch],
+  );
+
+  return {
+    onUserInput: onFieldChange,
+  }
+}
 
 export function useTotalStakedAmount(address: string): JSBI {
   const contract = useStakingContract(address);
