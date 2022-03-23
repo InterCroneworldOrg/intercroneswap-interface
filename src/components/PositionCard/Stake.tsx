@@ -20,27 +20,30 @@ import { useTotalSupply } from '../../data/TotalSupply';
 interface StakingPositionCardProps {
   info: StakingInfo;
   address: string;
-  handleStake: (isStaking: boolean, address: string, lpSupply?: string) => void;
+  handleStake: (
+    isStaking: boolean,
+    address: string,
+    lpSupply?: TokenAmount,
+    token0?: TokenAmount,
+    token1?: TokenAmount,
+  ) => void;
 }
 
 export default function StakingPositionCard({ info, address, handleStake }: StakingPositionCardProps) {
   const theme = useContext(ThemeContext);
 
   const [showMore, setShowMore] = useState(false);
-  const stakingToken: Token | null | undefined = useToken(info.stakingPair?.token0);
-  const rewardsToken: Token | null | undefined = useToken(info.stakingPair?.token1);
-  const token0Loading = stakingToken === null || stakingToken === undefined;
-  const token1Loading = rewardsToken === null || rewardsToken === undefined;
-  const [pairState, lpPair] = usePair(
-    stakingToken === null ? undefined : stakingToken,
-    rewardsToken === null ? undefined : rewardsToken,
-  );
+  const token0: Token | null | undefined = useToken(info.stakingPair?.token0);
+  const token1: Token | null | undefined = useToken(info.stakingPair?.token1);
+  const token0Loading = token0 === null || token0 === undefined;
+  const token1Loading = token1 === null || token1 === undefined;
+  const [pairState, lpPair] = usePair(token0 === null ? undefined : token0, token1 === null ? undefined : token1);
   const pairSupply = useTotalSupply(lpPair?.liquidityToken);
   if (pairState === PairState.LOADING) {
     console.log('loading');
   }
   // console.log(lpPair, pairState, pairSupply, 'pair');
-  const earnedRewards = new TokenAmount(rewardsToken ?? WETH[ChainId.SHASTA], info.earned);
+  const earnedRewards = new TokenAmount(token1 ?? WETH[ChainId.SHASTA], info.earned);
   const rate = new Percent(info.rewardRate, 8640);
 
   return (
@@ -48,16 +51,16 @@ export default function StakingPositionCard({ info, address, handleStake }: Stak
       <AutoRow justify="space-between" gap="0px">
         <AutoColumn gap="0px">
           <AutoRow>
-            <CurrencyLogo currency={token0Loading ? undefined : unwrappedToken(stakingToken)} />
+            <CurrencyLogo currency={token0Loading ? undefined : unwrappedToken(token0)} />
             &nbsp;
             <Text fontWeight={500} fontSize={20}>
-              {stakingToken?.symbol}&nbsp;/
+              {token0?.symbol}&nbsp;/
             </Text>
             &nbsp;
-            <CurrencyLogo currency={token1Loading ? undefined : unwrappedToken(rewardsToken)} />
+            <CurrencyLogo currency={token1Loading ? undefined : unwrappedToken(token1)} />
             &nbsp;
             <Text fontWeight={500} fontSize={20}>
-              {rewardsToken?.symbol}
+              {token1?.symbol}
             </Text>
           </AutoRow>
         </AutoColumn>
@@ -92,7 +95,7 @@ export default function StakingPositionCard({ info, address, handleStake }: Stak
               borderRadius="8px"
               width="48%"
               style={{ color: '#000' }}
-              onClick={() => handleStake(true, address, pairSupply?.toSignificant())}
+              onClick={() => handleStake(true, address, pairSupply, lpPair?.reserve0, lpPair?.reserve1)}
             >
               Stake
             </ButtonPrimary>
@@ -101,7 +104,7 @@ export default function StakingPositionCard({ info, address, handleStake }: Stak
               borderRadius="8px"
               width="48%"
               style={{ color: '#000' }}
-              onClick={() => handleStake(false, address, pairSupply?.toSignificant())}
+              onClick={() => handleStake(false, address, pairSupply, lpPair?.reserve0, lpPair?.reserve1)}
             >
               Unstake
             </ButtonPrimary>

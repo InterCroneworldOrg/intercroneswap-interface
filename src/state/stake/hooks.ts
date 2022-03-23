@@ -46,7 +46,7 @@ export function useStakeActionHandlers(): {
 
   return {
     onUserInput: onFieldChange,
-  }
+  };
 }
 
 export function useTotalStakedAmount(address: string): JSBI {

@@ -17,6 +17,7 @@ import StakingPositionCard from '../../components/PositionCard/Stake';
 import { StakingInfo, useStakingBalancesWithLoadingIndicator } from '../../state/stake/hooks';
 import StakeModal from './StakeModal';
 import { StyledHeading } from '../App';
+import { TokenAmount } from '@intercroneswap/v2-sdk';
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 80%;
@@ -109,18 +110,28 @@ export default function Stake() {
 
   const [stakeAddress, setStakeAddress] = useState<string>('');
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
-  const [lpBalance, setLPBalance] = useState<string | undefined>(undefined);
+  const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
+  const [token0Amount, setToken0Amount] = useState<TokenAmount | undefined>(undefined);
+  const [token1Amount, setToken1Amount] = useState<TokenAmount | undefined>(undefined);
   const [showStake, setShowStake] = useState<boolean>(false);
 
   const v1IsLoading = fetchingStakingInfos;
 
   const toggleWalletModal = useWalletModalToggle();
 
-  const handleStake = (isStaking: boolean, address: string, pairSupply?: string) => {
+  const handleStake = (
+    isStaking: boolean,
+    address: string,
+    pairSupply?: TokenAmount,
+    token0Amount?: TokenAmount,
+    token1Amount?: TokenAmount,
+  ) => {
     setShowStake(true);
     setStakeAddress(address);
     setStakeInfo(stakingInfos[address]);
     setLPBalance(pairSupply);
+    setToken0Amount(token0Amount);
+    setToken1Amount(token1Amount);
   };
 
   const handleDismissStake = useCallback(() => {
@@ -128,15 +139,14 @@ export default function Stake() {
     setStakeAddress('');
     setStakeInfo(undefined);
     setLPBalance(undefined);
-  }, [stakeAddress]);
+    setToken0Amount(undefined);
+    setToken1Amount(undefined);
+  }, [stakeAddress, showStake]);
   console.log(lpBalance, 'lpBalance');
-  
 
   return (
     <>
-      <StyledHeading>
-        LP Staking
-      </StyledHeading>
+      <StyledHeading>LP Staking</StyledHeading>
       <PageWrapper>
         <StakeModal
           isOpen={showStake}
@@ -145,6 +155,8 @@ export default function Stake() {
           stakingInfo={stakeInfo}
           onDismiss={handleDismissStake}
           balance={lpBalance}
+          token0={token0Amount}
+          token1={token1Amount}
         />
         <LightCard style={{ marginTop: '20px' }}>
           {!account ? (
