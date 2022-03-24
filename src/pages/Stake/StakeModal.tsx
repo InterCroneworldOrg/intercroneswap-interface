@@ -54,6 +54,44 @@ export default function StakeModal({
     [onUserInput],
   );
 
+  async function doWithdraw() {
+    if (!chainId || !library || !account) {
+      return;
+    }
+
+    console.log('Calling withdraw');
+    
+    const stakingContract = getStakingContract(chainId, stakingAddress, library, account);
+    if (!stakeState?.typedValue || !balance) {
+      return;
+    }
+    const estimate = stakingContract.estimateGas.withdraw;
+    const method: (...args: any) => Promise<TransactionResponse> = stakingContract.withdraw;
+    const args: Array<string | string[] | number> = [
+      JSBI.BigInt(stakeState.typedValue).toString(),
+    ];
+    setAttemptingTxn(true);
+    await estimate(...args, {})
+      .then(() =>
+        method(...args, {
+          ...{},
+          gasLimit: DEFAULT_FEE_LIMIT,
+        }).then((response) => {
+          setAttemptingTxn(false);
+          addTransaction(response, {
+            summary: `Withdraw ${stakeState.typedValue}`,
+          });
+          setTxHash(response.hash);
+        }),
+      )
+      .catch((err) => {
+        setAttemptingTxn(false);
+        if (err?.code !== 4001) {
+          console.error(err);
+        }
+      });
+  }
+
   async function doStake() {
     if (!chainId || !library || !account) {
       console.log('Stopping stake while we dont have required web3');
@@ -67,7 +105,10 @@ export default function StakeModal({
     }
     const estimate = stakingContract.estimateGas.stake;
     const method: (...args: any) => Promise<TransactionResponse> = stakingContract.stake;
-    const args: Array<string | string[] | number> = [JSBI.BigInt(stakeState.typedValue).toString()];
+    const args: Array<string | string[] | number> = [
+      JSBI.BigInt(stakeState.typedValue).toString(),
+      '0xfe29c9e5a34ca3fd941ecd9b1f4933e59c52648d',
+    ];
     setAttemptingTxn(true);
     await estimate(...args, {})
       .then(() =>
@@ -113,7 +154,7 @@ export default function StakeModal({
             Approve {token1?.token.symbol}
           </ButtonPrimary>
         )}
-        <ButtonPrimary width="50%" onClick={doStake}>
+        <ButtonPrimary width="50%" onClick={isStaking ? doStake : doWithdraw}>
           {isStaking ? 'Deposit' : 'Withdraw'}
         </ButtonPrimary>
       </AutoRow>

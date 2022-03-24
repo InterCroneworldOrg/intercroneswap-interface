@@ -95,8 +95,7 @@ const ResponsiveButtonSecondary = styled(ButtonSecondary)`
 // `;
 
 const rewardsAddresses: string[] = [
-  '0x85c4a3ca3cc1771ccdcd31cc9c58f18a24be62b6',
-  '0x12cc8d307c3fb3bdea8f6b0d1784b1bcc4dff599',
+  '0x059b4918b7ad02324fc9c1bb6b21517b17770159',
 ];
 
 export default function Stake() {
@@ -109,6 +108,7 @@ export default function Stake() {
   );
 
   const [stakeAddress, setStakeAddress] = useState<string>('');
+  const [isStaking, setIsStaking] = useState<boolean>(true);
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
   const [token0Amount, setToken0Amount] = useState<TokenAmount | undefined>(undefined);
@@ -127,6 +127,7 @@ export default function Stake() {
     token1Amount?: TokenAmount,
   ) => {
     setShowStake(true);
+    setIsStaking(isStaking);
     setStakeAddress(address);
     setStakeInfo(stakingInfos[address]);
     setLPBalance(pairSupply);
@@ -142,7 +143,6 @@ export default function Stake() {
     setToken0Amount(undefined);
     setToken1Amount(undefined);
   }, [stakeAddress, showStake]);
-  console.log(lpBalance, 'lpBalance');
 
   return (
     <>
@@ -150,7 +150,7 @@ export default function Stake() {
       <PageWrapper>
         <StakeModal
           isOpen={showStake}
-          isStaking={true}
+          isStaking={isStaking}
           stakingAddress={stakeAddress}
           stakingInfo={stakeInfo}
           onDismiss={handleDismissStake}
