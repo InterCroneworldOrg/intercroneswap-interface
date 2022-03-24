@@ -94,9 +94,7 @@ const ResponsiveButtonSecondary = styled(ButtonSecondary)`
 //   align-items: center;
 // `;
 
-const rewardsAddresses: string[] = [
-  '0x059b4918b7ad02324fc9c1bb6b21517b17770159',
-];
+const rewardsAddresses: string[] = ['0x059b4918b7ad02324fc9c1bb6b21517b17770159'];
 
 export default function Stake() {
   const theme = useContext(ThemeContext);
