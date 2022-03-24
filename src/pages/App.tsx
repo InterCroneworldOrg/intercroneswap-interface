@@ -24,12 +24,12 @@ import { VoteComingSoon } from './Vote/vote';
 // import MigrateVExchange from './MigrateV/MigrateVExchange'
 // import RemoveVExchange from './MigrateV/RemoveVExchange'
 import Pool from './Pool';
+import Stake from './Stake';
 import PoolFinder from './PoolFinder';
 import RemoveLiquidity from './RemoveLiquidity';
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects';
 import Swap from './Swap';
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects';
-
 // import Vote from './Vote'
 // import VotePage from './Vote/VotePage'
 
@@ -277,7 +277,7 @@ const Marginer = styled.div`
 // }
 // `
 
-const StyledHeading = styled.h1`
+export const StyledHeading = styled.h1`
   text-transform: uppercase;
   font-family: Jost;
   font-style: normal;
@@ -318,7 +318,6 @@ export default function App() {
         <HeaderWrapper>
           <Header />
         </HeaderWrapper>
-        <StyledHeading>Welcome to InterCrone World</StyledHeading>
         <BodyWrapper>
           {/* <YellowStar></YellowStar>
           <CGreen></CGreen>
@@ -343,6 +342,7 @@ export default function App() {
               <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/pool" component={Pool} />
+              <Route exact strict path="/stake" component={Stake} />
               {/* <Route exact strict path="/vote" component={Vote} /> */}
               <Route exact strict path="/votepage" component={VoteComingSoon} />
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
