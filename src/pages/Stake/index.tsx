@@ -111,31 +111,19 @@ export default function Stake() {
   );
 
   const [stakeAddress, setStakeAddress] = useState<string>('');
-  const [isStaking, setIsStaking] = useState<boolean>(true);
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
-  const [token0Amount, setToken0Amount] = useState<TokenAmount | undefined>(undefined);
-  const [token1Amount, setToken1Amount] = useState<TokenAmount | undefined>(undefined);
   const [showStake, setShowStake] = useState<boolean>(false);
 
   const v1IsLoading = fetchingStakingInfos;
 
   const toggleWalletModal = useWalletModalToggle();
 
-  const handleStake = (
-    isStaking: boolean,
-    address: string,
-    pairSupply?: TokenAmount,
-    token0Amount?: TokenAmount,
-    token1Amount?: TokenAmount,
-  ) => {
+  const handleStake = (address: string, pairSupply?: TokenAmount) => {
     setShowStake(true);
-    setIsStaking(isStaking);
     setStakeAddress(address);
     setStakeInfo(stakingInfos[address]);
     setLPBalance(pairSupply);
-    setToken0Amount(token0Amount);
-    setToken1Amount(token1Amount);
   };
 
   const handleDismissStake = useCallback(() => {
@@ -143,8 +131,6 @@ export default function Stake() {
     setStakeAddress('');
     setStakeInfo(undefined);
     setLPBalance(undefined);
-    setToken0Amount(undefined);
-    setToken1Amount(undefined);
   }, [stakeAddress, showStake]);
 
   return (
@@ -153,13 +139,10 @@ export default function Stake() {
       <PageWrapper>
         <StakeModal
           isOpen={showStake}
-          isStaking={isStaking}
           stakingAddress={stakeAddress}
           stakingInfo={stakeInfo}
           onDismiss={handleDismissStake}
           balance={lpBalance}
-          token0={token0Amount}
-          token1={token1Amount}
         />
         <LightCard style={{ marginTop: '20px' }}>
           {!account ? (

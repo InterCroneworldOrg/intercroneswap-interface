@@ -8,6 +8,7 @@ import { useStakingContract } from '../../hooks/useContract';
 import { AppDispatch, AppState } from '..';
 import { useDispatch, useSelector } from 'react-redux';
 import { typeInput } from './actions';
+import { BigNumber } from 'ethers';
 
 const PairInterface = new Interface(ISwapV1PairABI);
 const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards);
@@ -23,6 +24,7 @@ export type StakingInfo = {
   balance: JSBI;
   earned: JSBI;
   rewardRate: JSBI;
+  periodFinish: BigNumber;
   rewardsToken: string | undefined;
   stakingToken: string | undefined;
   stakingPair: PairInfo | undefined;
@@ -82,6 +84,11 @@ export function useStakingBalancesWithLoadingIndicator(
     ISwapV2StakingRewardsInterface,
     'rewardRate',
   );
+  const periodFinish = useMultipleContractSingleData(
+    validatedRewardsAddresses,
+    ISwapV2StakingRewardsInterface,
+    'periodFinish',
+  );
   const rewardsToken = useMultipleContractSingleData(
     validatedRewardsAddresses,
     ISwapV2StakingRewardsInterface,
@@ -124,6 +131,7 @@ export function useStakingBalancesWithLoadingIndicator(
                 earned: earnedValue,
                 rewardRate: rate,
                 rewardsToken: rewardsToken?.[i]?.result?.[0],
+                periodFinish: periodFinish?.[i]?.result?.[0],
                 stakingToken: stakingToken?.[i]?.result?.[0],
                 stakingPair: {
                   token0: stakingPoolToken0?.[i]?.result?.[0],

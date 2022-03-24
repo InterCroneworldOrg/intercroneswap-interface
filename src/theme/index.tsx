@@ -65,7 +65,7 @@ export function colors(darkMode: boolean): Colors {
     // bg2: darkMode ? '#2C2F36' : '#F7F8FA',
     // bg3: darkMode ? '#40444F' : '#EDEEF2',
     bg3: darkMode ? 'rgba(196, 196, 196, 0.1)' : '#EDEEF2',
-    bg4: darkMode ? 'rgba(196, 196, 196, 0.1);' : '#CED0D9',
+    bg4: darkMode ? 'rgba(196, 196, 196, 0.1)' : '#CED0D9',
     bg5: darkMode ? '#6C7284' : '#888D9B',
     bgSWAP6: darkMode ? '#ed7b17' : '#ed7b17',
     cardsBoxShadowTopLeftcorner: darkMode ? 'rgb(234 212 16)' : '#363cffbf',

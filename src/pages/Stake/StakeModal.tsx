@@ -2,7 +2,7 @@ import { JSBI, TokenAmount } from '@intercroneswap/v2-sdk';
 import { useCallback, useContext, useState } from 'react';
 import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
-import { ButtonPrimary, ButtonSecondary } from '../../components/Button';
+import { ButtonEmpty, ButtonPrimary } from '../../components/Button';
 import { AutoColumn } from '../../components/Column';
 import NumericalInput from '../../components/NumericalInput';
 import { AutoRow, RowBetween } from '../../components/Row';
@@ -14,32 +14,25 @@ import { getStakingContract } from '../../utils';
 import { TransactionResponse } from '@ethersproject/providers';
 import { DEFAULT_FEE_LIMIT } from '../../tron-config';
 import { useTransactionAdder } from '../../state/transactions/hooks';
+import { REFERRAL_ADDRESSES } from '../../constants';
+import { Tabs } from '../../components/NavigationTabs';
+import { MaxButton } from './styleds';
 // import { useStakingInfo } from '../../state/stake/hooks';
 
 interface StakeModalProps {
   isOpen: boolean;
   onDismiss: () => void;
-  isStaking: boolean;
   stakingAddress: string;
   balance?: TokenAmount;
-  token0?: TokenAmount;
-  token1?: TokenAmount;
   stakingInfo?: StakingInfo;
 }
 
-export default function StakeModal({
-  isOpen,
-  onDismiss,
-  isStaking,
-  stakingAddress,
-  token0,
-  token1,
-  balance,
-}: StakeModalProps) {
+export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance }: StakeModalProps) {
   const { account, chainId, library } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
   const stakeState = useStakeState();
 
+  const [isStaking, setIsStaking] = useState<boolean>(true);
   const { onUserInput } = useStakeActionHandlers();
 
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
@@ -89,8 +82,6 @@ export default function StakeModal({
 
   async function doStake() {
     if (!chainId || !library || !account) {
-      console.log('Stopping stake while we dont have required web3');
-
       return;
     }
 
@@ -102,7 +93,7 @@ export default function StakeModal({
     const method: (...args: any) => Promise<TransactionResponse> = stakingContract.stake;
     const args: Array<string | string[] | number> = [
       JSBI.BigInt(stakeState.typedValue).toString(),
-      '0xfe29c9e5a34ca3fd941ecd9b1f4933e59c52648d',
+      REFERRAL_ADDRESSES[chainId],
     ];
     setAttemptingTxn(true);
     await estimate(...args, {})
@@ -128,8 +119,6 @@ export default function StakeModal({
   }
 
   const [approveState, approveCallback] = useApproveCallback(balance, stakingAddress);
-  const [approveToken0, approveToken0Callback] = useApproveCallback(token0, stakingAddress);
-  const [approveToken1, approveToken1Callback] = useApproveCallback(token1, stakingAddress);
 
   const modalBottom = useCallback(() => {
     return (
@@ -139,22 +128,12 @@ export default function StakeModal({
             Approve
           </ButtonPrimary>
         )}
-        {(approveToken0 === ApprovalState.PENDING || approveToken0 === ApprovalState.NOT_APPROVED) && (
-          <ButtonPrimary width="50%" onClick={approveToken0Callback}>
-            Approve {token0?.token.symbol}
-          </ButtonPrimary>
-        )}
-        {(approveToken1 === ApprovalState.PENDING || approveToken1 === ApprovalState.NOT_APPROVED) && (
-          <ButtonPrimary width="50%" onClick={approveToken1Callback}>
-            Approve {token1?.token.symbol}
-          </ButtonPrimary>
-        )}
         <ButtonPrimary width="50%" onClick={isStaking ? doStake : doWithdraw}>
           {isStaking ? 'Deposit' : 'Withdraw'}
         </ButtonPrimary>
       </AutoRow>
     );
-  }, [stakeState, balance, isStaking, approveState, approveToken0, approveToken1]);
+  }, [stakeState, balance, isStaking, approveState]);
 
   const modalHeader = useCallback(() => {
     return (
@@ -165,20 +144,22 @@ export default function StakeModal({
             {balance?.toSignificant()}
           </Text>
         </RowBetween>
-        <RowBetween>
+        <RowBetween style={{ background: theme.bg3, borderRadius: '6px' }}>
           <NumericalInput
             className="lp-amount-input"
             value={stakeState.typedValue}
             onUserInput={handleTypeInput}
             max={balance?.toSignificant()}
           />
-          <ButtonSecondary
+          <MaxButton
+            style={{ border: theme.primary3, borderRadius: '8px', color: theme.primary3, textAlign: 'center' }}
+            width="fit-content"
             onClick={() => {
               onUserInput(balance?.toSignificant() ?? '');
             }}
           >
             MAX
-          </ButtonSecondary>
+          </MaxButton>
         </RowBetween>
       </AutoColumn>
     );
@@ -187,14 +168,20 @@ export default function StakeModal({
   // const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
   const confirmationContent = useCallback(() => {
     return (
-      <ConfirmationModalContent
-        title="Deposit"
-        onDismiss={onDismiss}
-        topContent={modalHeader}
-        bottomContent={modalBottom}
-      />
+      <AutoRow>
+        <Tabs style={{ width: '100%' }}>
+          <ButtonEmpty onClick={() => setIsStaking(!isStaking)}>Deposit</ButtonEmpty>
+          <ButtonEmpty onClick={() => setIsStaking(!isStaking)}>Withdraw</ButtonEmpty>
+        </Tabs>
+        <ConfirmationModalContent
+          title={isStaking ? 'Deposit' : 'Withdraw'}
+          onDismiss={onDismiss}
+          topContent={modalHeader}
+          bottomContent={modalBottom}
+        />
+      </AutoRow>
     );
-  }, [stakeState, balance, approveState, approveToken0, approveToken1]);
+  }, [stakeState, balance, approveState, isStaking]);
 
   return (
     <TransactionConfirmationModal
