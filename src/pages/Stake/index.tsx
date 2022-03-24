@@ -94,7 +94,12 @@ const ResponsiveButtonSecondary = styled(ButtonSecondary)`
 //   align-items: center;
 // `;
 
-const rewardsAddresses: string[] = ['0x059b4918b7ad02324fc9c1bb6b21517b17770159'];
+const rewardsAddresses: string[] = [];
+
+fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
+  .then((response) => response.json())
+  .then((responseJson) => rewardsAddresses.push(...responseJson.addresses))
+  .catch((err) => console.error(err));
 
 export default function Stake() {
   const theme = useContext(ThemeContext);
