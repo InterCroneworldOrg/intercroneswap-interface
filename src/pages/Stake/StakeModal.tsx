@@ -38,7 +38,6 @@ export default function StakeModal({
 }: StakeModalProps) {
   const { account, chainId, library } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
-  // console.log(stakingInfo, stakingAddress, theme, 'infos');
   const stakeState = useStakeState();
 
   const { onUserInput } = useStakeActionHandlers();
@@ -59,17 +58,13 @@ export default function StakeModal({
       return;
     }
 
-    console.log('Calling withdraw');
-    
     const stakingContract = getStakingContract(chainId, stakingAddress, library, account);
     if (!stakeState?.typedValue || !balance) {
       return;
     }
     const estimate = stakingContract.estimateGas.withdraw;
     const method: (...args: any) => Promise<TransactionResponse> = stakingContract.withdraw;
-    const args: Array<string | string[] | number> = [
-      JSBI.BigInt(stakeState.typedValue).toString(),
-    ];
+    const args: Array<string | string[] | number> = [JSBI.BigInt(stakeState.typedValue).toString()];
     setAttemptingTxn(true);
     await estimate(...args, {})
       .then(() =>
