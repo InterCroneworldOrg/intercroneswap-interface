@@ -1,14 +1,12 @@
 import { useCallback, useContext, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
-import { Link } from 'react-router-dom';
 
 // import { useUserHasLiquidityInAllTokens } from '../../data/V';
-import { TYPE, HideSmall, Divider, Button } from '../../theme';
-import { Text } from 'rebass';
+import { TYPE, Divider, Button } from '../../theme';
 import { GreyCard, LightCard } from '../../components/Card';
 import { AutoRow, RowBetween } from '../../components/Row';
-import { ButtonPrimary, ButtonSecondary } from '../../components/Button';
 import { AutoColumn } from '../../components/Column';
+import { Text } from 'rebass';
 
 import { useActiveWeb3React } from '../../hooks';
 import { Dots } from '../../components/swap/styleds';
@@ -32,67 +30,39 @@ const TitleRow = styled(RowBetween)`
     flex-direction: column-reverse;
   `};
 `;
-const ButtonRow = styled.div`
-  box-sizing: border-box;
-  margin: 0;
-  min-width: 0;
-  //  width: 100%;
-  // width: 05;
-  // background: aliceblue;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 0;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  gap: 8px;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-     width: 100%;
-     flex-direction: row-reverse;
-     justify-content: space-between;
-   `};
+
+const Input = styled.input<{ error?: boolean }>`
+  font-size: 1.25rem;
+  outline: none;
+  border: none;
+  flex: 1 1 auto;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.bg3};
+  transition: color 300ms ${({ error }) => (error ? 'step-end' : 'step-start')};
+  color: ${({ error, theme }) => (error ? theme.red1 : theme.primary3)};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 300;
+  width: 100%;
+  ::placeholder {
+    color: ${({ theme }) => theme.text4};
+  }
+  padding: 0px;
+  -webkit-appearance: textfield;
+
+  ::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  ::placeholder {
+    color: ${({ theme }) => theme.text4};
+  }
 `;
-
-// const ButtonRow = styled(RowFixed)`
-//   gap: 8px;
-//   ${({ theme }) => theme.mediaWidth.upToSmall`
-//     width: 100%;
-//     flex-direction: row-reverse;
-//     justify-content: space-between;
-//   `};
-// `
-
-const ResponsiveButtonPrimary = styled(ButtonPrimary)`
-  width: fit-content;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    width: 48%;
-  `};
-`;
-
-const ResponsiveButtonSecondary = styled(ButtonSecondary)`
-  // margin-left:219px;
-  width: fit-content;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    width: 48%;
-  `};
-`;
-
-// const EmptyProposals = styled.div`
-//   border: 1px solid ${({ theme }) => theme.text4};
-//   padding: 16px 12px;
-//   border-radius: 12px;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-// `;
 
 const rewardsAddresses: string[] = [];
 
@@ -156,26 +126,28 @@ export default function Stake() {
           )}
           <AutoColumn gap="lg" justify="center">
             <AutoColumn gap="lg" style={{ width: '100%' }}>
-              <div>
-                <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
-                  <HideSmall>
-                    <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
-                      Stake Liquidity Pools
-                    </TYPE.mediumHeader>
-                  </HideSmall>
-                  <ButtonRow style={{ display: 'none' }}>
-                    <ResponsiveButtonSecondary as={Link} padding="6px 8px" to="/create/TRX">
-                      Create a pair
-                    </ResponsiveButtonSecondary>
-                    <ResponsiveButtonPrimary id="join-pool-button" as={Link} padding="6px 8px" to="/add/TRX">
-                      <Text fontWeight={500} fontSize={16}>
-                        Add Liquidity
-                      </Text>
-                    </ResponsiveButtonPrimary>
-                  </ButtonRow>
-                </TitleRow>
-                <Divider />
-              </div>
+              <TitleRow style={{ marginTop: '1rem' }} textAlign="center" padding={'0'}>
+                <TYPE.mediumHeader width="100%" style={{ marginTop: '0.5rem', justifySelf: 'center' }}>
+                  Stake Liquidity Pool (LP) tokens to earn
+                </TYPE.mediumHeader>
+              </TitleRow>
+              <Divider />
+              <RowBetween>
+                <AutoColumn justify="flex-start">
+                  <Text>Search</Text>
+                  <Input
+                    spellCheck="false"
+                    placeholder="Filter by token name"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    type="text"
+                  />
+                </AutoColumn>
+                <AutoColumn>
+                  <Text>Sort by</Text>
+                </AutoColumn>
+              </RowBetween>
 
               {!account ? (
                 <GreyCard padding="12px">

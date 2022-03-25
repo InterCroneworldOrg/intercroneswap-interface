@@ -19,6 +19,7 @@ import { useTokenBalance } from '../../state/wallet/hooks';
 import { useActiveWeb3React } from '../../hooks';
 import { getEtherscanLink } from '../../utils';
 import ExternalIcon from '../../assets/images/arrrow-external.svg';
+import { Dots } from '../../pages/Stake/styleds';
 
 interface StakingPositionCardProps {
   info: StakingInfo;
@@ -97,9 +98,13 @@ export default function StakingPositionCard({ info, address, handleStake }: Stak
               </Text>
             </ExternalLink>
           </AutoRow>
-          <Text fontSize={16} fontWeight={300} color={theme.primary3}>
-            {pairSupply?.toSignificant(4)}
-          </Text>
+          {pairSupply ? (
+            <Text fontSize={16} fontWeight={300} color={theme.primary3}>
+              {pairSupply?.toSignificant(4)}
+            </Text>
+          ) : (
+            <Dots></Dots>
+          )}
         </AutoColumn>
         <AutoColumn gap="0px" style={{ width: '35%' }} justify="flex-end">
           <AutoRow gap="4px" width="100%">
@@ -131,25 +136,29 @@ export default function StakingPositionCard({ info, address, handleStake }: Stak
                 <Text fontSize="16px" fontWeight={600}>
                   Stake / Unstake
                 </Text>
-                <Text fontSize="14px" fontWeight={300}>
-                  {pairSupply?.toSignificant(4)}
-                </Text>
+                {pairSupply ? (
+                  <Text fontSize={14} fontWeight={300}>
+                    {pairSupply?.toSignificant(4)}
+                  </Text>
+                ) : (
+                  <Dots></Dots>
+                )}
               </AutoColumn>
             </ButtonPrimary>
           </AutoRow>
         </AutoColumn>
-        <AutoColumn gap="0px" justify="flex-end">
+        <AutoColumn gap="0px" justify="end">
           <ButtonEmpty padding="1px" borderRadius="6" width="fit-content" onClick={() => setShowMore(!showMore)}>
             {showMore ? (
               <>
                 {/* {' '}
                   Manage */}
-                <ChevronUp size="20" style={{ marginLeft: '1px', color: '#fff' }} />
+                <ChevronUp size="20" style={{ marginLeft: '0px', color: '#fff' }} />
               </>
             ) : (
               <>
                 {/* Manage */}
-                <ChevronDown size="20" style={{ marginLeft: '1px', color: '#fff' }} />
+                <ChevronDown size="20" style={{ marginLeft: '0px', color: '#fff' }} />
               </>
             )}
           </ButtonEmpty>

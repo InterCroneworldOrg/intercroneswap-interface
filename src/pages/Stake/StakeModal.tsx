@@ -2,7 +2,7 @@ import { JSBI, TokenAmount } from '@intercroneswap/v2-sdk';
 import { useCallback, useContext, useState } from 'react';
 import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
-import { ButtonEmpty, ButtonPrimary } from '../../components/Button';
+import { ButtonGray, ButtonPrimary } from '../../components/Button';
 import { AutoColumn } from '../../components/Column';
 import NumericalInput from '../../components/NumericalInput';
 import { AutoRow, RowBetween } from '../../components/Row';
@@ -129,7 +129,7 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance 
           </ButtonPrimary>
         )}
         <ButtonPrimary width="50%" onClick={isStaking ? doStake : doWithdraw}>
-          {isStaking ? 'Deposit' : 'Withdraw'}
+          {isStaking ? 'Deposit' : 'Remove'}
         </ButtonPrimary>
       </AutoRow>
     );
@@ -152,13 +152,23 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance 
             max={balance?.toSignificant()}
           />
           <MaxButton
-            style={{ border: theme.primary3, borderRadius: '8px', color: theme.primary3, textAlign: 'center' }}
+            style={{
+              border: theme.primary3,
+              borderWidth: '1px',
+              borderColor: theme.primary3,
+              borderStyle: 'solid',
+              borderRadius: '8px',
+              color: theme.primary3,
+              textAlign: 'center',
+              alignItems: 'center',
+              overflow: 'visible',
+            }}
             width="fit-content"
             onClick={() => {
               onUserInput(balance?.toSignificant() ?? '');
             }}
           >
-            MAX
+            <Text>MAX</Text>
           </MaxButton>
         </RowBetween>
       </AutoColumn>
@@ -169,12 +179,16 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance 
   const confirmationContent = useCallback(() => {
     return (
       <AutoRow>
-        <Tabs style={{ width: '100%' }}>
-          <ButtonEmpty onClick={() => setIsStaking(!isStaking)}>Deposit</ButtonEmpty>
-          <ButtonEmpty onClick={() => setIsStaking(!isStaking)}>Withdraw</ButtonEmpty>
+        <Tabs style={{ width: '100%', margin: '8px 14px' }}>
+          <ButtonGray width="48%" onClick={() => setIsStaking(!isStaking)}>
+            Stake
+          </ButtonGray>
+          <ButtonGray width="48%" onClick={() => setIsStaking(!isStaking)}>
+            Unstake
+          </ButtonGray>
         </Tabs>
         <ConfirmationModalContent
-          title={isStaking ? 'Deposit' : 'Withdraw'}
+          title={isStaking ? 'Deposit' : 'Remove deposit'}
           onDismiss={onDismiss}
           topContent={modalHeader}
           bottomContent={modalBottom}
