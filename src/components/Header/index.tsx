@@ -366,32 +366,32 @@ export default function Header() {
             <img width={'115px'} src={Logo} alt="logo" />
           </IswapIcon>
         </Title>
-        <HeaderLinks>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <LinksContainer>
-              <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
-                {t('swap')}
-              </StyledNavLink>
-            </LinksContainer>
-            <StyledNavLink
-              id={`pool-nav-link`}
-              to={'/pool'}
-              isActive={(match, { pathname }) =>
-                Boolean(match) ||
-                pathname.startsWith('/add') ||
-                pathname.startsWith('/remove') ||
-                pathname.startsWith('/create') ||
-                pathname.startsWith('/find')
-              }
-            >
-              {t('pool')}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <LinksContainer>
+            <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
+              {t('swap')}
             </StyledNavLink>
-            <LinksContainer>
-              <StyledNavLink id={`stake-nav-link`} to={'/stake'}>
-                {t('stake')}
-              </StyledNavLink>
-            </LinksContainer>
-          </div>
+          </LinksContainer>
+          <StyledNavLink
+            id={`pool-nav-link`}
+            to={'/pool'}
+            isActive={(match, { pathname }) =>
+              Boolean(match) ||
+              pathname.startsWith('/add') ||
+              pathname.startsWith('/remove') ||
+              pathname.startsWith('/create') ||
+              pathname.startsWith('/find')
+            }
+          >
+            {t('pool')}
+          </StyledNavLink>
+          <LinksContainer>
+            <StyledNavLink id={`stake-nav-link`} to={'/stake'}>
+              {t('Stake')}
+            </StyledNavLink>
+          </LinksContainer>
+        </div>
+        <HeaderLinks>
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>

@@ -12,7 +12,7 @@ import { ChevronUp, ChevronDown } from 'react-feather';
 import { Divider, ExternalLink } from '../../theme';
 import { StakingInfo } from '../../state/stake/hooks';
 import { useToken } from '../../hooks/Tokens';
-import { ChainId, Percent, Token, TokenAmount, WETH } from '@intercroneswap/v2-sdk';
+import { Percent, Token, TokenAmount } from '@intercroneswap/v2-sdk';
 import CurrencyLogo from '../CurrencyLogo';
 import { PairState, usePair } from '../../data/Reserves';
 import { useTokenBalance } from '../../state/wallet/hooks';
@@ -25,18 +25,20 @@ interface StakingPositionCardProps {
   info: StakingInfo;
   address: string;
   handleStake: (address: string, lpSupply?: TokenAmount) => void;
+  handleHarvest: (address: string) => void;
 }
 
-export default function StakingPositionCard({ info, address, handleStake }: StakingPositionCardProps) {
+export default function StakingPositionCard({ info, address, handleStake, handleHarvest }: StakingPositionCardProps) {
   const theme = useContext(ThemeContext);
   const { account, chainId } = useActiveWeb3React();
-
   const [showMore, setShowMore] = useState(false);
+  const rewardsToken: Token | null | undefined = useToken(info.rewardsToken);
   const token0: Token | null | undefined = useToken(info.stakingPair?.token0);
   const token1: Token | null | undefined = useToken(info.stakingPair?.token1);
   const token0Loading = token0 === null || token0 === undefined;
   const token1Loading = token1 === null || token1 === undefined;
   const [pairState, lpPair] = usePair(token0 === null ? undefined : token0, token1 === null ? undefined : token1);
+  const rewardAmount: TokenAmount | undefined = rewardsToken ? new TokenAmount(rewardsToken, info?.earned) : undefined;
   const pairSupply = useTokenBalance(account ?? undefined, lpPair?.liquidityToken);
   const stakeSupply = useTokenBalance(address, lpPair?.liquidityToken);
   if (pairState === PairState.LOADING) {
@@ -47,8 +49,8 @@ export default function StakingPositionCard({ info, address, handleStake }: Stak
   finishDate?.setSeconds(0);
   const dateDiff = finishDate ? new Date(finishDate.getTime() - Date.now()) : undefined;
   // console.log(lpPair, pairState, pairSupply, 'pair');
-  const earnedRewards = new TokenAmount(token1 ?? WETH[ChainId.SHASTA], info.earned);
   const rate = new Percent(info.rewardRate, 8640);
+  console.log(stakeSupply, 'stakeSupply');
 
   return (
     <LightCard style={{ marginTop: '2px', background: theme.bg3 }}>
@@ -68,7 +70,7 @@ export default function StakingPositionCard({ info, address, handleStake }: Stak
             </Text>
           </AutoRow>
         </AutoColumn>
-        <AutoColumn gap="2px">
+        <AutoColumn gap="1px">
           <Text fontSize={16} fontWeight={500}>
             Ends on
           </Text>
@@ -81,10 +83,10 @@ export default function StakingPositionCard({ info, address, handleStake }: Stak
             Earned / APY
           </Text>
           <Text fontSize={13} fontWeight={300} color={theme.primary3}>
-            {earnedRewards.toSignificant()} / {rate.toSignificant()}
+            {rewardAmount?.toSignificant()} / {rate.toSignificant()}
           </Text>
         </AutoColumn>
-        <AutoColumn gap="2px">
+        <AutoColumn gap="1px">
           <AutoRow gap="1px">
             <Text fontSize={16} fontWeight={500}>
               Balance
@@ -106,29 +108,28 @@ export default function StakingPositionCard({ info, address, handleStake }: Stak
             <Dots></Dots>
           )}
         </AutoColumn>
-        <AutoColumn gap="0px" style={{ width: '35%' }} justify="flex-end">
+        <AutoColumn gap="0px" style={{ width: '40%' }} justify="flex-end">
           <AutoRow gap="4px" width="100%">
             <ButtonPrimary
               padding="8px"
               borderRadius="8px"
-              width="48%"
-              disabled={true}
+              width="45%"
               style={{ color: '#000' }}
-              onClick={() => console.log('Harvest is In development')}
+              onClick={() => handleHarvest(address)}
             >
               <AutoColumn>
                 <Text fontSize="16px" fontWeight={600}>
                   Harvest
                 </Text>
                 <Text fontSize="14px" fontWeight={300}>
-                  In development
+                  {rewardAmount?.toSignificant(4)}
                 </Text>
               </AutoColumn>
             </ButtonPrimary>
             <ButtonPrimary
               padding="8px"
               borderRadius="8px"
-              width="48%"
+              width="45%"
               style={{ color: '#000' }}
               onClick={() => handleStake(address, pairSupply)}
             >
@@ -145,23 +146,21 @@ export default function StakingPositionCard({ info, address, handleStake }: Stak
                 )}
               </AutoColumn>
             </ButtonPrimary>
-          </AutoRow>
-        </AutoColumn>
-        <AutoColumn gap="0px" justify="end">
-          <ButtonEmpty padding="1px" borderRadius="6" width="fit-content" onClick={() => setShowMore(!showMore)}>
-            {showMore ? (
-              <>
-                {/* {' '}
+            <ButtonEmpty padding="0px" borderRadius="6" width="5%" onClick={() => setShowMore(!showMore)}>
+              {showMore ? (
+                <>
+                  {/* {' '}
                   Manage */}
-                <ChevronUp size="20" style={{ marginLeft: '0px', color: '#fff' }} />
-              </>
-            ) : (
-              <>
-                {/* Manage */}
-                <ChevronDown size="20" style={{ marginLeft: '0px', color: '#fff' }} />
-              </>
-            )}
-          </ButtonEmpty>
+                  <ChevronUp size="20" style={{ marginLeft: '0px', color: '#fff' }} />
+                </>
+              ) : (
+                <>
+                  {/* Manage */}
+                  <ChevronDown size="20" style={{ marginLeft: '0px', color: '#fff' }} />
+                </>
+              )}
+            </ButtonEmpty>
+          </AutoRow>
         </AutoColumn>
       </AutoRow>
 
@@ -180,7 +179,7 @@ export default function StakingPositionCard({ info, address, handleStake }: Stak
               Liquidity
             </Text>
             <Text fontSize={16} fontWeight={500} color={theme.primary3}>
-              {stakeSupply?.toSignificant(4)}
+              {stakeSupply?.toExact()}
             </Text>
             <AutoColumn>
               <ExternalLink

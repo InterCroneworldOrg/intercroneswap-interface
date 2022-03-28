@@ -16,6 +16,7 @@ import { StakingInfo, useStakingBalancesWithLoadingIndicator } from '../../state
 import StakeModal from './StakeModal';
 import { StyledHeading } from '../App';
 import { TokenAmount } from '@intercroneswap/v2-sdk';
+import HarvestModal from './HarvestModal';
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 80%;
@@ -84,10 +85,21 @@ export default function Stake() {
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
   const [showStake, setShowStake] = useState<boolean>(false);
+  const [showHarvest, setShowHarvest] = useState<boolean>(false);
 
   const v1IsLoading = fetchingStakingInfos;
 
   const toggleWalletModal = useWalletModalToggle();
+
+  const handleHarvest = (address: string) => {
+    setStakeAddress(address);
+    setShowHarvest(true);
+  };
+
+  const handleDismissHarvest = () => {
+    setStakeAddress('');
+    setShowHarvest(false);
+  };
 
   const handleStake = (address: string, pairSupply?: TokenAmount) => {
     setShowStake(true);
@@ -113,6 +125,12 @@ export default function Stake() {
           stakingInfo={stakeInfo}
           onDismiss={handleDismissStake}
           balance={lpBalance}
+        />
+        <HarvestModal
+          isOpen={showHarvest}
+          stakingAddress={stakeAddress}
+          stakingInfo={stakeInfo}
+          onDismiss={handleDismissHarvest}
         />
         <LightCard style={{ marginTop: '20px' }}>
           {!account ? (
@@ -169,6 +187,7 @@ export default function Stake() {
                       info={stakingInfos[contract]}
                       address={contract}
                       handleStake={handleStake}
+                      handleHarvest={handleHarvest}
                     ></StakingPositionCard>
                   ))}
                 </>

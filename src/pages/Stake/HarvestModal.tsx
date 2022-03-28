@@ -8,7 +8,7 @@ import { AutoRow, RowBetween } from '../../components/Row';
 import TransactionConfirmationModal, { ConfirmationModalContent } from '../../components/TransactionConfirmationModal';
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback';
 import { useActiveWeb3React } from '../../hooks';
-import { StakingInfo, useStakeState } from '../../state/stake/hooks';
+import { StakingInfo } from '../../state/stake/hooks';
 import { getStakingContract } from '../../utils';
 import { TransactionResponse } from '@ethersproject/providers';
 import { DEFAULT_FEE_LIMIT } from '../../tron-config';
@@ -23,10 +23,9 @@ interface StakeModalProps {
   stakingInfo?: StakingInfo;
 }
 
-export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance }: StakeModalProps) {
+export default function HarvestModal({ isOpen, onDismiss, stakingAddress, balance }: StakeModalProps) {
   const { account, chainId, library } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
-  const stakeState = useStakeState();
 
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
   const [txHash, setTxHash] = useState<string>('');
@@ -41,18 +40,15 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance 
     const estimate = stakingContract.estimateGas.getReward;
     const method: (...args: any) => Promise<TransactionResponse> = stakingContract.getReward;
     setAttemptingTxn(true);
-    await estimate({}, {})
+    await estimate()
       .then(() =>
-        method(
-          {},
-          {
-            ...{},
-            gasLimit: DEFAULT_FEE_LIMIT,
-          },
-        ).then((response) => {
+        method({
+          ...{},
+          gasLimit: DEFAULT_FEE_LIMIT,
+        }).then((response) => {
           setAttemptingTxn(false);
           addTransaction(response, {
-            summary: `Stake ${stakeState.typedValue}`,
+            summary: `Harvest`,
           });
           setTxHash(response.hash);
         }),
@@ -80,7 +76,7 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance 
         </ButtonPrimary>
       </AutoRow>
     );
-  }, [stakeState, balance, approveState]);
+  }, [stakingAddress, approveState]);
 
   const modalHeader = useCallback(() => {
     return (
@@ -93,7 +89,7 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance 
         </RowBetween>
       </AutoColumn>
     );
-  }, [stakeState, balance]);
+  }, [stakingAddress, balance]);
 
   // const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
   const confirmationContent = useCallback(() => {
@@ -105,7 +101,7 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance 
         bottomContent={modalBottom}
       />
     );
-  }, [stakeState, balance, approveState]);
+  }, [stakingAddress, approveState]);
 
   return (
     <TransactionConfirmationModal
