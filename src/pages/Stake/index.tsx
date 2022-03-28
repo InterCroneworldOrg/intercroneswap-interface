@@ -12,7 +12,7 @@ import { useActiveWeb3React } from '../../hooks';
 import { Dots } from '../../components/swap/styleds';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import StakingPositionCard from '../../components/PositionCard/Stake';
-import { StakingInfo, useStakingBalancesWithLoadingIndicator } from '../../state/stake/hooks';
+import { StakingInfo, useStakeActionHandlers, useStakingBalancesWithLoadingIndicator } from '../../state/stake/hooks';
 import StakeModal from './StakeModal';
 import { StyledHeading } from '../App';
 import { TokenAmount } from '@intercroneswap/v2-sdk';
@@ -86,6 +86,7 @@ export default function Stake() {
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
   const [showStake, setShowStake] = useState<boolean>(false);
   const [showHarvest, setShowHarvest] = useState<boolean>(false);
+  const { onUserInput } = useStakeActionHandlers();
 
   const v1IsLoading = fetchingStakingInfos;
 
@@ -113,6 +114,7 @@ export default function Stake() {
     setStakeAddress('');
     setStakeInfo(undefined);
     setLPBalance(undefined);
+    onUserInput('');
   }, [stakeAddress, showStake]);
 
   return (

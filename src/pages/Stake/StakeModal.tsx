@@ -17,7 +17,6 @@ import { useTransactionAdder } from '../../state/transactions/hooks';
 import { REFERRAL_ADDRESSES } from '../../constants';
 import { Tabs } from '../../components/NavigationTabs';
 import { MaxButton } from './styleds';
-// import { useStakingInfo } from '../../state/stake/hooks';
 
 interface StakeModalProps {
   isOpen: boolean;
@@ -27,7 +26,7 @@ interface StakeModalProps {
   stakingInfo?: StakingInfo;
 }
 
-export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance }: StakeModalProps) {
+export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance, stakingInfo }: StakeModalProps) {
   const { account, chainId, library } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
   const stakeState = useStakeState();
@@ -38,6 +37,11 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance 
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
   const [txHash, setTxHash] = useState<string>('');
   const addTransaction = useTransactionAdder();
+
+  const swapStaking = () => {
+    setIsStaking(!isStaking);
+    onUserInput('');
+  };
 
   const handleTypeInput = useCallback(
     (value: string) => {
@@ -141,7 +145,7 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance 
         <RowBetween>
           <Text fontWeight={500}>Balance</Text>
           <Text fontWeight={500} color={theme.primary3}>
-            {balance?.toSignificant()}
+            {isStaking ? balance?.toSignificant() : stakingInfo?.balance}
           </Text>
         </RowBetween>
         <RowBetween style={{ background: theme.bg3, borderRadius: '6px' }}>
@@ -165,7 +169,7 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance 
             }}
             width="fit-content"
             onClick={() => {
-              onUserInput(balance?.toSignificant() ?? '');
+              onUserInput((isStaking ? balance?.toSignificant() : stakingInfo?.balance.toString()) ?? '');
             }}
           >
             <Text>MAX</Text>
@@ -173,17 +177,17 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance 
         </RowBetween>
       </AutoColumn>
     );
-  }, [stakeState, balance]);
+  }, [stakeState, balance, isStaking]);
 
   // const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
   const confirmationContent = useCallback(() => {
     return (
       <AutoRow>
         <Tabs style={{ width: '100%', margin: '8px 14px' }}>
-          <ButtonGray width="48%" onClick={() => setIsStaking(!isStaking)}>
+          <ButtonGray width="48%" onClick={() => swapStaking()}>
             Stake
           </ButtonGray>
-          <ButtonGray width="48%" onClick={() => setIsStaking(!isStaking)}>
+          <ButtonGray width="48%" onClick={() => swapStaking()}>
             Unstake
           </ButtonGray>
         </Tabs>

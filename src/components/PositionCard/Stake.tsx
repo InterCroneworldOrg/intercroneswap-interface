@@ -40,7 +40,6 @@ export default function StakingPositionCard({ info, address, handleStake, handle
   const [pairState, lpPair] = usePair(token0 === null ? undefined : token0, token1 === null ? undefined : token1);
   const rewardAmount: TokenAmount | undefined = rewardsToken ? new TokenAmount(rewardsToken, info?.earned) : undefined;
   const pairSupply = useTokenBalance(account ?? undefined, lpPair?.liquidityToken);
-  const stakeSupply = useTokenBalance(address, lpPair?.liquidityToken);
   if (pairState === PairState.LOADING) {
     console.log('loading');
   }
@@ -50,7 +49,6 @@ export default function StakingPositionCard({ info, address, handleStake, handle
   const dateDiff = finishDate ? new Date(finishDate.getTime() - Date.now()) : undefined;
   // console.log(lpPair, pairState, pairSupply, 'pair');
   const rate = new Percent(info.rewardRate, 8640);
-  console.log(stakeSupply, 'stakeSupply');
 
   return (
     <LightCard style={{ marginTop: '2px', background: theme.bg3 }}>
@@ -179,7 +177,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
               Liquidity
             </Text>
             <Text fontSize={16} fontWeight={500} color={theme.primary3}>
-              {stakeSupply?.toExact()}
+              {info.balance}
             </Text>
             <AutoColumn>
               <ExternalLink
