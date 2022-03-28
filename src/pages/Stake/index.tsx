@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from 'react';
+import { RefObject, useCallback, useContext, useRef, useState, KeyboardEvent } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
 // import { useUserHasLiquidityInAllTokens } from '../../data/V';
@@ -17,6 +17,8 @@ import StakeModal from './StakeModal';
 import { StyledHeading } from '../App';
 import { TokenAmount } from '@intercroneswap/v2-sdk';
 import HarvestModal from './HarvestModal';
+import { SearchInput } from '../../components/SearchModal/styleds';
+import { useTranslation } from 'react-i18next';
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 80%;
@@ -32,39 +34,6 @@ const TitleRow = styled(RowBetween)`
   `};
 `;
 
-const Input = styled.input<{ error?: boolean }>`
-  font-size: 1.25rem;
-  outline: none;
-  border: none;
-  flex: 1 1 auto;
-  border-radius: 8px;
-  background-color: ${({ theme }) => theme.bg3};
-  transition: color 300ms ${({ error }) => (error ? 'step-end' : 'step-start')};
-  color: ${({ error, theme }) => (error ? theme.red1 : theme.primary3)};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: 300;
-  width: 100%;
-  ::placeholder {
-    color: ${({ theme }) => theme.text4};
-  }
-  padding: 0px;
-  -webkit-appearance: textfield;
-
-  ::-webkit-search-decoration {
-    -webkit-appearance: none;
-  }
-
-  ::-webkit-outer-spin-button,
-  ::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
-
-  ::placeholder {
-    color: ${({ theme }) => theme.text4};
-  }
-`;
-
 const rewardsAddresses: string[] = [];
 
 fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
@@ -73,6 +42,7 @@ fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/sta
   .catch((err) => console.error(err));
 
 export default function Stake() {
+  const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const { account } = useActiveWeb3React();
 
@@ -84,6 +54,7 @@ export default function Stake() {
   const [stakeAddress, setStakeAddress] = useState<string>('');
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [showStake, setShowStake] = useState<boolean>(false);
   const [showHarvest, setShowHarvest] = useState<boolean>(false);
   const { onUserInput } = useStakeActionHandlers();
@@ -101,6 +72,7 @@ export default function Stake() {
     setStakeAddress('');
     setShowHarvest(false);
   };
+  const inputRef = useRef<HTMLInputElement>();
 
   const handleStake = (address: string, pairSupply?: TokenAmount) => {
     setShowStake(true);
@@ -116,6 +88,21 @@ export default function Stake() {
     setLPBalance(undefined);
     onUserInput('');
   }, [stakeAddress, showStake]);
+
+  const handleInput = useCallback((event) => {
+    const input = event.target.value;
+    setSearchQuery(input);
+  }, []);
+
+  const handleEnter = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        const s = searchQuery.toLowerCase().trim();
+        console.log(s);
+      }
+    },
+    [searchQuery],
+  );
 
   return (
     <>
@@ -153,18 +140,20 @@ export default function Stake() {
               </TitleRow>
               <Divider />
               <RowBetween>
-                <AutoColumn justify="flex-start">
+                <AutoColumn justify="flex-start" gap="3px">
                   <Text>Search</Text>
-                  <Input
-                    spellCheck="false"
-                    placeholder="Filter by token name"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    autoComplete="off"
+                  <SearchInput
                     type="text"
+                    id="token-search-input"
+                    placeholder={t('tokenSearchPlaceholder')}
+                    value={searchQuery}
+                    ref={inputRef as RefObject<HTMLInputElement>}
+                    onChange={handleInput}
+                    onKeyDown={handleEnter}
+                    width="25rem"
                   />
                 </AutoColumn>
-                <AutoColumn>
+                <AutoColumn gap="3px">
                   <Text>Sort by</Text>
                 </AutoColumn>
               </RowBetween>

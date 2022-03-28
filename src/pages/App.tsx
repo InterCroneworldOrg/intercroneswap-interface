@@ -278,8 +278,6 @@ const Marginer = styled.div`
 // `
 
 export const StyledHeading = styled.h1`
-  text-transform: uppercase;
-  font-family: Jost;
   font-style: normal;
   font-weight: 900;
   font-size: 56px;
