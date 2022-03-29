@@ -5,7 +5,7 @@ import { injected } from '../connectors';
 
 export const ROUTER_ADDRESSES: { [chainId: number]: string } = {
   [ChainId.MAINNET]: '0x60162da0738bbb6def8730f76bf4661a6f705ce3',
-  [ChainId.DONAU]: '0x096c64d79a85c8fd2e963c4abd9373301d2cf801',
+  [ChainId.DONAU]: '0xebbfc2bdd29935e57c411e1ae3822f4bf4e56c22',
 };
 const chainId: number = parseInt(process.env.REACT_APP_CHAIN_ID ?? '11111');
 export const ROUTER_ADDRESS = ROUTER_ADDRESSES[chainId];

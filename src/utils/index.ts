@@ -7,7 +7,6 @@ import { abi as IntercroneswapV1Router02ABI } from '@intercroneswap/v2-periphery
 import { ROUTER_ADDRESS } from '../constants';
 import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@intercroneswap/v2-sdk';
 import { TokenAddressMap } from '../state/lists/hooks';
-import { ethAddress, remove0xPrefix } from '@intercroneswap/java-tron-provider';
 import { getAddress } from 'ethers/lib/utils';
 
 // returns the checksummed address if the address is valid, otherwise returns false
@@ -33,14 +32,14 @@ export function getEtherscanLink(
 
   switch (type) {
     case 'transaction': {
-      return `${prefix}/#/transaction/${remove0xPrefix(data)}`;
+      return `${prefix}/#/transaction/${data}`;
     }
     case 'token': {
-      return `${prefix}/#/token20/${ethAddress.toTron(data)}`;
+      return `${prefix}/#/token20/${data}`;
     }
     case 'address':
     default: {
-      return `${prefix}/#/address/${ethAddress.toTron(data)}`;
+      return `${prefix}/#/address/${data}`;
     }
   }
 }
@@ -50,8 +49,7 @@ export function shortenAddress(address: string, chars = 4): string {
   if (!parsed) {
     throw Error(`Invalid 'address' parameter '${address}'.`);
   }
-  const tronAddress = ethAddress.toTron(parsed);
-  return `${tronAddress.substring(0, chars)}...${tronAddress.substr(-chars)}`;
+  return `${address.substring(0, chars)}...${address.substr(-chars)}`;
 }
 // // shorten the checksummed version of the input address to have 0x + 4 characters at start and end
 // export function shortenAddress(address: string, chars = 4): string {

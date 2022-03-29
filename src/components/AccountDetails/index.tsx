@@ -17,7 +17,6 @@ import Identicon from '../Identicon';
 import { ButtonSecondary } from '../Button';
 import { ExternalLink as LinkIcon } from 'react-feather';
 import { ExternalLink, LinkStyledButton, TYPE } from '../../theme';
-import { ethAddress } from '@intercroneswap/java-tron-provider';
 
 const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
@@ -311,7 +310,7 @@ export default function AccountDetails({
                     <AccountControl>
                       <div>
                         {account && (
-                          <Copy toCopy={ethAddress.toTron(account)}>
+                          <Copy toCopy={account}>
                             <span style={{ marginLeft: '4px' }}>Copy Address</span>
                           </Copy>
                         )}
@@ -333,7 +332,7 @@ export default function AccountDetails({
                     <AccountControl>
                       <div>
                         {account && (
-                          <Copy toCopy={ethAddress.toTron(account)}>
+                          <Copy toCopy={account}>
                             <span style={{ marginLeft: '4px' }}>Copy Address</span>
                           </Copy>
                         )}

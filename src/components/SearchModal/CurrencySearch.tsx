@@ -22,8 +22,7 @@ import SortButton from './SortButton';
 import { useTokenComparator } from './sorting';
 import { PaddedColumn, SearchInput, Separator } from './styleds';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import tronWeb from 'tronweb';
-import { ethAddress } from '@intercroneswap/java-tron-provider';
+import { ethers } from 'ethers';
 interface CurrencySearchProps {
   isOpen: boolean;
   onDismiss: () => void;
@@ -116,8 +115,8 @@ export function CurrencySearch({
   const inputRef = useRef<HTMLInputElement>();
   const handleInput = useCallback((event) => {
     const input = event.target.value;
-    if (tronWeb.isAddress(input)) {
-      setSearchQuery(ethAddress.fromTron(input));
+    if (ethers.utils.isAddress(input)) {
+      setSearchQuery(input);
       setTSearchQuery(input);
       fixedList.current?.scrollTo(0);
       return;
