@@ -132,7 +132,15 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance,
             Approve
           </ButtonPrimary>
         )}
-        <ButtonPrimary width="50%" onClick={isStaking ? doStake : doWithdraw}>
+        <ButtonPrimary
+          width="50%"
+          onClick={isStaking ? doStake : doWithdraw}
+          disabled={
+            isStaking
+              ? Number(stakeState.typedValue) > Number(balance?.toSignificant(4))
+              : Number(stakeState.typedValue) > Number(stakingInfo?.balance.toString())
+          }
+        >
           {isStaking ? 'Deposit' : 'Remove'}
         </ButtonPrimary>
       </AutoRow>

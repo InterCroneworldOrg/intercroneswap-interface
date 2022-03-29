@@ -12,7 +12,7 @@ import { ChevronUp, ChevronDown } from 'react-feather';
 import { Divider, ExternalLink } from '../../theme';
 import { StakingInfo } from '../../state/stake/hooks';
 import { useToken } from '../../hooks/Tokens';
-import { Currency, ETHER, Percent, Token, TokenAmount } from '@intercroneswap/v2-sdk';
+import { Currency, ETHER, JSBI, Percent, Token, TokenAmount, ZERO } from '@intercroneswap/v2-sdk';
 import CurrencyLogo from '../CurrencyLogo';
 import { PairState, usePair } from '../../data/Reserves';
 import { useTokenBalance } from '../../state/wallet/hooks';
@@ -133,7 +133,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
             <ButtonPrimary
               padding="8px"
               borderRadius="8px"
-              disabled={dateDiff ? pairSupply?.equalTo(0) : true}
+              disabled={pairSupply?.equalTo(0) && JSBI.GT(info.balance, ZERO)}
               width="45%"
               style={{ color: '#000' }}
               onClick={() => handleStake(address, pairSupply)}
