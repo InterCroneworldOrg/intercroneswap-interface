@@ -15,10 +15,13 @@ import StakingPositionCard from '../../components/PositionCard/Stake';
 import { StakingInfo, useStakeActionHandlers, useStakingBalancesWithLoadingIndicator } from '../../state/stake/hooks';
 import StakeModal from './StakeModal';
 import { StyledHeading } from '../App';
-import { TokenAmount } from '@intercroneswap/v2-sdk';
+import { ChainId, TokenAmount } from '@intercroneswap/v2-sdk';
 import HarvestModal from './HarvestModal';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import { useTranslation } from 'react-i18next';
+import { REFERRAL_ADDRESSES } from '../../constants';
+import { ethAddress } from '@intercroneswap/java-tron-provider';
+import CopyHelper from '../../components/AccountDetails/Copy';
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 80%;
@@ -38,13 +41,16 @@ const rewardsAddresses: string[] = [];
 
 fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
   .then((response) => response.json())
-  .then((responseJson) => rewardsAddresses.push(...responseJson.addresses))
+  .then((responseJson) => {
+    console.log(responseJson);
+    rewardsAddresses.push(...responseJson.addresses);
+  })
   .catch((err) => console.error(err));
 
 export default function Stake() {
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
-  const { account } = useActiveWeb3React();
+  const { account, chainId } = useActiveWeb3React();
 
   const [stakingInfos, fetchingStakingInfos] = useStakingBalancesWithLoadingIndicator(
     rewardsAddresses,
@@ -139,6 +145,20 @@ export default function Stake() {
                 </TYPE.mediumHeader>
               </TitleRow>
               <Divider />
+              <AutoColumn justify="center" gap="3px">
+                <Text fontSize={18} fontWeight={600}>
+                  Your upline
+                </Text>
+                <Text>{ethAddress.toTron(REFERRAL_ADDRESSES[chainId ?? ChainId.SHASTA])}</Text>
+                <Divider />
+                <Text fontSize={18} fontWeight={600}>
+                  Your referral link
+                </Text>
+                <Text>{`https://intercroneswap.finance/ref/?referal=${ethAddress.toTron(account)}`}</Text>
+                <CopyHelper toCopy={`https://intercroneswap.finance/ref/?referal=${ethAddress.toTron(account)}`}>
+                  Copy Address
+                </CopyHelper>
+              </AutoColumn>
               <RowBetween>
                 <AutoColumn justify="flex-start" gap="3px">
                   <Text>Search</Text>

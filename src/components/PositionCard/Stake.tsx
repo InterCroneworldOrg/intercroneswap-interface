@@ -12,7 +12,7 @@ import { ChevronUp, ChevronDown } from 'react-feather';
 import { Divider, ExternalLink } from '../../theme';
 import { StakingInfo } from '../../state/stake/hooks';
 import { useToken } from '../../hooks/Tokens';
-import { Percent, Token, TokenAmount } from '@intercroneswap/v2-sdk';
+import { Currency, ETHER, Percent, Token, TokenAmount } from '@intercroneswap/v2-sdk';
 import CurrencyLogo from '../CurrencyLogo';
 import { PairState, usePair } from '../../data/Reserves';
 import { useTokenBalance } from '../../state/wallet/hooks';
@@ -37,6 +37,8 @@ export default function StakingPositionCard({ info, address, handleStake, handle
   const token1: Token | null | undefined = useToken(info.stakingPair?.token1);
   const token0Loading = token0 === null || token0 === undefined;
   const token1Loading = token1 === null || token1 === undefined;
+  const currency0: Currency | undefined = token0Loading ? undefined : unwrappedToken(token0);
+  const currency1: Currency | undefined = token1Loading ? undefined : unwrappedToken(token1);
   const [pairState, lpPair] = usePair(token0 === null ? undefined : token0, token1 === null ? undefined : token1);
   const rewardAmount: TokenAmount | undefined = rewardsToken ? new TokenAmount(rewardsToken, info?.earned) : undefined;
   const pairSupply = useTokenBalance(account ?? undefined, lpPair?.liquidityToken);
@@ -44,10 +46,11 @@ export default function StakingPositionCard({ info, address, handleStake, handle
     console.log('loading');
   }
 
-  const finishDate = info.periodFinish ? new Date(info.periodFinish.toNumber() * 1000) : undefined;
+  const finishDate =
+    info.periodFinish && info.periodFinish.gt(0) ? new Date(info.periodFinish.toNumber() * 1000) : undefined;
   finishDate?.setSeconds(0);
-  const dateDiff = finishDate ? new Date(finishDate.getTime() - Date.now()) : undefined;
-  // console.log(lpPair, pairState, pairSupply, 'pair');
+  const now = Date.now();
+  const dateDiff = finishDate && finishDate.getTime() > now ? new Date(finishDate.getTime() - now) : undefined;
   const rate = new Percent(info.rewardRate, 8640);
 
   return (
@@ -55,16 +58,16 @@ export default function StakingPositionCard({ info, address, handleStake, handle
       <AutoRow justify="space-between" gap="0px">
         <AutoColumn gap="0px">
           <AutoRow>
-            <CurrencyLogo currency={token0Loading ? undefined : unwrappedToken(token0)} />
+            <CurrencyLogo currency={token0Loading ? undefined : currency0} />
             &nbsp;
             <Text fontWeight={500} fontSize={20}>
-              {token0Loading ? undefined : unwrappedToken(token0)?.symbol}&nbsp;/
+              {currency0?.symbol}&nbsp;/
             </Text>
             &nbsp;
-            <CurrencyLogo currency={token1Loading ? undefined : unwrappedToken(token1)} />
+            <CurrencyLogo currency={currency1} />
             &nbsp;
             <Text fontWeight={500} fontSize={20}>
-              {token1Loading ? undefined : unwrappedToken(token1)?.symbol}
+              {currency1?.symbol}
             </Text>
           </AutoRow>
         </AutoColumn>
@@ -73,7 +76,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
             Ends on
           </Text>
           <Text fontSize={16} fontWeight={300} color={theme.primary3}>
-            {finishDate?.toLocaleString()}
+            {finishDate?.toLocaleString() || 'Not available yet'}
           </Text>
         </AutoColumn>
         <AutoColumn gap="1px">
@@ -91,7 +94,9 @@ export default function StakingPositionCard({ info, address, handleStake, handle
             </Text>
             <ExternalLink
               style={{ textAlign: 'center', color: '#fff' }}
-              href={chainId ? getEtherscanLink(chainId, address, 'address') : '#'}
+              href={`#/add/${currency0 === ETHER ? ETHER.symbol : token0?.address}/${
+                currency1 === ETHER ? ETHER.symbol : token1?.address
+              }`}
             >
               <Text fontSize={14} fontWeight={400} style={{ textDecorationLine: 'underline' }}>
                 Get LP
@@ -113,6 +118,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
               borderRadius="8px"
               width="45%"
               style={{ color: '#000' }}
+              disabled={rewardAmount?.equalTo(0)}
               onClick={() => handleHarvest(address)}
             >
               <AutoColumn>
@@ -120,13 +126,14 @@ export default function StakingPositionCard({ info, address, handleStake, handle
                   Harvest
                 </Text>
                 <Text fontSize="14px" fontWeight={300}>
-                  {rewardAmount?.toSignificant(4)}
+                  {rewardAmount?.greaterThan(0) ? rewardAmount?.toSignificant(4) : 'Nothing to Harvest'}
                 </Text>
               </AutoColumn>
             </ButtonPrimary>
             <ButtonPrimary
               padding="8px"
               borderRadius="8px"
+              disabled={dateDiff ? pairSupply?.equalTo(0) : true}
               width="45%"
               style={{ color: '#000' }}
               onClick={() => handleStake(address, pairSupply)}
@@ -137,7 +144,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
                 </Text>
                 {pairSupply ? (
                   <Text fontSize={14} fontWeight={300}>
-                    {pairSupply?.toSignificant(4)}
+                    {pairSupply.greaterThan(0) ? pairSupply?.toSignificant(4) : 'No liquidity'}
                   </Text>
                 ) : (
                   <Dots></Dots>
@@ -169,10 +176,15 @@ export default function StakingPositionCard({ info, address, handleStake, handle
             <Text fontSize={16} fontWeight={300}>
               Ends in
             </Text>
-            <Text fontSize={16} fontWeight={500} color={theme.primary3}>
-              {dateDiff ? Math.floor(dateDiff.getTime() / (24 * 3600 * 1000)) : undefined} Days /{' '}
-              {dateDiff ? dateDiff.toLocaleTimeString() : undefined}
-            </Text>
+            {dateDiff ? (
+              <Text fontSize={16} fontWeight={500} color={theme.primary3}>
+                {Math.floor(dateDiff.getTime() / (24 * 3600 * 1000))} Days / {dateDiff.toLocaleTimeString()}
+              </Text>
+            ) : (
+              <Text fontSize={16} fontWeight={500} color={theme.primary3}>
+                Not available
+              </Text>
+            )}
             <Text fontSize={16} fontWeight={300}>
               Liquidity
             </Text>
@@ -193,7 +205,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
             <AutoColumn>
               <ExternalLink
                 style={{ textAlign: 'center', color: '#fff' }}
-                href={`https://info.intercroneswap.com/#/stake/${address}`}
+                href={chainId ? getEtherscanLink(chainId, rewardsToken?.address ?? '', 'token') : '#'}
               >
                 <Text fontSize={16} fontWeight={500}>
                   View Token Info
