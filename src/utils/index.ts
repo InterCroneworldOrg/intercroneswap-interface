@@ -20,7 +20,7 @@ export function isAddress(value: any): string | false {
 
 const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   199: '',
-  1029: 'test',
+  1029: 'testnet',
 };
 
 export function getEtherscanLink(
@@ -28,7 +28,7 @@ export function getEtherscanLink(
   data: string,
   type: 'transaction' | 'token' | 'address' | 'block',
 ): string {
-  const prefix = `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[199]}scan.bt.io`;
+  const prefix = `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[199]}bttscan.com`;
 
   switch (type) {
     case 'transaction': {

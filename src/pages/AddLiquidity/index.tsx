@@ -30,7 +30,7 @@ import { useDerivedMintInfo, useMintActionHandlers, useMintState } from '../../s
 import { useTransactionAdder } from '../../state/transactions/hooks';
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from '../../state/user/hooks';
 import { Divider, TYPE } from '../../theme';
-import { calculateSlippageAmount, getRouterContract } from '../../utils';
+import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from '../../utils';
 import { maxAmountSpend } from '../../utils/maxAmountSpend';
 import { wrappedCurrency } from '../../utils/wrappedCurrency';
 import AppBody, { Container } from '../AppBody';
@@ -39,8 +39,6 @@ import { ConfirmAddModalBottom } from './ConfirmAddModalBottom';
 import { currencyId } from '../../utils/currencyId';
 import { PoolPriceBar } from './PoolPriceBar';
 import CurrencyLogo from '../../components/CurrencyLogo';
-
-import { DEFAULT_FEE_LIMIT } from '../../tron-config.js';
 
 export default function AddLiquidity({
   match: {
@@ -134,6 +132,7 @@ export default function AddLiquidity({
     if (!parsedAmountA || !parsedAmountB || !currencyA || !currencyB || !deadline) {
       return;
     }
+    console.log(currencyA, currencyB, 'currencies');
 
     const amountsMin = {
       [Field.CURRENCY_A]: calculateSlippageAmount(parsedAmountA, noLiquidity ? 0 : allowedSlippage)[0],
@@ -146,6 +145,7 @@ export default function AddLiquidity({
       value: BigNumber | null;
     if (currencyA === ETHER || currencyB === ETHER) {
       const tokenBIsETH = currencyB === ETHER;
+      console.log('One token is ether');
       estimate = router.estimateGas.addLiquidityTRX;
       method = router.addLiquidityTRX;
       args = [
@@ -158,6 +158,7 @@ export default function AddLiquidity({
       ];
       value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).raw.toString());
     } else {
+      console.log('calling addliquidity for tokens');
       estimate = router.estimateGas.addLiquidity;
       method = router.addLiquidity;
       args = [
@@ -175,11 +176,10 @@ export default function AddLiquidity({
 
     setAttemptingTxn(true);
     await estimate(...args, value ? { value } : {})
-      .then(() =>
+      .then((estimatedGasLimit) =>
         method(...args, {
           ...(value ? { value } : {}),
-          gasLimit: DEFAULT_FEE_LIMIT,
-          // gasLimit: calculateGasMargin(estimatedGasLimit)
+          gasLimit: calculateGasMargin(estimatedGasLimit),
         }).then((response) => {
           setAttemptingTxn(false);
 
