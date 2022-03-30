@@ -1,4 +1,4 @@
-import { JSBI, TokenAmount } from '@intercroneswap/v2-sdk';
+import { TokenAmount } from '@intercroneswap/v2-sdk';
 import { useCallback, useContext, useState } from 'react';
 import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
@@ -16,6 +16,8 @@ import { DEFAULT_FEE_LIMIT } from '../../tron-config';
 import { useTransactionAdder } from '../../state/transactions/hooks';
 import { Tabs } from '../../components/NavigationTabs';
 import { MaxButton } from './styleds';
+import { ethAddress } from '@intercroneswap/java-tron-provider';
+import { tryParseAmount } from '../../state/swap/hooks';
 
 interface StakeModalProps {
   isOpen: boolean;
@@ -45,6 +47,13 @@ export default function StakeModal({
   const [txHash, setTxHash] = useState<string>('');
   const addTransaction = useTransactionAdder();
 
+  const stakeAmount = tryParseAmount(stakeState.typedValue, balance?.token);
+
+  const withdrawAmount = tryParseAmount(
+    (Number(stakingInfo?.balance.toString()) / Math.pow(10, 8)).toFixed(8),
+    balance?.token,
+  );
+
   const swapStaking = () => {
     setIsStaking(!isStaking);
     onUserInput('');
@@ -68,7 +77,7 @@ export default function StakeModal({
     }
     const estimate = stakingContract.estimateGas.withdraw;
     const method: (...args: any) => Promise<TransactionResponse> = stakingContract.withdraw;
-    const args: Array<string | string[] | number> = [JSBI.BigInt(stakeState.typedValue).toString()];
+    const args: Array<string | string[] | number> = [stakeAmount?.raw.toString() ?? '0'];
     setAttemptingTxn(true);
     await estimate(...args, {})
       .then(() =>
@@ -103,8 +112,8 @@ export default function StakeModal({
     const estimate = stakingContract.estimateGas.stake;
     const method: (...args: any) => Promise<TransactionResponse> = stakingContract.stake;
     const args: Array<string | string[] | number> = [
-      JSBI.BigInt(stakeState.typedValue).toString(),
-      referalAddress ?? account,
+      stakeAmount?.raw.toString(),
+      referalAddress ? ethAddress.fromTron(referalAddress) : account,
     ];
     setAttemptingTxn(true);
     await estimate(...args, {})
@@ -145,7 +154,7 @@ export default function StakeModal({
           disabled={
             isStaking
               ? Number(stakeState.typedValue) > Number(balance?.toExact())
-              : Number(stakeState.typedValue) > Number(stakingInfo?.balance.toString())
+              : Number(stakeState.typedValue) > Number(withdrawAmount?.toExact())
           }
         >
           {isStaking ? 'Deposit' : 'Remove'}
@@ -160,7 +169,7 @@ export default function StakeModal({
         <RowBetween>
           <Text fontWeight={500}>Balance</Text>
           <Text fontWeight={500} color={theme.primary3}>
-            {isStaking ? balance?.toSignificant() : stakingInfo?.balance}
+            {isStaking ? balance?.toExact() : withdrawAmount?.toExact()}
           </Text>
         </RowBetween>
         <RowBetween style={{ background: theme.bg3, borderRadius: '6px' }}>
@@ -168,7 +177,7 @@ export default function StakeModal({
             className="lp-amount-input"
             value={stakeState.typedValue}
             onUserInput={handleTypeInput}
-            max={balance?.toSignificant()}
+            max={balance?.toFixed()}
           />
           <MaxButton
             style={{
@@ -184,7 +193,7 @@ export default function StakeModal({
             }}
             width="fit-content"
             onClick={() => {
-              onUserInput((isStaking ? balance?.toSignificant() : stakingInfo?.balance.toString()) ?? '');
+              onUserInput((isStaking ? balance?.toFixed(8) : withdrawAmount?.toFixed(8)) ?? '');
             }}
           >
             <Text>MAX</Text>

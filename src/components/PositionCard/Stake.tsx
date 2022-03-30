@@ -133,7 +133,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
             <ButtonPrimary
               padding="8px"
               borderRadius="8px"
-              disabled={pairSupply?.equalTo(0) && JSBI.GT(info.balance, ZERO)}
+              disabled={!pairSupply?.equalTo(0) || !JSBI.GT(info.balance, ZERO)}
               width="45%"
               style={{ color: '#000' }}
               onClick={() => handleStake(address, pairSupply)}
