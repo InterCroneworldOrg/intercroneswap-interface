@@ -2,6 +2,7 @@ import { Contract } from '@ethersproject/contracts';
 import MERKLE_DISTRIBUTOR_ABI from '../constants/abis/merkle.json';
 import { ChainId, WETH } from '@intercroneswap/v2-sdk';
 import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/IISwapV1Pair.json';
+import { abi as ISwapV2StakingABI } from '@intercroneswap/v2-staking/build/IStakingRewards.json';
 import { useMemo } from 'react';
 import { MERKLE_DISTRIBUTOR_ADDRESS } from '../constants';
 import {
@@ -103,4 +104,8 @@ export function useMulticallContract(): Contract | null {
 export function useMerkleDistributorContract(): Contract | null {
   const { chainId } = useActiveWeb3React();
   return useContract(chainId ? MERKLE_DISTRIBUTOR_ADDRESS[chainId] : undefined, MERKLE_DISTRIBUTOR_ABI, true);
+}
+
+export function useStakingContract(stakingAddress?: string, withSignerIfPossible?: boolean): Contract | null {
+  return useContract(stakingAddress, ISwapV2StakingABI, withSignerIfPossible);
 }

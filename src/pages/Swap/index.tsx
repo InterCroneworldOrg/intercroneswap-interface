@@ -49,6 +49,7 @@ import AppBody, { Container } from '../AppBody';
 import Loader from '../../components/Loader';
 import { ReactComponent as YellowArrowDown } from '../../assets/images/arrow-down-yellow.svg';
 import AdvancedSwapDetailsDropdown from '../../components/swap/AdvancedSwapDetailsDropdown';
+import { StyledHeading } from '../App';
 // const BUYTEXT = styled.div`
 //   font-weight: 500;
 //   font-size: 21px;
@@ -300,6 +301,7 @@ export default function Swap() {
 
   return (
     <>
+      <StyledHeading>Swap your tokens</StyledHeading>
       <TokenWarningModal
         isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
         tokens={urlLoadedTokens}

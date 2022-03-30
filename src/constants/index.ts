@@ -8,6 +8,11 @@ export const ROUTER_ADDRESSES: { [chainId: number]: string } = {
   [ChainId.NILE]: '',
   [ChainId.SHASTA]: '0x5f887c70df576b6ce9c3518a02e341f8bc1d0659',
 };
+export const REFERRAL_ADDRESSES: { [chainId: number]: string } = {
+  [ChainId.MAINNET]: '0xfe29c9e5a34ca3fd941ecd9b1f4933e59c52648d',
+  [ChainId.NILE]: '',
+  [ChainId.SHASTA]: '',
+};
 const chainId: number = parseInt(process.env.REACT_APP_CHAIN_ID ?? '11111');
 export const ROUTER_ADDRESS = ROUTER_ADDRESSES[chainId];
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';

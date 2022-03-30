@@ -20,6 +20,7 @@ import { useAsyncV1LiquidityTokens, useTrackedTokenPairs } from '../../state/use
 import { Dots } from '../../components/swap/styleds';
 import { CardSection, DataCard, CardNoise } from '../../components/vote/styled';
 import { useWalletModalToggle } from '../../state/application/hooks';
+import { StyledHeading } from '../App';
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 840px;
@@ -142,6 +143,7 @@ export default function Pool() {
 
   return (
     <>
+      <StyledHeading>Swap your tokens</StyledHeading>
       <PageWrapper>
         <VoteCard>
           <CardNoise />

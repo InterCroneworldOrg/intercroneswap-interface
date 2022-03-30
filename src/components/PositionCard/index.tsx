@@ -339,58 +339,6 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 </AutoRow>
               </AutoColumn>
             </StyledPoolInfoCard>
-            {/* <FixedHeightRow>
-              <Text fontSize={16} fontWeight={500}>
-                Your pool tokens:
-              </Text>
-              <Text fontSize={16} fontWeight={500}>
-                {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
-              </Text>
-            </FixedHeightRow>
-            <FixedHeightRow>
-              <RowFixed>
-                <Text fontSize={16} fontWeight={500}>
-                  Pooled {currency0.symbol}:
-                </Text>
-              </RowFixed>
-              {token0Deposited ? (
-                <RowFixed>
-                  <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
-                    {token0Deposited?.toSignificant(6)}
-                  </Text>
-                  <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency0} />
-                </RowFixed>
-              ) : (
-                '-'
-              )}
-            </FixedHeightRow>
-
-            <FixedHeightRow>
-              <RowFixed>
-                <Text fontSize={16} fontWeight={500}>
-                  Pooled {currency1.symbol}:
-                </Text>
-              </RowFixed>
-              {token1Deposited ? (
-                <RowFixed>
-                  <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
-                    {token1Deposited?.toSignificant(6)}
-                  </Text>
-                  <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency1} />
-                </RowFixed>
-              ) : (
-                '-'
-              )}
-            </FixedHeightRow>
-
-            <FixedHeightRow>
-              <Text fontSize={16} fontWeight={500}>
-                Your pool share:
-              </Text>
-              <Text fontSize={16} fontWeight={500}>
-                {poolTokenPercentage ? poolTokenPercentage.toFixed(2) + '%' : '-'}
-              </Text>
-            </FixedHeightRow> */}
             <AutoRow justify="space-between">
               <AutoColumn>
                 {/* <ButtonSecondary padding="8px" borderRadius="8px"> */}
@@ -435,7 +383,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 {/* </ButtonSecondary> */}
               </AutoColumn>
               <MinimalAutoColumn justify="end">
-                <RowBetween style={{ maxWidth: '330px', width: '100%', alignItems: 'flex-end' }} marginTop="10px">
+                <RowBetween>
                   <ButtonPrimary
                     padding="8px"
                     borderRadius="8px"
