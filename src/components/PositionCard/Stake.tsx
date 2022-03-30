@@ -84,7 +84,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
             Earned / APY
           </Text>
           <Text fontSize={13} fontWeight={300} color={theme.primary3}>
-            {rewardAmount?.toSignificant()} / {rate.toSignificant()}
+            {rewardAmount?.toSignificant(4)} / {rate.toSignificant()}
           </Text>
         </AutoColumn>
         <AutoColumn gap="1px">

@@ -14,7 +14,6 @@ import { getStakingContract } from '../../utils';
 import { TransactionResponse } from '@ethersproject/providers';
 import { DEFAULT_FEE_LIMIT } from '../../tron-config';
 import { useTransactionAdder } from '../../state/transactions/hooks';
-import { REFERRAL_ADDRESSES } from '../../constants';
 import { Tabs } from '../../components/NavigationTabs';
 import { MaxButton } from './styleds';
 
@@ -24,9 +23,17 @@ interface StakeModalProps {
   stakingAddress: string;
   balance?: TokenAmount;
   stakingInfo?: StakingInfo;
+  referalAddress?: string;
 }
 
-export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance, stakingInfo }: StakeModalProps) {
+export default function StakeModal({
+  isOpen,
+  onDismiss,
+  stakingAddress,
+  balance,
+  stakingInfo,
+  referalAddress,
+}: StakeModalProps) {
   const { account, chainId, library } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
   const stakeState = useStakeState();
@@ -97,7 +104,7 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance,
     const method: (...args: any) => Promise<TransactionResponse> = stakingContract.stake;
     const args: Array<string | string[] | number> = [
       JSBI.BigInt(stakeState.typedValue).toString(),
-      REFERRAL_ADDRESSES[chainId],
+      referalAddress ?? account,
     ];
     setAttemptingTxn(true);
     await estimate(...args, {})
@@ -137,7 +144,7 @@ export default function StakeModal({ isOpen, onDismiss, stakingAddress, balance,
           onClick={isStaking ? doStake : doWithdraw}
           disabled={
             isStaking
-              ? Number(stakeState.typedValue) > Number(balance?.toSignificant(4))
+              ? Number(stakeState.typedValue) > Number(balance?.toExact())
               : Number(stakeState.typedValue) > Number(stakingInfo?.balance.toString())
           }
         >
