@@ -20,6 +20,7 @@ import { useActiveWeb3React } from '../../hooks';
 import { getEtherscanLink } from '../../utils';
 import ExternalIcon from '../../assets/images/arrrow-external.svg';
 import { Dots } from '../../pages/Stake/styleds';
+import { tryParseAmount } from '../../state/swap/hooks';
 
 interface StakingPositionCardProps {
   info: StakingInfo;
@@ -45,6 +46,12 @@ export default function StakingPositionCard({ info, address, handleStake, handle
   if (pairState === PairState.LOADING) {
     console.log('loading');
   }
+  const stakeBalanceAmount = tryParseAmount(
+    (Number(info?.balance.toString()) / Math.pow(10, lpPair?.liquidityToken.decimals ?? 0)).toFixed(
+      lpPair?.liquidityToken.decimals,
+    ),
+    lpPair?.liquidityToken,
+  );
 
   const finishDate =
     info.periodFinish && info.periodFinish.gt(0) ? new Date(info.periodFinish.toNumber() * 1000) : undefined;
@@ -189,7 +196,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
               Liquidity
             </Text>
             <Text fontSize={16} fontWeight={500} color={theme.primary3}>
-              {info.balance}
+              {stakeBalanceAmount?.toSignificant()}
             </Text>
             <AutoColumn>
               <ExternalLink

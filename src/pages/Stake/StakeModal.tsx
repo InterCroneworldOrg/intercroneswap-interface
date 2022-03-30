@@ -50,7 +50,9 @@ export default function StakeModal({
   const stakeAmount = tryParseAmount(stakeState.typedValue, balance?.token);
 
   const withdrawAmount = tryParseAmount(
-    (Number(stakingInfo?.balance.toString()) / Math.pow(10, 8)).toFixed(8),
+    (Number(stakingInfo?.balance.toString()) / Math.pow(10, balance?.token.decimals ?? 0)).toFixed(
+      balance?.token.decimals,
+    ),
     balance?.token,
   );
 
