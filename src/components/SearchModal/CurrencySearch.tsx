@@ -116,7 +116,7 @@ export function CurrencySearch({
   const inputRef = useRef<HTMLInputElement>();
   const handleInput = useCallback((event) => {
     const input = event.target.value;
-    if (tronWeb.isAddress(input)) {
+    if (tronWeb?.isAddress(input)) {
       setSearchQuery(ethAddress.fromTron(input));
       setTSearchQuery(input);
       fixedList.current?.scrollTo(0);

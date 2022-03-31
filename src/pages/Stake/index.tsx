@@ -146,15 +146,17 @@ export default function Stake({
           display: showReferal ? 'grid' : 'none',
           background: theme.bg3,
           borderRadius: '2rem',
-          padding: '2rem',
-          margin: '0 5rem',
+          padding: '0.5rem',
+          margin: '0',
         }}
       >
         {referal ? confirmUpline() : undefined}
-        <Text fontSize={18} fontWeight={600}>
+        <Text fontSize="0.7rem" fontWeight=".5rem">
           Your referral link
         </Text>
-        <Text>{`${window.location.origin}/#/stake/${ethAddress.toTron(account)}`}</Text>
+        <div style={{ fontSize: '.7rem', wordBreak: 'break-all' }}>{`${
+          window.location.origin
+        }/#/stake/${ethAddress.toTron(account)}`}</div>
         <CopyHelper toCopy={`${window.location.origin}/#/stake/${ethAddress.toTron(account)}`}>Copy Address</CopyHelper>
       </AutoColumn>
     );
@@ -178,7 +180,7 @@ export default function Stake({
           stakingInfo={stakeInfo}
           onDismiss={handleDismissHarvest}
         />
-        <LightCard style={{ marginTop: '20px' }}>
+        <LightCard style={{ marginTop: '20px' }} padding="2rem 1rem">
           {!account ? (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button style={{ maxWidth: '260px' }} onClick={toggleWalletModal}>
@@ -188,17 +190,18 @@ export default function Stake({
           ) : (
             <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between"></AutoRow>
           )}
-          <AutoColumn gap="lg" justify="center">
+          <AutoColumn gap="1.5rem" justify="center">
             <ButtonPrimary
-              width="20%"
-              height="3rem"
-              marginBottom="-3rem"
+              width="8rem"
+              height="2rem"
+              marginBottom="-4rem"
               justifySelf="end"
               onClick={() => setShowReferal(!showReferal)}
+              fontSize=".6rem"
             >
               Show referal link
             </ButtonPrimary>
-            <AutoColumn gap="lg" style={{ width: '100%' }}>
+            <AutoColumn gap="2rem" style={{ width: '100%' }}>
               <TitleRow style={{ marginTop: '1rem' }} textAlign="center" padding={'0'}>
                 <TYPE.mediumHeader width="100%" style={{ marginTop: '0.5rem', justifySelf: 'center' }}>
                   Stake Liquidity Pool (LP) tokens to earn
@@ -206,9 +209,10 @@ export default function Stake({
               </TitleRow>
               <Divider />
               {uplineComponent()}
-              <RowBetween>
-                <AutoColumn justify="flex-start" gap="3px">
-                  <Text>Search</Text>
+              {/* TODO: when finished enable display */}
+              <RowBetween style={{ display: 'none' }}>
+                <AutoColumn justify="flex-start" gap="1rem">
+                  <Text fontSize="1rem">Search</Text>
                   <SearchInput
                     type="text"
                     id="token-search-input"
@@ -217,7 +221,7 @@ export default function Stake({
                     ref={inputRef as RefObject<HTMLInputElement>}
                     onChange={handleInput}
                     onKeyDown={handleEnter}
-                    width="25rem"
+                    width="20rem"
                   />
                 </AutoColumn>
                 <AutoColumn gap="3px">
@@ -225,13 +229,13 @@ export default function Stake({
                 </AutoColumn>
               </RowBetween>
               {!account ? (
-                <GreyCard padding="12px">
+                <GreyCard padding="1rem">
                   <TYPE.body color={theme.text1} textAlign="left">
                     Connect to a wallet to view your liquidity.
                   </TYPE.body>
                 </GreyCard>
               ) : v1IsLoading ? (
-                <GreyCard padding="12px">
+                <GreyCard padding="1rem">
                   <TYPE.body color={theme.text1} textAlign="left">
                     <Dots>Loading</Dots>
                   </TYPE.body>

@@ -12,7 +12,7 @@ export function RedirectToReferal(props: RouteComponentProps<{ referal?: string 
       params: { referal },
     },
   } = props;
-  if (!tronweb.isAddress(referal)) {
+  if (!tronweb?.isAddress(referal)) {
     return RedirectToStake();
   }
   return <Stake {...props} />;
