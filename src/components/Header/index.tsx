@@ -339,6 +339,14 @@ const LinksContainer = styled.div`
 // display:none;
 // z-index:1000;
 // `
+const StyledHeaderElements = styled.div`
+  display: flex;
+  alignitems: center;
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    display: none;
+  `};
+`;
 
 export default function Header() {
   const {
@@ -366,7 +374,7 @@ export default function Header() {
             <img width={'115px'} src={Logo} alt="logo" />
           </IswapIcon>
         </Title>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <StyledHeaderElements>
           <LinksContainer>
             <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
               {t('swap')}
@@ -390,7 +398,7 @@ export default function Header() {
               {t('Stake')}
             </StyledNavLink>
           </LinksContainer>
-        </div>
+        </StyledHeaderElements>
         <HeaderLinks>
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
