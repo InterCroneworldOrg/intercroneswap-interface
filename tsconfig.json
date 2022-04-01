@@ -1,29 +1,32 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
+    "noEmit": true,
+    "jsx": "preserve",
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "noFallthroughCasesInSwitch": true,
     "downlevelIteration": true,
-    "allowSyntheticDefaultImports": true,
-    "types": ["react-spring", "jest"]
+    "incremental": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/",
+    "paths": {
+      "@pancakeswap/uikit": ["../packages/uikit/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "cypress"],
-  "include": ["./src/**/*.ts", "./src/**/*.tsx", "src/components/Confetti/index.js"]
+  "include": ["next-env.d.ts", "./src/**/*.ts", "./src/**/*.tsx"]
 }

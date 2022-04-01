@@ -1,65 +1,81 @@
-import { createReducer } from '@reduxjs/toolkit';
+/* eslint-disable no-param-reassign */
+import { createReducer } from '@reduxjs/toolkit'
+import { Order } from '@gelatonetwork/limit-orders-lib'
+import { confirmOrderCancellation, confirmOrderSubmission, saveOrder } from 'utils/localStorageOrders'
 import {
   addTransaction,
   checkedTransaction,
   clearAllTransactions,
   finalizeTransaction,
   SerializableTransactionReceipt,
-} from './actions';
+  TransactionType,
+} from './actions'
 
-const now = () => new Date().getTime();
+const now = () => new Date().getTime()
 
 export interface TransactionDetails {
-  hash: string;
-  approval?: { tokenAddress: string; spender: string };
-  summary?: string;
-  claim?: { recipient: string };
-  receipt?: SerializableTransactionReceipt;
-  lastCheckedBlockNumber?: number;
-  addedTime: number;
-  confirmedTime?: number;
-  from: string;
+  hash: string
+  approval?: { tokenAddress: string; spender: string }
+  type?: TransactionType
+  order?: Order
+  summary?: string
+  claim?: { recipient: string }
+  receipt?: SerializableTransactionReceipt
+  lastCheckedBlockNumber?: number
+  addedTime: number
+  confirmedTime?: number
+  from: string
 }
 
 export interface TransactionState {
   [chainId: number]: {
-    [txHash: string]: TransactionDetails;
-  };
+    [txHash: string]: TransactionDetails
+  }
 }
 
-export const initialState: TransactionState = {};
+export const initialState: TransactionState = {}
 
 export default createReducer(initialState, (builder) =>
   builder
-    .addCase(addTransaction, (transactions, { payload: { chainId, from, hash, approval, summary, claim } }) => {
-      if (transactions[chainId]?.[hash]) {
-        throw Error('Attempted to add existing transaction.');
-      }
-      const txs = transactions[chainId] ?? {};
-      txs[hash] = { hash, approval, summary, claim, from, addedTime: now() };
-      transactions[chainId] = txs;
-    })
+    .addCase(
+      addTransaction,
+      (transactions, { payload: { chainId, from, hash, approval, summary, claim, type, order } }) => {
+        if (transactions[chainId]?.[hash]) {
+          throw Error('Attempted to add existing transaction.')
+        }
+        const txs = transactions[chainId] ?? {}
+        txs[hash] = { hash, approval, summary, claim, from, addedTime: now(), type, order }
+        transactions[chainId] = txs
+        if (order) saveOrder(chainId, from, order, true)
+      },
+    )
     .addCase(clearAllTransactions, (transactions, { payload: { chainId } }) => {
-      if (!transactions[chainId]) return;
-      transactions[chainId] = {};
+      if (!transactions[chainId]) return
+      transactions[chainId] = {}
     })
     .addCase(checkedTransaction, (transactions, { payload: { chainId, hash, blockNumber } }) => {
-      const tx = transactions[chainId]?.[hash];
+      const tx = transactions[chainId]?.[hash]
       if (!tx) {
-        return;
+        return
       }
       if (!tx.lastCheckedBlockNumber) {
-        tx.lastCheckedBlockNumber = blockNumber;
+        tx.lastCheckedBlockNumber = blockNumber
       } else {
-        tx.lastCheckedBlockNumber = Math.max(blockNumber, tx.lastCheckedBlockNumber);
+        tx.lastCheckedBlockNumber = Math.max(blockNumber, tx.lastCheckedBlockNumber)
       }
     })
     .addCase(finalizeTransaction, (transactions, { payload: { hash, chainId, receipt } }) => {
-      const tx = transactions[chainId]?.[hash];
+      const tx = transactions[chainId]?.[hash]
       if (!tx) {
-        return;
+        return
       }
-      tx.receipt = receipt;
-      tx.confirmedTime = now();
+      tx.receipt = receipt
+      tx.confirmedTime = now()
+
+      if (transactions[chainId]?.[hash].type === 'limit-order-submission') {
+        confirmOrderSubmission(chainId, receipt.from, hash, receipt.status !== 0)
+      } else if (transactions[chainId]?.[hash].type === 'limit-order-cancellation') {
+        confirmOrderCancellation(chainId, receipt.from, hash, receipt.status !== 0)
+      }
     }),
-);
+)

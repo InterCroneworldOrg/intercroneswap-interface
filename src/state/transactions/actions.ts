@@ -1,33 +1,39 @@
-import { createAction } from '@reduxjs/toolkit';
-import { ChainId } from '@intercroneswap/v2-sdk';
+import { createAction } from '@reduxjs/toolkit'
+import { ChainId } from '@intercroneswap/v2-sdk'
+import { Order } from '@gelatonetwork/limit-orders-lib'
+
+// TODO: Add normal swaps and liquditiy transactions
+export type TransactionType = 'limit-order-submission' | 'limit-order-cancellation' | 'limit-order-approval'
 
 export interface SerializableTransactionReceipt {
-  to: string;
-  from: string;
-  contractAddress: string;
-  transactionIndex: number;
-  blockHash: string;
-  transactionHash: string;
-  blockNumber: number;
-  status?: number;
+  to: string
+  from: string
+  contractAddress: string
+  transactionIndex: number
+  blockHash: string
+  transactionHash: string
+  blockNumber: number
+  status?: number
 }
 
 export const addTransaction = createAction<{
-  chainId: ChainId;
-  hash: string;
-  from: string;
-  approval?: { tokenAddress: string; spender: string };
-  claim?: { recipient: string };
-  summary?: string;
-}>('transactions/addTransaction');
-export const clearAllTransactions = createAction<{ chainId: ChainId }>('transactions/clearAllTransactions');
+  chainId: ChainId
+  hash: string
+  from: string
+  approval?: { tokenAddress: string; spender: string }
+  claim?: { recipient: string }
+  summary?: string
+  type?: TransactionType
+  order?: Order
+}>('transactions/addTransaction')
+export const clearAllTransactions = createAction<{ chainId: ChainId }>('transactions/clearAllTransactions')
 export const finalizeTransaction = createAction<{
-  chainId: ChainId;
-  hash: string;
-  receipt: SerializableTransactionReceipt;
-}>('transactions/finalizeTransaction');
+  chainId: ChainId
+  hash: string
+  receipt: SerializableTransactionReceipt
+}>('transactions/finalizeTransaction')
 export const checkedTransaction = createAction<{
-  chainId: ChainId;
-  hash: string;
-  blockNumber: number;
-}>('transactions/checkedTransaction');
+  chainId: ChainId
+  hash: string
+  blockNumber: number
+}>('transactions/checkedTransaction')

@@ -1,49 +1,52 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useActiveWeb3React } from '../../hooks';
-import { useAddPopup, useBlockNumber } from '../application/hooks';
-import { AppDispatch, AppState } from '../index';
-import { checkedTransaction, finalizeTransaction } from './actions';
+import { useEffect, useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'contexts/Localization'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { useCurrentBlock } from 'state/block/hooks'
+import { ToastDescriptionWithTx } from 'components/Toast'
+import useToast from 'hooks/useToast'
+import { AppDispatch, AppState } from '../index'
+import { checkedTransaction, finalizeTransaction } from './actions'
 
 export function shouldCheck(
-  lastBlockNumber: number,
-  tx: { addedTime: number; receipt?: unknown; lastCheckedBlockNumber?: number },
+  currentBlock: number,
+  tx: { addedTime: number; receipt?: any; lastCheckedBlockNumber?: number },
 ): boolean {
-  if (tx.receipt) return false;
-  if (!tx.lastCheckedBlockNumber) return true;
-  const blocksSinceCheck = lastBlockNumber - tx.lastCheckedBlockNumber;
-  if (blocksSinceCheck < 1) return false;
-  const minutesPending = (new Date().getTime() - tx.addedTime) / 1000 / 60;
+  if (tx.receipt) return false
+  if (!tx.lastCheckedBlockNumber) return true
+  const blocksSinceCheck = currentBlock - tx.lastCheckedBlockNumber
+  if (blocksSinceCheck < 1) return false
+  const minutesPending = (new Date().getTime() - tx.addedTime) / 1000 / 60
   if (minutesPending > 60) {
     // every 10 blocks if pending for longer than an hour
-    return blocksSinceCheck > 9;
-  } else if (minutesPending > 5) {
-    // every 3 blocks if pending more than 5 minutes
-    return blocksSinceCheck > 2;
-  } else {
-    // otherwise every block
-    return true;
+    return blocksSinceCheck > 9
   }
+  if (minutesPending > 5) {
+    // every 3 blocks if pending more than 5 minutes
+    return blocksSinceCheck > 2
+  }
+  // otherwise every block
+  return true
 }
 
 export default function Updater(): null {
-  const { chainId, library } = useActiveWeb3React();
+  const { library, chainId } = useActiveWeb3React()
+  const { t } = useTranslation()
 
-  const lastBlockNumber = useBlockNumber();
+  const currentBlock = useCurrentBlock()
 
-  const dispatch = useDispatch<AppDispatch>();
-  const state = useSelector<AppState, AppState['transactions']>((state) => state.transactions);
+  const dispatch = useDispatch<AppDispatch>()
+  const state = useSelector<AppState, AppState['transactions']>((s) => s.transactions)
 
-  const transactions = chainId ? state[chainId] ?? {} : {};
+  const transactions = useMemo(() => (chainId ? state[chainId] ?? {} : {}), [chainId, state])
 
-  // show popup on confirm
-  const addPopup = useAddPopup();
+  const { toastError, toastSuccess } = useToast()
 
   useEffect(() => {
-    if (!chainId || !library || !lastBlockNumber) return;
+    if (!chainId || !library || !currentBlock) return
 
     Object.keys(transactions)
-      .filter((hash) => shouldCheck(lastBlockNumber, transactions[hash]))
+      .filter((hash) => shouldCheck(currentBlock, transactions[hash]))
       .forEach((hash) => {
         library
           .getTransactionReceipt(hash)
@@ -64,27 +67,19 @@ export default function Updater(): null {
                     transactionIndex: receipt.transactionIndex,
                   },
                 }),
-              );
+              )
 
-              addPopup(
-                {
-                  txn: {
-                    hash,
-                    success: receipt.status === 1,
-                    summary: transactions[hash]?.summary,
-                  },
-                },
-                hash,
-              );
+              const toast = receipt.status === 1 ? toastSuccess : toastError
+              toast(t('Transaction receipt'), <ToastDescriptionWithTx txHash={receipt.transactionHash} />)
             } else {
-              dispatch(checkedTransaction({ chainId, hash, blockNumber: lastBlockNumber }));
+              dispatch(checkedTransaction({ chainId, hash, blockNumber: currentBlock }))
             }
           })
           .catch((error) => {
-            console.error(`failed to check transaction hash: ${hash}`, error);
-          });
-      });
-  }, [chainId, library, transactions, lastBlockNumber, dispatch, addPopup]);
+            console.error(`failed to check transaction hash: ${hash}`, error)
+          })
+      })
+  }, [chainId, library, transactions, currentBlock, dispatch, toastSuccess, toastError, t])
 
-  return null;
+  return null
 }

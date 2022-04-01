@@ -1,7 +1,9 @@
-import { Currency, ETHER, Token } from '@intercroneswap/v2-sdk';
+import { Currency, ETHER, Token } from '@intercroneswap/v2-sdk'
 
 export function currencyId(currency: Currency): string {
-  if (currency === ETHER) return 'TRX';
-  if (currency instanceof Token) return currency.address;
-  throw new Error('invalid currency');
+  if (currency === ETHER) return 'BNB'
+  if (currency instanceof Token) return currency.address
+  throw new Error('invalid currency')
 }
+
+export default currencyId
