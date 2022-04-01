@@ -1,23 +1,25 @@
+import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/IISwapV1Pair.json';
 import { ChainId, CurrencyAmount, JSBI, Pair, Token, TokenAmount, WETH, ZERO } from '@intercroneswap/v2-sdk';
+import { abi as ISwapV2StakingRewards } from '@intercroneswap/v2-staking/build/StakingRewards.json';
+import { BigNumber } from 'ethers';
 import { Interface, isAddress } from 'ethers/lib/utils';
 import { useCallback, useMemo } from 'react';
-import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks';
-import { abi as ISwapV2StakingRewards } from '@intercroneswap/v2-staking/build/StakingRewards.json';
-import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/IISwapV1Pair.json';
-import { useStakingContract } from '../../hooks/useContract';
-import { AppDispatch, AppState } from '..';
 import { useDispatch, useSelector } from 'react-redux';
-import { typeInput } from './actions';
-import { BigNumber } from 'ethers';
-import { useActiveWeb3React } from '../../hooks';
-import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp';
+
+import { AppDispatch, AppState } from '..';
 import { BTT, ICR, USDT } from '../../constants/tokens';
+import { useActiveWeb3React } from '../../hooks';
+import { useStakingContract } from '../../hooks/useContract';
+import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp';
+import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks';
 import { tryParseAmount } from '../swap/hooks';
+import { typeInput } from './actions';
 
 const PairInterface = new Interface(ISwapV1PairABI);
 const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards);
 
 export const STAKING_GENESIS = 1647797301;
+export const REWARDS_DURATION_DAYS = 60;
 
 interface PairInfo {
   token0: string;

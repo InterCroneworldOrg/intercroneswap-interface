@@ -1,29 +1,33 @@
-import { RefObject, useCallback, useContext, useRef, useState, KeyboardEvent } from 'react';
+import { ethAddress } from '@intercroneswap/java-tron-provider';
+import { TokenAmount } from '@intercroneswap/v2-sdk';
+import { KeyboardEvent, RefObject, useCallback, useContext, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { RouteComponentProps } from 'react-router-dom';
+import { Text } from 'rebass';
 import styled, { ThemeContext } from 'styled-components';
 
-// import { useUserHasLiquidityInAllTokens } from '../../data/V';
-import { TYPE, Divider, Button } from '../../theme';
-import { GreyCard, LightCard } from '../../components/Card';
-import { AutoRow, RowBetween } from '../../components/Row';
-import { AutoColumn } from '../../components/Column';
-import { Text } from 'rebass';
-
-import { useActiveWeb3React } from '../../hooks';
-import { Dots } from '../../components/swap/styleds';
-import { useWalletModalToggle } from '../../state/application/hooks';
-import StakingPositionCard from '../../components/PositionCard/Stake';
-import { StakingInfo, useStakeActionHandlers, useStakingBalancesWithLoadingIndicator, useStakingInfo } from '../../state/stake/hooks';
-import StakeModal from './StakeModal';
-import { StyledHeading } from '../App';
-import { TokenAmount } from '@intercroneswap/v2-sdk';
-import HarvestModal from './HarvestModal';
-import { SearchInput } from '../../components/SearchModal/styleds';
-import { useTranslation } from 'react-i18next';
-import { ethAddress } from '@intercroneswap/java-tron-provider';
 import CopyHelper from '../../components/AccountDetails/Copy';
-import { RouteComponentProps } from 'react-router-dom';
 import { ButtonPrimary } from '../../components/Button';
+import { GreyCard, LightCard } from '../../components/Card';
+import { AutoColumn } from '../../components/Column';
+import PoolCard from '../../components/earn/PoolCard';
+import { AutoRow, RowBetween } from '../../components/Row';
+import { SearchInput } from '../../components/SearchModal/styleds';
+import { Dots } from '../../components/swap/styleds';
+import { useActiveWeb3React } from '../../hooks';
+import { useWalletModalToggle } from '../../state/application/hooks';
+import {
+  StakingInfo,
+  useStakeActionHandlers,
+  useStakingBalancesWithLoadingIndicator,
+  useStakingInfo,
+} from '../../state/stake/hooks';
+import { Button, Divider, TYPE } from '../../theme';
+import { StyledHeading } from '../App';
+import HarvestModal from './HarvestModal';
+import StakeModal from './StakeModal';
 
+// import { useUserHasLiquidityInAllTokens } from '../../data/V';
 const PageWrapper = styled(AutoColumn)`
   max-width: 80%;
   width: 100%;
@@ -246,13 +250,13 @@ export default function Stake({
               ) : stakingInfos2?.length > 0 ? (
                 <>
                   {stakingInfos2.map((stakingInfo) => (
-                    <StakingPositionCard
+                    <PoolCard
                       key={stakingInfo.stakingRewardAddress}
                       stakingInfo={stakingInfo}
                       address={stakingInfo.stakingRewardAddress}
                       handleStake={handleStake}
                       handleHarvest={handleHarvest}
-                    ></StakingPositionCard>
+                    ></PoolCard>
                   ))}
                 </>
               ) : (

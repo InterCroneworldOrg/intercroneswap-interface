@@ -1,26 +1,26 @@
-import { LightCard } from '../Card';
-import { unwrappedToken } from '../../utils/wrappedCurrency';
-// GreyCard,
-import { AutoColumn } from '../Column';
-import { Text } from 'rebass';
-// import DoubleCurrencyLogo from '../DoubleLogo';
-import { AutoRow } from '../Row';
-import { ButtonEmpty, ButtonPrimary } from '../Button';
+import { ETHER, TokenAmount } from '@intercroneswap/v2-sdk';
 import { useContext, useState } from 'react';
+import { ChevronDown, ChevronUp } from 'react-feather';
+import { Text } from 'rebass';
 import styled, { ThemeContext } from 'styled-components';
-import { ChevronUp, ChevronDown } from 'react-feather';
-import { Divider, ExternalLink } from '../../theme';
-import { StakingInfos } from '../../state/stake/hooks';
-import { ETHER, Percent, Token, TokenAmount } from '@intercroneswap/v2-sdk';
-import CurrencyLogo from '../CurrencyLogo';
 import { PairState, usePair } from '../../data/Reserves';
-import { useTokenBalance } from '../../state/wallet/hooks';
-import { useActiveWeb3React } from '../../hooks';
-import { getEtherscanLink } from '../../utils';
-import { Dots } from '../../pages/Stake/styleds';
-import { tryParseAmount } from '../../state/swap/hooks';
 
-interface StakingPositionCardProps {
+import { useActiveWeb3React } from '../../hooks';
+import { Dots } from '../../pages/Stake/styleds';
+import { StakingInfos } from '../../state/stake/hooks';
+import { useTokenBalance } from '../../state/wallet/hooks';
+// import { tryParseAmount } from '../../state/swap/hooks';
+import { Divider, ExternalLink } from '../../theme';
+import { getEtherscanLink } from '../../utils';
+import { unwrappedToken } from '../../utils/wrappedCurrency';
+import { ButtonEmpty, ButtonPrimary } from '../Button';
+import { LightCard } from '../Card';
+import { AutoColumn } from '../Column';
+import CurrencyLogo from '../CurrencyLogo';
+import { AutoRow } from '../Row';
+import { Countdown } from './Countdown';
+
+interface PoolCardProps {
   stakingInfo: StakingInfos;
   address: string;
   handleStake: (address: string, lpSupply?: TokenAmount) => void;
@@ -77,29 +77,18 @@ const RowBetweenToDiv = styled.div`
   `}
 `;
 
-export default function StakingPositionCard({ stakingInfo, address, handleStake, handleHarvest }: StakingPositionCardProps) {
+export default function PoolCard({ stakingInfo, address, handleStake, handleHarvest }: PoolCardProps) {
   const theme = useContext(ThemeContext);
 
-  const token0 = stakingInfo.tokens[0]
-  const token1 = stakingInfo.tokens[1]
+  const token0 = stakingInfo.tokens[0];
+  const token1 = stakingInfo.tokens[1];
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+  const currency0 = unwrappedToken(token0);
+  const currency1 = unwrappedToken(token1);
   const { account, chainId } = useActiveWeb3React();
   const [showMore, setShowMore] = useState(false);
-  const stakeBalanceAmount = tryParseAmount(
-    (Number(info?.balance.toString()) / Math.pow(10, lpPair?.liquidityToken.decimals ?? 0)).toFixed(
-      lpPair?.liquidityToken.decimals,
-    ),
-    lpPair?.liquidityToken,
-  );
-
-  const finishDate =
-    info.periodFinish && info.periodFinish.gt(0) ? new Date(info.periodFinish.toNumber() * 1000) : undefined;
-  finishDate?.setSeconds(0);
-  const now = Date.now();
-  const dateDiff = finishDate && finishDate.getTime() > now ? new Date(finishDate.getTime() - now) : undefined;
-  const rate = new Percent(info.rewardRate, 8640);
+  const [pairState, pair] = usePair(token0, token1);
+  const LPSupply = useTokenBalance(account ?? undefined, pair?.liquidityToken ?? undefined);
 
   return (
     <LightCard style={{ marginTop: '2px', margin: '0rem', padding: '1rem', background: theme.bg3 }}>
@@ -124,7 +113,7 @@ export default function StakingPositionCard({ stakingInfo, address, handleStake,
             Ends on
           </Text>
           <Text fontSize="0.5rem" fontWeight="0.6rem" color={theme.primary3}>
-            {finishDate?.toLocaleString() || 'Not available yet'}
+            {stakingInfo.periodFinish?.toLocaleString() || 'Not available yet'}
           </Text>
         </AutoRowToColumn>
         <AutoRowToColumn gap="1px">
@@ -132,7 +121,7 @@ export default function StakingPositionCard({ stakingInfo, address, handleStake,
             Earned / APY
           </Text>
           <Text fontSize="0.5rem" fontWeight="0.6rem" color={theme.primary3}>
-            {stakingInfo.earnedAmount.toSignificant()} / {rate.toSignificant()}
+            {stakingInfo.earnedAmount.toSignificant()} / {stakingInfo.rewardRate.toSignificant()}
           </Text>
         </AutoRowToColumn>
         <AutoRowToColumn gap="1px">
@@ -151,9 +140,9 @@ export default function StakingPositionCard({ stakingInfo, address, handleStake,
               </Text>
             </ExternalLink>
           </AutoRow>
-          {stakingInfo?. ? (
+          {pairState === PairState.EXISTS ? (
             <Text fontSize="0.5rem" fontWeight="0.7rem" color={theme.primary3}>
-              {pairSupply?.toSignificant(4)}
+              {LPSupply?.toSignificant(4)}
             </Text>
           ) : (
             <Dots></Dots>
@@ -165,7 +154,6 @@ export default function StakingPositionCard({ stakingInfo, address, handleStake,
             borderRadius="8px"
             width="45%"
             style={{ color: '#000' }}
-            disabled={rewardAmount?.equalTo(0)}
             onClick={() => handleHarvest(address)}
           >
             <AutoColumn>
@@ -173,7 +161,9 @@ export default function StakingPositionCard({ stakingInfo, address, handleStake,
                 Harvest
               </Text>
               <Text fontSize="0.5rem" fontWeight="0.5rem">
-                {rewardAmount?.greaterThan(0) ? rewardAmount?.toSignificant(4) : 'Nothing to Harvest'}
+                {stakingInfo.earnedAmount?.greaterThan(0)
+                  ? stakingInfo.earnedAmount?.toSignificant(4)
+                  : 'Nothing to Harvest'}
               </Text>
             </AutoColumn>
           </ButtonPrimary>
@@ -182,15 +172,15 @@ export default function StakingPositionCard({ stakingInfo, address, handleStake,
             borderRadius="8px"
             width="45%"
             style={{ color: '#000' }}
-            onClick={() => handleStake(address, pairSupply)}
+            onClick={() => handleStake(address, LPSupply)}
           >
             <AutoColumn>
               <Text fontSize="0.7rem" fontWeight="0.7rem">
                 Stake
               </Text>
-              {pairSupply ? (
+              {pairState === PairState.EXISTS ? (
                 <Text fontSize="0.5rem" fontWeight="0.5rem">
-                  {pairSupply.greaterThan(0) ? pairSupply?.toSignificant(4) : 'No liquidity'}
+                  {LPSupply?.greaterThan(0) ? LPSupply?.toSignificant(4) : 'No liquidity'}
                 </Text>
               ) : (
                 <Dots></Dots>
@@ -219,25 +209,14 @@ export default function StakingPositionCard({ stakingInfo, address, handleStake,
           <Divider />
           <SpacedToCenteredAutoRow gap=".3rem">
             <RowBetweenToDiv>
-              <Text fontSize="0.7rem" fontWeight="0.7rem">
-                Ends in
-              </Text>
-              {dateDiff ? (
-                <Text fontSize="0.5rem" fontWeight="0.5rem" color={theme.primary3}>
-                  {Math.floor(dateDiff.getTime() / (24 * 3600 * 1000))} Days / {dateDiff.toLocaleTimeString()}
-                </Text>
-              ) : (
-                <Text fontSize="0.5rem" fontWeight="0.5rem" color={theme.primary3}>
-                  Not available
-                </Text>
-              )}
+              <Countdown exactEnd={stakingInfo.periodFinish} />
             </RowBetweenToDiv>
             <RowBetweenToDiv>
               <Text fontSize="0.7rem" fontWeight="0.7rem">
                 Liquidity
               </Text>
               <Text fontSize="0.5rem" fontWeight="0.5rem" color={theme.primary3}>
-                {stakeBalanceAmount?.toSignificant()}
+                {stakingInfo.stakedAmount?.toSignificant()}
               </Text>
             </RowBetweenToDiv>
             <ExternalLink
