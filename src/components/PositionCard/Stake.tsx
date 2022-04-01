@@ -10,9 +10,8 @@ import { useContext, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import { ChevronUp, ChevronDown } from 'react-feather';
 import { Divider, ExternalLink } from '../../theme';
-import { StakingInfo } from '../../state/stake/hooks';
-import { useToken } from '../../hooks/Tokens';
-import { Currency, ETHER, Percent, Token, TokenAmount } from '@intercroneswap/v2-sdk';
+import { StakingInfos } from '../../state/stake/hooks';
+import { ETHER, Percent, Token, TokenAmount } from '@intercroneswap/v2-sdk';
 import CurrencyLogo from '../CurrencyLogo';
 import { PairState, usePair } from '../../data/Reserves';
 import { useTokenBalance } from '../../state/wallet/hooks';
@@ -22,7 +21,7 @@ import { Dots } from '../../pages/Stake/styleds';
 import { tryParseAmount } from '../../state/swap/hooks';
 
 interface StakingPositionCardProps {
-  info: StakingInfo;
+  stakingInfo: StakingInfos;
   address: string;
   handleStake: (address: string, lpSupply?: TokenAmount) => void;
   handleHarvest: (address: string) => void;
@@ -78,23 +77,16 @@ const RowBetweenToDiv = styled.div`
   `}
 `;
 
-export default function StakingPositionCard({ info, address, handleStake, handleHarvest }: StakingPositionCardProps) {
+export default function StakingPositionCard({ stakingInfo, address, handleStake, handleHarvest }: StakingPositionCardProps) {
   const theme = useContext(ThemeContext);
+
+  const token0 = stakingInfo.tokens[0]
+  const token1 = stakingInfo.tokens[1]
+
+  const currency0 = unwrappedToken(token0)
+  const currency1 = unwrappedToken(token1)
   const { account, chainId } = useActiveWeb3React();
   const [showMore, setShowMore] = useState(false);
-  const rewardsToken: Token | null | undefined = useToken(info.rewardsToken);
-  const token0: Token | null | undefined = useToken(info.stakingPair?.token0);
-  const token1: Token | null | undefined = useToken(info.stakingPair?.token1);
-  const token0Loading = token0 === null || token0 === undefined;
-  const token1Loading = token1 === null || token1 === undefined;
-  const currency0: Currency | undefined = token0Loading ? undefined : unwrappedToken(token0);
-  const currency1: Currency | undefined = token1Loading ? undefined : unwrappedToken(token1);
-  const [pairState, lpPair] = usePair(token0 === null ? undefined : token0, token1 === null ? undefined : token1);
-  const rewardAmount: TokenAmount | undefined = rewardsToken ? new TokenAmount(rewardsToken, info?.earned) : undefined;
-  const pairSupply = useTokenBalance(account ?? undefined, lpPair?.liquidityToken);
-  if (pairState === PairState.LOADING) {
-    console.log('loading');
-  }
   const stakeBalanceAmount = tryParseAmount(
     (Number(info?.balance.toString()) / Math.pow(10, lpPair?.liquidityToken.decimals ?? 0)).toFixed(
       lpPair?.liquidityToken.decimals,
@@ -114,7 +106,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
       <AutoRow justify="space-between" gap=".2rem">
         <AutoRowToColumn>
           <AutoRow>
-            <CurrencyLogo currency={token0Loading ? undefined : currency0} size="1rem" />
+            <CurrencyLogo currency={currency0} size="1rem" />
             &nbsp;
             <Text fontWeight={500} fontSize="1rem">
               {currency0?.symbol}&nbsp;/
@@ -140,7 +132,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
             Earned / APY
           </Text>
           <Text fontSize="0.5rem" fontWeight="0.6rem" color={theme.primary3}>
-            {rewardAmount?.toSignificant(4)} / {rate.toSignificant()}
+            {stakingInfo.earnedAmount.toSignificant()} / {rate.toSignificant()}
           </Text>
         </AutoRowToColumn>
         <AutoRowToColumn gap="1px">
@@ -159,7 +151,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
               </Text>
             </ExternalLink>
           </AutoRow>
-          {pairSupply ? (
+          {stakingInfo?. ? (
             <Text fontSize="0.5rem" fontWeight="0.7rem" color={theme.primary3}>
               {pairSupply?.toSignificant(4)}
             </Text>
@@ -258,7 +250,7 @@ export default function StakingPositionCard({ info, address, handleStake, handle
             </ExternalLink>
             <ExternalLink
               style={{ textAlign: 'center', color: '#fff', textDecorationLine: 'underline' }}
-              href={chainId ? getEtherscanLink(chainId, rewardsToken?.address ?? '', 'token') : '#'}
+              href={chainId ? getEtherscanLink(chainId, stakingInfo.stakingRewardAddress ?? '', 'token') : '#'}
             >
               <Text fontSize="0.7rem" fontWeight="0.7rem">
                 View Token Info

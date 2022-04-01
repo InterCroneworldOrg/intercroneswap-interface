@@ -12,7 +12,7 @@ import { useActiveWeb3React } from '../../hooks';
 import { Dots } from '../../components/swap/styleds';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import StakingPositionCard from '../../components/PositionCard/Stake';
-import { StakingInfo, useStakeActionHandlers, useStakingBalancesWithLoadingIndicator } from '../../state/stake/hooks';
+import { StakingInfo, useStakeActionHandlers, useStakingBalancesWithLoadingIndicator, useStakingInfo } from '../../state/stake/hooks';
 import StakeModal from './StakeModal';
 import { StyledHeading } from '../App';
 import { TokenAmount } from '@intercroneswap/v2-sdk';
@@ -61,6 +61,9 @@ export default function Stake({
     rewardsAddresses,
     account ?? undefined,
   );
+
+  const stakingInfos2 = useStakingInfo();
+  console.log(stakingInfos2, 'new stake infos');
 
   const [stakeAddress, setStakeAddress] = useState<string>('');
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
@@ -240,13 +243,13 @@ export default function Stake({
                     <Dots>Loading</Dots>
                   </TYPE.body>
                 </GreyCard>
-              ) : rewardsAddresses?.length > 0 ? (
+              ) : stakingInfos2?.length > 0 ? (
                 <>
-                  {rewardsAddresses.map((contract) => (
+                  {stakingInfos2.map((stakingInfo) => (
                     <StakingPositionCard
-                      key={contract}
-                      info={stakingInfos[contract]}
-                      address={contract}
+                      key={stakingInfo.stakingRewardAddress}
+                      stakingInfo={stakingInfo}
+                      address={stakingInfo.stakingRewardAddress}
                       handleStake={handleStake}
                       handleHarvest={handleHarvest}
                     ></StakingPositionCard>
