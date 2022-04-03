@@ -58,6 +58,7 @@ export interface StakingInfos {
   totalStakedAmount: TokenAmount;
   totalRewardRate: TokenAmount;
   rewardRate: TokenAmount;
+  rewardForDuration: TokenAmount;
   periodFinish: Date | undefined;
   active: boolean;
   getHypotheticalRewardRate: (
@@ -251,6 +252,13 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfos[] {
     undefined,
     NEVER_RELOAD,
   );
+  const rewardForDurations = useMultipleContractSingleData(
+    rewardsAddresses,
+    ISwapV2StakingRewardsInterface,
+    'getRewardForDuration',
+    undefined,
+    NEVER_RELOAD,
+  );
 
   return useMemo(() => {
     if (!chainId) return [];
@@ -263,6 +271,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfos[] {
       // these get fetched regardless of account
       const totalSupplyState = totalSupplies[index];
       const rewardRateState = rewardRates[index];
+      const rewardForDurationState = rewardForDurations[index];
       const periodFinishState = periodFinishes[index];
 
       if (
@@ -274,6 +283,8 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfos[] {
         !totalSupplyState.loading &&
         rewardRateState &&
         !rewardRateState.loading &&
+        rewardForDurationState &&
+        !rewardForDurationState.loading &&
         periodFinishState &&
         !periodFinishState.loading
       ) {
@@ -282,6 +293,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfos[] {
           earnedAmountState?.error ||
           totalSupplyState.error ||
           rewardRateState.error ||
+          rewardForDurationState.error ||
           periodFinishState.error
         ) {
           console.error('Failed to load staking rewards info');
@@ -297,6 +309,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfos[] {
         const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0));
         const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyState.result?.[0]));
         const totalRewardRate = new TokenAmount(ICR, JSBI.BigInt(rewardRateState.result?.[0]));
+        const rewardForDuration = new TokenAmount(ICR, JSBI.BigInt(rewardForDurationState.result?.[0]));
 
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
@@ -326,6 +339,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfos[] {
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
           earnedAmount: new TokenAmount(ICR, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
           rewardRate: individualRewardRate,
+          rewardForDuration,
           totalRewardRate,
           stakedAmount,
           totalStakedAmount,
@@ -343,6 +357,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfos[] {
     info,
     periodFinishes,
     rewardRates,
+    rewardForDurations,
     rewardsAddresses,
     totalSupplies,
     ICR,

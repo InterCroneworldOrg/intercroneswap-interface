@@ -1,9 +1,11 @@
-import { ETHER, TokenAmount } from '@intercroneswap/v2-sdk';
+import { ETHER, JSBI, Percent, TokenAmount } from '@intercroneswap/v2-sdk';
 import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
 import { Text } from 'rebass';
 import styled, { ThemeContext } from 'styled-components';
+import { ICR } from '../../constants/tokens';
 import { PairState, usePair } from '../../data/Reserves';
+import { useTotalSupply } from '../../data/TotalSupply';
 
 import { useActiveWeb3React } from '../../hooks';
 import { Dots } from '../../pages/Stake/styleds';
@@ -88,7 +90,27 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
   const { account, chainId } = useActiveWeb3React();
   const [showMore, setShowMore] = useState(false);
   const [pairState, pair] = usePair(token0, token1);
+
   const LPSupply = useTokenBalance(account ?? undefined, pair?.liquidityToken ?? undefined);
+  const LPTotalSupply = useTotalSupply(pair?.liquidityToken);
+  // We create a new tokanemaount as we get wrong pair from stakingInfo
+  const totalStakedAmount = pair ? new TokenAmount(pair?.liquidityToken, stakingInfo.totalStakedAmount.raw) : undefined;
+
+  const YEAR = JSBI.BigInt(365 * 24 * 60 * 60);
+  const REWARD_DURATION = JSBI.BigInt(14 * 24 * 60 * 60);
+  const yearlyRate = JSBI.divide(YEAR, REWARD_DURATION);
+  const ratePerYear = stakingInfo.rewardForDuration.multiply(yearlyRate);
+
+  const totalStakedInICR =
+    !!pair &&
+    !!LPTotalSupply &&
+    !!LPSupply &&
+    totalStakedAmount &&
+    JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.totalStakedAmount.raw)
+      ? pair?.getLiquidityValue(ICR, LPTotalSupply, totalStakedAmount, false).multiply(2)
+      : undefined;
+
+  const apr = totalStakedInICR ? new Percent(ratePerYear.numerator, totalStakedInICR.numerator) : 0;
 
   return (
     <LightCard style={{ marginTop: '2px', margin: '0rem', padding: '1rem', background: theme.bg3 }}>
@@ -121,7 +143,7 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
             Earned / APY
           </Text>
           <Text fontSize="0.5rem" fontWeight="0.6rem" color={theme.primary3}>
-            {stakingInfo.earnedAmount.toSignificant()} / {stakingInfo.rewardRate.toSignificant()}
+            {stakingInfo.earnedAmount.toSignificant()} / {apr.toFixed(2)}%
           </Text>
         </AutoRowToColumn>
         <AutoRowToColumn gap="1px">
