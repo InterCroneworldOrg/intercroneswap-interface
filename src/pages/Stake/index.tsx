@@ -1,29 +1,33 @@
-import { RefObject, useCallback, useContext, useRef, useState, KeyboardEvent } from 'react';
+import { ethAddress } from '@intercroneswap/java-tron-provider';
+import { TokenAmount } from '@intercroneswap/v2-sdk';
+import { KeyboardEvent, RefObject, useCallback, useContext, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { RouteComponentProps } from 'react-router-dom';
+import { Text } from 'rebass';
 import styled, { ThemeContext } from 'styled-components';
 
-// import { useUserHasLiquidityInAllTokens } from '../../data/V';
-import { TYPE, Divider, Button } from '../../theme';
-import { GreyCard, LightCard } from '../../components/Card';
-import { AutoRow, RowBetween } from '../../components/Row';
-import { AutoColumn } from '../../components/Column';
-import { Text } from 'rebass';
-
-import { useActiveWeb3React } from '../../hooks';
-import { Dots } from '../../components/swap/styleds';
-import { useWalletModalToggle } from '../../state/application/hooks';
-import StakingPositionCard from '../../components/PositionCard/Stake';
-import { StakingInfo, useStakeActionHandlers, useStakingBalancesWithLoadingIndicator } from '../../state/stake/hooks';
-import StakeModal from './StakeModal';
-import { StyledHeading } from '../App';
-import { TokenAmount } from '@intercroneswap/v2-sdk';
-import HarvestModal from './HarvestModal';
-import { SearchInput } from '../../components/SearchModal/styleds';
-import { useTranslation } from 'react-i18next';
-import { ethAddress } from '@intercroneswap/java-tron-provider';
 import CopyHelper from '../../components/AccountDetails/Copy';
-import { RouteComponentProps } from 'react-router-dom';
 import { ButtonPrimary } from '../../components/Button';
+import { GreyCard, LightCard } from '../../components/Card';
+import { AutoColumn } from '../../components/Column';
+import PoolCard, { ResponsiveSizedTextMedium } from '../../components/earn/PoolCard';
+import { AutoRow, RowBetween } from '../../components/Row';
+import { SearchInput } from '../../components/SearchModal/styleds';
+import { Dots } from '../../components/swap/styleds';
+import { useActiveWeb3React } from '../../hooks';
+import { useWalletModalToggle } from '../../state/application/hooks';
+import {
+  StakingInfo,
+  useStakeActionHandlers,
+  useStakingBalancesWithLoadingIndicator,
+  useStakingInfo,
+} from '../../state/stake/hooks';
+import { Button, Divider, TYPE } from '../../theme';
+import { StyledHeading } from '../App';
+import HarvestModal from './HarvestModal';
+import StakeModal from './StakeModal';
 
+// import { useUserHasLiquidityInAllTokens } from '../../data/V';
 const PageWrapper = styled(AutoColumn)`
   max-width: 80%;
   width: 100%;
@@ -36,6 +40,22 @@ const TitleRow = styled(RowBetween)`
     width: 100%;
     flex-direction: column-reverse;
   `};
+`;
+
+const ReferalButton = styled(ButtonPrimary)`
+  font-size: 1rem;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    font-size: .6rem;
+    width: 6rem;
+  `}
+`;
+
+const WordBreakDiv = styled.div`
+  word-break: break-all;
+  font-size: 1rem;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    font-size: .7rem;
+  `}
 `;
 
 const rewardsAddresses: string[] = [];
@@ -61,6 +81,8 @@ export default function Stake({
     rewardsAddresses,
     account ?? undefined,
   );
+
+  const stakingInfos2 = useStakingInfo();
 
   const [stakeAddress, setStakeAddress] = useState<string>('');
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
@@ -127,8 +149,8 @@ export default function Stake({
           <Text>{uplinkAddress}</Text>
         ) : (
           <>
-            <Text>Confirm your upline {referal}</Text>
-            <ButtonPrimary width="25%" onClick={() => setUplinkAddress(referal ?? ethAddress.toTron(account))}>
+            <WordBreakDiv>Confirm your upline {referal}</WordBreakDiv>
+            <ButtonPrimary width="10rem" onClick={() => setUplinkAddress(referal ?? ethAddress.toTron(account))}>
               <Text>Confirm</Text>
             </ButtonPrimary>
           </>
@@ -151,12 +173,8 @@ export default function Stake({
         }}
       >
         {referal ? confirmUpline() : undefined}
-        <Text fontSize="0.7rem" fontWeight=".5rem">
-          Your referral link
-        </Text>
-        <div style={{ fontSize: '.7rem', wordBreak: 'break-all' }}>{`${
-          window.location.origin
-        }/#/stake/${ethAddress.toTron(account)}`}</div>
+        <ResponsiveSizedTextMedium fontWeight=".5rem">Your referral link</ResponsiveSizedTextMedium>
+        <WordBreakDiv>{`${window.location.origin}/#/stake/${ethAddress.toTron(account)}`}</WordBreakDiv>
         <CopyHelper toCopy={`${window.location.origin}/#/stake/${ethAddress.toTron(account)}`}>Copy Address</CopyHelper>
       </AutoColumn>
     );
@@ -191,16 +209,15 @@ export default function Stake({
             <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between"></AutoRow>
           )}
           <AutoColumn gap="1.5rem" justify="center">
-            <ButtonPrimary
-              width="8rem"
+            <ReferalButton
+              width="11rem"
               height="2rem"
               marginBottom="-4rem"
               justifySelf="end"
               onClick={() => setShowReferal(!showReferal)}
-              fontSize=".6rem"
             >
               Show referal link
-            </ButtonPrimary>
+            </ReferalButton>
             <AutoColumn gap="2rem" style={{ width: '100%' }}>
               <TitleRow style={{ marginTop: '1rem' }} textAlign="center" padding={'0'}>
                 <TYPE.mediumHeader width="100%" style={{ marginTop: '0.5rem', justifySelf: 'center' }}>
@@ -240,16 +257,16 @@ export default function Stake({
                     <Dots>Loading</Dots>
                   </TYPE.body>
                 </GreyCard>
-              ) : rewardsAddresses?.length > 0 ? (
+              ) : stakingInfos2?.length > 0 ? (
                 <>
-                  {rewardsAddresses.map((contract) => (
-                    <StakingPositionCard
-                      key={contract}
-                      info={stakingInfos[contract]}
-                      address={contract}
+                  {stakingInfos2.map((stakingInfo) => (
+                    <PoolCard
+                      key={stakingInfo.stakingRewardAddress}
+                      stakingInfo={stakingInfo}
+                      address={stakingInfo.stakingRewardAddress}
                       handleStake={handleStake}
                       handleHarvest={handleHarvest}
-                    ></StakingPositionCard>
+                    ></PoolCard>
                   ))}
                 </>
               ) : (
