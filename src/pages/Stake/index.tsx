@@ -16,12 +16,7 @@ import { SearchInput } from '../../components/SearchModal/styleds';
 import { Dots } from '../../components/swap/styleds';
 import { useActiveWeb3React } from '../../hooks';
 import { useWalletModalToggle } from '../../state/application/hooks';
-import {
-  StakingInfo,
-  useStakeActionHandlers,
-  useStakingBalancesWithLoadingIndicator,
-  useStakingInfo,
-} from '../../state/stake/hooks';
+import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks';
 import { Button, Divider, TYPE } from '../../theme';
 import { StyledHeading } from '../App';
 import HarvestModal from './HarvestModal';
@@ -77,12 +72,7 @@ export default function Stake({
   const theme = useContext(ThemeContext);
   const { account } = useActiveWeb3React();
 
-  const [stakingInfos, fetchingStakingInfos] = useStakingBalancesWithLoadingIndicator(
-    rewardsAddresses,
-    account ?? undefined,
-  );
-
-  const stakingInfos2 = useStakingInfo();
+  const stakingInfos = useStakingInfo();
 
   const [stakeAddress, setStakeAddress] = useState<string>('');
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
@@ -93,8 +83,6 @@ export default function Stake({
   const [showReferal, setShowReferal] = useState<boolean>(false);
   const [showHarvest, setShowHarvest] = useState<boolean>(false);
   const { onUserInput } = useStakeActionHandlers();
-
-  const v1IsLoading = fetchingStakingInfos;
 
   const toggleWalletModal = useWalletModalToggle();
 
@@ -109,10 +97,10 @@ export default function Stake({
   };
   const inputRef = useRef<HTMLInputElement>();
 
-  const handleStake = (address: string, pairSupply?: TokenAmount) => {
+  const handleStake = (address: string, pairSupply?: TokenAmount, stakingInfo?: StakingInfo) => {
     setShowStake(true);
     setStakeAddress(address);
-    setStakeInfo(stakingInfos[address]);
+    setStakeInfo(stakingInfo);
     setLPBalance(pairSupply);
   };
 
@@ -140,7 +128,7 @@ export default function Stake({
   );
 
   const confirmUpline = useCallback(() => {
-    return (
+    return account ? (
       <>
         <Text fontSize={18} fontWeight={600}>
           Your upline
@@ -156,11 +144,11 @@ export default function Stake({
           </>
         )}
       </>
-    );
+    ) : undefined;
   }, [referal, uplinkAddress]);
 
   const uplineComponent = useCallback(() => {
-    return (
+    return account ? (
       <AutoColumn
         justify="center"
         gap="3px"
@@ -177,7 +165,7 @@ export default function Stake({
         <WordBreakDiv>{`${window.location.origin}/#/stake/${ethAddress.toTron(account)}`}</WordBreakDiv>
         <CopyHelper toCopy={`${window.location.origin}/#/stake/${ethAddress.toTron(account)}`}>Copy Address</CopyHelper>
       </AutoColumn>
-    );
+    ) : undefined;
   }, [uplinkAddress, showReferal]);
 
   return (
@@ -251,15 +239,15 @@ export default function Stake({
                     Connect to a wallet to view your liquidity.
                   </TYPE.body>
                 </GreyCard>
-              ) : v1IsLoading ? (
+              ) : stakingInfos.length === 0 ? (
                 <GreyCard padding="1rem">
                   <TYPE.body color={theme.text1} textAlign="left">
                     <Dots>Loading</Dots>
                   </TYPE.body>
                 </GreyCard>
-              ) : stakingInfos2?.length > 0 ? (
+              ) : stakingInfos?.length > 0 ? (
                 <>
-                  {stakingInfos2.map((stakingInfo) => (
+                  {stakingInfos.map((stakingInfo) => (
                     <PoolCard
                       key={stakingInfo.stakingRewardAddress}
                       stakingInfo={stakingInfo}

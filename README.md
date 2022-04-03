@@ -3,8 +3,8 @@
 
 An open source interface for ISwap -- a protocol for decentralized exchange of Ethereum tokens.
 
-- Website: [InterCroneswap.com](https://intercroneswap.com/#/swap)
-- Interface: [tron.ISwap.io](https://tron.Intercroneswap.com)
+- Website: [InterCroneswap.com](https://intercroneswap.com)
+- Interface: [TRX.Iswap](https://trx.intercroneswap.com)
 - Docs: [ISwap/docs/](https://docs.intercroneswap.finance)
 - Reddit: [/r/]()
 - Email: [office@intercroneswap.finance](mailto:office@intercroneswap.finance)
@@ -13,7 +13,7 @@ An open source interface for ISwap -- a protocol for decentralized exchange of E
 
 To access the ISwap Interface, use an IPFS gateway link from the
 [latest release](https://github.com/ISwap/ISwap-interface/releases/latest), 
-or visit [tron.ISwap.io](https://Intercroneswap.com).
+or visit [InterCrone World](https://Intercroneswap.com).
 
 ## Listing a token
 

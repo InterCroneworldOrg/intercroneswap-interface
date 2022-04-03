@@ -49,13 +49,6 @@ export default function StakeModal({
 
   const stakeAmount = tryParseAmount(stakeState.typedValue, balance?.token);
 
-  const withdrawAmount = tryParseAmount(
-    (Number(stakingInfo?.balance.toString()) / Math.pow(10, balance?.token.decimals ?? 0)).toFixed(
-      balance?.token.decimals,
-    ),
-    balance?.token,
-  );
-
   const swapStaking = () => {
     setIsStaking(!isStaking);
     onUserInput('');
@@ -94,6 +87,9 @@ export default function StakeModal({
           setTxHash(response.hash);
         }),
       )
+      .finally(() => {
+        setTxHash('');
+      })
       .catch((err) => {
         setAttemptingTxn(false);
         if (err?.code !== 4001) {
@@ -132,6 +128,9 @@ export default function StakeModal({
           setTxHash(response.hash);
         }),
       )
+      .finally(() => {
+        setTxHash('');
+      })
       .catch((err) => {
         setAttemptingTxn(false);
         if (err?.code !== 4001) {
@@ -156,14 +155,14 @@ export default function StakeModal({
           disabled={
             isStaking
               ? Number(stakeState.typedValue) > Number(balance?.toExact())
-              : Number(stakeState.typedValue) > Number(withdrawAmount?.toExact())
+              : Number(stakeState.typedValue) > Number(stakingInfo?.stakedAmount?.toExact())
           }
         >
           {isStaking ? 'Deposit' : 'Remove'}
         </ButtonPrimary>
       </AutoRow>
     );
-  }, [stakeState, balance, isStaking, approveState]);
+  }, [stakeState, balance, isStaking, approveState, stakingInfo, isOpen]);
 
   const modalHeader = useCallback(() => {
     return (
@@ -171,16 +170,11 @@ export default function StakeModal({
         <RowBetween>
           <Text fontWeight={500}>Balance</Text>
           <Text fontWeight={500} color={theme.primary3}>
-            {isStaking ? balance?.toExact() : withdrawAmount?.toExact()}
+            {isStaking ? balance?.toExact() : stakingInfo?.stakedAmount?.toExact()}
           </Text>
         </RowBetween>
         <RowBetween style={{ background: theme.bg3, borderRadius: '6px' }}>
-          <NumericalInput
-            className="lp-amount-input"
-            value={stakeState.typedValue}
-            onUserInput={handleTypeInput}
-            max={balance?.toFixed()}
-          />
+          <NumericalInput className="lp-amount-input" value={stakeState.typedValue} onUserInput={handleTypeInput} />
           <MaxButton
             style={{
               border: theme.primary3,
@@ -195,7 +189,7 @@ export default function StakeModal({
             }}
             width="fit-content"
             onClick={() => {
-              onUserInput((isStaking ? balance?.toFixed(8) : withdrawAmount?.toFixed(8)) ?? '');
+              onUserInput((isStaking ? balance?.toFixed(8) : stakingInfo?.stakedAmount?.toFixed(8)) ?? '');
             }}
           >
             <Text>MAX</Text>
@@ -203,7 +197,7 @@ export default function StakeModal({
         </RowBetween>
       </AutoColumn>
     );
-  }, [stakeState, balance, isStaking]);
+  }, [stakeState, balance, isStaking, stakingInfo, isOpen]);
 
   // const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
   const confirmationContent = useCallback(() => {
@@ -225,7 +219,11 @@ export default function StakeModal({
         />
       </AutoRow>
     );
-  }, [stakeState, balance, approveState, isStaking]);
+  }, [onDismiss, modalBottom, modalHeader, txHash]);
+
+  const pendingText = `${isStaking ? 'Staking' : 'Withdrawing'} ${stakeState.typedValue} ${
+    stakingInfo?.tokens[0].symbol
+  } / ${stakingInfo?.tokens[1]?.symbol} LP Tokens`;
 
   return (
     <TransactionConfirmationModal
@@ -234,7 +232,7 @@ export default function StakeModal({
       attemptingTxn={attemptingTxn}
       hash={txHash}
       content={confirmationContent}
-      pendingText={''}
+      pendingText={pendingText}
     />
   );
 }
