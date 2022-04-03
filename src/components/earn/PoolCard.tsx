@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
 import { Text } from 'rebass';
 import styled, { ThemeContext } from 'styled-components';
+import { YEARLY_RATE } from '../../constants';
 import { ICR } from '../../constants/tokens';
 import { PairState, usePair } from '../../data/Reserves';
 import { useTotalSupply } from '../../data/TotalSupply';
@@ -79,6 +80,20 @@ const RowBetweenToDiv = styled.div`
   `}
 `;
 
+export const ResponsiveSizedTextNormal = styled(Text)`
+  font-size: 1rem;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    font-size: .5rem;
+  `}
+`;
+
+export const ResponsiveSizedTextMedium = styled(Text)`
+  font-size: 1rem;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    font-size: .7rem;
+  `}
+`;
+
 export default function PoolCard({ stakingInfo, address, handleStake, handleHarvest }: PoolCardProps) {
   const theme = useContext(ThemeContext);
 
@@ -96,10 +111,7 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
   // We create a new tokanemaount as we get wrong pair from stakingInfo
   const totalStakedAmount = pair ? new TokenAmount(pair?.liquidityToken, stakingInfo.totalStakedAmount.raw) : undefined;
 
-  const YEAR = JSBI.BigInt(365 * 24 * 60 * 60);
-  const REWARD_DURATION = JSBI.BigInt(14 * 24 * 60 * 60);
-  const yearlyRate = JSBI.divide(YEAR, REWARD_DURATION);
-  const ratePerYear = stakingInfo.rewardForDuration.multiply(yearlyRate);
+  const ratePerYear = stakingInfo.rewardForDuration.multiply(YEARLY_RATE);
 
   const totalStakedInICR =
     !!pair &&
@@ -131,41 +143,35 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
           </AutoRow>
         </AutoRowToColumn>
         <AutoRowToColumn gap="0.5rem">
-          <Text fontSize="0.7rem" fontWeight="1.3rem">
-            Ends on
-          </Text>
-          <Text fontSize="0.5rem" fontWeight="0.6rem" color={theme.primary3}>
+          <ResponsiveSizedTextMedium fontWeight="1.3rem">Ends on</ResponsiveSizedTextMedium>
+          <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
             {stakingInfo.periodFinish?.toLocaleString() || 'Not available yet'}
-          </Text>
+          </ResponsiveSizedTextNormal>
         </AutoRowToColumn>
         <AutoRowToColumn gap="1px">
-          <Text fontSize="0.7rem" fontWeight="1.3rem">
-            Earned / APY
-          </Text>
-          <Text fontSize="0.5rem" fontWeight="0.6rem" color={theme.primary3}>
+          <ResponsiveSizedTextMedium fontWeight="1.3rem">Earned / APY</ResponsiveSizedTextMedium>
+          <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
             {stakingInfo.earnedAmount.toSignificant()} / {apr.toFixed(2)}%
-          </Text>
+          </ResponsiveSizedTextNormal>
         </AutoRowToColumn>
         <AutoRowToColumn gap="1px">
           <AutoRow gap="1rem">
-            <Text fontSize="0.7rem" fontWeight="0.7rem">
-              Balance
-            </Text>
+            <ResponsiveSizedTextMedium fontWeight="0.7rem">Balance</ResponsiveSizedTextMedium>
             <ExternalLink
               style={{ textAlign: 'center', color: '#fff' }}
               href={`#/add/${currency0 === ETHER ? ETHER.symbol : token0?.address}/${
                 currency1 === ETHER ? ETHER.symbol : token1?.address
               }`}
             >
-              <Text fontSize="0.7rem" fontWeight={400} style={{ textDecorationLine: 'underline' }}>
+              <ResponsiveSizedTextMedium fontWeight={400} style={{ textDecorationLine: 'underline' }}>
                 Get LP
-              </Text>
+              </ResponsiveSizedTextMedium>
             </ExternalLink>
           </AutoRow>
           {pairState === PairState.EXISTS ? (
-            <Text fontSize="0.5rem" fontWeight="0.7rem" color={theme.primary3}>
+            <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.primary3}>
               {LPSupply?.toSignificant(4)}
-            </Text>
+            </ResponsiveSizedTextNormal>
           ) : (
             <Dots></Dots>
           )}
@@ -179,14 +185,12 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
             onClick={() => handleHarvest(address)}
           >
             <AutoColumn>
-              <Text fontSize="0.7rem" fontWeight="0.8rem">
-                Harvest
-              </Text>
-              <Text fontSize="0.5rem" fontWeight="0.5rem">
+              <ResponsiveSizedTextMedium fontWeight="0.8rem">Harvest</ResponsiveSizedTextMedium>
+              <ResponsiveSizedTextNormal fontWeight="0.5rem">
                 {stakingInfo.earnedAmount?.greaterThan(0)
                   ? stakingInfo.earnedAmount?.toSignificant(4)
                   : 'Nothing to Harvest'}
-              </Text>
+              </ResponsiveSizedTextNormal>
             </AutoColumn>
           </ButtonPrimary>
           <ButtonPrimary
@@ -197,13 +201,11 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
             onClick={() => handleStake(address, LPSupply)}
           >
             <AutoColumn>
-              <Text fontSize="0.7rem" fontWeight="0.7rem">
-                Stake
-              </Text>
+              <ResponsiveSizedTextMedium fontWeight="0.7rem">Stake</ResponsiveSizedTextMedium>
               {pairState === PairState.EXISTS ? (
-                <Text fontSize="0.5rem" fontWeight="0.5rem">
+                <ResponsiveSizedTextNormal fontWeight="0.5rem">
                   {LPSupply?.greaterThan(0) ? LPSupply?.toSignificant(4) : 'No liquidity'}
-                </Text>
+                </ResponsiveSizedTextNormal>
               ) : (
                 <Dots></Dots>
               )}
@@ -234,28 +236,22 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
               <Countdown exactEnd={stakingInfo.periodFinish} />
             </RowBetweenToDiv>
             <RowBetweenToDiv>
-              <Text fontSize="0.7rem" fontWeight="0.7rem">
-                Liquidity
-              </Text>
-              <Text fontSize="0.5rem" fontWeight="0.5rem" color={theme.primary3}>
+              <ResponsiveSizedTextMedium fontWeight="0.7rem">Liquidity</ResponsiveSizedTextMedium>
+              <ResponsiveSizedTextNormal fontWeight="0.5rem" color={theme.primary3}>
                 {stakingInfo.stakedAmount?.toSignificant()}
-              </Text>
+              </ResponsiveSizedTextNormal>
             </RowBetweenToDiv>
             <ExternalLink
               style={{ textAlign: 'center', color: '#fff', textDecorationLine: 'underline' }}
               href={chainId ? getEtherscanLink(chainId, address, 'address') : '#'}
             >
-              <Text fontSize="0.7rem" fontWeight="0.7rem">
-                View Smart Contract
-              </Text>
+              <ResponsiveSizedTextMedium fontWeight="0.7rem">View Smart Contract</ResponsiveSizedTextMedium>
             </ExternalLink>
             <ExternalLink
               style={{ textAlign: 'center', color: '#fff', textDecorationLine: 'underline' }}
               href={chainId ? getEtherscanLink(chainId, stakingInfo.stakingRewardAddress ?? '', 'token') : '#'}
             >
-              <Text fontSize="0.7rem" fontWeight="0.7rem">
-                View Token Info
-              </Text>
+              <ResponsiveSizedTextMedium fontWeight="0.7rem">View Token Info</ResponsiveSizedTextMedium>
             </ExternalLink>
           </SpacedToCenteredAutoRow>
         </AutoColumnToRow>

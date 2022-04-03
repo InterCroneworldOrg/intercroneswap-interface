@@ -10,7 +10,7 @@ import CopyHelper from '../../components/AccountDetails/Copy';
 import { ButtonPrimary } from '../../components/Button';
 import { GreyCard, LightCard } from '../../components/Card';
 import { AutoColumn } from '../../components/Column';
-import PoolCard from '../../components/earn/PoolCard';
+import PoolCard, { ResponsiveSizedTextMedium } from '../../components/earn/PoolCard';
 import { AutoRow, RowBetween } from '../../components/Row';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import { Dots } from '../../components/swap/styleds';
@@ -42,6 +42,22 @@ const TitleRow = styled(RowBetween)`
   `};
 `;
 
+const ReferalButton = styled(ButtonPrimary)`
+  font-size: 1rem;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    font-size: .6rem;
+    width: 6rem;
+  `}
+`;
+
+const WordBreakDiv = styled.div`
+  word-break: break-all;
+  font-size: 1rem;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    font-size: .7rem;
+  `}
+`;
+
 const rewardsAddresses: string[] = [];
 
 fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
@@ -67,7 +83,6 @@ export default function Stake({
   );
 
   const stakingInfos2 = useStakingInfo();
-  console.log(stakingInfos2, 'new stake infos');
 
   const [stakeAddress, setStakeAddress] = useState<string>('');
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
@@ -134,8 +149,8 @@ export default function Stake({
           <Text>{uplinkAddress}</Text>
         ) : (
           <>
-            <Text>Confirm your upline {referal}</Text>
-            <ButtonPrimary width="25%" onClick={() => setUplinkAddress(referal ?? ethAddress.toTron(account))}>
+            <WordBreakDiv>Confirm your upline {referal}</WordBreakDiv>
+            <ButtonPrimary width="10rem" onClick={() => setUplinkAddress(referal ?? ethAddress.toTron(account))}>
               <Text>Confirm</Text>
             </ButtonPrimary>
           </>
@@ -158,12 +173,8 @@ export default function Stake({
         }}
       >
         {referal ? confirmUpline() : undefined}
-        <Text fontSize="0.7rem" fontWeight=".5rem">
-          Your referral link
-        </Text>
-        <div style={{ fontSize: '.7rem', wordBreak: 'break-all' }}>{`${
-          window.location.origin
-        }/#/stake/${ethAddress.toTron(account)}`}</div>
+        <ResponsiveSizedTextMedium fontWeight=".5rem">Your referral link</ResponsiveSizedTextMedium>
+        <WordBreakDiv>{`${window.location.origin}/#/stake/${ethAddress.toTron(account)}`}</WordBreakDiv>
         <CopyHelper toCopy={`${window.location.origin}/#/stake/${ethAddress.toTron(account)}`}>Copy Address</CopyHelper>
       </AutoColumn>
     );
@@ -198,16 +209,15 @@ export default function Stake({
             <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between"></AutoRow>
           )}
           <AutoColumn gap="1.5rem" justify="center">
-            <ButtonPrimary
-              width="8rem"
+            <ReferalButton
+              width="11rem"
               height="2rem"
               marginBottom="-4rem"
               justifySelf="end"
               onClick={() => setShowReferal(!showReferal)}
-              fontSize=".6rem"
             >
               Show referal link
-            </ButtonPrimary>
+            </ReferalButton>
             <AutoColumn gap="2rem" style={{ width: '100%' }}>
               <TitleRow style={{ marginTop: '1rem' }} textAlign="center" padding={'0'}>
                 <TYPE.mediumHeader width="100%" style={{ marginTop: '0.5rem', justifySelf: 'center' }}>

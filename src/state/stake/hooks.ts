@@ -19,7 +19,7 @@ const PairInterface = new Interface(ISwapV1PairABI);
 const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards);
 
 export const STAKING_GENESIS = 1647797301;
-export const REWARDS_DURATION_DAYS = 60;
+export const REWARDS_DURATION_DAYS = 14;
 
 interface PairInfo {
   token0: string;
