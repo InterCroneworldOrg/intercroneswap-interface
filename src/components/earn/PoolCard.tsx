@@ -10,7 +10,7 @@ import { useTotalSupply } from '../../data/TotalSupply';
 
 import { useActiveWeb3React } from '../../hooks';
 import { Dots } from '../../pages/Stake/styleds';
-import { StakingInfos } from '../../state/stake/hooks';
+import { StakingInfo } from '../../state/stake/hooks';
 import { useTokenBalance } from '../../state/wallet/hooks';
 // import { tryParseAmount } from '../../state/swap/hooks';
 import { Divider, ExternalLink } from '../../theme';
@@ -24,9 +24,9 @@ import { AutoRow } from '../Row';
 import { Countdown } from './Countdown';
 
 interface PoolCardProps {
-  stakingInfo: StakingInfos;
+  stakingInfo: StakingInfo;
   address: string;
-  handleStake: (address: string, lpSupply?: TokenAmount) => void;
+  handleStake: (address: string, lpSupply?: TokenAmount, stakingInfo?: StakingInfo) => void;
   handleHarvest: (address: string) => void;
 }
 
@@ -198,7 +198,7 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
             borderRadius="8px"
             width="45%"
             style={{ color: '#000' }}
-            onClick={() => handleStake(address, LPSupply)}
+            onClick={() => handleStake(address, LPSupply, stakingInfo)}
           >
             <AutoColumn>
               <ResponsiveSizedTextMedium fontWeight="0.7rem">Stake</ResponsiveSizedTextMedium>
