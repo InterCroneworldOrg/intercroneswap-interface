@@ -110,6 +110,7 @@ export default function Menu() {
   useOnClickOutside(node, open ? toggle : undefined);
   // const openClaimModal = useToggleModal(ApplicationModal.ADDRESS_CLAIM)
 
+  // TODO: Redesign Menu elements
   return (
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451
     <StyledMenu ref={node as any}>
