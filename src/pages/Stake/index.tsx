@@ -7,13 +7,15 @@ import { Text } from 'rebass';
 import styled, { ThemeContext } from 'styled-components';
 
 import CopyHelper from '../../components/AccountDetails/Copy';
-import { ButtonPrimary } from '../../components/Button';
+import { ButtonPrimary, ButtonSecondary } from '../../components/Button';
 import { GreyCard, LightCard } from '../../components/Card';
 import { AutoColumn } from '../../components/Column';
+import DoubleCurrencyLogo from '../../components/DoubleLogo';
 import PoolCard, { ResponsiveSizedTextMedium } from '../../components/earn/PoolCard';
 import { AutoRow, RowBetween } from '../../components/Row';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import { Dots } from '../../components/swap/styleds';
+import { USDT, ICR } from '../../constants/tokens';
 import { useActiveWeb3React } from '../../hooks';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks';
@@ -78,6 +80,7 @@ export default function Stake({
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
+  const [toggleToken, setToggleToken] = useState(true);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showStake, setShowStake] = useState<boolean>(false);
   const [showReferal, setShowReferal] = useState<boolean>(false);
@@ -186,6 +189,12 @@ export default function Stake({
           stakingInfo={stakeInfo}
           onDismiss={handleDismissHarvest}
         />
+        <AutoRow justify="center">
+          <ButtonSecondary width="15rem" onClick={() => setToggleToken(!toggleToken)}>
+            <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
+            <DoubleCurrencyLogo currency0={USDT} currency1={ICR} size={28} />
+          </ButtonSecondary>
+        </AutoRow>
         <LightCard style={{ marginTop: '20px' }} padding="2rem 1rem">
           {!account ? (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -254,6 +263,7 @@ export default function Stake({
                       address={stakingInfo.stakingRewardAddress}
                       handleStake={handleStake}
                       handleHarvest={handleHarvest}
+                      toggleToken={toggleToken}
                     ></PoolCard>
                   ))}
                 </>

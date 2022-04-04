@@ -17,7 +17,7 @@ import { useTokenBalance } from '../../state/wallet/hooks';
 import { Divider, ExternalLink } from '../../theme';
 import { getEtherscanLink } from '../../utils';
 import { unwrappedToken } from '../../utils/wrappedCurrency';
-import { ButtonEmpty, ButtonPrimary, ButtonSecondary } from '../Button';
+import { ButtonEmpty, ButtonPrimary } from '../Button';
 import { LightCard } from '../Card';
 import { AutoColumn } from '../Column';
 import CurrencyLogo from '../CurrencyLogo';
@@ -29,6 +29,7 @@ interface PoolCardProps {
   address: string;
   handleStake: (address: string, lpSupply?: TokenAmount, stakingInfo?: StakingInfo) => void;
   handleHarvest: (address: string) => void;
+  toggleToken: boolean;
 }
 
 export const AutoRowToColumn = styled.div<{
@@ -95,7 +96,7 @@ export const ResponsiveSizedTextMedium = styled(Text)`
   `}
 `;
 
-export default function PoolCard({ stakingInfo, address, handleStake, handleHarvest }: PoolCardProps) {
+export default function PoolCard({ stakingInfo, address, toggleToken, handleStake, handleHarvest }: PoolCardProps) {
   const theme = useContext(ThemeContext);
 
   const token0 = stakingInfo.tokens[0];
@@ -106,7 +107,6 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
   const currency1 = unwrappedToken(token1);
   const { account, chainId } = useActiveWeb3React();
   const [showMore, setShowMore] = useState(false);
-  const [toggleToken, setToggleToken] = useState(true);
   const [pairState, pair] = usePair(currency0, currency1);
   // const totalSupplyOfStakingToken = useTotalSupply(stakingInfo.stakedAmount.token);
 
@@ -152,17 +152,16 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
     <LightCard style={{ marginTop: '2px', margin: '0rem', padding: '1rem', background: theme.bg3 }}>
       <AutoRow justify="space-between" gap=".2rem">
         <AutoRowToColumn>
-          <ButtonSecondary onClick={() => setToggleToken(!toggleToken)}>Toggle</ButtonSecondary>
           <AutoRow>
-            <CurrencyLogo currency={currency0} size="1rem" />
+            <CurrencyLogo currency={currency0} size="1.2rem" />
             &nbsp;
-            <Text fontWeight={500} fontSize="1rem">
+            <Text fontWeight={500} fontSize="1.2rem">
               {currency0?.symbol}&nbsp;/
             </Text>
             &nbsp;
-            <CurrencyLogo currency={currency1} size="1rem" />
+            <CurrencyLogo currency={currency1} size="1.2rem" />
             &nbsp;
-            <Text fontWeight={500} fontSize="1rem">
+            <Text fontWeight={500} fontSize="1.2rem">
               {currency1?.symbol}
             </Text>
           </AutoRow>
@@ -218,7 +217,7 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
                 </ResponsiveSizedTextNormal>
               ) : (
                 <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.primary3}>
-                  {valueOfTotalStakedAmountInUSDT?.toFixed(2)} $
+                  {valueOfTotalStakedAmountInUSDT?.toFixed(2)} <CurrencyLogo currency={USDT} size=".8rem" />
                 </ResponsiveSizedTextNormal>
               )}
             </>
@@ -226,42 +225,44 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
             <Dots></Dots>
           )}
         </AutoRowToColumn>
-        <AutoRow style={{ width: '25rem' }} gap=".1rem">
-          <ButtonPrimary
-            padding="8px"
-            borderRadius="8px"
-            width="45%"
-            style={{ color: '#000' }}
-            onClick={() => handleHarvest(address)}
-          >
-            <AutoColumn>
-              <ResponsiveSizedTextMedium fontWeight="0.8rem">Harvest</ResponsiveSizedTextMedium>
-              <ResponsiveSizedTextNormal fontWeight="0.5rem">
-                {stakingInfo.earnedAmount?.greaterThan(0)
-                  ? stakingInfo.earnedAmount?.toSignificant(4)
-                  : 'Nothing to Harvest'}
-              </ResponsiveSizedTextNormal>
-            </AutoColumn>
-          </ButtonPrimary>
-          <ButtonPrimary
-            padding="8px"
-            borderRadius="8px"
-            width="45%"
-            style={{ color: '#000' }}
-            onClick={() => handleStake(address, LPSupply, stakingInfo)}
-          >
-            <AutoColumn>
-              <ResponsiveSizedTextMedium fontWeight="0.7rem">Stake</ResponsiveSizedTextMedium>
-              {pairState === PairState.EXISTS ? (
+        <AutoColumn justify="center" style={{ width: '25rem' }} gap="1rem">
+          <AutoRow gap=".1rem">
+            <ButtonPrimary
+              padding="8px"
+              borderRadius="8px"
+              width="48%"
+              style={{ color: '#000' }}
+              onClick={() => handleHarvest(address)}
+            >
+              <AutoColumn>
+                <ResponsiveSizedTextMedium fontWeight="0.8rem">Harvest</ResponsiveSizedTextMedium>
                 <ResponsiveSizedTextNormal fontWeight="0.5rem">
-                  {LPSupply?.greaterThan(0) ? LPSupply?.toSignificant(4) : 'No liquidity'}
+                  {stakingInfo.earnedAmount?.greaterThan(0)
+                    ? stakingInfo.earnedAmount?.toSignificant(4)
+                    : 'Nothing to Harvest'}
                 </ResponsiveSizedTextNormal>
-              ) : (
-                <Dots></Dots>
-              )}
-            </AutoColumn>
-          </ButtonPrimary>
-          <ButtonEmpty padding="0px" borderRadius="6" width="5%" onClick={() => setShowMore(!showMore)}>
+              </AutoColumn>
+            </ButtonPrimary>
+            <ButtonPrimary
+              padding="8px"
+              borderRadius="8px"
+              width="48%"
+              style={{ color: '#000' }}
+              onClick={() => handleStake(address, LPSupply, stakingInfo)}
+            >
+              <AutoColumn>
+                <ResponsiveSizedTextMedium fontWeight="0.7rem">Stake</ResponsiveSizedTextMedium>
+                {pairState === PairState.EXISTS ? (
+                  <ResponsiveSizedTextNormal fontWeight="0.5rem">
+                    {LPSupply?.greaterThan(0) ? LPSupply?.toSignificant(4) : 'No liquidity'}
+                  </ResponsiveSizedTextNormal>
+                ) : (
+                  <Dots></Dots>
+                )}
+              </AutoColumn>
+            </ButtonPrimary>
+          </AutoRow>
+          <ButtonEmpty padding="0px" borderRadius="6" width="2rem" onClick={() => setShowMore(!showMore)}>
             {showMore ? (
               <>
                 {/* {' '}
@@ -275,7 +276,7 @@ export default function PoolCard({ stakingInfo, address, handleStake, handleHarv
               </>
             )}
           </ButtonEmpty>
-        </AutoRow>
+        </AutoColumn>
       </AutoRow>
 
       {showMore && (
