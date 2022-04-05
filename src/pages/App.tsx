@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter';
 // import AddressClaimModal from '../components/claim/AddressClaimModal'
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 // import Polling from '../components/Header/Polling'
 import URLWarning from '../components/Header/URLWarning';
 import Popups from '../components/Popups';
@@ -45,6 +46,11 @@ const HeaderWrapper = styled.div`
   ${({ theme }) => theme.flexRowNoWrap}
   width: 100%;
   justify-content: space-between;
+`;
+const FooterWrapper = styled.footer`
+  width: 100%;
+
+  background: linear-gradient(180deg, #1c1c1c 0%, rgba(51, 51, 51, 0.67) 18.21%, #333333 38.13%);
 `;
 
 const BodyWrapper = styled.div`
@@ -363,6 +369,9 @@ export default function App() {
           </Web3ReactManager>
           <Marginer />
         </BodyWrapper>
+        <FooterWrapper>
+          <Footer />
+        </FooterWrapper>
       </AppWrapper>
     </Suspense>
   );
