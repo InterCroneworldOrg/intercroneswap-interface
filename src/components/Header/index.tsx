@@ -1,3 +1,4 @@
+// import { ChainId } from '@intercroneswap/v2-sdk';
 import { useState } from 'react';
 import { Text } from 'rebass';
 import { NavLink } from 'react-router-dom';
@@ -11,6 +12,12 @@ import Logo from '../../assets/images/ISwap.svg';
 import { useActiveWeb3React } from '../../hooks';
 // import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances } from '../../state/wallet/hooks';
+// import { CardNoise } from '../vote/styled'
+// import { CountUp } from 'use-count-up'
+// ExternalLink
+import { ExternalLink } from '../../theme';
+
+// import { YellowCard } from '../Card';
 import Settings from '../Settings';
 import Menu from '../Menu';
 // import LeftMenu from '../LeftMenu';
@@ -259,37 +266,37 @@ const StyledNavLink = styled(NavLink).attrs({
   }
 `;
 
-// const StyledExternalLink = styled(ExternalLink).attrs({
-//   activeClassName,
-// })<{ isActive?: boolean }>`
-//   ${({ theme }) => theme.flexRowNoWrap}
-//   align-items: left;
+const StyledExternalLink = styled(ExternalLink).attrs({
+  activeClassName,
+})<{ isActive?: boolean }>`
+  ${({ theme }) => theme.flexRowNoWrap}
+  align-items: left;
 
-//   border-radius: 3rem;
-//   outline: none;
-//   cursor: pointer;
-//   text-decoration: none;
-//   color: ${({ theme }) => theme.text2};
-//   font-size: 1rem;
-//   width: fit-content;
-//   margin: 0 12px;
-//   font-weight: 500;
+  border-radius: 3rem;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: ${({ theme }) => theme.text2};
+  font-size: 1rem;
+  width: fit-content;
+  margin: 0 12px;
+  font-weight: 500;
 
-//   &.${activeClassName} {
-//     border-radius: 12px;
-//     font-weight: 600;
-//     color: ${({ theme }) => theme.text1};
-//   }
+  &.${activeClassName} {
+    border-radius: 12px;
+    font-weight: 600;
+    color: ${({ theme }) => theme.text1};
+  }
 
-//   :hover,
-//   :focus {
-//     color: ${({ theme }) => darken(0.1, theme.text1)};
-//   }
+  :hover,
+  :focus {
+    color: ${({ theme }) => darken(0.1, theme.text1)};
+  }
 
-//   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-//       display: none;
-// `}
-// `;
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+      display: none;
+`}
+`;
 // const StyledExternalLocalLink = styled(ExternalLink).attrs({
 //   activeClassName
 // }) <{ isActive?: boolean }>`
@@ -339,14 +346,6 @@ const LinksContainer = styled.div`
 // display:none;
 // z-index:1000;
 // `
-const StyledHeaderElements = styled.div`
-  display: flex;
-  alignitems: center;
-
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    display: none;
-  `};
-`;
 
 export default function Header() {
   const {
@@ -374,10 +373,30 @@ export default function Header() {
             <img width={'115px'} src={Logo} alt="logo" />
           </IswapIcon>
         </Title>
-        <StyledHeaderElements>
-          <LinksContainer>
-            <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
-              {t('swap')}
+        <HeaderLinks>
+          <div style={{ display: 'none', float: 'left' }}>
+            <StyledExternalLink id={`charts-nav-link`} href={'https://trx.intercroneswap.com/'}>
+              {t('TRON')}
+            </StyledExternalLink>
+          </div>
+          <div style={{ display: 'none' }}>
+            <LinksContainer>
+              <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
+                {t('swap')}
+              </StyledNavLink>
+            </LinksContainer>
+            <StyledNavLink
+              id={`pool-nav-link`}
+              to={'/pool'}
+              isActive={(match, { pathname }) =>
+                Boolean(match) ||
+                pathname.startsWith('/add') ||
+                pathname.startsWith('/remove') ||
+                pathname.startsWith('/create') ||
+                pathname.startsWith('/find')
+              }
+            >
+              {t('pool')}
             </StyledNavLink>
           </LinksContainer>
           <StyledNavLink

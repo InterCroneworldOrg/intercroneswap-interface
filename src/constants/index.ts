@@ -2,17 +2,12 @@ import { ChainId, JSBI, Percent, Token, WETH } from '@intercroneswap/v2-sdk';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 
 import { injected } from '../connectors';
-import { REWARDS_DURATION_DAYS } from '../state/stake/hooks';
+import { REWARDS_DURATION_DAYS } from '../state/stake/constants';
 
 export const ROUTER_ADDRESSES: { [chainId: number]: string } = {
-  [ChainId.MAINNET]: '0x8e1d1d9b31a603b14a58b822b075050ddced7e94',
+  [ChainId.MAINNET]: '0xb9c285585f17fc228961bed77f48c6e797b5a1bd',
   [ChainId.NILE]: '',
-  [ChainId.SHASTA]: '0x5f887c70df576b6ce9c3518a02e341f8bc1d0659',
-};
-export const REFERRAL_ADDRESSES: { [chainId: number]: string } = {
-  [ChainId.MAINNET]: '0xfe29c9e5a34ca3fd941ecd9b1f4933e59c52648d',
-  [ChainId.NILE]: '',
-  [ChainId.SHASTA]: '',
+  [ChainId.SHASTA]: '0x3d7b9a5404f9719b93685cd746ebbf462060e159',
 };
 const chainId: number = parseInt(process.env.REACT_APP_CHAIN_ID ?? '11111');
 export const ROUTER_ADDRESS = ROUTER_ADDRESSES[chainId];
@@ -23,13 +18,10 @@ type ChainTokenList = {
   readonly [chainId in ChainId]: Token[];
 };
 
-// Staking Yearly Rate
-export const YEARLY_RATE = JSBI.divide(JSBI.BigInt(365), JSBI.BigInt(REWARDS_DURATION_DAYS));
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
 export const AVERAGE_BLOCK_TIME_IN_SECS = 14;
 export const PROPOSAL_LENGTH_IN_BLOCKS = 40_320;
 export const PROPOSAL_LENGTH_IN_SECS = AVERAGE_BLOCK_TIME_IN_SECS * PROPOSAL_LENGTH_IN_BLOCKS;
-
 export const GOVERNANCE_ADDRESS = '0x5e4be8Bc9637f0EAA1A755019e06A68ce081D58F';
 
 export const TIMELOCK_ADDRESS = '0x1a9C8182C09F50C8318d769245beA52c32BE35BC';
@@ -197,3 +189,4 @@ export const BLOCKED_PRICE_IMPACT_NON_EXPERT: Percent = new Percent(JSBI.BigInt(
 // used to ensure the user doesn't send so much ETH so they end up with <.01
 export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)); // .01 ETH
 export const BETTER_TRADE_LINK_THRESHOLD = new Percent(JSBI.BigInt(75), JSBI.BigInt(10000));
+export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(JSBI.BigInt(50), BIPS_BASE);

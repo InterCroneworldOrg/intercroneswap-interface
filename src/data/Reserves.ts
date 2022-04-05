@@ -1,4 +1,4 @@
-import { TokenAmount, Pair, Currency } from '@intercroneswap/v2-sdk';
+import { TokenAmount, Pair, Currency, ChainId, FACTORY_ADDRESSES } from '@intercroneswap/v2-sdk';
 import { useMemo, useState } from 'react';
 import { abi as ISwapV1PairABI } from '@intercroneswap/v1-core/build/IISwapV1Pair.json';
 import { Interface } from '@ethersproject/abi';
@@ -14,7 +14,25 @@ export enum PairState {
   EXISTS,
   INVALID,
 }
-
+async function queryPair(
+  tokenA: string | undefined,
+  tokenB: string | undefined,
+  chainId: ChainId | undefined,
+): Promise<string | undefined> {
+  if (window.tronWeb && chainId) {
+    //@ts-ignore
+    const factoryContract = await window.tronWeb?.contract().at(ethAddress.toTron(FACTORY_ADDRESSES[chainId]));
+    if (tokenA && tokenB && factoryContract) {
+      const pairAddress = await factoryContract.getPair(tokenA, tokenB).call();
+      if (tronWeb.isAddress(pairAddress)) {
+        return ethAddress.fromTron(pairAddress);
+      } else {
+        return '0x0000000000000000000000000000000000000000';
+      }
+    }
+  }
+  return undefined;
+}
 export function usePairs(currencies: [Currency | undefined, Currency | undefined][]): [PairState, Pair | null][] {
   const { chainId, library } = useActiveWeb3React();
   const [pairAddresses, setPairAddresses] = useState<(string | undefined)[]>([]);

@@ -3,19 +3,13 @@ import { shade } from 'polished';
 import Vibrant from 'node-vibrant';
 import { hex } from 'wcag-contrast';
 import { Token, ChainId } from '@intercroneswap/v2-sdk';
-import { useAllLists } from '../state/lists/hooks';
-import { TokenList } from '@intercroneswap/token-lists';
 
 async function getColorFromToken(token: Token, allTokenList?: TokenList[]): Promise<string | null> {
   if (token.chainId === ChainId.SHASTA && token.address === '0xc7AD46e0b8a400Bb3C915120d284AafbA8fc4735') {
     return Promise.resolve('#FAAB14');
   }
 
-  const path =
-    allTokenList
-      ?.flatMap((tokenLists) => tokenLists.tokens)
-      .find((t) => t.address.toLowerCase() === token.address.toLowerCase())?.logoURI ??
-    `https://coin.top/production/upload/logo/${token.address}.png`;
+  const path = `https://coin.top/production/upload/logo/${token.address}.png`;
 
   return Vibrant.from(path)
     .getPalette()

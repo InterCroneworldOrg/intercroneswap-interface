@@ -9,7 +9,7 @@ import styled, {
 import { useIsDarkMode } from '../state/user/hooks';
 import { Text, TextProps } from 'rebass';
 import { Colors } from './styled';
-import BGImage from '../assets/images/back_logo.png';
+import BGImage from '../assets/images/onrocketlogo.png';
 // radial-gradient(40% 60% at 52% 11%,#2d73ffc2 -184%,rgba(255,255,255,0) 100%)
 //159px -17px 150px 73px #113b8c, 11px 33px 56px 13px rgb(249 115 65 / 0%);
 export * from './components';
@@ -339,8 +339,9 @@ html {
 }
 
 body {
-  min-height: 100vh;
-  background:url(${BGImage}) no-repeat right bottom ;
+  min-height: 120vh;
+  background:url(${BGImage}) no-repeat center bottom ;
+  background-position: center 180px;
 
   // background-position:
 

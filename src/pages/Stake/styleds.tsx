@@ -1,5 +1,8 @@
 import { Text } from 'rebass';
 import styled from 'styled-components';
+import { ButtonPrimary } from '../../components/Button';
+import { AutoColumn } from '../../components/Column';
+import { RowBetween } from '../../components/Row';
 
 export const Wrapper = styled.div`
   position: relative;
@@ -61,4 +64,34 @@ export const Dots = styled.span`
       content: '...';
     }
   }
+`;
+
+export const PageWrapper = styled(AutoColumn)`
+  max-width: 80%;
+  width: 100%;
+`;
+
+export const TitleRow = styled(RowBetween)`
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+    flex-direction: column-reverse;
+  `};
+`;
+
+export const ReferalButton = styled(ButtonPrimary)`
+  font-size: 1rem;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    font-size: .6rem;
+    width: 6rem;
+  `}
+`;
+
+export const WordBreakDiv = styled.div`
+  word-break: break-all;
+  font-size: 1rem;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    font-size: .7rem;
+  `}
 `;

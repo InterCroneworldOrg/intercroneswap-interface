@@ -2,7 +2,7 @@
     "background_color": "#fff",
     "display": "standalone",
     "homepage_url": "https://intercroneswap.com",
-    "providedBy": { "name": "ISwap", "url": "https://trx.intercroneswap.com" },
+    "providedBy": { "name": "ISwap", "url": "https://intercroneswap.com" },
     "icons": [
         {
             "src": "/images/android-chrome-192x192.png?v=2",

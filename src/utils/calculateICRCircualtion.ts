@@ -1,5 +1,5 @@
-import { BigNumber } from '@ethersproject/bignumber';
-import { TokenAmount, Token, JSBI } from '@intercroneswap/v2-sdk';
+import { JSBI, Token, TokenAmount } from '@intercroneswap/v2-sdk';
+import { BigNumber } from 'ethers';
 
 import { STAKING_GENESIS } from '../state/stake/hooks';
 

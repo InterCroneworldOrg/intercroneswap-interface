@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { Facebook, Youtube, Twitter, Instagram, Send, Info, BookOpen, Image, Activity } from 'react-feather';
-import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg';
 // import { useActiveWeb3React } from '../../hooks'
@@ -127,12 +126,6 @@ export default function Menu() {
             <BookOpen size={14} />
             Docs
           </MenuItem> */}
-          <MenuItemNav id="link" to="/swap" onClick={toggle}>
-            Exchange
-          </MenuItemNav>
-          <MenuItemNav id="link" to="/stake" onClick={toggle}>
-            Stake
-          </MenuItemNav>
           <MenuItem id="link" href="https://intercroneswap.com/nft/minting">
             <Image size={14} />
             NFT

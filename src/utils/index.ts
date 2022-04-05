@@ -4,7 +4,6 @@ import { AddressZero } from '@ethersproject/constants';
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { BigNumber } from '@ethersproject/bignumber';
 import { abi as IntercroneswapV1Router02ABI } from '@intercroneswap/v2-periphery/build/IIswapV1Router02.json';
-import { abi as ISwapV2StakingABI } from '@intercroneswap/v2-staking/build/IStakingRewards.json';
 import { ROUTER_ADDRESS } from '../constants';
 import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@intercroneswap/v2-sdk';
 import { TokenAddressMap } from '../state/lists/hooks';

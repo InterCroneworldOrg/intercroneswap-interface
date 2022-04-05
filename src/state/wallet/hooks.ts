@@ -1,3 +1,4 @@
+// import { KWIK } from './../../constants/index'
 import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount } from '@intercroneswap/v2-sdk';
 import { useMemo } from 'react';
 import ERC20_INTERFACE from '../../constants/abis/erc20';

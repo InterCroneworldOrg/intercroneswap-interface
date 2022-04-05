@@ -13,6 +13,7 @@ import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/
 import DelegateModal from '../../components/vote/DelegateModal';
 // import { useTokenBalance } from '../../state/wallet/hooks'
 // import { useActiveWeb3React } from '../../hooks'
+// import { KWIK } from '../../constants'
 // import { TokenAmount } from '@intercroneswap/v2-sdk'
 // import { shortenAddress, getEtherscanLink } from '../../utils'
 // import Loader from '../../components/Loader'

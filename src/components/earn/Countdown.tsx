@@ -1,20 +1,21 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { REWARDS_DURATION_DAYS, STAKING_GENESIS } from '../../state/stake/hooks';
+import { STAKING_GENESIS } from '../../state/stake/hooks';
 import { Text } from 'rebass';
+import { REWARDS_DURATION_DAYS_180 } from '../../state/stake/constants';
 
 const MINUTE = 60;
 const HOUR = MINUTE * 60;
 const DAY = HOUR * 24;
-const REWARDS_DURATION = DAY * REWARDS_DURATION_DAYS;
 
-export function Countdown({ exactEnd }: { exactEnd?: Date }) {
+export function Countdown({ exactEnd, durationDays }: { exactEnd?: Date; durationDays?: number }) {
+  const rewardsDuration = durationDays ? DAY * durationDays : REWARDS_DURATION_DAYS_180;
   // get end/beginning times
   const end = useMemo(
-    () => (exactEnd ? Math.floor(exactEnd.getTime() / 1000) : STAKING_GENESIS + REWARDS_DURATION),
+    () => (exactEnd ? Math.floor(exactEnd.getTime() / 1000) : STAKING_GENESIS + rewardsDuration),
     [exactEnd],
   );
-  const begin = useMemo(() => end - REWARDS_DURATION, [end]);
+  const begin = useMemo(() => end - rewardsDuration, [end]);
 
   // get current time
   const [time, setTime] = useState(() => Math.floor(Date.now() / 1000));
