@@ -4,8 +4,8 @@ import styled from "styled-components";
 // import BottomNav from "../../components/BottomNav";
 import { Box } from "../../components/Box";
 import Flex from "../../components/Box/Flex";
-// import Footer from "../../components/Footer";
-// import MenuItems from "../../components/MenuItems/MenuItems";
+import Footer from "../../components/Footer";
+import MenuItems from "../../components/MenuItems/MenuItems";
 import { SubMenuItems } from "../../components/SubMenuItems";
 import { useMatchBreakpoints } from "../../hooks";
 import CakePrice from "../../components/CakePrice/CakePrice";
@@ -26,7 +26,7 @@ const StyledNav = styled.nav`
   align-items: center;
   width: 100%;
   height: ${MENU_HEIGHT}px;
-  background-color: ${({ theme }) => theme.nav.background};
+  background: linear-gradient(180deg, #3B3B3B 0%, rgba(59, 59, 59, 0) 100%);
   border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
   transform: translate3d(0, 0, 0);
 
@@ -135,9 +135,9 @@ const Menu: React.FC<NavProps> = ({
           <StyledNav>
             <Flex>
               <Logo isDark={isDark} href={homeLink?.href ?? "/"} />
-              {/* {!isMobile && <MenuItems items={links} activeItem={activeItem} activeSubItem={activeSubItem} ml="24px" />} */}
+              {!isMobile && <MenuItems items={links} activeItem={activeItem} activeSubItem={activeSubItem} ml="24px" />}
             </Flex>
-            <Flex alignItems="center" height="100%">
+            <Flex alignItems="center" height="100%" paddingRight={20}>
               {!isMobile && !isMd && (
                 <Box mr="12px">
                   <CakePrice showSkeleton={false} cakePriceUsd={cakePriceUsd} />
@@ -153,7 +153,9 @@ const Menu: React.FC<NavProps> = ({
                   hideLanguage
                 />
               </Box> */}
-              {!isMobile && bnbMenu} {userMenu} {globalMenu} {SocialMenu} 
+              {/* {!isMobile && bnbMenu}  */}
+              {userMenu}
+              {/* {globalMenu} {SocialMenu}  */}
             </Flex>
           </StyledNav>
         </FixedContainer>
@@ -174,7 +176,7 @@ const Menu: React.FC<NavProps> = ({
         <BodyWrapper mt={!subLinks ? `${totalTopMenuHeight + 1}px` : "0"}>
           <Inner isPushed={false} showMenu={showMenu}>
             {children}
-            {/* <Footer
+            <Footer
               items={footerLinks}
               isDark={isDark}
               toggleTheme={toggleTheme}
@@ -184,7 +186,7 @@ const Menu: React.FC<NavProps> = ({
               cakePriceUsd={cakePriceUsd}
               buyCakeLabel={buyCakeLabel}
               mb={[`${MOBILE_MENU_HEIGHT}px`, null, "0px"]}
-            /> */}
+            />
           </Inner>
         </BodyWrapper>
         {/* {isMobile && <BottomNav items={links} activeItem={activeItem} activeSubItem={activeSubItem} />} */}
