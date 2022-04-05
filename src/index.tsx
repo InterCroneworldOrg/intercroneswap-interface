@@ -17,6 +17,9 @@ import TransactionUpdater from './state/transactions/updater';
 import UserUpdater from './state/user/updater';
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme';
 import getLibrary from './utils/getLibrary';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/global.css';
+import './styles/override.css';
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
