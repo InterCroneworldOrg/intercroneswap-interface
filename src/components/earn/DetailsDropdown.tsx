@@ -1,13 +1,12 @@
 import { TokenAmount } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
-import { ExternalLink } from 'react-feather';
 import { ThemeContext } from 'styled-components';
 import { USDT } from '../../constants/tokens';
 import { PairState } from '../../data/Reserves';
 import { useActiveWeb3React } from '../../hooks';
 import useUSDTPrice from '../../hooks/useUSDTPrice';
 import { StakingInfo } from '../../state/stake/hooks';
-import { Divider } from '../../theme';
+import { Divider, ExternalLink } from '../../theme';
 import { getEtherscanLink } from '../../utils';
 import { unwrappedToken } from '../../utils/wrappedCurrency';
 import CurrencyLogo from '../CurrencyLogo';
@@ -91,7 +90,7 @@ export default function DetailsDropdown({
         </ExternalLink>
         <ExternalLink
           style={{ textAlign: 'center', color: '#fff', textDecorationLine: 'underline' }}
-          href={chainId ? getEtherscanLink(chainId, stakingInfo.stakingRewardAddress ?? '', 'token') : '#'}
+          href={chainId ? getEtherscanLink(chainId, stakingInfo.rewardForDuration.token.address ?? '', 'token') : '#'}
         >
           <ResponsiveSizedTextMedium fontWeight="0.7rem">View Token Info</ResponsiveSizedTextMedium>
         </ExternalLink>

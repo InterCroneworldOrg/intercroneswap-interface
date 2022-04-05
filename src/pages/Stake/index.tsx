@@ -1,10 +1,11 @@
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import { TokenAmount } from '@intercroneswap/v2-sdk';
-import { KeyboardEvent, RefObject, useCallback, useContext, useRef, useState } from 'react';
+import { orderBy } from 'lodash';
+import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { Text } from 'rebass';
-import styled, { ThemeContext } from 'styled-components';
+import { ThemeContext } from 'styled-components';
 
 import CopyHelper from '../../components/AccountDetails/Copy';
 import { ButtonPrimary, ButtonSecondary } from '../../components/Button';
@@ -24,37 +25,7 @@ import { Button, Divider, TYPE } from '../../theme';
 import { StyledHeading } from '../App';
 import HarvestModal from './HarvestModal';
 import StakeModal from './StakeModal';
-
-// import { useUserHasLiquidityInAllTokens } from '../../data/V';
-const PageWrapper = styled(AutoColumn)`
-  max-width: 80%;
-  width: 100%;
-`;
-
-const TitleRow = styled(RowBetween)`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    flex-wrap: wrap;
-    gap: 12px;
-    width: 100%;
-    flex-direction: column-reverse;
-  `};
-`;
-
-const ReferalButton = styled(ButtonPrimary)`
-  font-size: 1rem;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    font-size: .6rem;
-    width: 6rem;
-  `}
-`;
-
-const WordBreakDiv = styled.div`
-  word-break: break-all;
-  font-size: 1rem;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    font-size: .7rem;
-  `}
-`;
+import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds';
 
 export default function Stake({
   match: {
@@ -73,6 +44,7 @@ export default function Stake({
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
   const [toggleToken, setToggleToken] = useState(true);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortOption, setSortOption] = useState('latest');
   const [showStake, setShowStake] = useState<boolean>(false);
   const [showReferal, setShowReferal] = useState<boolean>(false);
   const [showHarvest, setShowHarvest] = useState<boolean>(false);
@@ -108,14 +80,14 @@ export default function Stake({
 
   const handleInput = useCallback((event) => {
     const input = event.target.value;
-    setSearchQuery(input);
+    setSearchQuery(input.toLowerCase());
   }, []);
 
   const handleEnter = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
         const s = searchQuery.toLowerCase().trim();
-        console.log(s);
+        setSearchQuery(s);
       }
     },
     [searchQuery],
@@ -161,6 +133,56 @@ export default function Stake({
       </AutoColumn>
     ) : undefined;
   }, [uplinkAddress, showReferal]);
+
+  // Filtering and sorting pools
+  // TODO: when we have active/ inactive toggle
+  // const activePools = stakingInfos.filter((info) => info.active);
+  // const inactivePools = stakingInfos.filter((info) => !info.active);
+  // const stakedOnlyPools = activePools.filter(
+  //   (info) => info.stakedAmount && JSBI.greaterThan(info.stakedAmount.numerator, ZERO),
+  // );
+  // const stakedInactivePools = inactivePools.filter(
+  //   (info) => info.stakedAmount && JSBI.greaterThan(info.stakedAmount.numerator, ZERO),
+  // );
+
+  const stakingList = useCallback(
+    (poolsToDisplay: StakingInfo[]): StakingInfo[] => {
+      if (searchQuery) {
+        return poolsToDisplay.filter((info: StakingInfo) => {
+          return (
+            info.tokens[0].symbol?.toLowerCase().includes(searchQuery) ||
+            info.tokens[0].name?.toLowerCase().includes(searchQuery) ||
+            info.tokens[1].symbol?.toLowerCase().includes(searchQuery) ||
+            info.tokens[1].name?.toLowerCase().includes(searchQuery)
+          );
+        });
+      }
+      return poolsToDisplay;
+    },
+    [searchQuery],
+  );
+
+  const chosenPoolsMemoized = useMemo(() => {
+    let chosenPools = [];
+    const sortPools = (infos: StakingInfo[]): StakingInfo[] => {
+      switch (sortOption) {
+        case 'earned':
+          return orderBy(infos, (info) => (info.earnedAmount ? Number(info.earnedAmount.numerator) : 0), 'desc');
+        case 'latest':
+          return orderBy(infos, (info) => (info.periodFinish?.getTime() ? info.periodFinish.getTime() : 0), 'desc');
+        default:
+          return infos;
+      }
+    };
+    chosenPools = stakingList(stakingInfos);
+    // if (isActive) {
+    //   chosenPools = farmsList(activeFarms)
+    // }
+    // if (isInactive) {
+    //   chosenPools = farmsList(inactiveFarms)
+    // }
+    return sortPools(chosenPools);
+  }, [sortOption, stakingInfos, searchQuery]);
 
   return (
     <>
@@ -215,7 +237,7 @@ export default function Stake({
               <Divider />
               {uplineComponent()}
               {/* TODO: when finished enable display */}
-              <RowBetween style={{ display: 'none' }}>
+              <RowBetween>
                 <AutoColumn justify="flex-start" gap="1rem">
                   <Text fontSize="1rem">Search</Text>
                   <SearchInput
@@ -226,11 +248,17 @@ export default function Stake({
                     ref={inputRef as RefObject<HTMLInputElement>}
                     onChange={handleInput}
                     onKeyDown={handleEnter}
-                    width="20rem"
+                    width="1rem"
+                    style={{ fontSize: '1rem' }}
                   />
                 </AutoColumn>
                 <AutoColumn gap="3px">
                   <Text>Sort by</Text>
+                  <ButtonSecondary
+                    onClick={() => (sortOption === 'earned' ? setSortOption('latest') : setSortOption('earned'))}
+                  >
+                    {sortOption}
+                  </ButtonSecondary>
                 </AutoColumn>
               </RowBetween>
               {!account ? (
@@ -245,9 +273,9 @@ export default function Stake({
                     <Dots>Loading</Dots>
                   </TYPE.body>
                 </GreyCard>
-              ) : stakingInfos?.length > 0 ? (
+              ) : chosenPoolsMemoized?.length > 0 ? (
                 <>
-                  {stakingInfos.map((stakingInfo) => (
+                  {chosenPoolsMemoized.map((stakingInfo) => (
                     <PoolCard
                       key={stakingInfo.stakingRewardAddress}
                       stakingInfo={stakingInfo}
