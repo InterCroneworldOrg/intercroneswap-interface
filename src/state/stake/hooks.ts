@@ -26,6 +26,7 @@ export interface StakingInfo {
   totalRewardRate: TokenAmount;
   rewardRate: TokenAmount;
   rewardForDuration: TokenAmount;
+  rewardDuration: number;
   periodFinish: Date | undefined;
   active: boolean;
   getHypotheticalRewardRate: (
@@ -87,6 +88,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
   const accountArg = useMemo(() => [account ?? undefined], [account]);
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info]);
+  const rewardsDurations = useMemo(() => info.map(({ rewardsDays }) => rewardsDays), [info]);
 
   // get all the info from the staking rewards contracts
   const balances = useMultipleContractSingleData(
@@ -206,6 +208,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
           earnedAmount: new TokenAmount(ICR, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
           rewardRate: individualRewardRate,
           rewardForDuration,
+          rewardDuration: rewardsDurations[index],
           totalRewardRate,
           stakedAmount,
           totalStakedAmount,
@@ -224,6 +227,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
     periodFinishes,
     rewardRates,
     rewardForDurations,
+    rewardsDurations,
     rewardsAddresses,
     totalSupplies,
     ICR,

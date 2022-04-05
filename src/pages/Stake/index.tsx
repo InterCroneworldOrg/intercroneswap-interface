@@ -11,7 +11,8 @@ import { ButtonPrimary, ButtonSecondary } from '../../components/Button';
 import { GreyCard, LightCard } from '../../components/Card';
 import { AutoColumn } from '../../components/Column';
 import DoubleCurrencyLogo from '../../components/DoubleLogo';
-import PoolCard, { ResponsiveSizedTextMedium } from '../../components/earn/PoolCard';
+import PoolCard from '../../components/earn/PoolCard';
+import { ResponsiveSizedTextMedium } from '../../components/earn/styleds';
 import { AutoRow, RowBetween } from '../../components/Row';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import { Dots } from '../../components/swap/styleds';
@@ -54,16 +55,6 @@ const WordBreakDiv = styled.div`
     font-size: .7rem;
   `}
 `;
-
-const rewardsAddresses: string[] = [];
-
-fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
-  .then((response) => response.json())
-  .then((responseJson) => {
-    console.log(responseJson);
-    rewardsAddresses.push(...responseJson.addresses);
-  })
-  .catch((err) => console.error(err));
 
 export default function Stake({
   match: {

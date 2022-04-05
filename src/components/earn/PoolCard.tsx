@@ -1,8 +1,8 @@
-import { ETHER, JSBI, Percent, TokenAmount } from '@intercroneswap/v2-sdk';
+import { ETHER, JSBI, Percent, TokenAmount, ZERO } from '@intercroneswap/v2-sdk';
 import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
 import { Text } from 'rebass';
-import styled, { ThemeContext } from 'styled-components';
+import { ThemeContext } from 'styled-components';
 import { YEARLY_RATE } from '../../constants';
 import { ICR, USDT } from '../../constants/tokens';
 import { PairState, usePair } from '../../data/Reserves';
@@ -13,16 +13,15 @@ import useUSDTPrice from '../../hooks/useUSDTPrice';
 import { Dots } from '../../pages/Stake/styleds';
 import { StakingInfo } from '../../state/stake/hooks';
 import { useTokenBalance } from '../../state/wallet/hooks';
-// import { tryParseAmount } from '../../state/swap/hooks';
-import { Divider, ExternalLink } from '../../theme';
-import { getEtherscanLink } from '../../utils';
-import { unwrappedToken } from '../../utils/wrappedCurrency';
+import { ExternalLink } from '../../theme';
+import { isOneTokenWETH, unwrappedToken } from '../../utils/wrappedCurrency';
 import { ButtonEmpty, ButtonPrimary } from '../Button';
 import { LightCard } from '../Card';
 import { AutoColumn } from '../Column';
 import CurrencyLogo from '../CurrencyLogo';
 import { AutoRow } from '../Row';
-import { Countdown } from './Countdown';
+import DetailsDropdown from './DetailsDropdown';
+import { AutoRowToColumn, ResponsiveSizedTextMedium, ResponsiveSizedTextNormal } from './styleds';
 
 interface PoolCardProps {
   stakingInfo: StakingInfo;
@@ -32,121 +31,72 @@ interface PoolCardProps {
   toggleToken: boolean;
 }
 
-export const AutoRowToColumn = styled.div<{
-  gap?: 'sm' | 'md' | 'lg' | string;
-  justify?: 'stretch' | 'center' | 'start' | 'end' | 'flex-start' | 'flex-end' | 'space-between';
-}>`
-  display: grid;
-  width: 100%
-  grid-auto-rows: auto;
-  grid-row-gap: ${({ gap }) => (gap === 'sm' && '8px') || (gap === 'md' && '12px') || (gap === 'lg' && '24px') || gap};
-  justify-items: ${({ justify }) => justify && justify};
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    display: flex;
-    padding: 0;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-  `}
-`;
-
-export const AutoColumnToRow = styled(AutoRow)`
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    display: grid;
-    margin: .5rem 0;
-    padding: 0;
-    width: 100%;
-    grid-auto-rows: auto;
-    justify-content: space-between;
-  `}
-`;
-
-const SpacedToCenteredAutoRow = styled(AutoRow)`
-  justify-content: center;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    justify-content: space-between;
-  `}
-`;
-
-const RowBetweenToDiv = styled.div`
-  display: flex;
-  gap: 2rem;
-  justify-content: center;
-  padding: 0 1rem;
-  align-items: center;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    justify-content: space-between;
-    width: 100%;
-    padding: 0;
-    gap: 0;
-  `}
-`;
-
-export const ResponsiveSizedTextNormal = styled(Text)`
-  font-size: 1rem;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    font-size: .5rem;
-  `}
-`;
-
-export const ResponsiveSizedTextMedium = styled(Text)`
-  font-size: 1rem;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    font-size: .7rem;
-  `}
-`;
-
 export default function PoolCard({ stakingInfo, address, toggleToken, handleStake, handleHarvest }: PoolCardProps) {
   const theme = useContext(ThemeContext);
+  const { account } = useActiveWeb3React();
 
   const token0 = stakingInfo.tokens[0];
   const token1 = stakingInfo.tokens[1];
   const isOneTokenICR = token0 === ICR || token1 === ICR;
+  const [isWETH, weth] = isOneTokenWETH(token0, token1);
 
   const currency0 = unwrappedToken(token0);
   const currency1 = unwrappedToken(token1);
-  const { account, chainId } = useActiveWeb3React();
   const [showMore, setShowMore] = useState(false);
   const [pairState, pair] = usePair(currency0, currency1);
-  // const totalSupplyOfStakingToken = useTotalSupply(stakingInfo.stakedAmount.token);
 
   const LPSupply = useTokenBalance(account ?? undefined, pair?.liquidityToken ?? undefined);
   const LPTotalSupply = useTotalSupply(pair?.liquidityToken);
-  // We create a new tokanemaount as we get wrong pair from stakingInfo
+
+  // We create a new tokenAmaount as we get wrong pair from stakingInfo
   const totalStakedAmount = pair ? new TokenAmount(pair?.liquidityToken, stakingInfo.totalStakedAmount.raw) : undefined;
   const stakedAmount = pair ? new TokenAmount(pair?.liquidityToken, stakingInfo.stakedAmount.raw) : undefined;
 
-  const ratePerYear = stakingInfo.rewardForDuration.multiply(YEARLY_RATE);
-
   const USDPrice = useUSDTPrice(ICR);
+  const USDPriceTRX = useUSDTPrice(weth);
+  const ratePerYear = stakingInfo.rewardForDuration.multiply(YEARLY_RATE);
+  const ratePerYearUSDT = ratePerYear && USDPrice?.quote(stakingInfo.rewardForDuration).multiply(YEARLY_RATE);
 
-  const stakedInICR =
+  // Check if the actual Token is ICR or WETH based
+  const stakedInToken =
     !!pair &&
-    isOneTokenICR &&
     !!LPTotalSupply &&
     !!LPSupply &&
     stakedAmount &&
     JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.stakedAmount.raw)
-      ? pair?.getLiquidityValue(ICR, LPTotalSupply, stakedAmount, false)
+      ? isOneTokenICR
+        ? pair?.getLiquidityValue(ICR, LPTotalSupply, stakedAmount, false)
+        : isWETH && weth
+        ? pair?.getLiquidityValue(weth, LPTotalSupply, stakedAmount, false)
+        : undefined
       : undefined;
 
-  const valueOfStakedAmountInUSDT = stakedInICR && USDPrice?.quote(stakedInICR);
-  const valueOfEarnedAmountInUSDT = stakingInfo.earnedAmount && USDPrice?.quote(stakingInfo.earnedAmount);
-  const totalStakedInICR =
+  const totalStakedInToken =
     !!pair &&
-    isOneTokenICR &&
     !!LPTotalSupply &&
     !!LPSupply &&
     totalStakedAmount &&
     JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.totalStakedAmount.raw)
-      ? pair?.getLiquidityValue(ICR, LPTotalSupply, totalStakedAmount, false)
+      ? isOneTokenICR
+        ? pair?.getLiquidityValue(ICR, LPTotalSupply, totalStakedAmount, false)
+        : isWETH && weth
+        ? pair?.getLiquidityValue(weth, LPTotalSupply, totalStakedAmount, false)
+        : undefined
       : undefined;
 
-  const valueOfTotalStakedAmountInUSDT = totalStakedInICR && USDPrice?.quote(totalStakedInICR);
+  const valueOfTotalStakedAmountInUSDT = totalStakedInToken
+    ? isOneTokenICR
+      ? USDPrice?.quote(totalStakedInToken)
+      : USDPriceTRX?.quote(totalStakedInToken)
+    : undefined;
+  const valueOfEarnedAmountInUSDT = stakingInfo.earnedAmount && USDPrice?.quote(stakingInfo.earnedAmount);
 
-  const apr = totalStakedInICR
-    ? new Percent(ratePerYear.numerator, JSBI.multiply(totalStakedInICR.numerator, JSBI.BigInt(2)))
-    : 0;
+  const apr =
+    ratePerYearUSDT &&
+    valueOfTotalStakedAmountInUSDT &&
+    JSBI.greaterThan(valueOfTotalStakedAmountInUSDT.numerator, ZERO)
+      ? new Percent(ratePerYearUSDT.numerator, JSBI.multiply(valueOfTotalStakedAmountInUSDT.numerator, JSBI.BigInt(2)))
+      : 0;
 
   return (
     <LightCard style={{ marginTop: '2px', margin: '0rem', padding: '1rem', background: theme.bg3 }}>
@@ -186,41 +136,21 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
           )}
         </AutoRowToColumn>
         <AutoRowToColumn gap="1px">
-          <AutoRow gap="1rem">
-            <ResponsiveSizedTextMedium fontWeight="0.7rem">Balance</ResponsiveSizedTextMedium>
-            <ExternalLink
-              style={{ textAlign: 'center', color: '#fff' }}
-              href={`#/add/${currency0 === ETHER ? ETHER.symbol : token0?.address}/${
-                currency1 === ETHER ? ETHER.symbol : token1?.address
-              }`}
-            >
-              <ResponsiveSizedTextMedium fontWeight={400} style={{ textDecorationLine: 'underline' }}>
-                Get LP
-              </ResponsiveSizedTextMedium>
-            </ExternalLink>
-          </AutoRow>
+          <ResponsiveSizedTextMedium fontWeight="0.7rem">Balance</ResponsiveSizedTextMedium>
+          <ExternalLink
+            style={{ textAlign: 'left', color: '#fff' }}
+            href={`#/add/${currency0 === ETHER ? ETHER.symbol : token0?.address}/${
+              currency1 === ETHER ? ETHER.symbol : token1?.address
+            }`}
+          >
+            <ResponsiveSizedTextMedium fontWeight={400} style={{ textDecorationLine: 'underline' }}>
+              Get LP
+            </ResponsiveSizedTextMedium>
+          </ExternalLink>
           {pairState === PairState.EXISTS ? (
             <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.primary3}>
               {LPSupply?.toSignificant(4)}
             </ResponsiveSizedTextNormal>
-          ) : (
-            <Dots></Dots>
-          )}
-        </AutoRowToColumn>
-        <AutoRowToColumn gap="1px">
-          <ResponsiveSizedTextMedium fontWeight="0.7rem">Total Staked</ResponsiveSizedTextMedium>
-          {pairState === PairState.EXISTS ? (
-            <>
-              {toggleToken ? (
-                <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.primary3}>
-                  {totalStakedInICR?.toSignificant(4)} <CurrencyLogo currency={ICR} size=".8rem" />
-                </ResponsiveSizedTextNormal>
-              ) : (
-                <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.primary3}>
-                  {valueOfTotalStakedAmountInUSDT?.toFixed(2)} <CurrencyLogo currency={USDT} size=".8rem" />
-                </ResponsiveSizedTextNormal>
-              )}
-            </>
           ) : (
             <Dots></Dots>
           )}
@@ -280,38 +210,14 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
       </AutoRow>
 
       {showMore && (
-        <AutoColumnToRow>
-          <Divider />
-          <SpacedToCenteredAutoRow gap=".3rem">
-            <RowBetweenToDiv>
-              <Countdown exactEnd={stakingInfo.periodFinish} />
-            </RowBetweenToDiv>
-            <RowBetweenToDiv>
-              <ResponsiveSizedTextMedium fontWeight="0.7rem">Liquidity</ResponsiveSizedTextMedium>
-              {toggleToken ? (
-                <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
-                  {stakedInICR?.toSignificant() ?? '-'} <CurrencyLogo currency={ICR} size=".8rem" />
-                </ResponsiveSizedTextNormal>
-              ) : (
-                <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
-                  {valueOfStakedAmountInUSDT?.toFixed(2) ?? '-'} <CurrencyLogo currency={USDT} size=".8rem" />
-                </ResponsiveSizedTextNormal>
-              )}
-            </RowBetweenToDiv>
-            <ExternalLink
-              style={{ textAlign: 'center', color: '#fff', textDecorationLine: 'underline' }}
-              href={chainId ? getEtherscanLink(chainId, address, 'address') : '#'}
-            >
-              <ResponsiveSizedTextMedium fontWeight="0.7rem">View Smart Contract</ResponsiveSizedTextMedium>
-            </ExternalLink>
-            <ExternalLink
-              style={{ textAlign: 'center', color: '#fff', textDecorationLine: 'underline' }}
-              href={chainId ? getEtherscanLink(chainId, stakingInfo.stakingRewardAddress ?? '', 'token') : '#'}
-            >
-              <ResponsiveSizedTextMedium fontWeight="0.7rem">View Token Info</ResponsiveSizedTextMedium>
-            </ExternalLink>
-          </SpacedToCenteredAutoRow>
-        </AutoColumnToRow>
+        <DetailsDropdown
+          stakingInfo={stakingInfo}
+          stakedAmount={stakedInToken}
+          totalStakedAmount={totalStakedInToken}
+          pairState={pairState}
+          address={address}
+          toggleToken={toggleToken}
+        />
       )}
     </LightCard>
   );
