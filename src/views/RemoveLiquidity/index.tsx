@@ -434,7 +434,7 @@ export default function RemoveLiquidity() {
 
   return (
     <Page>
-      <StyledHeading>Welcome to InterCrone World</StyledHeading>
+      <StyledHeading>Swap Your Tokens</StyledHeading>
       <div style={{ width: '100%', display: 'grid', gridTemplateColumns: (isDesktop ? '1fr 1fr' : '1fr'), marginTop: 20}}>
         <div style={{width: '100%', justifyContent: 'end', display: 'flex', padding: (!isMobile ? "0px 40px" : "0px")}}>
           <AppBody>

@@ -401,7 +401,7 @@ export default function Swap() {
 
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
-      <StyledHeading>Welcome to InterCrone World</StyledHeading>
+      <StyledHeading>Swap Your Tokens</StyledHeading>
       <Flex width="100%" justifyContent="center" position="relative" style={{paddingTop: 20}}>
         {/* {!isMobile && (
           <PriceChartContainer

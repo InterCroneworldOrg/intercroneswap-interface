@@ -146,7 +146,7 @@ const VoteCard = styled(DataCard)`
 
   return (
     <Page>
-      <StyledHeading style={{marginBottom: 35}}>Welcome to InterCrone World</StyledHeading>
+      <StyledHeading style={{marginBottom: 35}}>Swap your Tokens</StyledHeading>
       <VoteCard>
           <CardNoise />
           <CardSection>

@@ -3,52 +3,56 @@ import { ContextApi } from 'contexts/Localization/types'
 
 export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
   {
-    label: t('About'),
+    label: t('ISwap'),
     items: [
       {
-        label: t('Contact'),
-        href: 'https://docs.pancakeswap.finance/contact-us',
+        label: t('Exchange'),
+        href: 'https://',
       },
       {
-        label: t('Brand'),
-        href: 'https://docs.pancakeswap.finance/brand',
+        label: t('Liquidity'),
+        href: 'https://',
       },
       {
-        label: t('Blog'),
-        href: 'https://medium.com/pancakeswap',
+        label: t('Staking'),
+        href: 'https://',
       },
       {
-        label: t('Community'),
-        href: 'https://docs.pancakeswap.finance/contact-us/telegram',
+        label: t('Dashboard'),
+        href: 'https://',
       },
       {
-        label: t('CAKE token'),
-        href: 'https://docs.pancakeswap.finance/tokenomics/cake',
+        label: t('NFT'),
+        href: 'https://',
       },
       {
-        label: '—',
-      },
-      {
-        label: t('Online Store'),
-        href: 'https://pancakeswap.creator-spring.com/',
-        isHighlighted: true,
+        label: t('Market'),
+        href: 'https://',
       },
     ],
   },
   {
-    label: t('Help'),
+    label: t('About'),
     items: [
       {
-        label: t('Customer Support'),
-        href: 'https://docs.pancakeswap.finance/contact-us/customer-support',
+        label: t('Audit'),
+        href: 'https://',
       },
       {
-        label: t('Troubleshooting'),
-        href: 'https://docs.pancakeswap.finance/help/troubleshooting',
+        label: t('White Paper'),
+        href: 'https://',
       },
       {
-        label: t('Guides'),
-        href: 'https://docs.pancakeswap.finance/get-started',
+        label: t('FAQ'),
+        href: 'https://',
+      },
+      {
+        label: t('Roadmap'),
+        href: 'https://',
+      },
+      {
+        label: t('Trading Guide'),
+        href: 'https://',
       },
     ],
   },
@@ -56,24 +60,12 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
     label: t('Developers'),
     items: [
       {
-        label: 'Github',
-        href: 'https://github.com/pancakeswap',
-      },
-      {
         label: t('Documentation'),
-        href: 'https://docs.pancakeswap.finance',
+        href: 'https://',
       },
       {
-        label: t('Bug Bounty'),
-        href: 'https://docs.pancakeswap.finance/code/bug-bounty',
-      },
-      {
-        label: t('Audits'),
-        href: 'https://docs.pancakeswap.finance/help/faq#is-pancakeswap-safe-has-pancakeswap-been-audited',
-      },
-      {
-        label: t('Careers'),
-        href: 'https://docs.pancakeswap.finance/hiring/become-a-chef',
+        label: 'Github',
+        href: 'https://',
       },
     ],
   },
