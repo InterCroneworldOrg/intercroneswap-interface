@@ -1,0 +1,11 @@
+@media only screen and (max-width: 768px) {
+    footer .row>*{
+        width: 50%;
+    }
+    footer .lastcol{
+        margin-top: 20px;
+    }
+    header .navbar-nav{
+        padding: 20px;
+    }
+  }

@@ -72,6 +72,9 @@ const MenuFlyout = styled.span`
   z-index: 100;
     top: 4rem;
   `};
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const MenuItemNav = styled(NavLink)`
