@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import Style from '../../styles/footer.module.css';
 import chessIcon from '../../assets/images/chessicon.png';
 import styled from 'styled-components';
-import { Facebook, Youtube, Twitter, Instagram, Send, Info, BookOpen, Image, Activity } from 'react-feather';
+import { Facebook, Youtube, Twitter, Instagram, Send } from 'react-feather';
 import { ExternalLink } from '../../theme';
 
-const ImageWrapper = styled.div`
-  width: 100%;
-  position: relative;
-  top: -375px;
-`;
+// const ImageWrapper = styled.div`
+//   width: 100%;
+//   position: relative;
+//   top: -375px;
+// `;
 const FootContent = styled.div`
   display: flex;
   padding: 35px;
