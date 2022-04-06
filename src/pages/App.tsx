@@ -50,6 +50,7 @@ const HeaderWrapper = styled.div`
 `;
 const FooterWrapper = styled.footer`
   width: 100%;
+  padding: 30px 0;
   background: linear-gradient(180deg, #1c1c1c 0%, rgba(51, 51, 51, 0.67) 18.21%, #333333 38.13%);
 `;
 
