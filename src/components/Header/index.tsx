@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import { useState } from 'react';
 import { Text } from 'rebass';
-import { NavLink } from 'react-router-dom';
-import { darken } from 'polished';
-import { useTranslation } from 'react-i18next';
+// import { NavLink } from 'react-router-dom';
+// import { darken } from 'polished';
+// import { useTranslation } from 'react-i18next';
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import Style from '../../styles/header.module.css';
 import { Link } from 'react-router-dom';
@@ -19,7 +19,7 @@ import Menu from '../Menu';
 // import LeftMenu from '../LeftMenu';
 import { Box } from 'rebass/styled-components';
 import Web3Status from '../Web3Status';
-import Modal from '../Modal';
+// import Modal from '../Modal';
 import EthLogo from '../../assets/images/eth-logo.png';
 
 // const HeaderFrame = styled.div`
