@@ -82,6 +82,7 @@ export default function App() {
         <StyledHeading>Welcome to InterCrone World</StyledHeading>
         <BodyWrapper>
           <Popups />
+          {/* TODO: Add the homepage component here */}
           <Marginer />
         </BodyWrapper>
       </AppWrapper>
