@@ -1,3 +1,9 @@
+.footcontainer{
+    background-image: url("../assets/images/chess-big-icon.png");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+}
 .ul{
     list-style: none;
     padding: unset;
