@@ -17,8 +17,8 @@
     position: absolute;
     top: 0;
     right: -104px;
-    width: 175px;
-    display: none;
+    width: 250px;
+    
 }
 .iswap{
     font-family: 'Poppins', sans-serif;
@@ -29,6 +29,7 @@ letter-spacing: 0em;
 text-align: left;
 color: rgba(243, 201, 20, 1);
 margin-left: 20px;
+margin-bottom: unset;
 }
 .footerheader{
     font-family: 'Poppins', sans-serif;
@@ -39,6 +40,7 @@ letter-spacing: 0em;
 text-align: left;
 color: rgba(243, 201, 20, 1); 
 margin-left: 20px;
+margin-bottom: unset;
 }
     
     
