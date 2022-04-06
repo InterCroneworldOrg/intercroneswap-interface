@@ -1,8 +1,9 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// import { useState } from 'react';
 import { Text } from 'rebass';
-import { NavLink } from 'react-router-dom';
-import { darken } from 'polished';
-import { useTranslation } from 'react-i18next';
+// import { NavLink } from 'react-router-dom';
+// import { darken } from 'polished';
+// import { useTranslation } from 'react-i18next';
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import Style from '../../styles/header.module.css';
 import { Link } from 'react-router-dom';
@@ -18,37 +19,37 @@ import Menu from '../Menu';
 // import LeftMenu from '../LeftMenu';
 import { Box } from 'rebass/styled-components';
 import Web3Status from '../Web3Status';
-import Modal from '../Modal';
+// import Modal from '../Modal';
 import EthLogo from '../../assets/images/eth-logo.png';
 
-const HeaderFrame = styled.div`
-  // display: grid;
-  grid-template-columns: 1fr 120px;
-  align-items: center;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-  width: 100%;
+// const HeaderFrame = styled.div`
+//   // display: grid;
+//   grid-template-columns: 1fr 120px;
+//   align-items: center;
+//   justify-content: space-between;
+//   align-items: center;
+//   flex-direction: row;
+//   width: 100%;
 
-  top: 0;
-  position: relative;
-  // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  z-index: 2;
-  background: ${({ theme }) => theme.bg2};
+//   top: 0;
+//   position: relative;
+//   // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+//   // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+//   padding: 1rem;
+//   z-index: 2;
+//   background: ${({ theme }) => theme.bg2};
 
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    grid-template-columns: 1fr;
-    padding: 0 1rem;
-    width: calc(100%);
-    position: relative;
-  `};
+//   ${({ theme }) => theme.mediaWidth.upToMedium`
+//     grid-template-columns: 1fr;
+//     padding: 0 1rem;
+//     width: calc(100%);
+//     position: relative;
+//   `};
 
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-        padding: 0.5rem 1rem;
-  `}
-`;
+//   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+//         padding: 0.5rem 1rem;
+//   `}
+// `;
 
 // const HeaderControls = styled.div`
 //   display: flex;
@@ -137,19 +138,19 @@ export const AutoRow = styled(Row)<{ gap?: string; justify?: string }>`
   }
 `;
 
-const HeaderRowFixed = styled(Row)<{ gap?: string; justify?: string }>`
-  // width: fit-content;
-  // background-color: red;
-  justify-content: space-between;
-  margin: ${({ gap }) => gap && `-${gap}`};
-`;
+// const HeaderRowFixed = styled(Row)<{ gap?: string; justify?: string }>`
+//   // width: fit-content;
+//   // background-color: red;
+//   justify-content: space-between;
+//   margin: ${({ gap }) => gap && `-${gap}`};
+// `;
 
-const HeaderRow = styled(HeaderRowFixed)`
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-   width: 100%;
-   
-  `};
-`;
+// const HeaderRow = styled(HeaderRowFixed)`
+//   ${({ theme }) => theme.mediaWidth.upToMedium`
+//    width: 100%;
+
+//   `};
+// `;
 
 const HeaderLinks = styled(Row)`
   justify-content: center;
@@ -184,29 +185,29 @@ const BalanceText = styled(Text)`
   `};
 `;
 
-const Title = styled.a`
-  display: flex;
-  align-items: center;
-  pointer-events: auto;
-  justify-self: flex-start;
-  margin-right: 12px;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    justify-self: center;
-  `};
-  :hover {
-    cursor: pointer;
-  }
-`;
+// const Title = styled.a`
+//   display: flex;
+//   align-items: center;
+//   pointer-events: auto;
+//   justify-self: flex-start;
+//   margin-right: 12px;
+//   ${({ theme }) => theme.mediaWidth.upToSmall`
+//     justify-self: center;
+//   `};
+//   :hover {
+//     cursor: pointer;
+//   }
+// `;
 
-const IswapIcon = styled.div`
-  filter: ${({ theme }) => theme.pngLOGOCOLOR};
-  transition: transform 0.3s ease;
-  :hover {
-    transform: rotate(-5deg);
-  }
-`;
+// const IswapIcon = styled.div`
+//   filter: ${({ theme }) => theme.pngLOGOCOLOR};
+//   transition: transform 0.3s ease;
+//   :hover {
+//     transform: rotate(-5deg);
+//   }
+// `;
 
-const activeClassName = 'ACTIVE';
+// const activeClassName = 'ACTIVE';
 
 // const StyledNavVoteLink = styled(NavLink).attrs({
 //   activeClassName
@@ -236,31 +237,31 @@ const activeClassName = 'ACTIVE';
 //       display: none;
 //       `}
 // `
-const StyledNavLink = styled(NavLink).attrs({
-  activeClassName,
-})`
-  ${({ theme }) => theme.flexRowNoWrap}
-  align-items: left;
-  border-radius: 3rem;
-  outline: none;
-  cursor: pointer;
-  text-decoration: none;
-  color: ${({ theme }) => theme.text2};
-  font-size: 1rem;
-  width: fit-content;
-  margin: 0 12px;
-  font-weight: 500;
-  &.${activeClassName} {
-    border-radius: 12px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.text1};
-  }
+// const StyledNavLink = styled(NavLink).attrs({
+//   activeClassName,
+// })`
+//   ${({ theme }) => theme.flexRowNoWrap}
+//   align-items: left;
+//   border-radius: 3rem;
+//   outline: none;
+//   cursor: pointer;
+//   text-decoration: none;
+//   color: ${({ theme }) => theme.text2};
+//   font-size: 1rem;
+//   width: fit-content;
+//   margin: 0 12px;
+//   font-weight: 500;
+//   &.${activeClassName} {
+//     border-radius: 12px;
+//     font-weight: 600;
+//     color: ${({ theme }) => theme.text1};
+//   }
 
-  :hover,
-  :focus {
-    color: ${({ theme }) => darken(0.1, theme.text1)};
-  }
-`;
+//   :hover,
+//   :focus {
+//     color: ${({ theme }) => darken(0.1, theme.text1)};
+//   }
+// `;
 
 // const StyledExternalLink = styled(ExternalLink).attrs({
 //   activeClassName,
@@ -324,13 +325,13 @@ const StyledNavLink = styled(NavLink).attrs({
 //       display: block;
 // `}
 // `
-const LinksContainer = styled.div`
-  position: relative;
-  :hover > div,
-  :focus > div {
-    display: block;
-  }
-`;
+// const LinksContainer = styled.div`
+//   position: relative;
+//   :hover > div,
+//   :focus > div {
+//     display: block;
+//   }
+// `;
 // const StyledDropDown = styled.div`
 // position:absolute;
 // bottom:0;
@@ -342,26 +343,26 @@ const LinksContainer = styled.div`
 // display:none;
 // z-index:1000;
 // `
-const StyledHeaderElements = styled.div`
-  display: flex;
-  alignitems: center;
+// const StyledHeaderElements = styled.div`
+//   display: flex;
+//   alignitems: center;
 
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    display: none;
-  `};
-`;
+//   ${({ theme }) => theme.mediaWidth.upToMedium`
+//     display: none;
+//   `};
+// `;
 
 export default function Header() {
   const {
     account,
     //  chainId
   } = useActiveWeb3React();
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? ''];
   // const [isDark] = useDarkModeManager()
 
-  const [showIswapBalanceModal, setShowIswapBalanceModal] = useState(false);
+  // const [showIswapBalanceModal, setShowIswapBalanceModal] = useState(false);
   // const showClaimPopup = useShowClaimPopup()
 
   // const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
