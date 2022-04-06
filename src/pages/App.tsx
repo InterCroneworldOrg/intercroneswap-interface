@@ -30,6 +30,7 @@ import PoolFinder from './PoolFinder';
 import RemoveLiquidity from './RemoveLiquidity';
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects';
 import Swap from './Swap';
+import Home from './Home';
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects';
 import { RedirectToReferal } from './Stake/redirects';
 // import Vote from './Vote'
@@ -49,7 +50,7 @@ const HeaderWrapper = styled.div`
 `;
 const FooterWrapper = styled.footer`
   width: 100%;
-
+  padding: 30px 0;
   background: linear-gradient(180deg, #1c1c1c 0%, rgba(51, 51, 51, 0.67) 18.21%, #333333 38.13%);
 `;
 
@@ -342,6 +343,7 @@ export default function App() {
           <Web3ReactManager>
             <Switch>
               <Route exact strict path="/swap" component={Swap} />
+              <Route exact strict path="/" component={Home} />
               {/* <Route exact strict path="/claim" component={OpenClaimAddressModalAndRedirectToSwap} /> */}
               <Route exact strict path="/swap/:outputCurrency" component={RedirectToSwap} />
               <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
