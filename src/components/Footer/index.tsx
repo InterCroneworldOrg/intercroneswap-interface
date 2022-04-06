@@ -2,19 +2,26 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Style from '../../styles/footer.module.css';
 import chessIcon from '../../assets/images/chessicon.png';
+import chessBigIcon from '../../assets/images/chess-big-icon.png';
 import styled from 'styled-components';
 import { Facebook, Youtube, Twitter, Instagram, Send } from 'react-feather';
 import { ExternalLink } from '../../theme';
 
-// const ImageWrapper = styled.div`
-//   width: 100%;
-//   position: relative;
-//   top: -375px;
-// `;
+const ImageWrapper = styled.div`
+  width: 100%;
+  position: relative;
+  top: -375px;
+`;
 const FootContent = styled.div`
   display: flex;
   padding: 35px;
   justify-content: space-between;
+  width: 85%;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+  }
 `;
 const SocialIconWrapper = styled.div`
   display: flex;
@@ -27,6 +34,11 @@ const AmountWrapper = styled.div`
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
+  @media (max-width: 768px) {
+    margin-bottom: 15px;
+    text-align: center;
+}
+  }
 `;
 const MenuItem = styled(ExternalLink)`
   flex: 1;
@@ -112,7 +124,7 @@ const Footer = () => {
             </li>
           </ul>
         </Col>
-        <Col md={4}>
+        <Col md={4} className="lastcol">
           <p className={Style.footerheader}>Developers</p>
           <ul className={Style.ul}>
             <li>
@@ -128,9 +140,9 @@ const Footer = () => {
           </ul>
         </Col>
 
-        {/* <ImageWrapper>
-          <img className={Style.image} width={'150px'} src={chessIcon} alt="logo" />
-        </ImageWrapper> */}
+        <ImageWrapper>
+          <img className={Style.image} width={'200px'} src={chessBigIcon} alt="logo" />
+        </ImageWrapper>
       </Row>
       <hr />
       <FootContent>
