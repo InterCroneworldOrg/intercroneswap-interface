@@ -8,6 +8,6 @@ export enum EnableStatus {
 
 export interface CardConfigReturn {
   title: string
-  variant: 'blue' | 'violet'
+  variant: string
   tooltip: string | ReactElement
 }

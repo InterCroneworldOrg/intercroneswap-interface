@@ -151,7 +151,7 @@ export const DetailLimitOrderModal: React.FC<DetailLimitOrderModalProps> = ({ on
   return (
     <Modal
       title={t('Open Order Details')}
-      headerBackground={theme.colors.gradients.cardHeader}
+      headerBackground={theme.colors.gradients.grey}
       style={{ width: '436px' }}
       onDismiss={onDismiss}
     >

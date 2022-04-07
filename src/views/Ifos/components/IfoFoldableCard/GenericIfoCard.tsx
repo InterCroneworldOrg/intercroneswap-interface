@@ -22,7 +22,7 @@ const GenericIfoCard: React.FC<CardConfigReturn & GenericIfoCardElements> = ({
     <>
       {tooltipVisible && tooltipMsg}
       <StyledCard>
-        <CardHeader p="16px 24px" variant={variant}>
+        <CardHeader p="16px 24px">
           <Flex justifyContent="space-between" alignItems="center">
             <Text bold fontSize="20px" lineHeight={1}>
               {title}
