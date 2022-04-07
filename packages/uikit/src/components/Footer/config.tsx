@@ -54,7 +54,7 @@ export const footerLinks: FooterLinkType[] = [
     items: [
       {
         label: "Github",
-        href: "https://github.com/pancakeswap",
+        href: "https://github.com/InterCroneworldOrg",
       },
       {
         label: "Documentation",
@@ -66,7 +66,7 @@ export const footerLinks: FooterLinkType[] = [
       },
       {
         label: "Audits",
-        href: "https://docs.pancakeswap.finance/help/faq#is-pancakeswap-safe-has-pancakeswap-been-audited",
+        href: "https://turingpoint.de/en/security-assessments/certificate/smart_contract_audit_intercroneswap-b2793351ca/",
       },
       {
         label: "Careers",
@@ -80,27 +80,27 @@ export const socials: SocialIconType[] = [
   {
     label: "Twitter",
     icon: TwitterIcon,
-    href: "https://",
+    href: "https://twitter.com/intercroneworld",
   },
   {
     label: "Instagram",
     icon: InstagramIcon,
-    href: "https://",
+    href: "https://www.instagram.com/intercrone",
   },
   {
     label: "Facebook",
     icon: RedditIcon,
-    href: "https://",
+    href: "https://www.facebook.com/InterCrone",
   },
   {
     label: "Telegram",
     icon: TelegramIcon,
-    href: "https://",
+    href: "https://t.me/intercroneworld",
   },
   {
     label: "Youtube",
     icon: MediumIcon,
-    href: "https://",
+    href: "https://www.youtube.com/c/InterCroneWorld",
   },
 ];
 
