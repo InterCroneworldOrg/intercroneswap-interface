@@ -1,10 +1,18 @@
 import { Language } from "../LangSelector/types";
 import { FlexProps } from "../Box";
+import React from "react";
+import { SvgProps } from "../Svg";
 
 export type FooterLinkType = {
   label: string;
   items: { label: string; href?: string; isHighlighted?: boolean }[];
 };
+
+export type SocialIconType = {
+  label: string;
+  icon: React.FC<SvgProps>;
+  href: string;
+}
 
 export type FooterProps = {
   items: FooterLinkType[];

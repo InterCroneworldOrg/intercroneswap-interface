@@ -1,5 +1,5 @@
 import { Language } from "../LangSelector/types";
-import { FooterLinkType } from "./types";
+import { FooterLinkType, SocialIconType } from "./types";
 import { TwitterIcon, TelegramIcon, RedditIcon, InstagramIcon, GithubIcon, DiscordIcon, MediumIcon } from "../Svg";
 
 export const footerLinks: FooterLinkType[] = [
@@ -76,7 +76,7 @@ export const footerLinks: FooterLinkType[] = [
   },
 ];
 
-export const socials = [
+export const socials: SocialIconType[] = [
   {
     label: "Twitter",
     icon: TwitterIcon,
