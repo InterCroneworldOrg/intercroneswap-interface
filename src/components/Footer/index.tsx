@@ -33,7 +33,6 @@ const AmountWrapper = styled.div`
   @media (max-width: 768px) {
     margin-bottom: 15px;
     text-align: center;
-}
   }
 `;
 const MenuItem = styled(ExternalLink)`
