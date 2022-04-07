@@ -8,4 +8,10 @@
     header .navbar-nav{
         padding: 20px;
     }
+    .containerstyle{
+        margin-top: unset;
+        margin-bottom: unset;
+        padding: 20px;
+    }
+    
   }
