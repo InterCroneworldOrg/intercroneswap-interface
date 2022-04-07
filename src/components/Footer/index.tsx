@@ -1,11 +1,11 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Style from '../../styles/footer.module.css';
-import chessIcon from '../../assets/images/chessicon.png';
 
 import styled from 'styled-components';
 import { Facebook, Youtube, Twitter, Instagram, Send } from 'react-feather';
 import { ExternalLink } from '../../theme';
+import PriceCard from '../PriceCard';
 
 const FootContent = styled.div`
   display: flex;
@@ -21,19 +21,6 @@ const FootContent = styled.div`
 `;
 const SocialIconWrapper = styled.div`
   display: flex;
-`;
-const AmountWrapper = styled.div`
-  font-family: Poppins;
-  font-size: 16px;
-  font-weight: 400;
-  color: rgba(243, 201, 20, 1);
-  line-height: 24px;
-  letter-spacing: 0em;
-  text-align: left;
-  @media (max-width: 768px) {
-    margin-bottom: 15px;
-    text-align: center;
-  }
 `;
 const MenuItem = styled(ExternalLink)`
   flex: 1;
@@ -137,12 +124,7 @@ const Footer = () => {
       </Row>
       <hr />
       <FootContent>
-        <AmountWrapper>
-          <span>
-            <img width={20} src={chessIcon} alt="" />
-          </span>
-          $0,002752842788 USD
-        </AmountWrapper>
+        <PriceCard />
         <SocialIconWrapper>
           <MenuItem id="link" href="https://twitter.com/IntercroneWorld">
             <Twitter />
