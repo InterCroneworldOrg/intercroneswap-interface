@@ -20,6 +20,14 @@ export const mainnetTokens = defineTokens({
     'Wrapped BNB',
     'https://www.binance.com/',
   ),
+  icr: new Token(
+    MAINNET,
+    '0x4f60Ad2c684296458b12053c0EF402e162971e00',
+    8,
+    'ICR',
+    'Intercrone',
+    'https://intercroneswap.com/',
+  ),
   // bnb here points to the wbnb contract. Wherever the currency BNB is required, conditional checks for the symbol 'BNB' can be used
   bnb: new Token(MAINNET, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'BNB', 'BNB', 'https://www.binance.com/'),
   cake: new Token(
@@ -2085,14 +2093,7 @@ export const testnetTokens = defineTokens({
     'Bakeryswap Token',
     'https://www.bakeryswap.org/',
   ),
-  ICR: new Token(
-    TESTNET,
-    '0xb518912759D86409e747fad19Dbad9FE681761C3',
-    18,
-    'ICR',
-    'Intercroneswap Token',
-    '',
-  ),
+  ICR: new Token(TESTNET, '0xb518912759D86409e747fad19Dbad9FE681761C3', 18, 'ICR', 'Intercroneswap Token', ''),
 } as const)
 
 const tokens = () => {

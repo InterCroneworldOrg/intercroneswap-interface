@@ -5,15 +5,15 @@ export const baseColors = {
   primary: "#FFB807",
   primaryBright: "#393939",
   primaryDark: "#0098A1",
-  secondary: "#7645D9",
+  secondary: "#FFC700",
   success: "#31D0AA",
   warning: "#FFB237",
-  normalCard: '#232323',
+  normalCard: "#232323",
 };
 
 export const additionalColors = {
   binance: "#F0B90B",
-  overlay: "#452a7a",
+  overlay: "#B2B2B2",
   gold: "#FFC700",
   silver: "#B2B2B2",
   bronze: "#E7974D",
@@ -33,18 +33,13 @@ export const lightColors: Colors = {
   invertedContrast: "#FFFFFF",
   input: "#eeeaf4",
   inputSecondary: "#d7caec",
-  tertiary: 'transparent',
+  tertiary: "transparent",
   text: "#FFFFFF",
   textDisabled: "#BDC2C4",
   textSubtle: "#565a69",
   disabled: "#E9EAEB",
   gradients: {
-    bubblegum: "#1c1c1c",
-    inverseBubblegum: "linear-gradient(139.73deg, #F3EFFF 0%, #E5FDFF 100%)",
-    cardHeader: "linear-gradient(111.68deg, #F2ECF2 0%, #1c1c1c 100%)",
-    blue: "linear-gradient(180deg, #A7E8F1 0%, #94E1F2 100%)",
-    violet: "linear-gradient(180deg, #E2C9FB 0%, #CDB8FA 100%)",
-    violetAlt: "linear-gradient(180deg, #CBD7EF 0%, #9A9FD0 100%)",
+    grey: "linear-gradient(180deg, #08060C 0%, #3c3742 100%)",
     gold: "linear-gradient(180deg, #FFD800 0%, #FDAB32 100%)",
   },
 };
@@ -52,7 +47,7 @@ export const lightColors: Colors = {
 export const darkColors: Colors = {
   ...baseColors,
   ...additionalColors,
-  secondary: "#9A6AFF",
+  secondary: "#08060C",
   background: "#08060B",
   backgroundDisabled: "#3c3742",
   backgroundAlt: "#27262c",
@@ -71,12 +66,7 @@ export const darkColors: Colors = {
   textSubtle: "#B8ADD2",
   disabled: "#524B63",
   gradients: {
-    bubblegum: "linear-gradient(139.73deg, #313D5C 0%, #3D2A54 100%)",
-    inverseBubblegum: "linear-gradient(139.73deg, #3D2A54 0%, #313D5C 100%)",
-    cardHeader: "linear-gradient(166.77deg, #3B4155 0%, #3A3045 100%)",
-    blue: "linear-gradient(180deg, #00707F 0%, #19778C 100%)",
-    violet: "linear-gradient(180deg, #6C4999 0%, #6D4DB2 100%)",
-    violetAlt: "linear-gradient(180deg, #434575 0%, #66578D 100%)",
+    grey: "linear-gradient(180deg, #08060C 0%, #3c3742 100%)",
     gold: "linear-gradient(180deg, #FFD800 0%, #FDAB32 100%)",
   },
 };
