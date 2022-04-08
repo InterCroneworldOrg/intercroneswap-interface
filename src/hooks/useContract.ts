@@ -52,6 +52,7 @@ import {
 import { Contract } from '@ethersproject/contracts'
 import { ChainId, WETH } from '@intercroneswap/v2-sdk'
 import IPancakePairABI from '../config/abi/IPancakePair.json'
+import { abi as ISwapV2StakingABI } from '@intercroneswap/v2-staking/build/IStakingRewards.json';
 import ENS_PUBLIC_RESOLVER_ABI from '../config/abi/ens-public-resolver.json'
 import ENS_ABI from '../config/abi/ens-registrar.json'
 import { ERC20_BYTES32_ABI } from '../config/abi/erc20'
@@ -321,4 +322,8 @@ export function usePairContract(pairAddress?: string, withSignerIfPossible?: boo
 
 export function useMulticallContract() {
   return useContract<Multicall>(getMulticallAddress(), multiCallAbi, false)
+}
+
+export function useStakingContract(stakingAddress?: string, withSignerIfPossible?: boolean): Contract | null {
+  return useContract(stakingAddress, ISwapV2StakingABI, withSignerIfPossible);
 }

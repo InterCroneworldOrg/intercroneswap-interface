@@ -37,24 +37,24 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
       
     ],
   },
-  {
-    label: t('Staking'),
-    href: '/',
-    icon: TrophyIcon,
-    fillIcon: TrophyFillIcon,
-    items: [
+  // {
+  //   label: t('Staking'),
+  //   href: '/',
+  //   icon: TrophyIcon,
+  //   fillIcon: TrophyFillIcon,
+  //   items: [
       
-    ],
-  },
-  {
-    label: t('NFT'),
-    href: '/',
-    icon: NftIcon,
-    fillIcon: NftFillIcon,
-    items: [
+  //   ],
+  // },
+  // {
+  //   label: t('NFT'),
+  //   href: '/',
+  //   icon: NftIcon,
+  //   fillIcon: NftFillIcon,
+  //   items: [
       
-    ],
-  },
+  //   ],
+  // },
   // {
   //   label: '',
   //   href: '/info',

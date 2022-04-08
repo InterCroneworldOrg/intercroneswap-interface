@@ -138,11 +138,11 @@ const Menu: React.FC<NavProps> = ({
               {!isMobile && <MenuItems items={links} activeItem={activeItem} activeSubItem={activeSubItem} ml="24px" />}
             </Flex>
             <Flex alignItems="center" height="100%" paddingRight={20}>
-              {!isMobile && !isMd && (
+              {/* {!isMobile && !isMd && (
                 <Box mr="12px">
                   <CakePrice showSkeleton={false} cakePriceUsd={cakePriceUsd} />
                 </Box>
-              )}
+              )} */}
               {/* <Box mt="4px">
                 <LangSelector
                   currentLang={currentLang}
@@ -155,7 +155,8 @@ const Menu: React.FC<NavProps> = ({
               </Box> */}
               {/* {!isMobile && bnbMenu}  */}
               {userMenu}
-              {/* {globalMenu} {SocialMenu}  */}
+              {/* {globalMenu} */}
+              {/* {SocialMenu}  */}
             </Flex>
           </StyledNav>
         </FixedContainer>
