@@ -47,7 +47,7 @@ export default function Header() {
               <Link to="/pool" className={`${Style.link} nav-link`}>
                 Liquidity
               </Link>
-              <Link to="/pool" className={`${Style.link} nav-link`}>
+              <Link to="/stake" className={`${Style.link} nav-link`}>
                 Staking
               </Link>
               <Link to="/nft" className={`${Style.link} nav-link`}>

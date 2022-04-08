@@ -53,7 +53,7 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link to="/pool" className={`${Style.link} nav-link`}>
+              <Link to="/stake" className={`${Style.link} nav-link`}>
                 Staking
               </Link>
             </li>
