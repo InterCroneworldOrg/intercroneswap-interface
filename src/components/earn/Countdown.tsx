@@ -1,14 +1,16 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { STAKING_GENESIS } from '../../state/stake/hooks';
-import { Text } from 'rebass';
 import { REWARDS_DURATION_DAYS_180 } from '../../state/stake/constants';
+import { TYPE } from '../../theme';
+import { ThemeContext } from 'styled-components';
 
 const MINUTE = 60;
 const HOUR = MINUTE * 60;
 const DAY = HOUR * 24;
 
 export function Countdown({ exactEnd, durationDays }: { exactEnd?: Date; durationDays?: number }) {
+  const theme = useContext(ThemeContext);
   const rewardsDuration = durationDays ? DAY * durationDays : REWARDS_DURATION_DAYS_180;
   // get end/beginning times
   const end = useMemo(
@@ -57,15 +59,15 @@ export function Countdown({ exactEnd, durationDays }: { exactEnd?: Date; duratio
   const seconds = timeRemaining;
 
   return (
-    <Text fontWeight={400}>
+    <TYPE.white fontWeight={400}>
       {message}{' '}
       {Number.isFinite(timeRemaining) && (
-        <code>
+        <code style={{ color: theme.text1 }}>
           {`${days}D ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
             .toString()
             .padStart(2, '0')}`}
         </code>
       )}
-    </Text>
+    </TYPE.white>
   );
 }

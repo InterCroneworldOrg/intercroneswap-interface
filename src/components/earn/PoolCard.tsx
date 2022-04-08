@@ -1,7 +1,6 @@
 import { ETHER, JSBI, Percent, TokenAmount, ZERO } from '@intercroneswap/v2-sdk';
 import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
-import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
 import { YEARLY_RATE } from '../../constants';
 import { ICR, USDT } from '../../constants/tokens';
@@ -13,7 +12,7 @@ import useUSDTPrice from '../../hooks/useUSDTPrice';
 import { Dots } from '../../pages/Stake/styleds';
 import { StakingInfo } from '../../state/stake/hooks';
 import { useTokenBalance } from '../../state/wallet/hooks';
-import { ExternalLink } from '../../theme';
+import { ExternalLink, TYPE } from '../../theme';
 import { isOneTokenWETH, unwrappedToken } from '../../utils/wrappedCurrency';
 import { ButtonEmpty, ButtonPrimary } from '../Button';
 import { LightCard } from '../Card';
@@ -99,21 +98,28 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
       : 0;
 
   return (
-    <LightCard style={{ marginTop: '2px', margin: '0rem', padding: '1rem', background: theme.bg3 }}>
+    <LightCard
+      style={{
+        marginTop: '2px',
+        margin: '0rem',
+        padding: '1rem',
+        background: theme.bg3,
+      }}
+    >
       <AutoRow justify="space-between" gap=".2rem">
         <AutoRowToColumn>
           <AutoRow>
             <CurrencyLogo currency={currency0} size="1.2rem" />
             &nbsp;
-            <Text fontWeight={500} fontSize="1.2rem">
+            <TYPE.white fontWeight={500} fontSize="1.2rem">
               {currency0?.symbol}&nbsp;/
-            </Text>
+            </TYPE.white>
             &nbsp;
             <CurrencyLogo currency={currency1} size="1.2rem" />
             &nbsp;
-            <Text fontWeight={500} fontSize="1.2rem">
+            <TYPE.white fontWeight={500} fontSize="1.2rem">
               {currency1?.symbol}
-            </Text>
+            </TYPE.white>
           </AutoRow>
         </AutoRowToColumn>
         <AutoRowToColumn gap="0.5rem">

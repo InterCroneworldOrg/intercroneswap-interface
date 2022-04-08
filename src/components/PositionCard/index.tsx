@@ -3,7 +3,6 @@ import { darken } from 'polished';
 import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
 import { Link } from 'react-router-dom';
-import { Text } from 'rebass';
 import styled, { ThemeContext } from 'styled-components';
 import { useTotalSupply } from '../../data/TotalSupply';
 
@@ -103,21 +102,21 @@ PositionCardProps) {
           <AutoColumn gap="12px">
             <FixedHeightRow>
               <RowBetween>
-                <Text fontWeight={500} fontSize={16}>
+                <TYPE.white fontWeight={500} fontSize={16}>
                   Your position
-                </Text>
+                </TYPE.white>
                 <RowFixed>
                   <CurrencyLogo currency={currency0} />
                   &nbsp;
-                  <Text fontWeight={500} fontSize={20}>
+                  <TYPE.white fontWeight={500} fontSize={20}>
                     {currency0.symbol}&nbsp;/
-                  </Text>
+                  </TYPE.white>
                   &nbsp;
                   <CurrencyLogo currency={currency1} />
                   &nbsp;
-                  <Text fontWeight={500} fontSize={20}>
+                  <TYPE.white fontWeight={500} fontSize={20}>
                     {currency1.symbol}
-                  </Text>
+                  </TYPE.white>
                 </RowFixed>
               </RowBetween>
             </FixedHeightRow>
@@ -138,44 +137,46 @@ PositionCardProps) {
             <AutoColumn gap="md">
               <AutoRow justify="space-between" gap="4px">
                 <AutoColumn justify="center" style={{ display: 'none' }}>
-                  <Text fontSize={16} fontWeight={500}>
+                  <TYPE.white fontSize={16} fontWeight={500}>
                     Your pool share:
-                  </Text>
-                  <Text fontSize={16}>{poolTokenPercentage ? poolTokenPercentage.toFixed(6) + '%' : '-'}</Text>
+                  </TYPE.white>
+                  <TYPE.white fontSize={16}>
+                    {poolTokenPercentage ? poolTokenPercentage.toFixed(6) + '%' : '-'}
+                  </TYPE.white>
                 </AutoColumn>
                 <AutoColumn justify="center">
-                  <Text fontSize={16} fontWeight={500}>
+                  <TYPE.white fontSize={16} fontWeight={500}>
                     {currency0.symbol}
-                  </Text>
+                  </TYPE.white>
                   {token0Deposited ? (
                     <RowFixed>
-                      <Text fontSize={16} marginLeft={'6px'}>
+                      <TYPE.white fontSize={16} marginLeft={'6px'}>
                         {token0Deposited?.toSignificant(6)}
-                      </Text>
+                      </TYPE.white>
                     </RowFixed>
                   ) : (
                     '-'
                   )}
                 </AutoColumn>
                 <AutoColumn justify="center">
-                  <Text fontSize={16} fontWeight={500}>
+                  <TYPE.white fontSize={16} fontWeight={500}>
                     {currency1.symbol}
-                  </Text>
+                  </TYPE.white>
                   {token1Deposited ? (
                     <RowFixed>
-                      <Text fontSize={16} marginLeft={'6px'}>
+                      <TYPE.white fontSize={16} marginLeft={'6px'}>
                         {token1Deposited?.toSignificant(6)}
-                      </Text>
+                      </TYPE.white>
                     </RowFixed>
                   ) : (
                     '-'
                   )}
                 </AutoColumn>
                 <AutoColumn justify="center">
-                  <Text fontSize={16} fontWeight={500}>
+                  <TYPE.white fontSize={16} fontWeight={500}>
                     Pool token
-                  </Text>
-                  <Text fontSize={16}>{userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}</Text>
+                  </TYPE.white>
+                  <TYPE.white fontSize={16}>{userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}</TYPE.white>
                 </AutoColumn>
               </AutoRow>
             </AutoColumn>
@@ -255,15 +256,15 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 <RowFixed>
                   <CurrencyLogo currency={currency0} />
                   &nbsp;
-                  <Text fontWeight={500} fontSize={20}>
+                  <TYPE.white fontWeight={500} fontSize={20}>
                     {currency0.symbol}&nbsp;/
-                  </Text>
+                  </TYPE.white>
                   &nbsp;
                   <CurrencyLogo currency={currency1} />
                   &nbsp;
-                  <Text fontWeight={500} fontSize={20}>
+                  <TYPE.white fontWeight={500} fontSize={20}>
                     {currency1.symbol}
-                  </Text>
+                  </TYPE.white>
                 </RowFixed>
               )}
             </RowBetween>
@@ -298,39 +299,39 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
               <AutoColumn gap="md">
                 <AutoRow justify="space-between" gap="4px">
                   <AutoColumn justify="center">
-                    <Text fontSize={16} fontWeight={500}>
+                    <TYPE.white fontSize={16} fontWeight={500}>
                       Your pool tokens
-                    </Text>
+                    </TYPE.white>
                     <RowFixed style={{ width: '100%' }}>
-                      <Text fontSize={16} marginLeft={'6px'} textAlign={'left'} color={theme.primary3}>
+                      <TYPE.white fontSize={16} marginLeft={'6px'} textAlign={'left'} color={theme.primary3}>
                         {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'} /{' '}
                         {poolTokenPercentage ? poolTokenPercentage.toFixed(2) + '%' : '-'}
-                      </Text>
+                      </TYPE.white>
                     </RowFixed>
                   </AutoColumn>
                   <AutoColumn justify="center">
-                    <Text fontSize={16} fontWeight={500}>
+                    <TYPE.white fontSize={16} fontWeight={500}>
                       Pooled {currency0.symbol}
-                    </Text>
+                    </TYPE.white>
                     {token0Deposited ? (
                       <RowFixed>
-                        <Text fontSize={16} fontWeight={500} marginLeft={'6px'} color={theme.primary3}>
+                        <TYPE.white fontSize={16} fontWeight={500} marginLeft={'6px'} color={theme.primary3}>
                           {token0Deposited?.toSignificant(6)}
-                        </Text>
+                        </TYPE.white>
                       </RowFixed>
                     ) : (
                       '-'
                     )}
                   </AutoColumn>
                   <AutoColumn justify="center">
-                    <Text fontSize={16} fontWeight={500}>
+                    <TYPE.white fontSize={16} fontWeight={500}>
                       Pooled {currency1.symbol}
-                    </Text>
+                    </TYPE.white>
                     {token1Deposited ? (
                       <RowFixed>
-                        <Text fontSize={16} fontWeight={500} marginLeft={'6px'} color={theme.primary3}>
+                        <TYPE.white fontSize={16} fontWeight={500} marginLeft={'6px'} color={theme.primary3}>
                           {token1Deposited?.toSignificant(6)}
-                        </Text>
+                        </TYPE.white>
                       </RowFixed>
                     ) : (
                       '-'
