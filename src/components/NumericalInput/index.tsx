@@ -1,8 +1,9 @@
+import React from 'react';
 import styled from 'styled-components';
 import { escapeRegExp } from '../../utils';
-import React from 'react';
+
 const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: string }>`
-  color: ${({ error, theme }) => (error ? theme.red1 : theme.text1)};
+  color: ${({ error, theme }) => (error ? theme.colors.warning : theme.colors.text)};
   width: 100%;
   // max-width: 195px;
   height: 62px;
@@ -13,7 +14,7 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
   border: none;
   border-radius: 5px;
   flex: 1 1 auto;
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: ${({ theme }) => theme.colors.background};
   // background: #2B2626;
   box-shadow: inset 6px 10px 12px 197px rgba(255, 255, 255, 0.1);
   // filter: blur(0.4px);
@@ -63,7 +64,7 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
   ::placeholder {
     // color: white;
     font-size: 20px;
-    color: ${({ theme }) => theme.text4};
+    color: ${({ theme }) => theme.colors.text};
   }
   -moz-appearance: textfield !important;
 `;

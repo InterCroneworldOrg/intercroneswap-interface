@@ -11,12 +11,12 @@ export const ClickableText = styled(Text)`
   :hover {
     cursor: pointer;
   }
-  color: ${({ theme }) => theme.primary3};
+  color: ${({ theme }) => theme.colors.primary};
 `;
 export const MaxButton = styled.button<{ width: string; active?: boolean }>`
   padding: 0.5rem 1rem;
-  background-color: ${({ theme }) => theme.primary5};
-  border: 1px solid ${({ theme }) => theme.primary5};
+  background-color: ${({ theme }) => theme.colors.primary};
+  border: 1px solid ${({ theme }) => theme.colors.primary};
   border-radius: 0.5rem;
   font-size: 1rem;
   ${({ theme }) => theme.mediaQueries.md } {
@@ -26,20 +26,20 @@ export const MaxButton = styled.button<{ width: string; active?: boolean }>`
   cursor: pointer;
   margin: 0.25rem;
   overflow: hidden;
-  color: ${({ theme }) => theme.text1};
-  // color: ${({ theme }) => theme.primary3};
-  background: ${({ theme }) => theme.bg3};
+  color: ${({ theme }) => theme.colors.text};
+  // color: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.background};
   ${({ active, theme }) =>
     active &&
     `
     color:#000;
-  background:${theme.primary1};
+  background:${theme.colors.primary};
   `}
   :hover {
-    border: 1px solid ${({ theme }) => theme.primary3};
+    border: 1px solid ${({ theme }) => theme.colors.primary};
   }
   :focus {
-    border: 1px solid ${({ theme }) => theme.primary3};
+    border: 1px solid ${({ theme }) => theme.colors.primary};
     outline: none;
   }
 `;

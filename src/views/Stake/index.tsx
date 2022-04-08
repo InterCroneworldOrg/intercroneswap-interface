@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { orderBy } from 'lodash';
 import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Text, Button } from '@pancakeswap/uikit'
+import { Text, Button, useModal } from '@pancakeswap/uikit'
 import styled, { ThemeContext } from 'styled-components';
 import { GreyCard, LightCard } from '../../components/Card';
 import { AutoColumn } from 'components/Layout/Column';
@@ -39,36 +39,32 @@ export default function Stake() {
   const [toggleToken, setToggleToken] = useState(true);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortOption, setSortOption] = useState('latest');
-  const [showStake, setShowStake] = useState<boolean>(false);
   const [showReferal, setShowReferal] = useState<boolean>(false);
-  const [showHarvest, setShowHarvest] = useState<boolean>(false);
   const { onUserInput } = useStakeActionHandlers();
 
   const handleHarvest = (address: string) => {
+    onPresentHarvestModal();
     setStakeAddress(address);
-    setShowHarvest(true);
   };
 
   const handleDismissHarvest = () => {
     setStakeAddress('');
-    setShowHarvest(false);
   };
   const inputRef = useRef<HTMLInputElement>();
 
   const handleStake = (address: string, pairSupply?: TokenAmount, stakingInfo?: StakingInfo) => {
-    setShowStake(true);
+    onPresentStakeModal();
     setStakeAddress(address);
     setStakeInfo(stakingInfo);
     setLPBalance(pairSupply);
   };
 
   const handleDismissStake = useCallback(() => {
-    setShowStake(false);
     setStakeAddress('');
     setStakeInfo(undefined);
     setLPBalance(undefined);
     onUserInput('');
-  }, [stakeAddress, showStake]);
+  }, [stakeAddress]);
 
   const handleInput = useCallback((event) => {
     const input = event.target.value;
@@ -96,7 +92,7 @@ export default function Stake() {
         ) : (
           <>
             <WordBreakDiv>Confirm your upline {referal}</WordBreakDiv>
-            <Button width="10rem" onClick={() => setUplinkAddress(referal ?? account)}>
+            <Button width="10rem" onClick={() => alert()}>
               <Text>Confirm</Text>
             </Button>
           </>
@@ -190,24 +186,34 @@ export default function Stake() {
   -webkit-text-fill-color: transparent;
   `;
 
+  const [onPresentStakeModal] = useModal(
+    <StakeModal
+      stakingAddress={stakeAddress}
+      stakingInfo={stakeInfo}
+      onDismiss={handleDismissStake}
+      balance={lpBalance}
+      referalAddress={uplinkAddress}
+    />,
+    true,
+    true,
+    'StakeModal',
+  )
+
+  const [onPresentHarvestModal] = useModal(
+    <HarvestModal
+      stakingAddress={stakeAddress}
+      stakingInfo={stakeInfo}
+      onDismiss={handleDismissHarvest}
+    />,
+    true,
+    true,
+    'HarvestModal',
+  )
+
   return (
     <>
       <StyledHeading>LP Staking</StyledHeading>
       <PageWrapper>
-        <StakeModal
-          isOpen={showStake}
-          stakingAddress={stakeAddress}
-          stakingInfo={stakeInfo}
-          onDismiss={handleDismissStake}
-          balance={lpBalance}
-          referalAddress={uplinkAddress}
-        />
-        <HarvestModal
-          isOpen={showHarvest}
-          stakingAddress={stakeAddress}
-          stakingInfo={stakeInfo}
-          onDismiss={handleDismissHarvest}
-        />
         <AutoRow justify="center">
           <Button width="15rem" onClick={() => setToggleToken(!toggleToken)}>
             <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
