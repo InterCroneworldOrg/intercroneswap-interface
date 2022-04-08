@@ -7,7 +7,6 @@ import TRXLogo from '../../assets/images/trxlogo.png';
 import BSCLogo from '../../assets/images/bsclogo.png';
 import BTTLogo from '../../assets/images/bttlogo.png';
 import Beaver from '../../assets/images/beaver.png';
-import Space from '../../assets/images/space.png';
 import Send from '../../assets/images/send.png';
 import Facebook from '../../assets/images/facebook.png';
 import Twitter from '../../assets/images/twitter.png';
@@ -145,6 +144,7 @@ const CommunityBox = styled.section`
   @media (max-width: 768px) {
     padding: unset;
     position: relative;
+    margin-top: 100px;
   }
 `;
 
@@ -235,6 +235,9 @@ const CommunityTextBox = styled.div`
   width: 60%;
   margin: 0 auto;
   position: relative;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const SocialIcons = styled.div`
@@ -243,6 +246,13 @@ const SocialIcons = styled.div`
   justify-content: space-around;
   > img {
     width: 35px;
+  }
+  @media (max-width: 768px) {
+    justify-content: space-evenly;
+    width: 85%;
+    > img {
+      width: 15px;
+    }
   }
 `;
 
@@ -258,10 +268,19 @@ const ComingSoonHeading = styled.h2`
   -webkit-text-fill-color: transparent;
   width: 60%;
   margin: 0 auto;
+  @media (max-width: 768px) {
+    width: 100%;
+    font-size: 22px;
+    line-height: unset;
+    width: 85%;
+  }
 `;
 
 const ComingSoonBox = styled.section`
   padding: 50px;
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 `;
 
 const ComingSoonContent = styled.p`
@@ -274,6 +293,12 @@ const ComingSoonContent = styled.p`
   color: rgba(255, 255, 255, 1);
   width: 60%;
   margin: 0 auto;
+  @media (max-width: 768px) {
+    font-size: 16px;
+    width: 100%;
+    line-height: unset;
+    margin-top: 20px;
+  }
 `;
 
 const LastSection = styled.section`
@@ -281,6 +306,9 @@ const LastSection = styled.section`
   justify-content: space-between;
   overflow: hidden;
   padding: 50px;
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 `;
 
 const ImageBox = styled.div`
@@ -291,6 +319,9 @@ const ImageBox = styled.div`
   &:last-child {
     margin-right: -32px;
     opacity: 0.4;
+  }
+  > img {
+    max-width: 100%;
   }
 `;
 
@@ -364,7 +395,7 @@ const Home = () => {
         </Container>
       </DefiBox>
       <CommunityBox>
-        <Container style={{ backgroundImage: `url(${Space})`, backgroundSize: 'cover', padding: '50px' }}>
+        <Container className={Styles.contain}>
           <Row style={{ position: 'relative' }}>
             <CommunityTextBox>
               <CommunityText>Join our Intercrone and Quokka Community</CommunityText>
@@ -384,13 +415,7 @@ const Home = () => {
         <ComingSoonContent>
           Mint and trade Quokka NFTs and support the Quokkas in Australia and the Intercrone Community
         </ComingSoonContent>
-        <YellowBox
-          style={{
-            background: 'linear-gradient(rgb(169 155 4) 0%, rgb(116 85 5) 100%)',
-            width: '20%',
-            margin: '25px auto',
-          }}
-        >
+        <YellowBox className={Styles.yellowbox}>
           <YellowBoxContent style={{ color: 'white' }}>Coming Soon</YellowBoxContent>
         </YellowBox>
       </ComingSoonBox>

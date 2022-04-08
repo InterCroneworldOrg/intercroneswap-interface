@@ -1,45 +1,22 @@
-import { ChainId, CurrencyAmount, JSBI, Pair, Token, TokenAmount, WETH, ZERO } from '@intercroneswap/v2-sdk';
+import { CurrencyAmount, JSBI, Pair, Token, TokenAmount, ZERO } from '@intercroneswap/v2-sdk';
 import { abi as ISwapV2StakingRewards } from '@intercroneswap/v2-staking/build/StakingRewards.json';
 import { Interface } from 'ethers/lib/utils';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, AppState } from '..';
-import { BTT, ICR, USDT } from '../../constants/tokens';
+import { ICR } from '../../constants/tokens';
 import { useActiveWeb3React } from '../../hooks';
 import { useStakingContract } from '../../hooks/useContract';
 import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp';
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks';
 import { tryParseAmount } from '../swap/hooks';
 import { typeInput } from './actions';
+import { STAKING_REWARDS_INFO } from './constants';
 
 const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards);
 
 export const STAKING_GENESIS = 1647797301;
-export const REWARDS_DURATION_DAYS = 14;
-
-export const STAKING_REWARDS_INFO: {
-  [chainId: number]: {
-    tokens: [Token, Token];
-    stakingRewardAddress: string;
-  }[];
-} = {
-  [ChainId.MAINNET]: [
-    {
-      tokens: [ICR, WETH[ChainId.MAINNET] as Token],
-      stakingRewardAddress: '0xbe3f0022fa68a5eaaf3189825b19d652377420f5',
-    },
-    {
-      tokens: [BTT, ICR],
-      stakingRewardAddress: '0x2edb6be332d850e1d0a1abd933f456b3d48a8950',
-    },
-    {
-      tokens: [ICR, USDT],
-      stakingRewardAddress: '0xfed67d9da22551895af2bb0d5e8010b28b016917',
-    },
-  ],
-};
-
 export interface StakingInfo {
   stakingRewardAddress: string;
   tokens: [Token, Token];
@@ -49,6 +26,7 @@ export interface StakingInfo {
   totalRewardRate: TokenAmount;
   rewardRate: TokenAmount;
   rewardForDuration: TokenAmount;
+  rewardDuration: number;
   periodFinish: Date | undefined;
   active: boolean;
   getHypotheticalRewardRate: (
@@ -110,6 +88,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
   const accountArg = useMemo(() => [account ?? undefined], [account]);
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info]);
+  const rewardsDurations = useMemo(() => info.map(({ rewardsDays }) => rewardsDays), [info]);
 
   // get all the info from the staking rewards contracts
   const balances = useMultipleContractSingleData(
@@ -229,6 +208,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
           earnedAmount: new TokenAmount(ICR, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
           rewardRate: individualRewardRate,
           rewardForDuration,
+          rewardDuration: rewardsDurations[index],
           totalRewardRate,
           stakedAmount,
           totalStakedAmount,
@@ -247,6 +227,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
     periodFinishes,
     rewardRates,
     rewardForDurations,
+    rewardsDurations,
     rewardsAddresses,
     totalSupplies,
     ICR,

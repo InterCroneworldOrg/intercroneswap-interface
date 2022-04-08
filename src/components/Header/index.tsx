@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import { useState } from 'react';
-import { Text } from 'rebass';
 // import { NavLink } from 'react-router-dom';
 // import { darken } from 'polished';
 // import { useTranslation } from 'react-i18next';
@@ -13,7 +12,6 @@ import Logo from '../../assets/images/ISwap.svg';
 // import LogoDark from '../../assets/svg/logo_white.svg'
 import { useActiveWeb3React } from '../../hooks';
 // import { useDarkModeManager } from '../../state/user/hooks'
-import { useETHBalances } from '../../state/wallet/hooks';
 import Settings from '../Settings';
 import Menu from '../Menu';
 // import LeftMenu from '../LeftMenu';
@@ -21,6 +19,7 @@ import { Box } from 'rebass/styled-components';
 import Web3Status from '../Web3Status';
 // import Modal from '../Modal';
 import EthLogo from '../../assets/images/eth-logo.png';
+import PriceCard from '../PriceCard';
 
 // const HeaderFrame = styled.div`
 //   // display: grid;
@@ -177,12 +176,6 @@ const AccountElement = styled.div<{ active: boolean }>`
   /* :hover {
     background-color: ${({ theme, active }) => (!active ? theme.bg2 : theme.bg4)};
   } */
-`;
-
-const BalanceText = styled(Text)`
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    display: none;
-  `};
 `;
 
 // const Title = styled.a`
@@ -359,7 +352,6 @@ export default function Header() {
   } = useActiveWeb3React();
   // const { t } = useTranslation();
 
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? ''];
   // const [isDark] = useDarkModeManager()
 
   // const [showIswapBalanceModal, setShowIswapBalanceModal] = useState(false);
@@ -488,11 +480,7 @@ export default function Header() {
             </Nav>
             <HeaderLinks>
               <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
-                {account && userEthBalance ? (
-                  <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                    {userEthBalance?.toSignificant(4)} TRX
-                  </BalanceText>
-                ) : null}
+                <PriceCard />
                 <Web3Status />
               </AccountElement>
               <Settings />

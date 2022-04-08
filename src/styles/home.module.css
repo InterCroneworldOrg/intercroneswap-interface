@@ -18,6 +18,16 @@
     right: -175px;
     width: 40% !important;
 }
+.contain{
+  background-image: url("../assets/images/space.png");
+  background-size: cover;
+  padding: 50px;
+}
+.yellowbox {
+  background: linear-gradient(rgb(169 155 4) 0%, rgb(116 85 5) 100%);
+  width: 20%;
+  margin: 25px auto;
+}
 
 @media (max-width: 768px) {
     .box {
@@ -39,4 +49,20 @@
       left: -55px;
       bottom: -80px;
     }
+    .contain{
+      background-image: url("../assets/images/mobilespace.png");
+      padding: 50px 0;
+      
+    }
+    .yellowbox {
+      
+      width: 50%;
+     
+    }
+    .chessicon{
+      position: absolute;
+      top: unset;
+      right: -45px;
+      width: 40% !important;
+  }
   }
