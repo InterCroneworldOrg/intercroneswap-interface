@@ -18,6 +18,7 @@ import Last3 from '../../assets/images/last3.png';
 import Last4 from '../../assets/images/last4.png';
 import Last5 from '../../assets/images/last5.png';
 import Last6 from '../../assets/images/last6.png';
+import { Link } from 'react-router-dom';
 
 const BannerWrapper = styled.div`
   background-image: url(${Banner});
@@ -342,9 +343,11 @@ const Home = () => {
             <Col md={12} className={Styles.box}>
               <img src={TRXLogo} className={Styles.icon} />
               <BoxContent>TRX Blockchain</BoxContent>
-              <YellowBox>
-                <YellowBoxContent>Active</YellowBoxContent>
-              </YellowBox>
+              <Link to="/swap" style={{ textDecoration: 'none', color: '#4a4a4a' }}>
+                <YellowBox>
+                  <YellowBoxContent>Active</YellowBoxContent>
+                </YellowBox>
+              </Link>
             </Col>
           </Col>
           <Col md={4}>

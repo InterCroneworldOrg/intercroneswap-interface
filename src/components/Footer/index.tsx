@@ -43,17 +43,17 @@ const Footer = () => {
           <p className={Style.iswap}>ISwap</p>
           <ul className={Style.ul}>
             <li>
-              <Link to="/exchange" className={`${Style.link} nav-link`}>
+              <Link to="/swap" className={`${Style.link} nav-link`}>
                 Exchange
               </Link>
             </li>
             <li>
-              <Link to="/liquidity" className={`${Style.link} nav-link`}>
+              <Link to="/pool" className={`${Style.link} nav-link`}>
                 Liquidity
               </Link>
             </li>
             <li>
-              <Link to="/staking" className={`${Style.link} nav-link`}>
+              <Link to="/pool" className={`${Style.link} nav-link`}>
                 Staking
               </Link>
             </li>
