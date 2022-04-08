@@ -5,16 +5,15 @@ name: Deploy live Site bsc subdomain
 
 on:
   push:
-    branches: [ main-bsc ]
+    branches: [main-bsc]
 
   workflow_dispatch:
 
 env:
   GITHUB_WORKSPACE: /home/interface
-    
+
 jobs:
   build:
-
     runs-on: self-hosted
 
     defaults:
@@ -26,16 +25,16 @@ jobs:
         node-version: [16.x]
 
     steps:
-    - uses: actions/checkout@v3
-      with:
-        ref: 'main-bsc'
-        path: 'bsc-interface'
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: cp .env.production .env
-    - run: npm i
-    - run: CI=false npm run build
-    - run: rsync -av /root/actions-runner/_work/intercroneswap-interface/intercroneswap-interface/bsc-interface/ /home/interface/bsc-interface/
+      - uses: actions/checkout@v3
+        with:
+          ref: 'main-bsc'
+          path: 'bsc-interface'
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: cp .env.production .env
+      - run: npm i
+      - run: CI=false npm run build
+      - run: rsync -av /root/actions-runner/_work/intercroneswap-interface/intercroneswap-interface/bsc-interface/ /home/interface/bsc-interface/
