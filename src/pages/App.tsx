@@ -30,7 +30,6 @@ import PoolFinder from './PoolFinder';
 import RemoveLiquidity from './RemoveLiquidity';
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects';
 import Swap from './Swap';
-import Sample from './Sample';
 import Home from './Home';
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects';
 import { RedirectToReferal } from './Stake/redirects';
@@ -344,17 +343,6 @@ export default function App() {
           <Web3ReactManager>
             <Switch>
               <Route exact strict path="/swap" component={Swap} />
-              <Route exact strict path="/exchange" component={Sample} />
-              <Route exact strict path="/liquidity" component={Sample} />
-              <Route exact strict path="/staking" component={Sample} />
-              <Route exact strict path="/nft" component={Sample} />
-              <Route exact strict path="/dashboard" component={Sample} />
-              <Route exact strict path="/market" component={Sample} />
-              <Route exact strict path="/audit" component={Sample} />
-              <Route exact strict path="/white-paper" component={Sample} />
-              <Route exact strict path="/faq" component={Sample} />
-              <Route exact strict path="/roadmap" component={Sample} />
-              <Route exact strict path="/travel-guide" component={Sample} />
 
               <Route exact strict path="/" component={Home} />
               {/* <Route exact strict path="/claim" component={OpenClaimAddressModalAndRedirectToSwap} /> */}

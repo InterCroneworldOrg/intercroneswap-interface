@@ -79,28 +79,28 @@ const Footer = () => {
           <p className={Style.footerheader}>About</p>
           <ul className={Style.ul}>
             <li>
-              <Link to="/audit" className={`${Style.link} nav-link`}>
+              <Link to="/" className={`${Style.link} nav-link`}>
                 Audit
               </Link>
             </li>
             <li>
-              <Link to="/white-paper" className={`${Style.link} nav-link`}>
+              <Link to="/" className={`${Style.link} nav-link`}>
                 White Paper
               </Link>
             </li>
             <li>
-              <Link to="/faq" className={`${Style.link} nav-link`}>
+              <Link to="/" className={`${Style.link} nav-link`}>
                 FAQ
               </Link>
             </li>
 
             <li>
-              <Link to="/roadmap" className={`${Style.link} nav-link`}>
+              <Link to="/" className={`${Style.link} nav-link`}>
                 Roadmap
               </Link>
             </li>
             <li>
-              <Link to="/travel-guide" className={`${Style.link} nav-link`}>
+              <Link to="/" className={`${Style.link} nav-link`}>
                 Trading Guide
               </Link>
             </li>
@@ -110,12 +110,12 @@ const Footer = () => {
           <p className={Style.footerheader}>Developers</p>
           <ul className={Style.ul}>
             <li>
-              <a href="/documentation" className={`${Style.link} nav-link`}>
+              <a href="/" className={`${Style.link} nav-link`}>
                 Documentation
               </a>
             </li>
             <li>
-              <a href="/liquidity" className={`${Style.link} nav-link`}>
+              <a href="/" className={`${Style.link} nav-link`}>
                 Github
               </a>
             </li>

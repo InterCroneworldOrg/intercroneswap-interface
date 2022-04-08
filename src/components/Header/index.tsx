@@ -50,7 +50,7 @@ export default function Header() {
               <Link to="/stake" className={`${Style.link} nav-link`}>
                 Staking
               </Link>
-              <Link to="/nft" className={`${Style.link} nav-link`}>
+              <Link to="/" className={`${Style.link} nav-link`}>
                 NFT
               </Link>
               <NavDropdown title="" id="basic-nav-dropdown">
