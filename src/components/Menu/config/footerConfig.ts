@@ -7,27 +7,27 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
     items: [
       {
         label: t('Exchange'),
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/swap',
       },
       {
         label: t('Liquidity'),
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/liquidity',
       },
       {
         label: t('Staking'),
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/stake',
       },
       {
         label: t('Dashboard'),
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/swap',
       },
       {
         label: t('NFT'),
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/swap',
       },
       {
         label: t('Market'),
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/swap',
       },
     ],
   },
@@ -36,23 +36,23 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
     items: [
       {
         label: t('Audit'),
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/swap',
       },
       {
         label: t('White Paper'),
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/swap',
       },
       {
         label: t('FAQ'),
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/swap',
       },
       {
         label: t('Roadmap'),
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/swap',
       },
       {
         label: t('Trading Guide'),
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/swap',
       },
     ],
   },
@@ -61,11 +61,11 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
     items: [
       {
         label: t('Documentation'),
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/swap',
       },
       {
         label: 'Github',
-        href: 'https://',
+        href: 'https://bsc.intercroneswap.com/swap',
       },
     ],
   },
