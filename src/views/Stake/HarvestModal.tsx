@@ -16,14 +16,13 @@ import { useTransactionAdder } from '../../state/transactions/hooks';
 // import { useStakingInfo } from '../../state/stake/hooks';
 
 interface StakeModalProps {
-  isOpen: boolean;
   onDismiss: () => void;
   stakingAddress: string;
   balance?: TokenAmount;
   stakingInfo?: StakingInfo;
 }
 
-export default function HarvestModal({ isOpen, onDismiss, stakingAddress, balance }: StakeModalProps) {
+export default function HarvestModal({ onDismiss, stakingAddress, balance }: StakeModalProps) {
   const { account, chainId, library } = useWeb3React();
   const gasPrice = useGasPrice();
   const theme = useContext(ThemeContext);
@@ -85,7 +84,7 @@ export default function HarvestModal({ isOpen, onDismiss, stakingAddress, balanc
       <AutoColumn gap="md">
         <RowBetween>
           <Text fontWeight={500}>Balance</Text>
-          <Text fontWeight={500} color={theme.primary3}>
+          <Text fontWeight={500} color={theme.colors.primary}>
             {balance?.toSignificant()}
           </Text>
         </RowBetween>
@@ -108,7 +107,6 @@ export default function HarvestModal({ isOpen, onDismiss, stakingAddress, balanc
   return (
     <TransactionConfirmationModal
       title=""
-      // isOpen={isOpen}
       onDismiss={onDismiss}
       attemptingTxn={attemptingTxn}
       hash={txHash}

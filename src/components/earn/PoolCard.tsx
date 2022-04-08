@@ -3,25 +3,24 @@ import { useContext, useState } from 'react';
 // import { ChevronDown, ChevronUp } from 'react-feather';
 import { Text, Button, LinkExternal} from '@pancakeswap/uikit'
 import { ThemeContext } from 'styled-components';
-import { YEARLY_RATE } from '../../constants';
-import { ICR, BUSD } from '../../constants/tokens';
 import { PairState, usePair } from 'hooks/usePairs'
 import useTotalSupply from 'hooks/useTotalSupply';
-
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useBUSDPrice from 'hooks/useBUSDPrice'
+import { AutoColumn } from 'components/Layout/Column'
+import { CurrencyLogo } from 'components/Logo'
+import { AutoRow } from 'components/Layout/Row'
 import { Dots } from '../../views/Stake/styleds';
 import { StakingInfo } from '../../state/stake/hooks';
 import { useTokenBalance } from '../../state/wallet/hooks';
 import { isOneTokenWETH, unwrappedToken } from '../../utils/wrappedCurrency';
 import { LightCard } from '../Card';
-import { AutoColumn } from 'components/Layout/Column'
-import { CurrencyLogo } from 'components/Logo'
-import { AutoRow } from 'components/Layout/Row'
 import DetailsDropdown from './DetailsDropdown';
+import { YEARLY_RATE } from '../../constants';
+import { ICR, BUSD } from '../../constants/tokens';
 import { AutoRowToColumn, ResponsiveSizedTextMedium, ResponsiveSizedTextNormal } from './styleds';
 
-var ZERO = /*#__PURE__*/JSBI.BigInt(0);
+const ZERO = JSBI.BigInt(0);
 
 interface PoolCardProps {
   stakingInfo: StakingInfo;
@@ -99,7 +98,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
       : 0;
 
   return (
-    <LightCard style={{ marginTop: '2px', margin: '0rem', padding: '1rem', background: theme.bg3 }}>
+    <LightCard style={{ marginTop: '2px', margin: '0rem', padding: '1rem', background: theme.colors.background }}>
       <AutoRow justify="space-between" gap=".2rem">
         <AutoRowToColumn>
           <AutoRow>
@@ -118,19 +117,19 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
         </AutoRowToColumn>
         <AutoRowToColumn gap="0.5rem">
           <ResponsiveSizedTextMedium fontWeight="1.3rem">Ends on</ResponsiveSizedTextMedium>
-          <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
+          <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.colors.primary}>
             {stakingInfo.periodFinish?.toLocaleString() || 'Not available yet'}
           </ResponsiveSizedTextNormal>
         </AutoRowToColumn>
         <AutoRowToColumn gap="1px">
           <ResponsiveSizedTextMedium fontWeight="1.3rem">Earned / APY</ResponsiveSizedTextMedium>
           {toggleToken ? (
-            <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
+            <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.colors.primary}>
               {stakingInfo.earnedAmount.toSignificant()} <CurrencyLogo currency={ICR} size=".8rem" />/ {apr.toFixed(2)}{' '}
               %
             </ResponsiveSizedTextNormal>
           ) : (
-            <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
+            <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.colors.primary}>
               {valueOfEarnedAmountInBUSD?.toFixed(2)} <CurrencyLogo currency={BUSD} size=".8rem" />/ {apr.toFixed(2)} %
             </ResponsiveSizedTextNormal>
           )}
@@ -148,11 +147,11 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
             </ResponsiveSizedTextMedium>
           </LinkExternal>
           {pairState === PairState.EXISTS ? (
-            <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.primary3}>
+            <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.colors.primary}>
               {LPSupply?.toSignificant(4)}
             </ResponsiveSizedTextNormal>
           ) : (
-            <Dots></Dots>
+            <Dots />
           )}
         </AutoRowToColumn>
         <AutoColumn justify="center" style={{ width: '25rem' }} gap="1rem">
@@ -185,7 +184,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
                     {LPSupply?.greaterThan(0) ? LPSupply?.toSignificant(4) : 'No liquidity'}
                   </ResponsiveSizedTextNormal>
                 ) : (
-                  <Dots></Dots>
+                  <Dots />
                 )}
               </AutoColumn>
             </Button>

@@ -1,18 +1,19 @@
 import { TokenAmount } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
+import { LinkExternal} from '@pancakeswap/uikit'
 import { ThemeContext } from 'styled-components';
-import { BUSD } from '../../constants/tokens';
 import { PairState } from 'hooks/usePairs'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useBUSDPrice from 'hooks/useBUSDPrice'
+import { CurrencyLogo } from 'components/Logo'
 import { StakingInfo } from '../../state/stake/hooks';
 import { Divider } from '../../theme';
-import { LinkExternal} from '@pancakeswap/uikit'
 import { getBscScanLink } from '../../utils';
 import { unwrappedToken } from '../../utils/wrappedCurrency';
-import { CurrencyLogo } from 'components/Logo'
 import { Dots } from '../swap/styleds';
 import { Countdown } from './Countdown';
+import { BUSD } from '../../constants/tokens';
+
 import {
   AutoColumnToRow,
   SpacedToCenteredAutoRow,
@@ -56,11 +57,11 @@ export default function DetailsDropdown({
         <RowBetweenToDiv>
           <ResponsiveSizedTextMedium fontWeight="0.7rem">Staked</ResponsiveSizedTextMedium>
           {toggleToken ? (
-            <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
+            <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.colors.primary}>
               {stakedAmount?.toSignificant() ?? '-'} <CurrencyLogo currency={currency} size=".8rem" />
             </ResponsiveSizedTextNormal>
           ) : (
-            <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
+            <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.colors.primary}>
               {valueOfStakedAmountInBUSD?.toFixed(2) ?? '-'} <CurrencyLogo currency={BUSD} size=".8rem" />
             </ResponsiveSizedTextNormal>
           )}
@@ -70,17 +71,17 @@ export default function DetailsDropdown({
           {pairState === PairState.EXISTS ? (
             <>
               {toggleToken ? (
-                <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.primary3}>
+                <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.colors.primary}>
                   {totalStakedAmount?.toSignificant(4)} <CurrencyLogo currency={currency} size=".8rem" />
                 </ResponsiveSizedTextNormal>
               ) : (
-                <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.primary3}>
+                <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.colors.primary}>
                   {valueOfTotalStakedAmountInBUSD?.toFixed(2)} <CurrencyLogo currency={BUSD} size=".8rem" />
                 </ResponsiveSizedTextNormal>
               )}
             </>
           ) : (
-            <Dots></Dots>
+            <Dots />
           )}
         </RowBetweenToDiv>
         <LinkExternal
