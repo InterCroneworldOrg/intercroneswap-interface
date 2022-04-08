@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-
-import { STAKING_GENESIS } from '../../state/stake/hooks';
 import { Text } from '@pancakeswap/uikit'
+import { STAKING_GENESIS } from '../../state/stake/hooks';
 import { REWARDS_DURATION_DAYS_180 } from '../../state/stake/constants';
 
 const MINUTE = 60;
@@ -27,6 +26,9 @@ export function Countdown({ exactEnd, durationDays }: { exactEnd?: Date; duratio
         clearTimeout(timeout);
       };
     }
+    return () => {
+      console.log("already ended");
+    };
   }, [time, end]);
 
   const timeUntilGenesis = begin - time;

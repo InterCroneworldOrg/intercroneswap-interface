@@ -19,7 +19,6 @@ import { useGasPrice } from '../../state/user/hooks';
 import { calculateGasMargin } from '../../utils';
 
 interface StakeModalProps {
-  isOpen: boolean;
   onDismiss: () => void;
   stakingAddress: string;
   balance?: TokenAmount;
@@ -28,7 +27,6 @@ interface StakeModalProps {
 }
 
 export default function StakeModal({
-  isOpen,
   onDismiss,
   stakingAddress,
   balance,
@@ -164,27 +162,27 @@ export default function StakeModal({
         </Button>
       </AutoRow>
     );
-  }, [stakeState, balance, isStaking, approveState, stakingInfo, isOpen]);
+  }, [stakeState, balance, isStaking, approveState, stakingInfo]);
 
   const modalHeader = useCallback(() => {
     return (
       <AutoColumn gap="md">
         <RowBetween>
           <Text fontWeight={500}>Balance</Text>
-          <Text fontWeight={500} color={theme.primary3}>
+          <Text fontWeight={500} color={theme.colors.primary}>
             {isStaking ? balance?.toExact() : stakingInfo?.stakedAmount?.toExact()}
           </Text>
         </RowBetween>
-        <RowBetween style={{ background: theme.bg3, borderRadius: '6px' }}>
+        <RowBetween style={{ background: theme.colors.background, borderRadius: '6px' }}>
           <NumericalInput className="lp-amount-input" value={stakeState.typedValue} onUserInput={handleTypeInput} />
           <MaxButton
             style={{
-              border: theme.primary3,
+              border: theme.colors.primary,
               borderWidth: '1px',
-              borderColor: theme.primary3,
+              borderColor: theme.colors.primary,
               borderStyle: 'solid',
               borderRadius: '8px',
-              color: theme.primary3,
+              color: theme.colors.primary,
               textAlign: 'center',
               alignItems: 'center',
               overflow: 'visible',
@@ -199,7 +197,7 @@ export default function StakeModal({
         </RowBetween>
       </AutoColumn>
     );
-  }, [stakeState, balance, isStaking, stakingInfo, isOpen]);
+  }, [stakeState, balance, isStaking, stakingInfo]);
 
   // const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
   const confirmationContent = useCallback(() => {
@@ -230,7 +228,6 @@ export default function StakeModal({
   return (
     <TransactionConfirmationModal
       title=""
-      // isOpen={isOpen}
       onDismiss={onDismiss}
       attemptingTxn={attemptingTxn}
       hash={txHash}
