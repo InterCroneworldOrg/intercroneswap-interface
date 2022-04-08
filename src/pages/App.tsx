@@ -31,7 +31,7 @@ import RemoveLiquidity from './RemoveLiquidity';
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects';
 import Swap from './Swap';
 import Sample from './Sample';
-import Home from './Home';
+// import Home from './Home';
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects';
 import { RedirectToReferal } from './Stake/redirects';
 // import Vote from './Vote'
@@ -344,9 +344,6 @@ export default function App() {
           <Web3ReactManager>
             <Switch>
               <Route exact strict path="/swap" component={Swap} />
-              <Route exact strict path="/exchange" component={Sample} />
-              <Route exact strict path="/liquidity" component={Sample} />
-              <Route exact strict path="/staking" component={Sample} />
               <Route exact strict path="/nft" component={Sample} />
               <Route exact strict path="/dashboard" component={Sample} />
               <Route exact strict path="/market" component={Sample} />
@@ -356,7 +353,7 @@ export default function App() {
               <Route exact strict path="/roadmap" component={Sample} />
               <Route exact strict path="/travel-guide" component={Sample} />
 
-              <Route exact strict path="/" component={Home} />
+              {/* <Route exact strict path="/" component={Home} /> */}
               {/* <Route exact strict path="/claim" component={OpenClaimAddressModalAndRedirectToSwap} /> */}
               <Route exact strict path="/swap/:outputCurrency" component={RedirectToSwap} />
               <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
