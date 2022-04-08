@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { AutoRow } from '../Row';
-import { Text } from 'rebass';
+import { TYPE } from '../../theme';
 
 export const AutoRowToColumn = styled.div<{
   gap?: 'sm' | 'md' | 'lg' | string;
@@ -52,14 +52,14 @@ export const RowBetweenToDiv = styled.div`
   `}
 `;
 
-export const ResponsiveSizedTextNormal = styled(Text)`
+export const ResponsiveSizedTextNormal = styled(TYPE.white)`
   font-size: 1rem;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     font-size: .5rem;
   `}
 `;
 
-export const ResponsiveSizedTextMedium = styled(Text)`
+export const ResponsiveSizedTextMedium = styled(TYPE.white)`
   font-size: 1rem;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     font-size: .7rem;
