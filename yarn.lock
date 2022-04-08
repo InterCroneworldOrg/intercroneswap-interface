@@ -1759,6 +1759,11 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
+"@intercroneswap/v2-staking@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@intercroneswap/v2-staking/-/v2-staking-0.0.2.tgz#268f024af03c3f661ca00ad41a152eb3a5909aa7"
+  integrity sha512-SAKxyMscygqYwNWymvr7uPI18/ab1EndvDofi6Egr9PpUBi92Fc/Wv610sys304GkUrf9LOVrJZvjH1SI8Wl+g==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"

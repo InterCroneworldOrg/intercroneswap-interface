@@ -28,6 +28,7 @@ import swap from './swap/reducer'
 import transactions from './transactions/reducer'
 import user from './user/reducer'
 import limitOrders from './limitOrders/reducer'
+import stake from './stake/reducer';
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
 
@@ -73,6 +74,7 @@ const persistedReducer = persistReducer(
     burn,
     multicall,
     lists,
+    stake,
   }),
 )
 
@@ -125,7 +127,7 @@ store = initializeStore()
  * @see https://redux-toolkit.js.org/usage/usage-with-typescript#getting-the-dispatch-type
  */
 export type AppDispatch = typeof store.dispatch
-export type AppState = ReturnType<typeof store.getState>
+export type   AppState = ReturnType<typeof store.getState>
 export const useAppDispatch = () => useDispatch()
 
 export default store

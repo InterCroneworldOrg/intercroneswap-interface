@@ -16,3 +16,10 @@ export function unwrappedToken(token: Token): Currency {
   if (token.equals(WETH[token.chainId])) return ETHER
   return token
 }
+
+export function isOneTokenWETH(token0: Token, token1: Token): [boolean, Token | undefined] {
+  if (token0.equals(WETH[token0.chainId]) || token1.equals(WETH[token1.chainId])) {
+    return [true, WETH[token0.chainId]];
+  }
+  return [false, undefined];
+}
