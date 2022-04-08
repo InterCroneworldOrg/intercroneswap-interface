@@ -8,6 +8,9 @@ on:
     branches: [ main-bsc ]
 
   workflow_dispatch:
+
+env:
+  GITHUB_WORKSPACE: /home/interface
     
 jobs:
   build:
