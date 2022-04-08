@@ -43,30 +43,30 @@ const Footer = () => {
           <p className={Style.iswap}>ISwap</p>
           <ul className={Style.ul}>
             <li>
-              <Link to="/swap" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://trx.intercroneswap.com/#/swap/" className={`${Style.link} nav-link`}>
                 Exchange
-              </Link>
+              </ExternalLink>
             </li>
             <li>
-              <Link to="/pool" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://trx.intercroneswap.com/#/pool/" className={`${Style.link} nav-link`}>
                 Liquidity
-              </Link>
+              </ExternalLink>
             </li>
             <li>
-              <Link to="/stake" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://trx.intercroneswap.com/#/stake/" className={`${Style.link} nav-link`}>
                 Staking
-              </Link>
+              </ExternalLink>
             </li>
 
             <li>
-              <Link to="/dashboard" className={`${Style.link} nav-link`}>
+              <Link to="/" className={`${Style.link} nav-link`}>
                 Dashboard
               </Link>
             </li>
             <li>
-              <Link to="/nft" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                 NFT
-              </Link>
+              </ExternalLink>
             </li>
             <li>
               <Link to="/market" className={`${Style.link} nav-link`}>

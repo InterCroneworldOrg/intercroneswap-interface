@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Container, Nav } from 'react-bootstrap';
 import Style from '../../styles/header.module.css';
-import { Link } from 'react-router-dom';
 import { HeaderLinks, AccountElement } from '../../styles/header.styles';
 import Logo from '../../assets/images/ISwap.svg';
 import { useActiveWeb3React } from '../../hooks';
@@ -11,6 +8,7 @@ import Menu from '../Menu';
 import Web3Status from '../Web3Status';
 import EthLogo from '../../assets/images/eth-logo.png';
 import PriceCard from '../PriceCard';
+import { ExternalLink } from '../../theme';
 
 export default function Header() {
   const { account } = useActiveWeb3React();
@@ -31,35 +29,35 @@ export default function Header() {
               <img src={EthLogo} alt="" />
             </span>
           </div>
-          <NavDropdown title="" id="basic-nav-dropdowns">
+          {/* <NavDropdown title="" id="basic-nav-dropdowns">
             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-          </NavDropdown>
+          </NavDropdown> */}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mx-auto">
-              <Link to="/swap" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://trx.intercroneswap.com/#/swap/" className={`${Style.link} nav-link`}>
                 Exchange
-              </Link>
-              <Link to="/pool" className={`${Style.link} nav-link`}>
+              </ExternalLink>
+              <ExternalLink href="https://trx.intercroneswap.com/#/pool/" className={`${Style.link} nav-link`}>
                 Liquidity
-              </Link>
-              <Link to="/stake" className={`${Style.link} nav-link`}>
+              </ExternalLink>
+              <ExternalLink href="https://trx.intercroneswap.com/#/stake/" className={`${Style.link} nav-link`}>
                 Staking
-              </Link>
-              <Link to="/" className={`${Style.link} nav-link`}>
+              </ExternalLink>
+              <ExternalLink href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                 NFT
-              </Link>
-              <NavDropdown title="" id="basic-nav-dropdown">
+              </ExternalLink>
+              {/* <NavDropdown title="" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown> */}
             </Nav>
             <HeaderLinks>
               <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
