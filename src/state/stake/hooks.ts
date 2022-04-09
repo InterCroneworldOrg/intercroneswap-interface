@@ -12,7 +12,7 @@ import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp';
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks';
 import { tryParseAmount } from '../swap/hooks';
 import { typeInput } from './actions';
-import { STAKING_REWARDS_INFO } from './constants';
+import { StakingRewardsInfo } from './constants';
 
 const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards);
 
@@ -64,16 +64,15 @@ export function useTotalStakedAmount(address: string): JSBI {
   return totalSupply ? JSBI.BigInt(totalSupply.toString()) : ZERO;
 }
 
-export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
+export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairToFilterBy?: Pair | null): StakingInfo[] {
   const { chainId, account } = useActiveWeb3React();
 
-  // detect if staking is ended
   const currentBlockTimestamp = useCurrentBlockTimestamp();
 
   const info = useMemo(
     () =>
       chainId
-        ? STAKING_REWARDS_INFO[chainId]?.filter((stakingRewardInfo) =>
+        ? stakingRewardsInfos?.filter((stakingRewardInfo) =>
             pairToFilterBy === undefined
               ? true
               : pairToFilterBy === null
@@ -235,7 +234,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 }
 
 export function useTotalIcrEarned(): TokenAmount | undefined {
-  const stakingInfos = useStakingInfo();
+  const stakingInfos = useStakingInfo([]);
 
   return useMemo(() => {
     return (
