@@ -1,4 +1,18 @@
-import { ChainId, Token } from '@intercroneswap/v2-sdk';
+import { ChainId, Token, WETH } from '@intercroneswap/v2-sdk';
+
+export function getTokensFromDefaults(symbols: string): [Token, Token] | undefined {
+  const symbolsSplit = symbols.split('-');
+  if (symbolsSplit.length !== 2) {
+    return undefined;
+  }
+  const token0 = getTokenFromDefaults(symbolsSplit[0].toUpperCase());
+  const token1 = getTokenFromDefaults(symbolsSplit[1].toUpperCase());
+  return token0 && token1 ? [token0, token1] : undefined;
+}
+
+export function getTokenFromDefaults(symbol: string): Token | undefined {
+  return symbol === 'TRX' ? WETH[ChainId.MAINNET] : DefaultTokensMap[symbol];
+}
 
 export const ICR = new Token(ChainId.MAINNET, '0x6c50dddaeca053249582d7f823bcc8299b3fb293', 8, 'ICR', 'Intercrone');
 export const USDT = new Token(ChainId.MAINNET, '0xA614F803B6FD780986A42C78EC9C7F77E6DED13C', 6, 'USDT', 'Tether');
@@ -48,3 +62,29 @@ export const HT = new Token(ChainId.MAINNET, '0x2C036253E0C053188C621B81B7CD40A9
 export const KLV = new Token(ChainId.MAINNET, '0xD8B8089856CED3038601CBEB1E3F765CABC12A41', 6, 'KLV ', 'Klever');
 export const Doge = new Token(ChainId.MAINNET, '0x53A58D995EF4937017A8AB47722186A12A27905E', 8, 'Doge ', 'Dogecoin');
 export const TURU = new Token(ChainId.MAINNET, '0x6471f94b57853c253273275fd695606aff44cd8f', 8, 'turu ', 'turu');
+
+export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
+  ['ICR']: ICR,
+  ['USDT']: USDT,
+  ['ETH']: ETH,
+  ['BTT']: BTT,
+  ['MEOX']: MEOX,
+  ['BTC']: BTC,
+  ['USDJ']: USDJ,
+  ['TUSD']: TUSD,
+  ['USDC']: USDC,
+  ['WIN']: WIN,
+  ['LIVE']: LIVE,
+  ['DICE']: DICE,
+  ['888']: EightEightEight,
+  ['SAFEMONEY']: SafeMoney,
+  ['JM']: JM,
+  ['JST']: JST,
+  ['NFT']: NFT,
+  ['SUN']: SUN,
+  ['WBTT']: WBTT,
+  ['LTC']: HT,
+  ['KLV']: KLV,
+  ['DOGE']: Doge,
+  ['TURU']: TURU,
+};

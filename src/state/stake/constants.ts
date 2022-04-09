@@ -4,7 +4,7 @@ import { ICR, BTT, USDT, BTC, ETH, WIN, SUN, JST, NFT, TURU } from '../../consta
 export const REWARDS_DURATION_DAYS = 14;
 export const REWARDS_DURATION_DAYS_180 = 180;
 
-interface StakingRewardsInfo {
+export interface StakingRewardsInfo {
   tokens: [Token, Token];
   stakingRewardAddress: string;
   rewardsDays: number;

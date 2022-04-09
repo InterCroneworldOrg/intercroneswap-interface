@@ -1,3 +1,4 @@
+import { REWARDS_DURATION_DAYS, REWARDS_DURATION_DAYS_180, StakingRewardsInfo } from '../../state/stake/constants';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import { TokenAmount } from '@intercroneswap/v2-sdk';
 import { orderBy } from 'lodash';
@@ -16,7 +17,7 @@ import { ResponsiveSizedTextMedium } from '../../components/earn/styleds';
 import { AutoRow, RowBetween } from '../../components/Row';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import { Dots } from '../../components/swap/styleds';
-import { USDT, ICR } from '../../constants/tokens';
+import { USDT, ICR, getTokensFromDefaults } from '../../constants/tokens';
 import { useActiveWeb3React } from '../../hooks';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks';
@@ -26,6 +27,17 @@ import HarvestModal from './HarvestModal';
 import StakeModal from './StakeModal';
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds';
 
+let stakingInfosRaw: {
+  [chainId: number]: {
+    [version: string]: {
+      [tokens: string]: string;
+    };
+  };
+} = {};
+fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
+  .then((response) => response.json())
+  .then((data) => (stakingInfosRaw = data));
+
 export default function Stake({
   match: {
     params: { referal },
@@ -33,9 +45,28 @@ export default function Stake({
 }: RouteComponentProps<{ referal?: string }>) {
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
-  const { account } = useActiveWeb3React();
+  const { account, chainId } = useActiveWeb3React();
+  const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
+    const tmpinfos: StakingRewardsInfo[] = [];
+    stakingInfosRaw && chainId
+      ? Object.keys(stakingInfosRaw[chainId]).map((version) => {
+          const vals = stakingInfosRaw[chainId][version];
+          Object.keys(vals).map((tokens) => {
+            const tokensFromDefault = getTokensFromDefaults(tokens);
+            if (tokensFromDefault) {
+              tmpinfos.push({
+                stakingRewardAddress: vals[tokens],
+                tokens: tokensFromDefault,
+                rewardsDays: version !== 'v0' ? REWARDS_DURATION_DAYS_180 : REWARDS_DURATION_DAYS,
+              });
+            }
+          });
+        })
+      : undefined;
+    return tmpinfos;
+  }, [chainId, stakingInfosRaw]);
 
-  const stakingInfos = useStakingInfo();
+  const stakingInfos = useStakingInfo(stakingRewardInfos);
 
   const [stakeAddress, setStakeAddress] = useState<string>('');
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
