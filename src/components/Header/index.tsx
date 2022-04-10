@@ -440,7 +440,7 @@ export default function Header() {
         style={{ width: '100%', background: 'linear-gradient(180deg, #3B3B3B 0%, rgba(59, 59, 59, 0) 100%)' }}
       >
         <Container fluid>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="https://intercroneswap.com/">
             <img width={'115px'} src={Logo} alt="logo" />
           </Navbar.Brand>
           <div className="tokenname">

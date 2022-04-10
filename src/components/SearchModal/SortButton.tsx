@@ -1,4 +1,4 @@
-import { Text } from 'rebass';
+import { TYPE } from '../../theme';
 import styled from 'styled-components';
 import { RowFixed } from '../Row';
 
@@ -25,9 +25,9 @@ export default function SortButton({
 }) {
   return (
     <FilterWrapper onClick={toggleSortOrder}>
-      <Text fontSize={14} fontWeight={500}>
+      <TYPE.white fontSize={14} fontWeight={500}>
         {ascending ? '↑' : '↓'}
-      </Text>
+      </TYPE.white>
     </FilterWrapper>
   );
 }

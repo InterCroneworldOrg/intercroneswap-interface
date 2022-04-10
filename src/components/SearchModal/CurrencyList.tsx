@@ -1,7 +1,6 @@
 import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from '@intercroneswap/v2-sdk';
 import { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react';
 import { FixedSizeList } from 'react-window';
-import { Text } from 'rebass';
 import styled from 'styled-components';
 import { useActiveWeb3React } from '../../hooks';
 import { useSelectedTokenList, WrappedTokenInfo } from '../../state/lists/hooks';
@@ -21,7 +20,7 @@ function currencyKey(currency: Currency): string {
   return currency instanceof Token ? currency.address : currency === ETHER ? 'ETHER' : '';
 }
 
-const StyledBalanceText = styled(Text)`
+const StyledBalanceText = styled(TYPE.white)`
   white-space: nowrap;
   overflow: hidden;
   max-width: 5rem;
@@ -114,9 +113,9 @@ function CurrencyRow({
     >
       <CurrencyLogo currency={currency} size={'24px'} />
       <Column>
-        <Text title={currency.name} fontWeight={500}>
+        <TYPE.white title={currency.name} fontWeight={500}>
           {currency.symbol}
-        </Text>
+        </TYPE.white>
         <FadedSpan>
           {!isOnSelectedList && customAdded ? (
             <TYPE.main fontWeight={500}>

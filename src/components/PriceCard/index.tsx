@@ -14,7 +14,7 @@ const PriceCard = () => {
       <span>
         <img width={20} src={chessIcon} alt="" />
       </span>
-      $ {usdtPrice?.adjusted.toFixed(ICR.decimals)} USD
+      $ {usdtPrice?.adjusted.toFixed(4)} USD
     </AmountWrapper>
   ) : null;
 };

@@ -3,7 +3,6 @@ import { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, 
 import ReactGA from 'react-ga';
 import { useTranslation } from 'react-i18next';
 import { FixedSizeList } from 'react-window';
-import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
 import { useActiveWeb3React } from '../../hooks';
 import { useAllTokens, useToken } from '../../hooks/Tokens';
@@ -152,10 +151,10 @@ export function CurrencySearch({
     <Column style={{ width: '100%', flex: '1 1' }}>
       <PaddedColumn gap="14px">
         <RowBetween>
-          <Text fontWeight={500} fontSize={16}>
+          <TYPE.white fontWeight={500} fontSize={16}>
             Select a token
             <QuestionHelper text="Find a token by searching for its name or symbol or by pasting its address below." />
-          </Text>
+          </TYPE.white>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
         <SearchInput
@@ -171,9 +170,9 @@ export function CurrencySearch({
           <CommonBases chainId={chainId} onSelect={handleCurrencySelect} selectedCurrency={selectedCurrency} />
         )}
         <RowBetween>
-          <Text fontSize={14} fontWeight={500}>
+          <TYPE.white fontSize={14} fontWeight={500}>
             Token Name
-          </Text>
+          </TYPE.white>
           <SortButton ascending={invertSearchOrder} toggleSortOrder={() => setInvertSearchOrder((iso) => !iso)} />
         </RowBetween>
       </PaddedColumn>
