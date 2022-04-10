@@ -1,3 +1,4 @@
+import { DoubleTokenAmount } from '../../utils/tokenAmountCalculations';
 import { ETHER, JSBI, Percent, TokenAmount, ZERO } from '@intercroneswap/v2-sdk';
 import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
@@ -64,9 +65,9 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
     stakedAmount &&
     JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.stakedAmount.raw)
       ? isOneTokenICR
-        ? pair?.getLiquidityValue(ICR, LPTotalSupply, stakedAmount, false)
+        ? DoubleTokenAmount(pair.getLiquidityValue(ICR, LPTotalSupply, stakedAmount, false))
         : isWETH && weth
-        ? pair?.getLiquidityValue(weth, LPTotalSupply, stakedAmount, false)
+        ? DoubleTokenAmount(pair.getLiquidityValue(weth, LPTotalSupply, stakedAmount, false))
         : undefined
       : undefined;
 
@@ -77,9 +78,9 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
     totalStakedAmount &&
     JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.totalStakedAmount.raw)
       ? isOneTokenICR
-        ? pair?.getLiquidityValue(ICR, LPTotalSupply, totalStakedAmount, false)
+        ? DoubleTokenAmount(pair.getLiquidityValue(ICR, LPTotalSupply, totalStakedAmount, false))
         : isWETH && weth
-        ? pair?.getLiquidityValue(weth, LPTotalSupply, totalStakedAmount, false)
+        ? DoubleTokenAmount(pair.getLiquidityValue(weth, LPTotalSupply, totalStakedAmount, false))
         : undefined
       : undefined;
 
@@ -94,7 +95,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
     ratePerYearUSDT &&
     valueOfTotalStakedAmountInUSDT &&
     JSBI.greaterThan(valueOfTotalStakedAmountInUSDT.numerator, ZERO)
-      ? new Percent(ratePerYearUSDT.numerator, JSBI.multiply(valueOfTotalStakedAmountInUSDT.numerator, JSBI.BigInt(2)))
+      ? new Percent(ratePerYearUSDT.numerator, valueOfTotalStakedAmountInUSDT.numerator)
       : 0;
 
   return (

@@ -3,7 +3,6 @@ import { ArrowLeft } from 'react-feather';
 import ReactGA from 'react-ga';
 import { usePopper } from 'react-popper';
 import { useDispatch, useSelector } from 'react-redux';
-import { Text } from 'rebass';
 import styled from 'styled-components';
 import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg';
 import { useFetchListCallback } from '../../hooks/useFetchListCallback';
@@ -159,13 +158,13 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
       )}
       <Column style={{ flex: '1' }}>
         <Row>
-          <Text
+          <TYPE.white
             fontWeight={isSelected ? 500 : 400}
             fontSize={16}
             style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
           >
             {list.name}
-          </Text>
+          </TYPE.white>
         </Row>
         <Row
           style={{
@@ -326,9 +325,9 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
           <div>
             <ArrowLeft style={{ cursor: 'pointer' }} onClick={onBack} />
           </div>
-          <Text fontWeight={500} fontSize={20}>
+          <TYPE.white fontWeight={500} fontSize={20}>
             Manage Lists
-          </Text>
+          </TYPE.white>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
       </PaddedColumn>
@@ -336,10 +335,10 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
       <Separator />
 
       <PaddedColumn gap="14px">
-        <Text fontWeight={600}>
+        <TYPE.white fontWeight={600}>
           Add a list{' '}
           <QuestionHelper text="Token lists are an open specification for lists of TRC20 tokens. You can use any token list by entering its URL below. Beware that third party token lists can contain fake or malicious TRC20 tokens." />
-        </Text>
+        </TYPE.white>
         <Row>
           <SearchInput
             type="text"
