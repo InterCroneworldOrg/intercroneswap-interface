@@ -4,20 +4,21 @@ import { useRouter } from 'next/router'
 import { orderBy } from 'lodash'
 import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { Text, Button, useModal } from '@pancakeswap/uikit'
-import styled, { ThemeContext } from 'styled-components'
-import { AutoColumn } from 'components/Layout/Column'
+import styled, { ThemeContext } from 'styled-components';
+import { GreyCard, LightCard } from '../../components/Card';
+import { AutoColumn } from 'components/Layout/Column';
+import { DoubleCurrencyLogo } from 'components/Logo'
+import PoolCard from '../../components/earn/PoolCard';
+import { ResponsiveSizedTextMedium } from '../../components/earn/styleds';
 import { AutoRow, RowBetween } from 'components/Layout/Row'
-import { GreyCard, LightCard } from '../../components/Card'
-// import DoubleCurrencyLogo from '../../components/DoubleLogo';
-import PoolCard from '../../components/earn/PoolCard'
-import { ResponsiveSizedTextMedium } from '../../components/earn/styleds'
-import { SearchInput } from '../../components/SearchModal/styleds'
-import { Dots } from '../../components/swap/styleds'
-// import { BUSD, ICR } from '../../constants/tokens';
-import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks'
-import { Divider } from '../../theme'
-import HarvestModal from './HarvestModal'
-import StakeModal from './StakeModal'
+import { SearchInput } from '../../components/SearchModal/styleds';
+import { Dots } from '../../components/swap/styleds';
+import Page from '../Page'
+import { BUSD, ICR } from '../../constants/tokens';
+import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks';
+import { Divider } from '../../theme';
+import HarvestModal from './HarvestModal';
+import StakeModal from './StakeModal';
 import ConnectWalletButton from '../../components/ConnectWalletButton'
 
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds'
@@ -206,13 +207,13 @@ export default function Stake() {
   )
 
   return (
-    <>
+    <Page>
       <StyledHeading>LP Staking</StyledHeading>
-      <PageWrapper>
+      <PageWrapper style={{marginTop: 30}}>
         <AutoRow justify="center">
-          <Button width="15rem" onClick={() => setToggleToken(!toggleToken)}>
+          <Button variant="secondary" width="15rem" onClick={() => setToggleToken(!toggleToken)}>
             <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
-            {/* <DoubleCurrencyLogo currency0={BUSD} currency1={ICR} size={28} /> */}
+            <DoubleCurrencyLogo currency0={BUSD} currency1={ICR} size={28} />
           </Button>
         </AutoRow>
         <LightCard style={{ marginTop: '20px' }} padding="2rem 1rem">
@@ -246,7 +247,7 @@ export default function Stake() {
                   <SearchInput
                     type="text"
                     id="token-search-input"
-                    placeholder="tokenSearchPlaceholder"
+                    placeholder="Filter by token name"
                     value={searchQuery}
                     ref={inputRef as RefObject<HTMLInputElement>}
                     onChange={handleInput}
@@ -257,7 +258,10 @@ export default function Stake() {
                 </AutoColumn>
                 <AutoColumn gap="3px">
                   <Text>Sort by</Text>
-                  <Button onClick={() => (sortOption === 'earned' ? setSortOption('latest') : setSortOption('earned'))}>
+                  <Button
+                    variant="secondary"
+                    onClick={() => (sortOption === 'earned' ? setSortOption('latest') : setSortOption('earned'))}
+                  >
                     {sortOption}
                   </Button>
                 </AutoColumn>
@@ -298,6 +302,6 @@ export default function Stake() {
           </AutoColumn>
         </LightCard>
       </PageWrapper>
-    </>
-  )
+    </Page>
+  );
 }

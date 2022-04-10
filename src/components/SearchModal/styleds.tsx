@@ -20,7 +20,7 @@ export const SearchInput = styled.input`
   font-size: 3rem;
 
   ::placeholder {
-    color: ${({ theme }) => theme.colors.text};
+    color: ${({ theme }) => theme.colors.textSubtle};
   }
   transition: border 100ms;
   :focus {
