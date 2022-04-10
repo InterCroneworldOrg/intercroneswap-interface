@@ -3,10 +3,10 @@ import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
 import { orderBy } from 'lodash';
 import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { isAddress } from 'utils'
 import { Text, Button, useModal } from '@pancakeswap/uikit'
 import styled, { ThemeContext } from 'styled-components';
-import { GreyCard, LightCard } from '../../components/Card';
+import { LightGreyCard, LightCard } from '../../components/Card';
 import { AutoColumn } from 'components/Layout/Column';
 import { DoubleCurrencyLogo } from 'components/Logo'
 import PoolCard from '../../components/earn/PoolCard';
@@ -24,12 +24,21 @@ import ConnectWalletButton from '../../components/ConnectWalletButton'
 
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds';
 
+
 export default function Stake() {
-  const router = useRouter()
-  const { referal } = router.query
-  console.log(router.query)
+  const router = useRouter();
   const theme = useContext(ThemeContext);
-  const { account } = useWeb3React()
+  const { account } = useWeb3React();
+
+  const referalArr = router.query.referal || [];
+  let referal = undefined;
+  if( referalArr.length == 1 ) {
+    referal = referalArr[0];
+    if( !isAddress(referal))
+      router.push('/farms');
+  }
+  else if( referalArr.length )
+    router.push('/farms');
 
   const stakingInfos = useStakingInfo();
 
@@ -93,14 +102,14 @@ export default function Stake() {
         ) : (
           <>
             <WordBreakDiv>Confirm your upline {referal}</WordBreakDiv>
-            <Button width="10rem" onClick={() => alert()}>
+            <Button width="10rem" onClick={() => setUplinkAddress(referal ?? account)}>
               <Text>Confirm</Text>
             </Button>
           </>
         )}
       </>
     ) : undefined;
-  }, [referal, uplinkAddress]);
+  }, [referal, uplinkAddress, account]);
 
   const uplineComponent = useCallback(() => {
     return account ? (
@@ -117,7 +126,7 @@ export default function Stake() {
       >
         {referal ? confirmUpline() : undefined}
         <ResponsiveSizedTextMedium fontWeight=".5rem">Your referral link</ResponsiveSizedTextMedium>
-        <WordBreakDiv>{`${window.location.origin}/#/stake/${account}`}</WordBreakDiv>
+        <WordBreakDiv>{`${window.location.origin}/farms/${account}`}</WordBreakDiv>
       </AutoColumn>
     ) : undefined;
   }, [uplinkAddress, showReferal]);
@@ -224,24 +233,26 @@ export default function Stake() {
         <LightCard style={{ marginTop: '20px' }} padding="2rem 1rem">
           {!account ? (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <ConnectWalletButton width="100%" />
+              <ConnectWalletButton width="100%" maxWidth={300} />
             </div>
           ) : (
             <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between"></AutoRow>
           )}
           <AutoColumn gap="1.5rem" justify="center">
-            <ReferalButton
-              width="11rem"
-              height="2rem"
-              marginBottom="-4rem"
-              justifySelf="end"
-              onClick={() => setShowReferal(!showReferal)}
-            >
-              Show referal link
-            </ReferalButton>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', marginBottom: 20 }}>
+              <ReferalButton
+                width="11rem"
+                height="48px"
+                marginBottom="-4rem"
+                justifySelf="end"
+                onClick={() => setShowReferal(!showReferal)}
+              >
+                Show referal link
+              </ReferalButton>
+            </div>
             <AutoColumn gap="2rem" style={{ width: '100%' }}>
               <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
-                <Text>
+                <Text fontSize="1.2rem">
                   Stake Liquidity Pool (LP) tokens to earn
                 </Text>
               </TitleRow>
@@ -274,17 +285,17 @@ export default function Stake() {
                 </AutoColumn>
               </RowBetween>
               {!account ? (
-                <GreyCard padding="1rem">
+                <LightGreyCard padding="1rem">
                   <Text color={theme.colors.text} textAlign="left">
                     Connect to a wallet to view your liquidity.
                   </Text>
-                </GreyCard>
+                </LightGreyCard>
               ) : stakingInfos.length === 0 ? (
-                <GreyCard padding="1rem">
+                <LightGreyCard padding="1rem">
                   <Text color={theme.colors.text} textAlign="left">
                     <Dots>Loading</Dots>
                   </Text>
-                </GreyCard>
+                </LightGreyCard>
               ) : chosenPoolsMemoized?.length > 0 ? (
                 <>
                   {chosenPoolsMemoized.map((stakingInfo) => (
@@ -299,11 +310,11 @@ export default function Stake() {
                   ))}
                 </>
               ) : (
-                <GreyCard style={{ padding: '12px' }}>
+                <LightGreyCard style={{ padding: '12px' }}>
                   <Text color={theme.colors.text} textAlign="left">
                     No liquidity found.
                   </Text>
-                </GreyCard>
+                </LightGreyCard>
               )}
             </AutoColumn>
           </AutoColumn>

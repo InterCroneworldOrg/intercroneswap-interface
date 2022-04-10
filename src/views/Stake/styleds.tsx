@@ -81,7 +81,7 @@ export const TitleRow = styled(RowBetween)`
 
 export const ReferalButton = styled(Button)`
   font-size: 1rem;
-  ${({ theme }) => theme.mediaQueries.lg } {
+  ${({ theme }) => theme.mediaQueries.tab } {
     font-size: .6rem;
     width: 6rem;
   }
@@ -93,4 +93,5 @@ export const WordBreakDiv = styled.div`
   ${({ theme }) => theme.mediaQueries.lg } {
     font-size: .7rem;
   }
+  color: ${({ theme }) => theme.colors.textSubtle}
 `;
