@@ -113,6 +113,7 @@ export default function StakeModal({
       stakeAmount?.raw.toString(),
       referalAddress ? referalAddress : account,
     ];
+    console.log(args);
     setAttemptingTxn(true);
     await estimate(...args, {})
       .then((estimatedGasLimit) =>
