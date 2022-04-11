@@ -7,7 +7,6 @@ import TRXLogo from '../../assets/images/trxlogo.png';
 import BSCLogo from '../../assets/images/bsclogo.png';
 import BTTLogo from '../../assets/images/bttlogo.png';
 import Beaver from '../../assets/images/beaver.png';
-import Space from '../../assets/images/space.png';
 import Send from '../../assets/images/send.png';
 import Facebook from '../../assets/images/facebook.png';
 import Twitter from '../../assets/images/twitter.png';
@@ -19,6 +18,8 @@ import Last3 from '../../assets/images/last3.png';
 import Last4 from '../../assets/images/last4.png';
 import Last5 from '../../assets/images/last5.png';
 import Last6 from '../../assets/images/last6.png';
+import { ExternalLink } from '../../theme';
+import { Countdown } from '../../components/earn/Countdown';
 
 const BannerWrapper = styled.div`
   background-image: url(${Banner});
@@ -145,6 +146,7 @@ const CommunityBox = styled.section`
   @media (max-width: 768px) {
     padding: unset;
     position: relative;
+    margin-top: 100px;
   }
 `;
 
@@ -235,6 +237,9 @@ const CommunityTextBox = styled.div`
   width: 60%;
   margin: 0 auto;
   position: relative;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const SocialIcons = styled.div`
@@ -243,6 +248,13 @@ const SocialIcons = styled.div`
   justify-content: space-around;
   > img {
     width: 35px;
+  }
+  @media (max-width: 768px) {
+    justify-content: space-evenly;
+    width: 85%;
+    > img {
+      width: 15px;
+    }
   }
 `;
 
@@ -258,10 +270,19 @@ const ComingSoonHeading = styled.h2`
   -webkit-text-fill-color: transparent;
   width: 60%;
   margin: 0 auto;
+  @media (max-width: 768px) {
+    width: 100%;
+    font-size: 22px;
+    line-height: unset;
+    width: 85%;
+  }
 `;
 
 const ComingSoonBox = styled.section`
   padding: 50px;
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 `;
 
 const ComingSoonContent = styled.p`
@@ -274,6 +295,12 @@ const ComingSoonContent = styled.p`
   color: rgba(255, 255, 255, 1);
   width: 60%;
   margin: 0 auto;
+  @media (max-width: 768px) {
+    font-size: 16px;
+    width: 100%;
+    line-height: unset;
+    margin-top: 20px;
+  }
 `;
 
 const LastSection = styled.section`
@@ -281,6 +308,9 @@ const LastSection = styled.section`
   justify-content: space-between;
   overflow: hidden;
   padding: 50px;
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 `;
 
 const ImageBox = styled.div`
@@ -292,9 +322,16 @@ const ImageBox = styled.div`
     margin-right: -32px;
     opacity: 0.4;
   }
+  > img {
+    max-width: 100%;
+  }
 `;
 
+const BSC_LAUNCH = 1649869200000;
+
 const Home = () => {
+  const isBSC_Launched = Date.now() > BSC_LAUNCH;
+  const bscLaunchDate = new Date(BSC_LAUNCH);
   return (
     <>
       <BannerWrapper>
@@ -311,22 +348,41 @@ const Home = () => {
             <Col md={12} className={Styles.box}>
               <img src={TRXLogo} className={Styles.icon} />
               <BoxContent>TRX Blockchain</BoxContent>
-              <YellowBox>
-                <YellowBoxContent>Active</YellowBoxContent>
-              </YellowBox>
+              <ExternalLink
+                href="https://trx.intercroneswap.com/#/swap/"
+                style={{ textDecoration: 'none', color: '#4a4a4a' }}
+              >
+                <YellowBox>
+                  <YellowBoxContent>Active</YellowBoxContent>
+                </YellowBox>
+              </ExternalLink>
             </Col>
           </Col>
           <Col md={4}>
             <Col md={12} className={Styles.box}>
               <img src={BSCLogo} className={Styles.icon} />
               <BoxContent>BSC Blockchain</BoxContent>
-              <YellowBox
-                style={{
-                  background: 'linear-gradient(rgb(169 155 4) 0%, rgb(116 85 5) 100%)',
-                }}
-              >
-                <YellowBoxContent style={{ color: 'white' }}>Coming Soon</YellowBoxContent>
-              </YellowBox>
+              {isBSC_Launched ? (
+                <ExternalLink
+                  href="https://bsc.intercroneswap.com/#/"
+                  style={{ textDecoration: 'none', color: '#4a4a4a' }}
+                >
+                  <YellowBox>
+                    <YellowBoxContent>Active</YellowBoxContent>
+                  </YellowBox>
+                </ExternalLink>
+              ) : (
+                <YellowBox
+                  style={{
+                    background: 'linear-gradient(rgb(169 155 4) 0%, rgb(116 85 5) 100%)',
+                  }}
+                >
+                  <YellowBoxContent style={{ color: 'white' }}>
+                    Coming In
+                    <Countdown exactEnd={bscLaunchDate} showMessage={false} />
+                  </YellowBoxContent>
+                </YellowBox>
+              )}
             </Col>
           </Col>
           <Col md={4}>
@@ -364,7 +420,7 @@ const Home = () => {
         </Container>
       </DefiBox>
       <CommunityBox>
-        <Container style={{ backgroundImage: `url(${Space})`, backgroundSize: 'cover', padding: '50px' }}>
+        <Container className={Styles.contain}>
           <Row style={{ position: 'relative' }}>
             <CommunityTextBox>
               <CommunityText>Join our Intercrone and Quokka Community</CommunityText>
@@ -384,13 +440,7 @@ const Home = () => {
         <ComingSoonContent>
           Mint and trade Quokka NFTs and support the Quokkas in Australia and the Intercrone Community
         </ComingSoonContent>
-        <YellowBox
-          style={{
-            background: 'linear-gradient(rgb(169 155 4) 0%, rgb(116 85 5) 100%)',
-            width: '20%',
-            margin: '25px auto',
-          }}
-        >
+        <YellowBox className={Styles.yellowbox}>
           <YellowBoxContent style={{ color: 'white' }}>Coming Soon</YellowBoxContent>
         </YellowBox>
       </ComingSoonBox>
