@@ -4,7 +4,6 @@ import { orderBy } from 'lodash';
 import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
-import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
 
 import CopyHelper from '../../components/AccountDetails/Copy';
@@ -96,16 +95,16 @@ export default function Stake({
   const confirmUpline = useCallback(() => {
     return account ? (
       <>
-        <Text fontSize={18} fontWeight={600}>
+        <TYPE.white fontSize={18} fontWeight={600}>
           Your upline
-        </Text>
+        </TYPE.white>
         {uplinkAddress ? (
-          <Text>{uplinkAddress}</Text>
+          <TYPE.white>{uplinkAddress}</TYPE.white>
         ) : (
           <>
             <WordBreakDiv>Confirm your upline {referal}</WordBreakDiv>
             <ButtonPrimary width="10rem" onClick={() => setUplinkAddress(referal ?? ethAddress.toTron(account))}>
-              <Text>Confirm</Text>
+              <TYPE.white>Confirm</TYPE.white>
             </ButtonPrimary>
           </>
         )}
@@ -239,7 +238,7 @@ export default function Stake({
               {/* TODO: when finished enable display */}
               <RowBetween>
                 <AutoColumn justify="flex-start" gap="1rem">
-                  <Text fontSize="1rem">Search</Text>
+                  <TYPE.white fontSize="1rem">Search</TYPE.white>
                   <SearchInput
                     type="text"
                     id="token-search-input"
@@ -253,7 +252,7 @@ export default function Stake({
                   />
                 </AutoColumn>
                 <AutoColumn gap="3px">
-                  <Text>Sort by</Text>
+                  <TYPE.white>Sort by</TYPE.white>
                   <ButtonSecondary
                     onClick={() => (sortOption === 'earned' ? setSortOption('latest') : setSortOption('earned'))}
                   >

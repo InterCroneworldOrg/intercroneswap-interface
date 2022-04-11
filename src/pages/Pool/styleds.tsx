@@ -1,11 +1,11 @@
-import { Text } from 'rebass';
+import { TYPE } from '../../theme';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   position: relative;
 `;
 
-export const ClickableText = styled(Text)`
+export const ClickableText = styled(TYPE.white)`
   :hover {
     cursor: pointer;
   }

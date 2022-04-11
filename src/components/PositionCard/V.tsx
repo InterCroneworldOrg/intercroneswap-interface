@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Token, TokenAmount, WETH } from '@intercroneswap/v2-sdk';
 
-import { Text } from 'rebass';
 import { AutoColumn } from '../Column';
 import { ButtonSecondary } from '../Button';
 import { RowBetween, RowFixed } from '../Row';
@@ -10,6 +9,7 @@ import { FixedHeightRow, HoverCard } from './index';
 import DoubleCurrencyLogo from '../DoubleLogo';
 import { useActiveWeb3React } from '../../hooks';
 import { ThemeContext } from 'styled-components';
+import { TYPE } from '../../theme';
 
 interface PositionCardProps extends RouteComponentProps<{}> {
   token: Token;
@@ -27,10 +27,10 @@ function VPositionCard({ token, VLiquidityBalance }: PositionCardProps) {
         <FixedHeightRow>
           <RowFixed>
             <DoubleCurrencyLogo currency0={token} margin={true} size={20} />
-            <Text fontWeight={500} fontSize={20} style={{ marginLeft: '' }}>
+            <TYPE.white fontWeight={500} fontSize={20} style={{ marginLeft: '' }}>
               {`${chainId && token.equals(WETH[chainId]) ? 'WETH' : token.symbol}/TRX`}
-            </Text>
-            <Text
+            </TYPE.white>
+            <TYPE.black
               fontSize={12}
               fontWeight={500}
               ml="0.5rem"
@@ -38,10 +38,9 @@ function VPositionCard({ token, VLiquidityBalance }: PositionCardProps) {
               py="0.25rem"
               style={{ borderRadius: '1rem' }}
               backgroundColor={theme.yellow1}
-              color={'black'}
             >
               V
-            </Text>
+            </TYPE.black>
           </RowFixed>
         </FixedHeightRow>
 

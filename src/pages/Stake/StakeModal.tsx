@@ -1,6 +1,5 @@
 import { TokenAmount } from '@intercroneswap/v2-sdk';
 import { useCallback, useContext, useState } from 'react';
-import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
 import { ButtonGray, ButtonPrimary } from '../../components/Button';
 import { AutoColumn } from '../../components/Column';
@@ -15,6 +14,7 @@ import { TransactionResponse } from '@ethersproject/providers';
 import { DEFAULT_FEE_LIMIT } from '../../tron-config';
 import { useTransactionAdder } from '../../state/transactions/hooks';
 import { Tabs } from '../../components/NavigationTabs';
+import { TYPE } from '../../theme';
 import { MaxButton } from './styleds';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import { tryParseAmount } from '../../state/swap/hooks';
@@ -168,10 +168,10 @@ export default function StakeModal({
     return (
       <AutoColumn gap="md">
         <RowBetween>
-          <Text fontWeight={500}>Balance</Text>
-          <Text fontWeight={500} color={theme.primary3}>
+          <TYPE.white fontWeight={500}>Balance</TYPE.white>
+          <TYPE.white fontWeight={500} color={theme.primary3}>
             {isStaking ? balance?.toExact() : stakingInfo?.stakedAmount?.toExact()}
-          </Text>
+          </TYPE.white>
         </RowBetween>
         <RowBetween style={{ background: theme.bg3, borderRadius: '6px' }}>
           <NumericalInput className="lp-amount-input" value={stakeState.typedValue} onUserInput={handleTypeInput} />
@@ -192,7 +192,7 @@ export default function StakeModal({
               onUserInput((isStaking ? balance?.toFixed(8) : stakingInfo?.stakedAmount?.toFixed(8)) ?? '');
             }}
           >
-            <Text>MAX</Text>
+            <TYPE.white>MAX</TYPE.white>
           </MaxButton>
         </RowBetween>
       </AutoColumn>

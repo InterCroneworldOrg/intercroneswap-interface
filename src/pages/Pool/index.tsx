@@ -8,7 +8,6 @@ import FullPositionCard from '../../components/PositionCard';
 // import { useUserHasLiquidityInAllTokens } from '../../data/V';
 import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks';
 import { StyledInternalLink, ExternalLink, TYPE, HideSmall, Divider, Button } from '../../theme';
-import { Text } from 'rebass';
 import Card, { GreyCard, LightCard } from '../../components/Card';
 import { AutoRow, RowBetween } from '../../components/Row';
 import { ButtonPrimary, ButtonSecondary } from '../../components/Button';
@@ -206,9 +205,9 @@ export default function Pool() {
                       Create a pair
                     </ResponsiveButtonSecondary>
                     <ResponsiveButtonPrimary id="join-pool-button" as={Link} padding="6px 8px" to="/add/TRX">
-                      <Text fontWeight={500} fontSize={16}>
+                      <TYPE.white fontWeight={500} fontSize={16}>
                         Add Liquidity
-                      </Text>
+                      </TYPE.white>
                     </ResponsiveButtonPrimary>
                   </ButtonRow>
                 </TitleRow>

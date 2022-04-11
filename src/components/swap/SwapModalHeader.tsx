@@ -1,7 +1,6 @@
 import { Trade, TradeType } from '@intercroneswap/v2-sdk';
 import { useContext, useMemo } from 'react';
 import { AlertTriangle, ArrowRight } from 'react-feather';
-import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
 import { Field } from '../../state/swap/actions';
 import { TYPE } from '../../theme';
@@ -52,9 +51,9 @@ export default function SwapModalHeader({
             </RowFixed>
             <RowFixed gap={'0px'}>
               <CurrencyLogo currency={trade.inputAmount.currency} size={'24px'} />
-              <Text fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
+              <TYPE.white fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
                 {trade.inputAmount.currency.symbol}
-              </Text>
+              </TYPE.white>
             </RowFixed>
           </AutoColumn>
         </GreyCard>
@@ -80,9 +79,9 @@ export default function SwapModalHeader({
             </RowFixed>
             <RowFixed gap={'0px'}>
               <CurrencyLogo currency={trade.outputAmount.currency} size={'24px'} />
-              <Text fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
+              <TYPE.white fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
                 {trade.outputAmount.currency.symbol}
-              </Text>
+              </TYPE.white>
             </RowFixed>
           </AutoColumn>
         </GreyCard>

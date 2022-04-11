@@ -5,7 +5,6 @@ import { useCallback, useContext, useState } from 'react';
 import { Plus } from 'react-feather';
 import ReactGA from 'react-ga';
 import { RouteComponentProps } from 'react-router-dom';
-import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
 import { ButtonError, ButtonPrimary } from '../../components/Button';
 import { BlueCard, LightCard } from '../../components/Card';
@@ -229,9 +228,9 @@ export default function AddLiquidity({
           <AutoColumn gap="20px">
             <LightCard mt="20px" borderRadius="20px">
               <RowFlat>
-                <Text fontSize="48px" fontWeight={500} lineHeight="42px" marginRight={10}>
+                <TYPE.white fontSize="48px" fontWeight={500} lineHeight="42px" marginRight={10}>
                   {currencies[Field.CURRENCY_A]?.symbol + '/' + currencies[Field.CURRENCY_B]?.symbol}
-                </Text>
+                </TYPE.white>
                 <DoubleCurrencyLogo
                   currency0={currencies[Field.CURRENCY_A]}
                   currency1={currencies[Field.CURRENCY_B]}
@@ -243,9 +242,9 @@ export default function AddLiquidity({
         ) : (
           <AutoColumn justify="center" gap="20px">
             <RowFlat style={{ marginTop: '20px', justifyContent: 'center' }}>
-              <Text textAlign="center" fontSize="24px" lineHeight="36px" marginRight={10}>
+              <TYPE.white textAlign="center" fontSize="24px" lineHeight="36px" marginRight={10}>
                 {liquidityMinted?.toSignificant(6)}
-              </Text>
+              </TYPE.white>
             </RowFlat>
             <DoubleCurrencyLogo
               currency0={currencies[Field.CURRENCY_A]}
@@ -260,22 +259,17 @@ export default function AddLiquidity({
                   <RowFixed>
                     <CurrencyLogo currency={currencies[Field.CURRENCY_A]} />
                     &nbsp;
-                    <Text fontSize={16}>{currencies[Field.CURRENCY_A]?.symbol}&nbsp;/</Text>
+                    <TYPE.white fontSize={16}>{currencies[Field.CURRENCY_A]?.symbol}&nbsp;/</TYPE.white>
                     &nbsp;
                     <CurrencyLogo currency={currencies[Field.CURRENCY_B]} />
                     &nbsp;
-                    <Text fontSize={16}>{currencies[Field.CURRENCY_B]?.symbol}</Text>
+                    <TYPE.white fontSize={16}>{currencies[Field.CURRENCY_B]?.symbol}</TYPE.white>
                     &nbsp;
-                    <Text fontSize="16px">Pool Tokens</Text>
+                    <TYPE.white fontSize="16px">Pool Tokens</TYPE.white>
                   </RowFixed>
                 )}
               </RowBetween>
             </FixedHeightRow>
-            {/* <Row>
-              <Text fontSize="24px">
-                {currencies[Field.CURRENCY_A]?.symbol + '/' + currencies[Field.CURRENCY_B]?.symbol + ' Pool Tokens'}
-              </Text>
-            </Row> */}
             <TYPE.body color={theme.text1} fontSize={12} textAlign="center" padding={'8px 0 0 0 '}>
               {`Output is estimated. If the price changes by more than ${
                 allowedSlippage / 100
@@ -476,9 +470,9 @@ export default function AddLiquidity({
                       }
                       error={!isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]}
                     >
-                      <Text fontSize={20} fontWeight={500}>
+                      <TYPE.white fontSize={20} fontWeight={500}>
                         {error ?? 'Supply'}
-                      </Text>
+                      </TYPE.white>
                     </ButtonError>
                   </AutoColumn>
                 )}

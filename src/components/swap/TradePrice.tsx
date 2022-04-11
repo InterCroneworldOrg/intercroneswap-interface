@@ -1,8 +1,8 @@
 import { Price } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
 import { Repeat } from 'react-feather';
-import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
+import { TYPE } from '../../theme';
 import { StyledBalanceMaxMini } from './styleds';
 
 interface TradePriceProps {
@@ -22,7 +22,7 @@ export default function TradePrice({ price, showInverted, setShowInverted }: Tra
     : `${price?.baseCurrency?.symbol} per ${price?.quoteCurrency?.symbol}`;
 
   return (
-    <Text
+    <TYPE.white
       fontWeight={500}
       fontSize={14}
       color={theme.text2}
@@ -38,6 +38,6 @@ export default function TradePrice({ price, showInverted, setShowInverted }: Tra
       ) : (
         '-'
       )}
-    </Text>
+    </TYPE.white>
   );
 }

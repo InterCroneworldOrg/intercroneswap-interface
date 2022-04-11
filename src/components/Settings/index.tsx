@@ -4,7 +4,6 @@ import {
   useState,
 } from 'react';
 import { Settings, X } from 'react-feather';
-import { Text } from 'rebass';
 import styled from 'styled-components';
 // , { ThemeContext }
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
@@ -16,7 +15,7 @@ import {
   useUserTransactionTTL,
   useUserSlippageTolerance,
 } from '../../state/user/hooks';
-// import { TYPE } from '../../theme';
+import { TYPE } from '../../theme';
 import { ButtonError } from '../Button';
 import { AutoColumn } from '../Column';
 import Modal from '../Modal';
@@ -159,20 +158,20 @@ export default function SettingsTab() {
           <AutoColumn gap="lg">
             <RowBetween style={{ padding: '0 2rem' }}>
               <div />
-              <Text fontWeight={500} fontSize={20}>
+              <TYPE.white fontWeight={500} fontSize={20}>
                 Are you sure?
-              </Text>
+              </TYPE.white>
               <StyledCloseIcon onClick={() => setShowConfirmation(false)} />
             </RowBetween>
             <Break />
             <AutoColumn gap="lg" style={{ padding: '0 2rem' }}>
-              <Text fontWeight={500} fontSize={20}>
+              <TYPE.white fontWeight={500} fontSize={20}>
                 Expert mode turns off the confirm transaction prompt and allows high slippage trades that often result
                 in bad rates and lost funds.
-              </Text>
-              <Text fontWeight={600} fontSize={20}>
+              </TYPE.white>
+              <TYPE.white fontWeight={600} fontSize={20}>
                 ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING.
-              </Text>
+              </TYPE.white>
               <ButtonError
                 error={true}
                 padding={'12px'}
@@ -183,9 +182,9 @@ export default function SettingsTab() {
                   }
                 }}
               >
-                <Text fontSize={20} fontWeight={500} id="confirm-expert-mode">
+                <TYPE.white fontSize={20} fontWeight={500} id="confirm-expert-mode">
                   Turn On Expert Mode
-                </Text>
+                </TYPE.white>
               </ButtonError>
             </AutoColumn>
           </AutoColumn>
@@ -204,9 +203,9 @@ export default function SettingsTab() {
       {open && (
         <MenuFlyout>
           <AutoColumn gap="md" style={{ padding: '1rem' }}>
-            <Text fontWeight={600} fontSize={14}>
+            <TYPE.white fontWeight={600} fontSize={14}>
               Transaction Settings
-            </Text>
+            </TYPE.white>
             <TransactionSettings
               rawSlippage={userSlippageTolerance}
               setRawSlippage={setUserslippageTolerance}
