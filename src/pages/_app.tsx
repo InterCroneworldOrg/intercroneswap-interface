@@ -32,6 +32,7 @@ BigNumber.config({
   DECIMAL_PLACES: 80,
 })
 
+// TODO: clean up all global hooks
 function GlobalHooks() {
   usePollBlockNumber()
   useEagerConnect()
