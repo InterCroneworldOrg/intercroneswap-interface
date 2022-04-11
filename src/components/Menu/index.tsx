@@ -1,6 +1,5 @@
 import { useRef } from 'react';
-import { Facebook, Youtube, Twitter, Instagram, Send, Info, BookOpen, Image, Activity } from 'react-feather';
-import { NavLink } from 'react-router-dom';
+import { Facebook, Youtube, Twitter, Instagram, Send, Info, BookOpen } from 'react-feather';
 import styled from 'styled-components';
 import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg';
 // import { useActiveWeb3React } from '../../hooks'
@@ -77,19 +76,6 @@ const MenuFlyout = styled.span`
   }
 `;
 
-const MenuItemNav = styled(NavLink)`
-  flex: 1;
-  padding: 0.5rem 0.5rem;
-  color: ${({ theme }) => theme.text2};
-  :hover {
-    color: ${({ theme }) => theme.text1};
-    cursor: pointer;
-    text-decoration: none;
-  }
-  > svg {
-    margin-right: 8px;
-  }
-`;
 const MenuItem = styled(ExternalLink)`
   flex: 1;
   padding: 0.5rem 0.5rem;
@@ -131,7 +117,7 @@ export default function Menu() {
             <BookOpen size={14} />
             Docs
           </MenuItem> */}
-          <MenuItemNav id="link" to="/swap" onClick={toggle}>
+          {/* <MenuItemNav id="link" to="/swap" onClick={toggle}>
             Exchange
           </MenuItemNav>
           <MenuItemNav id="link" to="/stake" onClick={toggle}>
@@ -144,7 +130,7 @@ export default function Menu() {
           <MenuItem id="link" href="https://trx.intercroneswap.com">
             <Activity size={14} />
             TRADING
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem id="link" href="https://t.me/intercroneworld">
             <Send size={14} />
             Telegram
