@@ -32,6 +32,10 @@ import CurrencyLogo from '../CurrencyLogo';
 import { AutoRow, RowBetween, RowFixed } from '../Row';
 import { Dots } from '../swap/styleds';
 import { getEtherscanLink } from '../../utils';
+import useUSDTPrice from '../../hooks/useUSDTPrice';
+import { DoubleTokenAmount } from '../../utils/tokenAmountCalculations';
+import { AmountWrapper } from '../PriceCard/styleds';
+import { USDT } from '../../constants/tokens';
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
@@ -95,6 +99,9 @@ PositionCardProps) {
         ]
       : [undefined, undefined];
 
+  const usdtPrice = useUSDTPrice(pair.token0);
+  const usdtValue = token0Deposited ? usdtPrice?.quote(DoubleTokenAmount(token0Deposited)) : undefined;
+
   return (
     <>
       {userPoolBalance && JSBI.greaterThan(userPoolBalance.raw, JSBI.BigInt('0')) ? (
@@ -119,6 +126,7 @@ PositionCardProps) {
                   </TYPE.white>
                 </RowFixed>
               </RowBetween>
+              <AmountWrapper>{usdtValue?.toSignificant()}</AmountWrapper>
             </FixedHeightRow>
             <Divider />
             {/* <FixedHeightRow onClick={() => setShowMore(!showMore)}>
@@ -235,6 +243,9 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
         ]
       : [undefined, undefined];
 
+  const usdtPrice = useUSDTPrice(pair.token0);
+  const usdtValue = token0Deposited ? usdtPrice?.quote(DoubleTokenAmount(token0Deposited)) : undefined;
+
   // const backgroundColor = useColor(pair?.token0);
 
   return (
@@ -267,6 +278,10 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                   </TYPE.white>
                 </RowFixed>
               )}
+              <AmountWrapper>
+                {usdtValue?.toSignificant()}
+                <CurrencyLogo currency={USDT} />
+              </AmountWrapper>
             </RowBetween>
           </FixedHeightRow>
           <RowFixed gap="8px">
