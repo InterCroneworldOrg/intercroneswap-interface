@@ -9,7 +9,15 @@ const MINUTE = 60;
 const HOUR = MINUTE * 60;
 const DAY = HOUR * 24;
 
-export function Countdown({ exactEnd, durationDays }: { exactEnd?: Date; durationDays?: number }) {
+export function Countdown({
+  exactEnd,
+  durationDays,
+  showMessage = true,
+}: {
+  exactEnd?: Date;
+  durationDays?: number;
+  showMessage?: boolean;
+}) {
   const theme = useContext(ThemeContext);
   const rewardsDuration = durationDays ? DAY * durationDays : REWARDS_DURATION_DAYS_180;
   // get end/beginning times
@@ -60,7 +68,7 @@ export function Countdown({ exactEnd, durationDays }: { exactEnd?: Date; duratio
 
   return (
     <TYPE.white fontWeight={400}>
-      {message}{' '}
+      {showMessage && message}{' '}
       {Number.isFinite(timeRemaining) && (
         <code style={{ color: theme.text1 }}>
           {`${days}D ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds

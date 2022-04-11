@@ -19,6 +19,7 @@ import Last4 from '../../assets/images/last4.png';
 import Last5 from '../../assets/images/last5.png';
 import Last6 from '../../assets/images/last6.png';
 import { ExternalLink } from '../../theme';
+import { Countdown } from '../../components/earn/Countdown';
 
 const BannerWrapper = styled.div`
   background-image: url(${Banner});
@@ -326,7 +327,11 @@ const ImageBox = styled.div`
   }
 `;
 
+const BSC_LAUNCH = 1649869200000;
+
 const Home = () => {
+  const isBSC_Launched = Date.now() > BSC_LAUNCH;
+  const bscLaunchDate = new Date(BSC_LAUNCH);
   return (
     <>
       <BannerWrapper>
@@ -357,13 +362,27 @@ const Home = () => {
             <Col md={12} className={Styles.box}>
               <img src={BSCLogo} className={Styles.icon} />
               <BoxContent>BSC Blockchain</BoxContent>
-              <YellowBox
-                style={{
-                  background: 'linear-gradient(rgb(169 155 4) 0%, rgb(116 85 5) 100%)',
-                }}
-              >
-                <YellowBoxContent style={{ color: 'white' }}>Coming Soon</YellowBoxContent>
-              </YellowBox>
+              {isBSC_Launched ? (
+                <ExternalLink
+                  href="https://bsc.intercroneswap.com/#/"
+                  style={{ textDecoration: 'none', color: '#4a4a4a' }}
+                >
+                  <YellowBox>
+                    <YellowBoxContent>Active</YellowBoxContent>
+                  </YellowBox>
+                </ExternalLink>
+              ) : (
+                <YellowBox
+                  style={{
+                    background: 'linear-gradient(rgb(169 155 4) 0%, rgb(116 85 5) 100%)',
+                  }}
+                >
+                  <YellowBoxContent style={{ color: 'white' }}>
+                    Coming In
+                    <Countdown exactEnd={bscLaunchDate} showMessage={false} />
+                  </YellowBoxContent>
+                </YellowBox>
+              )}
             </Col>
           </Col>
           <Col md={4}>

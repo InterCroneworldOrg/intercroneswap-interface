@@ -1,5 +1,4 @@
 import { Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import Style from '../../styles/footer.module.css';
 
 import styled from 'styled-components';
@@ -57,52 +56,50 @@ const Footer = () => {
                 Staking
               </ExternalLink>
             </li>
-
-            <li>
-              <Link to="/" className={`${Style.link} nav-link`}>
-                Dashboard
-              </Link>
-            </li>
             <li>
               <ExternalLink href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                 NFT
               </ExternalLink>
             </li>
-            <li>
+            {/* <li>
               <Link to="/market" className={`${Style.link} nav-link`}>
                 Market
               </Link>
-            </li>
+            </li> */}
           </ul>
         </Col>
         <Col md={4}>
           <p className={Style.footerheader}>About</p>
           <ul className={Style.ul}>
             <li>
-              <Link to="/" className={`${Style.link} nav-link`}>
+              <ExternalLink
+                href="https://docs.intercroneswap.finance/security/audits"
+                className={`${Style.link} nav-link`}
+              >
                 Audit
-              </Link>
+              </ExternalLink>
             </li>
             <li>
-              <Link to="/" className={`${Style.link} nav-link`}>
-                White Paper
-              </Link>
-            </li>
-            <li>
-              <Link to="/" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://docs.intercroneswap.finance" className={`${Style.link} nav-link`}>
                 FAQ
-              </Link>
+              </ExternalLink>
             </li>
 
             <li>
-              <Link to="/" className={`${Style.link} nav-link`}>
+              <ExternalLink
+                href="https://docs.intercroneswap.finance/road-map/roadmap"
+                className={`${Style.link} nav-link`}
+              >
                 Roadmap
-              </Link>
+              </ExternalLink>
             </li>
             <li>
-              <Link to="/" className={`${Style.link} nav-link`}>
+              <ExternalLink
+                href="https://docs.intercroneswap.finance/faq/how-to-swap-trade-token"
+                className={`${Style.link} nav-link`}
+              >
                 Trading Guide
-              </Link>
+              </ExternalLink>
             </li>
           </ul>
         </Col>
@@ -110,14 +107,14 @@ const Footer = () => {
           <p className={Style.footerheader}>Developers</p>
           <ul className={Style.ul}>
             <li>
-              <a href="/" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://docs.intercroneswap.finance" className={`${Style.link} nav-link`}>
                 Documentation
-              </a>
+              </ExternalLink>
             </li>
             <li>
-              <a href="/" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://github.com/InterCroneworldOrg" className={`${Style.link} nav-link`}>
                 Github
-              </a>
+              </ExternalLink>
             </li>
           </ul>
         </Col>
