@@ -36,7 +36,7 @@ BigNumber.config({
 function GlobalHooks() {
   usePollBlockNumber()
   useEagerConnect()
-  usePollCoreFarmData()
+  // usePollCoreFarmData()
   useUserAgent()
   useInactiveListener()
   useSentryUser()
