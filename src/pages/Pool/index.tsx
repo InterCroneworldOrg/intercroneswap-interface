@@ -179,17 +179,20 @@ export default function Pool() {
               </Button>
             </div>
           ) : (
-            <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between">
-              <StyledInternalLink to="/add/TRX" style={{ flexGrow: 1, width: 'auto' }}>
-                <Button>Add Liquidity</Button>
-              </StyledInternalLink>
-              <StyledInternalLink style={{ flexGrow: 1, width: 'auto' }} to="/find">
-                <Button>Import</Button>
-              </StyledInternalLink>
-              {/* <StyledInternalLink style={{ flexGrow: 1 }} to="/migrate/v">
-                <Button>Migrate</Button>
-              </StyledInternalLink> */}
-            </AutoRow>
+            <AutoColumn>
+              <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between">
+                <StyledInternalLink to="/add/TRX" style={{ flexGrow: 1, width: 'auto' }}>
+                  <Button>Add Liquidity</Button>
+                </StyledInternalLink>
+                <StyledInternalLink style={{ flexGrow: 1, width: 'auto' }} to="/find">
+                  <Button>Import</Button>
+                </StyledInternalLink>
+              </AutoRow>
+              <AutoRow justify="center" gap="1rem">
+                <TYPE.white fontSize="2rem">My total value locked</TYPE.white>
+                <TYPE.yellow fontSize="2rem">{23}</TYPE.yellow>
+              </AutoRow>
+            </AutoColumn>
           )}
           <AutoColumn gap="lg" justify="center">
             <AutoColumn gap="lg" style={{ width: '100%' }}>
