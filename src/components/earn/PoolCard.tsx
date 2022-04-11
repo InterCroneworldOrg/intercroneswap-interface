@@ -4,7 +4,7 @@ import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
 import { ThemeContext } from 'styled-components';
 import { YEARLY_RATE } from '../../constants';
-import { ICR, USDT } from '../../constants/tokens';
+import { USDT } from '../../constants/tokens';
 import { PairState, usePair } from '../../data/Reserves';
 import { useTotalSupply } from '../../data/TotalSupply';
 
@@ -37,7 +37,6 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
 
   const token0 = stakingInfo.tokens[0];
   const token1 = stakingInfo.tokens[1];
-  const isOneTokenICR = token0 === ICR || token1 === ICR;
   const [isWETH, weth] = isOneTokenWETH(token0, token1);
 
   const currency0 = unwrappedToken(token0);
@@ -52,10 +51,11 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
   const totalStakedAmount = pair ? new TokenAmount(pair?.liquidityToken, stakingInfo.totalStakedAmount.raw) : undefined;
   const stakedAmount = pair ? new TokenAmount(pair?.liquidityToken, stakingInfo.stakedAmount.raw) : undefined;
 
-  const USDPrice = useUSDTPrice(ICR);
-  const USDPriceTRX = useUSDTPrice(weth);
+  const USDPrice = useUSDTPrice(token0);
+  const earnedUSDPrice = useUSDTPrice(stakingInfo.earnedAmount.token);
+  // const USDPriceTRX = useUSDTPrice(weth);
   const ratePerYear = stakingInfo.rewardForDuration.multiply(YEARLY_RATE);
-  const ratePerYearUSDT = ratePerYear && USDPrice?.quote(stakingInfo.rewardForDuration).multiply(YEARLY_RATE);
+  const ratePerYearUSDT = ratePerYear && earnedUSDPrice?.quote(stakingInfo.rewardForDuration).multiply(YEARLY_RATE);
 
   // Check if the actual Token is ICR or WETH based
   const stakedInToken =
@@ -64,11 +64,9 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
     !!LPSupply &&
     stakedAmount &&
     JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.stakedAmount.raw)
-      ? isOneTokenICR
-        ? DoubleTokenAmount(pair.getLiquidityValue(ICR, LPTotalSupply, stakedAmount, false))
-        : isWETH && weth
-        ? DoubleTokenAmount(pair.getLiquidityValue(weth, LPTotalSupply, stakedAmount, false))
-        : undefined
+      ? DoubleTokenAmount(pair.getLiquidityValue(token0, LPTotalSupply, stakedAmount, false))
+      : isWETH && weth && !!pair && !!LPTotalSupply && stakedAmount
+      ? DoubleTokenAmount(pair.getLiquidityValue(weth, LPTotalSupply, stakedAmount, false))
       : undefined;
 
   const totalStakedInToken =
@@ -77,19 +75,13 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
     !!LPSupply &&
     totalStakedAmount &&
     JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.totalStakedAmount.raw)
-      ? isOneTokenICR
-        ? DoubleTokenAmount(pair.getLiquidityValue(ICR, LPTotalSupply, totalStakedAmount, false))
-        : isWETH && weth
-        ? DoubleTokenAmount(pair.getLiquidityValue(weth, LPTotalSupply, totalStakedAmount, false))
-        : undefined
+      ? DoubleTokenAmount(pair.getLiquidityValue(token0, LPTotalSupply, totalStakedAmount, false))
+      : isWETH && weth && !!pair && !!LPTotalSupply && totalStakedAmount
+      ? DoubleTokenAmount(pair.getLiquidityValue(weth, LPTotalSupply, totalStakedAmount, false))
       : undefined;
 
-  const valueOfTotalStakedAmountInUSDT = totalStakedInToken
-    ? isOneTokenICR
-      ? USDPrice?.quote(totalStakedInToken)
-      : USDPriceTRX?.quote(totalStakedInToken)
-    : undefined;
-  const valueOfEarnedAmountInUSDT = stakingInfo.earnedAmount && USDPrice?.quote(stakingInfo.earnedAmount);
+  const valueOfTotalStakedAmountInUSDT = totalStakedInToken && USDPrice?.quote(totalStakedInToken);
+  const valueOfEarnedAmountInUSDT = stakingInfo.earnedAmount && earnedUSDPrice?.quote(stakingInfo.earnedAmount);
 
   const apr =
     ratePerYearUSDT &&
@@ -133,8 +125,8 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
           <ResponsiveSizedTextMedium fontWeight="1.3rem">Earned / APY</ResponsiveSizedTextMedium>
           {toggleToken ? (
             <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
-              {stakingInfo.earnedAmount.toSignificant()} <CurrencyLogo currency={ICR} size=".8rem" />/ {apr.toFixed(2)}{' '}
-              %
+              {stakingInfo.earnedAmount.toSignificant()}
+              <CurrencyLogo currency={stakingInfo.earnedAmount.token} size=".8rem" />/ {apr.toFixed(2)} %
             </ResponsiveSizedTextNormal>
           ) : (
             <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
