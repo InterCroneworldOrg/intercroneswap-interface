@@ -29,6 +29,11 @@ export const STAKING_REWARDS_INFO: {
       stakingRewardAddress: '0xfed67d9da22551895af2bb0d5e8010b28b016917',
       rewardsDays: REWARDS_DURATION_DAYS,
     },
+    {
+      tokens: [WETH[ChainId.MAINNET], TURU],
+      stakingRewardAddress: '0xcb8a1024a5140071c7deb10ced06d27303de3f2a',
+      rewardsDays: REWARDS_DURATION_DAYS,
+    },
     // {
     //   tokens: [WETH[ChainId.MAINNET], USDT],
     //   stakingRewardAddress: '0xe16f5a0e7ba73628b9ba2684dee0e2a5ec586267',
