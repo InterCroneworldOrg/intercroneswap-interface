@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, AppState } from '..';
-import { ICR } from '../../constants/tokens';
+import { getTokenByAddress, ICR } from '../../constants/tokens';
 import { useActiveWeb3React } from '../../hooks';
 import { useStakingContract } from '../../hooks/useContract';
 import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp';
@@ -113,6 +113,13 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
     undefined,
     NEVER_RELOAD,
   );
+  const rewardsTokens = useMultipleContractSingleData(
+    rewardsAddresses,
+    ISwapV2StakingRewardsInterface,
+    'rewardsToken',
+    undefined,
+    NEVER_RELOAD,
+  );
   const periodFinishes = useMultipleContractSingleData(
     rewardsAddresses,
     ISwapV2StakingRewardsInterface,
@@ -139,6 +146,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
       // these get fetched regardless of account
       const totalSupplyState = totalSupplies[index];
       const rewardRateState = rewardRates[index];
+      const rewardsTokenState = rewardsTokens[index];
       const rewardForDurationState = rewardForDurations[index];
       const periodFinishState = periodFinishes[index];
 
@@ -154,7 +162,9 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
         rewardForDurationState &&
         !rewardForDurationState.loading &&
         periodFinishState &&
-        !periodFinishState.loading
+        !periodFinishState.loading &&
+        rewardsTokenState &&
+        !rewardsTokenState.loading
       ) {
         if (
           balanceState?.error ||
@@ -162,7 +172,8 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
           totalSupplyState.error ||
           rewardRateState.error ||
           rewardForDurationState.error ||
-          periodFinishState.error
+          periodFinishState.error ||
+          rewardsTokenState.error
         ) {
           console.error('Failed to load staking rewards info');
           return memo;
@@ -173,11 +184,11 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
         const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'));
 
         // check for account, if no account set to 0
-
+        const rewardsToken = getTokenByAddress(rewardsTokenState.result?.[0]);
         const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0));
         const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyState.result?.[0]));
-        const totalRewardRate = new TokenAmount(ICR, JSBI.BigInt(rewardRateState.result?.[0]));
-        const rewardForDuration = new TokenAmount(ICR, JSBI.BigInt(rewardForDurationState.result?.[0]));
+        const totalRewardRate = new TokenAmount(rewardsToken, JSBI.BigInt(rewardRateState.result?.[0]));
+        const rewardForDuration = new TokenAmount(rewardsToken, JSBI.BigInt(rewardForDurationState.result?.[0]));
 
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
@@ -185,7 +196,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
           totalRewardRate: TokenAmount,
         ): TokenAmount => {
           return new TokenAmount(
-            ICR,
+            rewardsToken,
             JSBI.greaterThan(totalStakedAmount.quotient, JSBI.BigInt(0))
               ? JSBI.divide(JSBI.multiply(totalRewardRate.quotient, stakedAmount.quotient), totalStakedAmount.quotient)
               : JSBI.BigInt(0),
@@ -205,7 +216,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
           stakingRewardAddress: rewardsAddress,
           tokens: info[index].tokens,
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
-          earnedAmount: new TokenAmount(ICR, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
+          earnedAmount: new TokenAmount(rewardsToken, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
           rewardRate: individualRewardRate,
           rewardForDuration,
           rewardDuration: rewardsDurations[index],

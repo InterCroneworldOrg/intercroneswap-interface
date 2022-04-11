@@ -48,3 +48,10 @@ export const HT = new Token(ChainId.MAINNET, '0x2C036253E0C053188C621B81B7CD40A9
 export const KLV = new Token(ChainId.MAINNET, '0xD8B8089856CED3038601CBEB1E3F765CABC12A41', 6, 'KLV ', 'Klever');
 export const Doge = new Token(ChainId.MAINNET, '0x53A58D995EF4937017A8AB47722186A12A27905E', 8, 'Doge ', 'Dogecoin');
 export const TURU = new Token(ChainId.MAINNET, '0x6471f94b57853c253273275fd695606aff44cd8f', 8, 'turu ', 'turu');
+export const BBT = new Token(ChainId.MAINNET, '0x4cd9f886fcfd6bbdb234954b817f47bd49b6667c', 8, 'BBT', 'BabyTuru');
+
+const tokens: Token[] = [ICR, TURU, WBTT, JST, USDT, BBT];
+
+export function getTokenByAddress(address: string): Token {
+  return tokens.find((token) => token.address.toLowerCase() === address.toLowerCase()) ?? ICR;
+}
