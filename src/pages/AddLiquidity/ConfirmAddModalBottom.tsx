@@ -1,5 +1,4 @@
 import { Currency, CurrencyAmount, Fraction, Percent } from '@intercroneswap/v2-sdk';
-import { Text } from 'rebass';
 import { ButtonPrimary } from '../../components/Button';
 import { RowBetween, RowFixed } from '../../components/Row';
 import CurrencyLogo from '../../components/CurrencyLogo';
@@ -60,9 +59,9 @@ export function ConfirmAddModalBottom({
         <TYPE.body color={theme.primary3}>{noLiquidity ? '100' : poolTokenPercentage?.toSignificant(4)}%</TYPE.body>
       </RowBetween>
       <ButtonPrimary style={{ margin: '20px 0 0 0' }} onClick={onAdd}>
-        <Text fontWeight={500} fontSize={20}>
+        <TYPE.white fontWeight={500} fontSize={20}>
           {noLiquidity ? 'Create Pool & Supply' : 'Confirm Supply'}
-        </Text>
+        </TYPE.white>
       </ButtonPrimary>
     </>
   );

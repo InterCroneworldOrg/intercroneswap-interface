@@ -1,7 +1,6 @@
 import { Trade, TradeType } from '@intercroneswap/v2-sdk';
 import { useContext, useMemo, useState } from 'react';
 import { Repeat } from 'react-feather';
-import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
 import { Field } from '../../state/swap/actions';
 import { TYPE } from '../../theme';
@@ -44,10 +43,10 @@ export default function SwapModalFooter({
     <>
       <AutoColumn gap="10px">
         <RowBetween align="center">
-          <Text fontWeight={400} fontSize={14} color={theme.text2}>
+          <TYPE.main fontWeight={400} fontSize={14}>
             Price
-          </Text>
-          <Text
+          </TYPE.main>
+          <TYPE.white
             fontWeight={500}
             fontSize={14}
             color={theme.text1}
@@ -64,7 +63,7 @@ export default function SwapModalFooter({
             <StyledBalanceMaxMini onClick={() => setShowInverted(!showInverted)}>
               <Repeat size={14} />
             </StyledBalanceMaxMini>
-          </Text>
+          </TYPE.white>
         </RowBetween>
 
         <RowBetween>
@@ -128,9 +127,9 @@ export default function SwapModalFooter({
           style={{ margin: '10px 0 0 0' }}
           id="confirm-swap-or-send"
         >
-          <Text fontSize={20} fontWeight={500}>
+          <TYPE.white fontSize={20} fontWeight={500}>
             {severity > 2 ? 'Swap Anyway' : 'Confirm Swap'}
-          </Text>
+          </TYPE.white>
         </ButtonError>
 
         {swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}

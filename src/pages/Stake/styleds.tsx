@@ -1,14 +1,14 @@
-import { Text } from 'rebass';
 import styled from 'styled-components';
 import { ButtonPrimary } from '../../components/Button';
 import { AutoColumn } from '../../components/Column';
 import { RowBetween } from '../../components/Row';
+import { TYPE } from '../../theme';
 
 export const Wrapper = styled.div`
   position: relative;
 `;
 
-export const ClickableText = styled(Text)`
+export const ClickableText = styled(TYPE.white)`
   :hover {
     cursor: pointer;
   }

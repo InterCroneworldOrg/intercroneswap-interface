@@ -1,8 +1,8 @@
 import { transparentize } from 'polished';
 import { AlertTriangle } from 'react-feather';
 import styled, { css } from 'styled-components';
-import { Text } from 'rebass';
 import { AutoColumn } from '../Column';
+import { TYPE } from '../../theme';
 
 export const Wrapper = styled.div`
   position: relative;
@@ -32,7 +32,7 @@ export const BottomGrouping = styled.div`
   margin-top: 1rem;
 `;
 
-export const ErrorText = styled(Text)<{ severity?: 0 | 1 | 2 | 3 | 4 }>`
+export const ErrorText = styled(TYPE.white)<{ severity?: 0 | 1 | 2 | 3 | 4 }>`
   color: ${({ theme, severity }) =>
     severity === 3 || severity === 4
       ? theme.red1
@@ -69,7 +69,7 @@ export const StyledBalanceMaxMini = styled.button`
   }
 `;
 
-export const TruncatedText = styled(Text)`
+export const TruncatedText = styled(TYPE.white)`
   text-overflow: ellipsis;
   // width: 220px;
   overflow: hidden;

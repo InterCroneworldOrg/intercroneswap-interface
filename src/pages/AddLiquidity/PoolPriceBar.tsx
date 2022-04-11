@@ -1,6 +1,5 @@
 import { Currency, Percent, Price } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
-import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
 import { AutoColumn } from '../../components/Column';
 import { AutoRow } from '../../components/Row';
@@ -25,15 +24,15 @@ export function PoolPriceBar({
       <AutoRow justify="space-between" gap="4px">
         <AutoColumn justify="center">
           <TYPE.black>{price?.toSignificant(6) ?? '-'}</TYPE.black>
-          <Text fontSize={14} color={theme.text1} pt={1}>
+          <TYPE.white fontSize={14} color={theme.text1} pt={1}>
             {currencies[Field.CURRENCY_B]?.symbol} per {currencies[Field.CURRENCY_A]?.symbol}
-          </Text>
+          </TYPE.white>
         </AutoColumn>
         <AutoColumn justify="center">
           <TYPE.black>{price?.invert()?.toSignificant(6) ?? '-'}</TYPE.black>
-          <Text fontSize={14} color={theme.text1} pt={1}>
+          <TYPE.white fontSize={14} color={theme.text1} pt={1}>
             {currencies[Field.CURRENCY_A]?.symbol} per {currencies[Field.CURRENCY_B]?.symbol}
-          </Text>
+          </TYPE.white>
         </AutoColumn>
         <AutoColumn justify="center">
           <TYPE.black>
@@ -42,9 +41,9 @@ export function PoolPriceBar({
               : (poolTokenPercentage?.lessThan(ONE_BIPS) ? '<0.01' : poolTokenPercentage?.toFixed(2)) ?? '0'}
             %
           </TYPE.black>
-          <Text fontSize={14} color={theme.text1} pt={1}>
+          <TYPE.white fontSize={14} color={theme.text1} pt={1}>
             Share of Pool
-          </Text>
+          </TYPE.white>
         </AutoColumn>
       </AutoRow>
     </AutoColumn>

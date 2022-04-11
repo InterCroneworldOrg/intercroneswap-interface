@@ -3,7 +3,6 @@ import { diffTokenLists, TokenList } from '@intercroneswap/token-lists';
 import { useCallback, useMemo } from 'react';
 import ReactGA from 'react-ga';
 import { useDispatch } from 'react-redux';
-import { Text } from 'rebass';
 import { AppDispatch } from '../../state';
 import { useRemovePopup } from '../../state/application/hooks';
 import { acceptListUpdate } from '../../state/lists/actions';
@@ -65,10 +64,10 @@ export default function ListUpdatePopup({
         ) : (
           <>
             <div>
-              <Text>
+              <TYPE.white>
                 An update is available for the token list &quot;{oldList.name}&quot; (
                 {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
-              </Text>
+              </TYPE.white>
               <ul>
                 {tokensAdded.length > 0 ? (
                   <li>

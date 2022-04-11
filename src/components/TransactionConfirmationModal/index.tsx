@@ -2,8 +2,7 @@ import { ChainId } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import Modal from '../Modal';
-import { Divider, ExternalLink } from '../../theme';
-import { Text } from 'rebass';
+import { Divider, ExternalLink, TYPE } from '../../theme';
 import {
   CloseIcon,
   // CustomLightSpinner
@@ -42,9 +41,9 @@ function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () 
       <Section>
         <RowBetween>
           {/* <div /> */}
-          <Text fontWeight={500} fontSize={20}>
+          <TYPE.white fontWeight={500} fontSize={20}>
             Waiting For Confirmation
-          </Text>
+          </TYPE.white>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
         <ConfirmedIcon>
@@ -70,7 +69,7 @@ function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () 
             <Row>
               {pendingText.split(' ').map((text, i) => {
                 return (
-                  <Text
+                  <TYPE.white
                     key={text}
                     fontWeight={600}
                     fontSize={14}
@@ -78,7 +77,7 @@ function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () 
                     textAlign="center"
                   >
                     {text} &nbsp;
-                  </Text>
+                  </TYPE.white>
                 );
               })}
             </Row>
@@ -86,9 +85,9 @@ function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () 
               {pendingText}
             </Text> */}
           </AutoColumn>
-          <Text fontSize={12} color="#FFFFFF" textAlign="center">
+          <TYPE.white fontSize={12} textAlign="center">
             Confirm this transaction in your wallet
-          </Text>
+          </TYPE.white>
         </AutoColumn>
       </Section>
     </Wrapper>
@@ -117,20 +116,20 @@ function TransactionSubmittedContent({
           <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary3} />
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify={'center'}>
-          <Text fontWeight={500} fontSize={20}>
+          <TYPE.white fontWeight={500} fontSize={20}>
             Transaction Submitted
-          </Text>
+          </TYPE.white>
           {chainId && hash && (
             <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>
-              <Text fontWeight={500} fontSize={14} color={theme.primary3}>
+              <TYPE.white fontWeight={500} fontSize={14} color={theme.primary3}>
                 View on Tronscan
-              </Text>
+              </TYPE.white>
             </ExternalLink>
           )}
           <ButtonPrimary onClick={onDismiss} style={{ margin: '20px 0 0 0' }}>
-            <Text fontWeight={500} fontSize={20}>
+            <TYPE.white fontWeight={500} fontSize={20}>
               Close
-            </Text>
+            </TYPE.white>
           </ButtonPrimary>
         </AutoColumn>
       </Section>
@@ -153,9 +152,9 @@ export function ConfirmationModalContent({
     <Wrapper>
       <Section>
         <RowBetween>
-          <Text fontWeight={500} fontSize={20}>
+          <TYPE.white fontWeight={500} fontSize={20}>
             {title}
-          </Text>
+          </TYPE.white>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
         {topContent()}
@@ -172,16 +171,16 @@ export function TransactionErrorContent({ message, onDismiss }: { message: strin
     <Wrapper>
       <Section>
         <RowBetween>
-          <Text fontWeight={500} fontSize={20}>
+          <TYPE.white fontWeight={500} fontSize={20}>
             Error
-          </Text>
+          </TYPE.white>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
         <AutoColumn style={{ marginTop: 20, padding: '2rem 0' }} gap="24px" justify="center">
           <AlertTriangle color={theme.red1} style={{ strokeWidth: 1.5 }} size={64} />
-          <Text fontWeight={500} fontSize={16} color={theme.red1} style={{ textAlign: 'center', width: '85%' }}>
+          <TYPE.white fontWeight={500} fontSize={16} color={theme.red1} style={{ textAlign: 'center', width: '85%' }}>
             {message}
-          </Text>
+          </TYPE.white>
         </AutoColumn>
       </Section>
       <BottomSection gap="12px">

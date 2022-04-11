@@ -1,7 +1,6 @@
 import { Currency, ETHER, JSBI, TokenAmount } from '@intercroneswap/v2-sdk';
 import { useCallback, useEffect, useState, useContext } from 'react';
 import { Plus } from 'react-feather';
-import { Text } from 'rebass';
 import { ButtonDropdownLight } from '../../components/Button';
 import { LightCard } from '../../components/Card';
 import { AutoColumn, ColumnCenter } from '../../components/Column';
@@ -14,7 +13,7 @@ import { PairState, usePair } from '../../data/Reserves';
 import { useActiveWeb3React } from '../../hooks';
 import { usePairAdder } from '../../state/user/hooks';
 import { useTokenBalance } from '../../state/wallet/hooks';
-import { StyledInternalLink } from '../../theme';
+import { StyledInternalLink, TYPE } from '../../theme';
 import { currencyId } from '../../utils/currencyId';
 import AppBody from '../AppBody';
 import { Dots } from '../Pool/styleds';
@@ -96,9 +95,9 @@ export default function PoolFinder() {
 
   const prerequisiteMessage = (
     <LightCard padding="45px 10px">
-      <Text textAlign="center">
+      <TYPE.white textAlign="center">
         {!account ? 'Connect to a wallet to find pools' : 'Select a token to find your liquidity.'}
-      </Text>
+      </TYPE.white>
     </LightCard>
   );
 
@@ -119,14 +118,14 @@ export default function PoolFinder() {
           {currency0 ? (
             <Row>
               <CurrencyLogo currency={currency0} />
-              <Text fontWeight={500} fontSize={20} marginLeft={'12px'}>
+              <TYPE.white fontWeight={500} fontSize={20} marginLeft={'12px'}>
                 {currency0.symbol}
-              </Text>
+              </TYPE.white>
             </Row>
           ) : (
-            <Text fontWeight={500} fontSize={20} marginLeft={'12px'}>
+            <TYPE.white fontWeight={500} fontSize={20} marginLeft={'12px'}>
               Select a Token
-            </Text>
+            </TYPE.white>
           )}
         </ButtonDropdownLight>
 
@@ -143,14 +142,14 @@ export default function PoolFinder() {
           {currency1 ? (
             <Row>
               <CurrencyLogo currency={currency1} />
-              <Text fontWeight={500} fontSize={20} marginLeft={'12px'}>
+              <TYPE.white fontWeight={500} fontSize={20} marginLeft={'12px'}>
                 {currency1.symbol}
-              </Text>
+              </TYPE.white>
             </Row>
           ) : (
-            <Text fontWeight={500} fontSize={20} marginLeft={'12px'}>
+            <TYPE.white fontWeight={500} fontSize={20} marginLeft={'12px'}>
               Select a Token
-            </Text>
+            </TYPE.white>
           )}
         </ButtonDropdownLight>
 
@@ -158,13 +157,13 @@ export default function PoolFinder() {
           <ColumnCenter
             style={{ justifyItems: 'center', backgroundColor: '', padding: '12px 0px', borderRadius: '12px' }}
           >
-            <Text textAlign="center" fontWeight={500}>
+            <TYPE.white textAlign="center" fontWeight={500}>
               Pool Found!
-            </Text>
+            </TYPE.white>
             <StyledInternalLink to={`/pool`}>
-              <Text textAlign="center" color={theme.yellow2}>
+              <TYPE.white textAlign="center" color={theme.yellow2}>
                 Manage this pool.
-              </Text>
+              </TYPE.white>
             </StyledInternalLink>
           </ColumnCenter>
         )}
@@ -176,9 +175,9 @@ export default function PoolFinder() {
             ) : (
               <LightCard padding="45px 10px">
                 <AutoColumn gap="sm" justify="center">
-                  <Text textAlign="center">You don’t have liquidity in this pool yet.</Text>
+                  <TYPE.white textAlign="center">You don’t have liquidity in this pool yet.</TYPE.white>
                   <StyledInternalLink to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}>
-                    <Text textAlign="center">Add liquidity.</Text>
+                    <TYPE.white textAlign="center">Add liquidity.</TYPE.white>
                   </StyledInternalLink>
                 </AutoColumn>
               </LightCard>
@@ -186,29 +185,29 @@ export default function PoolFinder() {
           ) : validPairNoLiquidity ? (
             <LightCard padding="45px 10px">
               <AutoColumn gap="sm" justify="center">
-                <Text textAlign="center">No pool found.</Text>
+                <TYPE.white textAlign="center">No pool found.</TYPE.white>
                 <StyledInternalLink to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}>
-                  <Text textAlign="center" color={theme.primary3}>
+                  <TYPE.white textAlign="center" color={theme.primary3}>
                     Create pool.
-                  </Text>
+                  </TYPE.white>
                 </StyledInternalLink>
               </AutoColumn>
             </LightCard>
           ) : pairState === PairState.INVALID ? (
             <LightCard padding="45px 10px">
               <AutoColumn gap="sm" justify="center">
-                <Text textAlign="center" fontWeight={500}>
+                <TYPE.white textAlign="center" fontWeight={500}>
                   Invalid pair.
-                </Text>
+                </TYPE.white>
               </AutoColumn>
             </LightCard>
           ) : pairState === PairState.LOADING ? (
             <LightCard padding="45px 10px">
               <AutoColumn gap="sm" justify="center">
-                <Text textAlign="center">
+                <TYPE.white textAlign="center">
                   Loading
                   <Dots />
-                </Text>
+                </TYPE.white>
               </AutoColumn>
             </LightCard>
           ) : null

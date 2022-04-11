@@ -1,6 +1,5 @@
 import { TokenAmount } from '@intercroneswap/v2-sdk';
 import { useCallback, useContext, useState } from 'react';
-import { Text } from 'rebass';
 import { ThemeContext } from 'styled-components';
 import { ButtonPrimary } from '../../components/Button';
 import { AutoColumn } from '../../components/Column';
@@ -13,7 +12,7 @@ import { getStakingContract } from '../../utils';
 import { TransactionResponse } from '@ethersproject/providers';
 import { DEFAULT_FEE_LIMIT } from '../../tron-config';
 import { useTransactionAdder } from '../../state/transactions/hooks';
-// import { useStakingInfo } from '../../state/stake/hooks';
+import { TYPE } from '../../theme';
 
 interface StakeModalProps {
   isOpen: boolean;
@@ -82,10 +81,10 @@ export default function HarvestModal({ isOpen, onDismiss, stakingAddress, balanc
     return (
       <AutoColumn gap="md">
         <RowBetween>
-          <Text fontWeight={500}>Balance</Text>
-          <Text fontWeight={500} color={theme.primary3}>
+          <TYPE.white fontWeight={500}>Balance</TYPE.white>
+          <TYPE.white fontWeight={500} color={theme.primary3}>
             {balance?.toSignificant()}
-          </Text>
+          </TYPE.white>
         </RowBetween>
       </AutoColumn>
     );
