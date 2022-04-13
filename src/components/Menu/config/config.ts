@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   MenuItemsType,
   DropdownMenuItemType,
@@ -24,18 +25,14 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
     fillIcon: SwapFillIcon,
     href: '/swap',
     showItemsOnMobile: false,
-    items: [
-      
-    ],
+    items: [],
   },
   {
     label: t('Liquidity'),
     href: '/liquidity',
     icon: EarnIcon,
     fillIcon: EarnFillIcon,
-    items: [
-      
-    ],
+    items: [],
   },
   // {
   //   label: t('Staking'),
@@ -43,7 +40,7 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
   //   icon: TrophyIcon,
   //   fillIcon: TrophyFillIcon,
   //   items: [
-      
+
   //   ],
   // },
   // {
@@ -52,7 +49,7 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
   //   icon: NftIcon,
   //   fillIcon: NftFillIcon,
   //   items: [
-      
+
   //   ],
   // },
   // {
@@ -98,4 +95,3 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
 ]
 
 export default config
-      

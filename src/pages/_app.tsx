@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ResetCSS } from '@pancakeswap/uikit'
 import Script from 'next/script'
 import dynamic from 'next/dynamic'
