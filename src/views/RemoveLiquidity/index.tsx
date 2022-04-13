@@ -418,7 +418,7 @@ export default function RemoveLiquidity() {
   )
 
   const StyledHeading = styled.h1`
-  text-transform: uppercase;
+  
   font-family: Jost;
   font-style: normal;
   font-weight: 900;
@@ -434,7 +434,7 @@ export default function RemoveLiquidity() {
 
   return (
     <Page>
-      <StyledHeading>Swap Your Tokens</StyledHeading>
+      <StyledHeading>Swap your tokens</StyledHeading>
       <div style={{ width: '100%', display: 'grid', gridTemplateColumns: (isDesktop ? '1fr 1fr' : '1fr'), marginTop: 20}}>
         <div style={{width: '100%', justifyContent: 'end', display: 'flex', padding: (!isMobile ? "0px 40px" : "0px")}}>
           <AppBody>

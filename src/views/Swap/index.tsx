@@ -386,7 +386,6 @@ export default function Swap() {
   }, [hasAmount, refreshBlockNumber])
 
   const StyledHeading = styled.h1`
-    text-transform: uppercase;
     font-family: Jost;
     font-style: normal;
     font-weight: 900;
@@ -402,7 +401,7 @@ export default function Swap() {
 
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
-      <StyledHeading>Swap Your Tokens</StyledHeading>
+      <StyledHeading>Swap your tokens</StyledHeading>
       <Flex width="100%" justifyContent="center" position="relative" style={{ paddingTop: 20 }}>
         {/* {!isMobile && (
           <PriceChartContainer
