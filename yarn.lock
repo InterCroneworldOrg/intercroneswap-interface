@@ -1747,10 +1747,10 @@
   resolved "https://registry.yarnpkg.com/@hutson/parse-repository-url/-/parse-repository-url-3.0.2.tgz#98c23c950a3d9b6c8f0daed06da6c3af06981340"
   integrity sha512-H9XAx3hc0BQHY6l+IFSWHDySypcXsvsuLhgYLUGywmJ5pswRVQJUHpOsobnLYp2ZUaUlKiKDrgWWhosOwAEM8Q==
 
-"@intercroneswap/v2-sdk@0.0.1-bsc-unstable":
-  version "0.0.1-bsc-unstable"
-  resolved "https://registry.yarnpkg.com/@intercroneswap/v2-sdk/-/v2-sdk-0.0.1-bsc-unstable.tgz#d4d51c8bc8ab0c2a72feab3a73bda250164399d9"
-  integrity sha512-UvzLA9yxyvd8T7Zbgs+3mwy5GcEHIFExTGDPRYjfpXt6BodC6/JPERdRs4lJ36SHPGCVwt0pkTQdJB1f1FSlxQ==
+"@intercroneswap/v2-sdk@0.0.2-bsc-unstable":
+  version "0.0.2-bsc-unstable"
+  resolved "https://registry.yarnpkg.com/@intercroneswap/v2-sdk/-/v2-sdk-0.0.2-bsc-unstable.tgz#4c28e5d0ec188cd8bbb4781a8edc4a8e886c14cd"
+  integrity sha512-w9HSfXlOBLk8LWjZpkCc6PTGxZ74oNvDBNha4Pwl5quin48SDtDQtSnLVrNMNcKCnZalAWsYH9pgsa1TFnvrpg==
   dependencies:
     big.js "^5.2.2"
     decimal.js-light "^2.5.0"
