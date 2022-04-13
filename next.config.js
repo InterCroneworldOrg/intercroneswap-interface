@@ -91,5 +91,10 @@ const config = {
     ]
   },
 }
+module.exports = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+}
 
 module.exports = withBundleAnalyzer(withSentryConfig(config, sentryWebpackPluginOptions))
