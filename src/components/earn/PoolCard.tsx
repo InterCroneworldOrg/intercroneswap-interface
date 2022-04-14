@@ -79,11 +79,12 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
   const valueOfEarnedAmountInUSDT = GetAmountInUSDT(earnedUSDPrice, stakingInfo.earnedAmount);
 
   const apr =
+    stakingInfo.active &&
     ratePerYearUSDT &&
     valueOfTotalStakedAmountInUSDT &&
     JSBI.greaterThan(valueOfTotalStakedAmountInUSDT.numerator, ZERO)
       ? new Percent(ratePerYearUSDT.numerator, valueOfTotalStakedAmountInUSDT.numerator)
-      : 0;
+      : undefined;
 
   return (
     <LightCard
@@ -121,11 +122,13 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
           {toggleToken ? (
             <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
               {stakingInfo.earnedAmount.toSignificant()}
-              <CurrencyLogo currency={stakingInfo.earnedAmount.token} size=".8rem" />/ {apr.toFixed(2)} %
+              <CurrencyLogo currency={stakingInfo.earnedAmount.token} size=".8rem" />/{' '}
+              {apr ? `${apr.toFixed(2)} %` : '-'}
             </ResponsiveSizedTextNormal>
           ) : (
             <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
-              {valueOfEarnedAmountInUSDT?.toFixed(2)} <CurrencyLogo currency={USDT} size=".8rem" />/ {apr.toFixed(2)} %
+              {valueOfEarnedAmountInUSDT?.toFixed(2)} <CurrencyLogo currency={USDT} size=".8rem" />/{' '}
+              {apr ? `${apr.toFixed(2)} %` : '-'}
             </ResponsiveSizedTextNormal>
           )}
         </AutoRowToColumn>
