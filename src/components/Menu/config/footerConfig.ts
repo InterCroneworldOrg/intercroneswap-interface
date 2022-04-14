@@ -7,28 +7,28 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
     items: [
       {
         label: t('Exchange'),
-        href: 'https://',
+        href: '/swap/',
       },
       {
         label: t('Liquidity'),
-        href: 'https://',
+        href: '/liquidity/',
       },
       {
         label: t('Staking'),
-        href: 'https://',
+        href: '/stake/',
       },
-      {
-        label: t('Dashboard'),
-        href: 'https://',
-      },
+      // {
+      //   label: t('Dashboard'),
+      //   href: 'https://',
+      // },
       {
         label: t('NFT'),
-        href: 'https://',
+        href: 'https://intercroneswap.com/nft/minting/',
       },
-      {
-        label: t('Market'),
-        href: 'https://',
-      },
+      // {
+      //   label: t('Market'),
+      //   href: 'https://',
+      // },
     ],
   },
   {
@@ -36,23 +36,23 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
     items: [
       {
         label: t('Audit'),
-        href: 'https://',
+        href: 'https://docs.intercroneswap.finance/security/audits',
       },
-      {
-        label: t('White Paper'),
-        href: 'https://',
-      },
+      // {
+      //   label: t('White Paper'),
+      //   href: '',
+      // },
       {
         label: t('FAQ'),
-        href: 'https://',
+        href: 'https://docs.intercroneswap.finance/',
       },
       {
         label: t('Roadmap'),
-        href: 'https://',
+        href: 'https://docs.intercroneswap.finance/road-map/roadmap',
       },
       {
         label: t('Trading Guide'),
-        href: 'https://',
+        href: 'https://docs.intercroneswap.finance/faq/how-to-swap-trade-token',
       },
     ],
   },
@@ -61,11 +61,11 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
     items: [
       {
         label: t('Documentation'),
-        href: 'https://',
+        href: 'https://docs.intercroneswap.finance/',
       },
       {
         label: 'Github',
-        href: 'https://',
+        href: 'https://github.com/InterCroneworldOrg',
       },
     ],
   },

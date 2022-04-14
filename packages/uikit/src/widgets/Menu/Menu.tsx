@@ -142,7 +142,7 @@ const Menu: React.FC<NavProps> = ({
             style={{ width: "100%", background: "linear-gradient(180deg, #3B3B3B 0%, rgba(59, 59, 59, 0) 100%)" }}
           >
             <Container fluid>
-              <Navbar.Brand href="#home">
+              <Navbar.Brand href="https://intercroneswap.com">
                 <Image src={Logo} alt="logo" width={115} height={40} />
               </Navbar.Brand>
               <div className={Style.tokenname}>
@@ -161,15 +161,15 @@ const Menu: React.FC<NavProps> = ({
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mx-auto">
-                  <a href="https://trx.intercroneswap.com/#/swap/" className={`${Style.link} nav-link`}>
+                  <a href="/swap/" className={`${Style.link} nav-link`}>
                     Exchange
                   </a>
-                  <a href="https://trx.intercroneswap.com/#/pool/" className={`${Style.link} nav-link`}>
+                  <a href="/liquidity/" className={`${Style.link} nav-link`}>
                     Liquidity
                   </a>
-                  <a href="https://trx.intercroneswap.com/#/stake/" className={`${Style.link} nav-link`}>
+                  {/* <a href="/stake/" className={`${Style.link} nav-link`}>
                     Staking
-                  </a>
+                  </a> */}
                   <a href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                     NFT
                   </a>
