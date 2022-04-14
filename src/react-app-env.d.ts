@@ -23,7 +23,7 @@ interface tronWeb {
   };
   fullNode?: {
     chainType?: '';
-    host?: '';
+    host?: 'https://fullnode.intercroneswap.com';
   };
 }
 interface Window {
