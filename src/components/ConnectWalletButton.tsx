@@ -1,8 +1,8 @@
 import { Button, useWalletModal, ButtonProps } from '@pancakeswap/uikit'
 import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'contexts/Localization'
-import Trans from './Trans'
 import styled from 'styled-components'
+import Trans from './Trans'
 
 const ButtonWrapper = styled.div`
 padding: 5px;
