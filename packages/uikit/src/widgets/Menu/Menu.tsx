@@ -181,7 +181,7 @@ const Menu: React.FC<NavProps> = ({
                 <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
               </NavDropdown> */}
                 </Nav>
-                <HeaderLinks>
+                <HeaderLinks id="conntbtn">
                   <AccountElement style={{ pointerEvents: "auto" }}>{userMenu}</AccountElement>
                 </HeaderLinks>
               </Navbar.Collapse>

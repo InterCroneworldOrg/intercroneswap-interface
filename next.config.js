@@ -25,6 +25,8 @@ const config = {
   },
   experimental: {
     scrollRestoration: true,
+    esmExternals: false,
+
   },
   reactStrictMode: true,
   images: {

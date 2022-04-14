@@ -401,7 +401,7 @@ export default function Swap() {
 
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
-      <StyledHeading>Swap your tokens</StyledHeading>
+      <StyledHeading id="tknhead">Swap your tokens</StyledHeading>
       <Flex width="100%" justifyContent="center" position="relative" style={{ paddingTop: 20 }}>
         {/* {!isMobile && (
           <PriceChartContainer
@@ -539,7 +539,7 @@ export default function Swap() {
                           {t('Unsupported Asset')}
                         </Button>
                       ) : !account ? (
-                        <ConnectWalletButton width="100%" />
+                        <ConnectWalletButton id="swapbutton" width="100%" />
                       ) : showWrap ? (
                         <Button width="100%" disabled={Boolean(wrapInputError)} onClick={onWrap}>
                           {wrapInputError ??

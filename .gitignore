@@ -47,3 +47,6 @@ debug.log*
 .turbo
 
 yarn.lock
+package-lock.json
+next.config.js
+package.json

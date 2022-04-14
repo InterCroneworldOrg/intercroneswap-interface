@@ -18,7 +18,14 @@ const InputRow = styled.div<{ selected: boolean }>`
   align-items: center;
   justify-content: flex-end;
   padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')};
+
 `
+const CurrencyWrapper = styled.div`
+  background: red
+  &:nth-child(2) {
+    background: red !important
+  }
+`;
 const CurrencySelectButton = styled(Button).attrs({ variant: 'text', scale: 'sm' })`
   padding: 0 0.5rem;
   -webkit-box-align: center;
@@ -36,6 +43,13 @@ const CurrencySelectButton = styled(Button).attrs({ variant: 'text', scale: 'sm'
   border: none;
   padding: 0px 0.5rem;
   //box-shadow: rgb(255 255 255 / 10%) 6px 10px;
+  < div{
+    background: red !important
+
+  }
+
+
+ 
 `
 const LabelRow = styled.div`
   display: flex;
@@ -111,7 +125,9 @@ export default function CurrencyInputPanel({
     <Box position="relative" id={id} style={{ padding: 18 }}>
       <Flex mb="6px" alignItems="center" justifyContent="space-between">
         <Flex>
+          <CurrencyWrapper>
           <CurrencySelectButton
+         
             className="open-currency-select-button"
             selected={!!currency}
             onClick={() => {
@@ -143,6 +159,7 @@ export default function CurrencyInputPanel({
               {!disableCurrencySelect && <ChevronDownIcon />}
             </Flex>
           </CurrencySelectButton>
+          </CurrencyWrapper>
           {token && tokenAddress ? (
             <Flex style={{ gap: '4px' }} alignItems="center">
               <CopyButton

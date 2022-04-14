@@ -174,9 +174,9 @@ export default function Pool() {
           </AutoColumn>
           {renderBody()}
         </Body>
-        <CardFooter style={{ textAlign: 'center', display: 'flex', justifyContent: 'space-between' }}>
+        <CardFooter id="poolfooter" style={{ textAlign: 'center', display: 'flex', justifyContent: 'space-between' }}>
           <Link href="/add" passHref>
-            <Button id="join-pool-button" width="48%">
+            <Button id="join-pool-button" width="48%" >
               {t('Add Liquidity')}
             </Button>
           </Link>
