@@ -11,13 +11,12 @@ import CopyHelper from '../../components/AccountDetails/Copy';
 import { ButtonPrimary, ButtonSecondary } from '../../components/Button';
 import { GreyCard, LightCard } from '../../components/Card';
 import { AutoColumn } from '../../components/Column';
-import DoubleCurrencyLogo from '../../components/DoubleLogo';
 import PoolCard from '../../components/earn/PoolCard';
 import { ResponsiveSizedTextMedium } from '../../components/earn/styleds';
 import { AutoRow, RowBetween } from '../../components/Row';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import { Dots } from '../../components/swap/styleds';
-import { USDT, ICR, getTokensFromDefaults } from '../../constants/tokens';
+import { USDT, getTokensFromDefaults, ICR } from '../../constants/tokens';
 import { useActiveWeb3React } from '../../hooks';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks';
@@ -26,6 +25,7 @@ import { StyledHeading } from '../App';
 import HarvestModal from './HarvestModal';
 import StakeModal from './StakeModal';
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds';
+import CurrencyLogo from '../../components/CurrencyLogo';
 
 let stakingInfosRaw: {
   [chainId: number]: {
@@ -72,7 +72,7 @@ export default function Stake({
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
-  const [toggleToken, setToggleToken] = useState(true);
+  const [toggleToken, setToggleToken] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortOption, setSortOption] = useState('latest');
   const [showStake, setShowStake] = useState<boolean>(false);
@@ -235,7 +235,7 @@ export default function Stake({
         <AutoRow justify="center">
           <ButtonSecondary width="15rem" onClick={() => setToggleToken(!toggleToken)}>
             <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
-            <DoubleCurrencyLogo currency0={USDT} currency1={ICR} size={28} />
+            <CurrencyLogo currency={toggleToken ? ICR : USDT} />
           </ButtonSecondary>
         </AutoRow>
         <LightCard style={{ marginTop: '20px' }} padding="2rem 1rem">
