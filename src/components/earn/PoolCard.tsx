@@ -1,4 +1,4 @@
-import { DoubleTokenAmount } from '../../utils/tokenAmountCalculations';
+import { DoubleTokenAmount, GetAmountInUSDT } from '../../utils/tokenAmountCalculations';
 import { ETHER, JSBI, Percent, TokenAmount, ZERO } from '@intercroneswap/v2-sdk';
 import { useContext, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
@@ -14,7 +14,7 @@ import { Dots } from '../../pages/Stake/styleds';
 import { StakingInfo } from '../../state/stake/hooks';
 import { useTokenBalance } from '../../state/wallet/hooks';
 import { ExternalLink, TYPE } from '../../theme';
-import { isOneTokenWETH, unwrappedToken } from '../../utils/wrappedCurrency';
+import { unwrappedToken } from '../../utils/wrappedCurrency';
 import { ButtonEmpty, ButtonPrimary } from '../Button';
 import { LightCard } from '../Card';
 import { AutoColumn } from '../Column';
@@ -37,7 +37,6 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
 
   const token0 = stakingInfo.tokens[0];
   const token1 = stakingInfo.tokens[1];
-  const [isWETH, weth] = isOneTokenWETH(token0, token1);
 
   const currency0 = unwrappedToken(token0);
   const currency1 = unwrappedToken(token1);
@@ -65,8 +64,6 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
     stakedAmount &&
     JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.stakedAmount.raw)
       ? DoubleTokenAmount(pair.getLiquidityValue(token0, LPTotalSupply, stakedAmount, false))
-      : isWETH && weth && !!pair && !!LPTotalSupply && stakedAmount
-      ? DoubleTokenAmount(pair.getLiquidityValue(weth, LPTotalSupply, stakedAmount, false))
       : undefined;
 
   const totalStakedInToken =
@@ -76,12 +73,10 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
     totalStakedAmount &&
     JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.totalStakedAmount.raw)
       ? DoubleTokenAmount(pair.getLiquidityValue(token0, LPTotalSupply, totalStakedAmount, false))
-      : isWETH && weth && !!pair && !!LPTotalSupply && totalStakedAmount
-      ? DoubleTokenAmount(pair.getLiquidityValue(weth, LPTotalSupply, totalStakedAmount, false))
       : undefined;
 
-  const valueOfTotalStakedAmountInUSDT = totalStakedInToken && USDPrice?.quote(totalStakedInToken);
-  const valueOfEarnedAmountInUSDT = stakingInfo.earnedAmount && earnedUSDPrice?.quote(stakingInfo.earnedAmount);
+  const valueOfTotalStakedAmountInUSDT = GetAmountInUSDT(USDPrice, totalStakedInToken);
+  const valueOfEarnedAmountInUSDT = GetAmountInUSDT(earnedUSDPrice, stakingInfo.earnedAmount);
 
   const apr =
     ratePerYearUSDT &&
