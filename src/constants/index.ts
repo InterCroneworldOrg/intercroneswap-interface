@@ -2,7 +2,7 @@ import { ChainId, JSBI, Percent, Token, WETH } from '@intercroneswap/v2-sdk';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 
 import { injected } from '../connectors';
-import { REWARDS_DURATION_DAYS } from '../state/stake/constants';
+import { REWARDS_DURATION_DAYS_180 } from '../state/stake/constants';
 
 export const ROUTER_ADDRESSES: { [chainId: number]: string } = {
   [ChainId.MAINNET]: '0x8e1d1d9b31a603b14a58b822b075050ddced7e94',
@@ -24,7 +24,7 @@ type ChainTokenList = {
 };
 
 // Staking Yearly Rate
-export const YEARLY_RATE = JSBI.divide(JSBI.BigInt(365), JSBI.BigInt(REWARDS_DURATION_DAYS));
+export const YEARLY_RATE = JSBI.divide(JSBI.BigInt(365), JSBI.BigInt(REWARDS_DURATION_DAYS_180));
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
 export const AVERAGE_BLOCK_TIME_IN_SECS = 14;
 export const PROPOSAL_LENGTH_IN_BLOCKS = 40_320;
