@@ -11,7 +11,7 @@ import { useStakingContract } from '../../hooks/useContract';
 import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp';
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks';
 import { tryParseAmount } from '../swap/hooks';
-import { typeInput } from './actions';
+import { setAttemptingTxn, setTxHash, typeInput } from './actions';
 import { StakingRewardsInfo } from './constants';
 
 const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards);
@@ -42,6 +42,8 @@ export function useStakeState(): AppState['stake'] {
 
 export function useStakeActionHandlers(): {
   onUserInput: (typedValue: string) => void;
+  onTxHashChange: (hashValue: string) => void;
+  onAttemptingTxn: (attmeping: boolean) => void;
 } {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -52,8 +54,19 @@ export function useStakeActionHandlers(): {
     [dispatch],
   );
 
+  const onAttemptingTxn = useCallback(
+    (attemptingTxn: boolean) => {
+      dispatch(setAttemptingTxn({ attemptingTxn }));
+    },
+    [dispatch],
+  );
+
+  const onTxHashChange = useCallback((hash: string) => dispatch(setTxHash({ txHash: hash })), [dispatch]);
+
   return {
     onUserInput: onFieldChange,
+    onAttemptingTxn,
+    onTxHashChange,
   };
 }
 
