@@ -1,4 +1,5 @@
 import { TokenAmount } from '@intercroneswap/v2-sdk';
+import ReactGA from 'react-ga';
 import { useCallback, useContext, useState } from 'react';
 import { ThemeContext } from 'styled-components';
 import { ButtonGray, ButtonPrimary } from '../../components/Button';
@@ -41,18 +42,11 @@ export default function StakeModal({
   const stakeState = useStakeState();
 
   const [isStaking, setIsStaking] = useState<boolean>(true);
-  const { onUserInput } = useStakeActionHandlers();
+  const { onUserInput, onTxHashChange, onAttemptingTxn } = useStakeActionHandlers();
 
-  const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
-  const [txHash, setTxHash] = useState<string>('');
   const addTransaction = useTransactionAdder();
 
   const stakeAmount = tryParseAmount(stakeState.typedValue, balance?.token);
-
-  const swapStaking = () => {
-    setIsStaking(!isStaking);
-    onUserInput('');
-  };
 
   const handleTypeInput = useCallback(
     (value: string) => {
@@ -73,32 +67,36 @@ export default function StakeModal({
     const estimate = stakingContract.estimateGas.withdraw;
     const method: (...args: any) => Promise<TransactionResponse> = stakingContract.withdraw;
     const args: Array<string | string[] | number> = [stakeAmount?.raw.toString() ?? '0'];
-    setAttemptingTxn(true);
+    onAttemptingTxn(true);
     await estimate(...args, {})
       .then(() =>
         method(...args, {
           ...{},
           gasLimit: DEFAULT_FEE_LIMIT,
         }).then((response) => {
-          setAttemptingTxn(false);
+          onAttemptingTxn(false);
           addTransaction(response, {
             summary: `Withdraw ${stakeState.typedValue}`,
           });
-          setTxHash(response.hash);
+
+          ReactGA.event({
+            category: 'Stake',
+            action: 'unstake',
+            label: [stakingInfo?.tokens[0]?.symbol, stakingInfo?.tokens[1]?.symbol].join('/'),
+          });
+
+          onTxHashChange(response.hash);
         }),
       )
-      .finally(() => {
-        setTxHash('');
-      })
       .catch((err) => {
-        setAttemptingTxn(false);
+        onAttemptingTxn(false);
         if (err?.code !== 4001) {
           console.error(err);
         }
       });
   }
 
-  async function doStake() {
+  const doStake = useCallback(() => {
     if (!chainId || !library || !account) {
       return;
     }
@@ -113,31 +111,36 @@ export default function StakeModal({
       stakeAmount?.raw.toString(),
       referalAddress ? ethAddress.fromTron(referalAddress) : account,
     ];
-    setAttemptingTxn(true);
-    await estimate(...args, {})
+
+    onAttemptingTxn(true);
+    estimate(...args, {})
       .then(() =>
         method(...args, {
           ...{},
           gasLimit: DEFAULT_FEE_LIMIT,
         }).then((response) => {
-          setAttemptingTxn(false);
-          console.log('Calling stake method');
+          onAttemptingTxn(false);
+
           addTransaction(response, {
-            summary: `Stake ${stakeState.typedValue}`,
+            summary: `Stake ${stakeState.typedValue} LP token`,
           });
-          setTxHash(response.hash);
+
+          onTxHashChange(response.hash);
+
+          ReactGA.event({
+            category: 'Stake',
+            action: 'stake',
+            label: [stakingInfo?.tokens[0]?.symbol, stakingInfo?.tokens[1]?.symbol].join('/'),
+          });
         }),
       )
-      .finally(() => {
-        setTxHash('');
-      })
       .catch((err) => {
-        setAttemptingTxn(false);
+        onAttemptingTxn(false);
         if (err?.code !== 4001) {
           console.error(err);
         }
       });
-  }
+  }, [account, isOpen, stakeState.typedValue]);
 
   const [approveState, approveCallback] = useApproveCallback(balance, stakingAddress);
 
@@ -204,10 +207,22 @@ export default function StakeModal({
     return (
       <AutoRow>
         <Tabs style={{ width: '100%', margin: '8px 14px' }}>
-          <ButtonGray width="48%" onClick={() => swapStaking()}>
+          <ButtonGray
+            width="48%"
+            onClick={() => {
+              setIsStaking(true);
+              onUserInput('');
+            }}
+          >
             Stake
           </ButtonGray>
-          <ButtonGray width="48%" onClick={() => swapStaking()}>
+          <ButtonGray
+            width="48%"
+            onClick={() => {
+              setIsStaking(false);
+              onUserInput('');
+            }}
+          >
             Unstake
           </ButtonGray>
         </Tabs>
@@ -219,7 +234,7 @@ export default function StakeModal({
         />
       </AutoRow>
     );
-  }, [onDismiss, modalBottom, modalHeader, txHash]);
+  }, [onDismiss, modalBottom, modalHeader]);
 
   const pendingText = `${isStaking ? 'Staking' : 'Withdrawing'} ${stakeState.typedValue} ${
     stakingInfo?.tokens[0].symbol
@@ -229,8 +244,8 @@ export default function StakeModal({
     <TransactionConfirmationModal
       isOpen={isOpen}
       onDismiss={onDismiss}
-      attemptingTxn={attemptingTxn}
-      hash={txHash}
+      attemptingTxn={stakeState.attemptingTxn ?? false}
+      hash={stakeState.txHash}
       content={confirmationContent}
       pendingText={pendingText}
     />

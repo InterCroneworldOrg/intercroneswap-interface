@@ -78,7 +78,7 @@ export default function Stake({
   const [showStake, setShowStake] = useState<boolean>(false);
   const [showReferal, setShowReferal] = useState<boolean>(false);
   const [showHarvest, setShowHarvest] = useState<boolean>(false);
-  const { onUserInput } = useStakeActionHandlers();
+  const { onUserInput, onTxHashChange } = useStakeActionHandlers();
 
   const toggleWalletModal = useWalletModalToggle();
 
@@ -106,6 +106,7 @@ export default function Stake({
     setStakeInfo(undefined);
     setLPBalance(undefined);
     onUserInput('');
+    onTxHashChange('');
   }, [stakeAddress, showStake]);
 
   const handleInput = useCallback((event) => {
