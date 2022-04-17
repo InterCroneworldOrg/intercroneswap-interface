@@ -1,5 +1,5 @@
 import { TokenAmount } from '@intercroneswap/v2-sdk';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 import { ButtonPrimary } from '../../components/Button';
 import { AutoColumn } from '../../components/Column';
@@ -7,7 +7,7 @@ import { AutoRow, RowBetween } from '../../components/Row';
 import TransactionConfirmationModal, { ConfirmationModalContent } from '../../components/TransactionConfirmationModal';
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback';
 import { useActiveWeb3React } from '../../hooks';
-import { StakingInfo } from '../../state/stake/hooks';
+import { StakingInfo, useStakeActionHandlers, useStakeState } from '../../state/stake/hooks';
 import { getStakingContract } from '../../utils';
 import { TransactionResponse } from '@ethersproject/providers';
 import { DEFAULT_FEE_LIMIT } from '../../tron-config';
@@ -26,8 +26,8 @@ export default function HarvestModal({ isOpen, onDismiss, stakingAddress, balanc
   const { account, chainId, library } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
 
-  const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
-  const [txHash, setTxHash] = useState<string>('');
+  const stakeState = useStakeState();
+  const { onAttemptingTxn, onTxHashChange } = useStakeActionHandlers();
   const addTransaction = useTransactionAdder();
 
   async function doHarvest() {
@@ -38,22 +38,22 @@ export default function HarvestModal({ isOpen, onDismiss, stakingAddress, balanc
     const stakingContract = getStakingContract(chainId, stakingAddress, library, account);
     const estimate = stakingContract.estimateGas.getReward;
     const method: (...args: any) => Promise<TransactionResponse> = stakingContract.getReward;
-    setAttemptingTxn(true);
+    onAttemptingTxn(true);
     await estimate()
       .then(() =>
         method({
           ...{},
           gasLimit: DEFAULT_FEE_LIMIT,
         }).then((response) => {
-          setAttemptingTxn(false);
+          onAttemptingTxn(false);
           addTransaction(response, {
             summary: `Harvest`,
           });
-          setTxHash(response.hash);
+          onTxHashChange(response.hash);
         }),
       )
       .catch((err) => {
-        setAttemptingTxn(false);
+        onAttemptingTxn(false);
         if (err?.code !== 4001) {
           console.error(err);
         }
@@ -106,8 +106,8 @@ export default function HarvestModal({ isOpen, onDismiss, stakingAddress, balanc
     <TransactionConfirmationModal
       isOpen={isOpen}
       onDismiss={onDismiss}
-      attemptingTxn={attemptingTxn}
-      hash={txHash}
+      attemptingTxn={stakeState.attemptingTxn}
+      hash={stakeState.txHash}
       content={confirmationContent}
       pendingText={''}
     />
