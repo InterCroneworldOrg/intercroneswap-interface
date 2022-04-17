@@ -1,6 +1,6 @@
 import { REWARDS_DURATION_DAYS, REWARDS_DURATION_DAYS_180, StakingRewardsInfo } from '../../state/stake/constants';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
-import { TokenAmount } from '@intercroneswap/v2-sdk';
+import { JSBI, TokenAmount, ZERO } from '@intercroneswap/v2-sdk';
 import { orderBy } from 'lodash';
 import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -26,6 +26,7 @@ import HarvestModal from './HarvestModal';
 import StakeModal from './StakeModal';
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds';
 import CurrencyLogo from '../../components/CurrencyLogo';
+import { Form } from 'react-bootstrap';
 
 let stakingInfosRaw: {
   [chainId: number]: {
@@ -48,7 +49,7 @@ export default function Stake({
   const { account, chainId } = useActiveWeb3React();
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];
-    stakingInfosRaw && chainId
+    stakingInfosRaw && chainId && stakingInfosRaw[chainId]
       ? Object.keys(stakingInfosRaw[chainId]).map((version) => {
           const vals = stakingInfosRaw[chainId][version];
           Object.keys(vals).map((tokens) => {
@@ -74,13 +75,28 @@ export default function Stake({
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
   const [toggleToken, setToggleToken] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [sortOption, setSortOption] = useState('latest');
+  const [sortOption, setSortOption] = useState<'latest' | 'liquidity' | 'earned' | 'apy'>('latest');
   const [showStake, setShowStake] = useState<boolean>(false);
   const [showReferal, setShowReferal] = useState<boolean>(false);
   const [showHarvest, setShowHarvest] = useState<boolean>(false);
+  const [isActive, setActive] = useState<boolean>(true);
+  const [isStakedOnly, setStakedOnly] = useState<boolean>(false);
   const { onUserInput, onTxHashChange } = useStakeActionHandlers();
 
   const toggleWalletModal = useWalletModalToggle();
+
+  const bindSortSelect = (event: any) => {
+    console.log(event.target.value, 'Select event');
+    setSortOption(event.target.value);
+  };
+
+  const onStakedOnlyAction = () => {
+    setStakedOnly(!isStakedOnly);
+  };
+
+  const onSwitchAction = () => {
+    setActive(!isActive);
+  };
 
   const handleHarvest = (address: string) => {
     setStakeAddress(address);
@@ -167,14 +183,14 @@ export default function Stake({
 
   // Filtering and sorting pools
   // TODO: when we have active/ inactive toggle
-  // const activePools = stakingInfos.filter((info) => info.active);
-  // const inactivePools = stakingInfos.filter((info) => !info.active);
-  // const stakedOnlyPools = activePools.filter(
-  //   (info) => info.stakedAmount && JSBI.greaterThan(info.stakedAmount.numerator, ZERO),
-  // );
-  // const stakedInactivePools = inactivePools.filter(
-  //   (info) => info.stakedAmount && JSBI.greaterThan(info.stakedAmount.numerator, ZERO),
-  // );
+  const activePools = stakingInfos.filter((info) => info.active);
+  const inactivePools = stakingInfos.filter((info) => !info.active);
+  const stakedOnlyPools = activePools.filter(
+    (info) => info.stakedAmount && JSBI.greaterThan(info.stakedAmount.numerator, ZERO),
+  );
+  const stakedInactivePools = inactivePools.filter(
+    (info) => info.stakedAmount && JSBI.greaterThan(info.stakedAmount.numerator, ZERO),
+  );
 
   const stakingList = useCallback(
     (poolsToDisplay: StakingInfo[]): StakingInfo[] => {
@@ -197,6 +213,8 @@ export default function Stake({
     let chosenPools = [];
     const sortPools = (infos: StakingInfo[]): StakingInfo[] => {
       switch (sortOption) {
+        case 'liquidity':
+          return orderBy(infos, (info) => (info.stakedAmount ? Number(info.stakedAmount.numerator) : 0), 'desc');
         case 'earned':
           return orderBy(infos, (info) => (info.earnedAmount ? Number(info.earnedAmount.numerator) : 0), 'desc');
         case 'latest':
@@ -206,14 +224,14 @@ export default function Stake({
       }
     };
     chosenPools = stakingList(stakingInfos);
-    // if (isActive) {
-    //   chosenPools = farmsList(activeFarms)
-    // }
-    // if (isInactive) {
-    //   chosenPools = farmsList(inactiveFarms)
-    // }
+    if (isActive) {
+      chosenPools = isStakedOnly ? stakingList(stakedOnlyPools) : stakingList(activePools);
+    }
+    if (!isActive) {
+      chosenPools = isStakedOnly ? stakingList(stakedInactivePools) : stakingList(inactivePools);
+    }
     return sortPools(chosenPools);
-  }, [sortOption, stakingInfos, searchQuery]);
+  }, [sortOption, stakingInfos, searchQuery, isActive, isStakedOnly]);
 
   return (
     <>
@@ -270,11 +288,18 @@ export default function Stake({
               {/* TODO: when finished enable display */}
               <RowBetween>
                 <AutoColumn justify="flex-start" gap="1rem">
+                  <Form.Switch
+                    label="Active"
+                    id="active-staking"
+                    onChange={onSwitchAction}
+                    defaultChecked={true}
+                    style={{ color: theme.text1 }}
+                  />
                   <TYPE.white fontSize="1rem">Search</TYPE.white>
                   <SearchInput
                     type="text"
                     id="token-search-input"
-                    placeholder={t('tokenSearchPlaceholder')}
+                    placeholder={t('poolSearchPlaceholder')}
                     value={searchQuery}
                     ref={inputRef as RefObject<HTMLInputElement>}
                     onChange={handleInput}
@@ -284,12 +309,24 @@ export default function Stake({
                   />
                 </AutoColumn>
                 <AutoColumn gap="3px">
+                  <Form.Switch
+                    label="Staked only"
+                    id="staked-only"
+                    onChange={onStakedOnlyAction}
+                    defaultChecked={false}
+                    style={{ color: theme.text1 }}
+                  />
                   <TYPE.white>Sort by</TYPE.white>
-                  <ButtonSecondary
-                    onClick={() => (sortOption === 'earned' ? setSortOption('latest') : setSortOption('earned'))}
+                  <Form.Select
+                    style={{ color: theme.text1, background: theme.bg1, borderColor: theme.primary3 }}
+                    onChange={bindSortSelect}
+                    value={sortOption}
                   >
-                    {sortOption}
-                  </ButtonSecondary>
+                    <option value={'latest'}>Latest</option>
+                    <option value={'liquidity'}>Liquidity</option>
+                    <option value={'earned'}>Earned</option>
+                    <option value={'apy'}>APY</option>
+                  </Form.Select>
                 </AutoColumn>
               </RowBetween>
               {!account ? (
