@@ -10,32 +10,70 @@ on:
   workflow_dispatch:
 
 env:
-  GITHUB_WORKSPACE: /home/interface
+  BSC_WORK_PATH: bsc-interface
+
+defaults:
+  run:
+    shell: bash
+    working-directory: bsc-interface
     
 jobs:
-  build:
-
-    runs-on: self-hosted
-
-    defaults:
-      run:
-        working-directory: bsc-interface
+  setup_and_build:
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        node-version: [16.x]
+        os: [self-hosted]
+        node: [16]
 
     steps:
-    - uses: actions/checkout@v3
-      with:
-        ref: 'main-bsc'
-        path: 'bsc-interface'
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: cp .env.production .env
-    - run: npm i
-    - run: CI=false npm run build
-    - run: rsync -av /root/actions-runner/_work/intercroneswap-interface/intercroneswap-interface/bsc-interface/ /home/interface/bsc-interface/
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          ref: 'main-bsc'
+          path: ${{env.BSC_WORK_PATH}}
+
+      - name: Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cp .env.production .env
+          npm ci
+
+      - name: Build
+        run: CI=false npm run build
+
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ github.workspace }}/${{ github.ref_name }}/node_modules
+            ${{ github.workspace }}/${{ github.ref_name }}/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js') }}
+          # If source files changed but packages didn't, rebuild from a prior cache. 
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
+  copy_files:
+    needs: setup_and_build
+    runs-on: self-hosted
+    steps:
+      - name: rsync
+        run: |
+          rsync -av ${{ github.workspace }}/${{ github.repo }}${{env.BSC_WORK_PATH}}/ ${{ secrets.BSC_SERVER_LOCATION }}
+
+  deploy_pm2:
+    needs: copy_files
+    runs-on: self-hosted
+    steps:
+      - name: pm2
+        run: |
+          cd ${{ secrets.BSC_SERVER_LOCATION }}
+          pm2 delete BSC-interface || : && pm2 start npm --name "BSC-interface" -- start --watch
+          pm2 save
