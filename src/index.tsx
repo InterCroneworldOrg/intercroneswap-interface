@@ -21,6 +21,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/global.css';
 import './styles/override.css';
 import './styles/responsive.css';
+import './styles/custom.scss';
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
