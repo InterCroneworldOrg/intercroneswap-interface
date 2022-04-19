@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FACTORY_ADDRESS } from '@intercroneswap/v2-sdk'
 import { getUnixTime, sub } from 'date-fns'
 import { gql } from 'graphql-request'
@@ -8,18 +10,16 @@ import { bitQueryServerClient, infoServerClient } from 'utils/graphql'
 import { getBlocksFromTimestamps } from 'views/Info/hooks/useBlocksFromTimestamps'
 // import Home from '../views/Home'
 import { useRouter } from 'next/router'
-import { useEffect } from "react";
+import { useEffect } from 'react'
 
 const IndexPage = ({ totalTx30Days, addressCount30Days, tvl }) => {
-  const router = useRouter();
-  
-  useEffect(() => {
-    router.push('/swap');
-  }, []);
+  const router = useRouter()
 
-  return (
-    <></>
-  )
+  useEffect(() => {
+    router.push('/swap')
+  }, [])
+
+  return <></>
 }
 
 // Values fetched from TheGraph and BitQuery jan 24, 2022

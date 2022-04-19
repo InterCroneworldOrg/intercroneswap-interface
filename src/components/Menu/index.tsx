@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { NextLinkFromReactRouter } from 'components/NextLink'
@@ -40,7 +41,13 @@ const Menu = (props) => {
       linkComponent={(linkProps) => {
         return <NextLinkFromReactRouter to={linkProps.href} {...linkProps} prefetch={false} />
       }}
-      bnbMenu={fetchStatus===FetchStatus.Fetched ? <Text style={{marginRight: 10}}>{formatBigNumber(balance, 6)} BNB</Text> : <></> }
+      bnbMenu={
+        fetchStatus === FetchStatus.Fetched ? (
+          <Text style={{ marginRight: 10 }}>{formatBigNumber(balance, 6)} BNB</Text>
+        ) : (
+          <></>
+        )
+      }
       userMenu={<UserMenu />}
       globalMenu={<GlobalSettings />}
       SocialMenu={<SocialMenu />}

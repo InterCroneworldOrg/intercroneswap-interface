@@ -25,6 +25,8 @@ const config = {
   },
   experimental: {
     scrollRestoration: true,
+    esmExternals: false,
+
   },
   reactStrictMode: true,
   images: {
@@ -89,6 +91,11 @@ const config = {
         permanent: true,
       },
     ]
+  },
+}
+module.exports = {
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 }
 

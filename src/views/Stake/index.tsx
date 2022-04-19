@@ -1,85 +1,84 @@
-import { TokenAmount } from '@intercroneswap/v2-sdk';
+import { TokenAmount } from '@intercroneswap/v2-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
-import { orderBy } from 'lodash';
-import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { orderBy } from 'lodash'
+import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { Text, Button, useModal } from '@pancakeswap/uikit'
-import styled, { ThemeContext } from 'styled-components';
-import { GreyCard, LightCard } from '../../components/Card';
-import { AutoColumn } from 'components/Layout/Column';
-// import DoubleCurrencyLogo from '../../components/DoubleLogo';
-import PoolCard from '../../components/earn/PoolCard';
-import { ResponsiveSizedTextMedium } from '../../components/earn/styleds';
+import styled, { ThemeContext } from 'styled-components'
+import { AutoColumn } from 'components/Layout/Column'
 import { AutoRow, RowBetween } from 'components/Layout/Row'
-import { SearchInput } from '../../components/SearchModal/styleds';
-import { Dots } from '../../components/swap/styleds';
+import { GreyCard, LightCard } from '../../components/Card'
+// import DoubleCurrencyLogo from '../../components/DoubleLogo';
+import PoolCard from '../../components/earn/PoolCard'
+import { ResponsiveSizedTextMedium } from '../../components/earn/styleds'
+import { SearchInput } from '../../components/SearchModal/styleds'
+import { Dots } from '../../components/swap/styleds'
 // import { BUSD, ICR } from '../../constants/tokens';
-import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks';
-import { Divider } from '../../theme';
-import HarvestModal from './HarvestModal';
-import StakeModal from './StakeModal';
+import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks'
+import { Divider } from '../../theme'
+import HarvestModal from './HarvestModal'
+import StakeModal from './StakeModal'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
 
-import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds';
+import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds'
 
 export default function Stake() {
   const router = useRouter()
   const { referal } = router.query
   console.log(router.query)
-  const theme = useContext(ThemeContext);
+  const theme = useContext(ThemeContext)
   const { account } = useWeb3React()
 
-  const stakingInfos = useStakingInfo();
+  const stakingInfos = useStakingInfo()
 
-  const [stakeAddress, setStakeAddress] = useState<string>('');
-  const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
-  const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
-  const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
-  const [toggleToken, setToggleToken] = useState(true);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [sortOption, setSortOption] = useState('latest');
-  const [showReferal, setShowReferal] = useState<boolean>(false);
-  const { onUserInput } = useStakeActionHandlers();
+  const [stakeAddress, setStakeAddress] = useState<string>('')
+  const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined)
+  const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined)
+  const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined)
+  const [toggleToken, setToggleToken] = useState(true)
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [sortOption, setSortOption] = useState('latest')
+  const [showReferal, setShowReferal] = useState<boolean>(false)
+  const { onUserInput } = useStakeActionHandlers()
 
   const handleHarvest = (address: string) => {
-    onPresentHarvestModal();
-    setStakeAddress(address);
-  };
+    onPresentHarvestModal()
+    setStakeAddress(address)
+  }
 
   const handleDismissHarvest = () => {
-    setStakeAddress('');
-  };
-  const inputRef = useRef<HTMLInputElement>();
+    setStakeAddress('')
+  }
+  const inputRef = useRef<HTMLInputElement>()
 
   const handleStake = (address: string, pairSupply?: TokenAmount, stakingInfo?: StakingInfo) => {
-    onPresentStakeModal();
-    setStakeAddress(address);
-    setStakeInfo(stakingInfo);
-    setLPBalance(pairSupply);
-  };
+    onPresentStakeModal()
+    setStakeAddress(address)
+    setStakeInfo(stakingInfo)
+    setLPBalance(pairSupply)
+  }
 
   const handleDismissStake = useCallback(() => {
-    setStakeAddress('');
-    setStakeInfo(undefined);
-    setLPBalance(undefined);
-    onUserInput('');
-  }, [stakeAddress]);
+    setStakeAddress('')
+    setStakeInfo(undefined)
+    setLPBalance(undefined)
+    onUserInput('')
+  }, [stakeAddress])
 
   const handleInput = useCallback((event) => {
-    const input = event.target.value;
-    setSearchQuery(input.toLowerCase());
-  }, []);
+    const input = event.target.value
+    setSearchQuery(input.toLowerCase())
+  }, [])
 
   const handleEnter = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
-        const s = searchQuery.toLowerCase().trim();
-        setSearchQuery(s);
+        const s = searchQuery.toLowerCase().trim()
+        setSearchQuery(s)
       }
     },
     [searchQuery],
-  );
+  )
 
   const confirmUpline = useCallback(() => {
     return account ? (
@@ -98,8 +97,8 @@ export default function Stake() {
           </>
         )}
       </>
-    ) : undefined;
-  }, [referal, uplinkAddress]);
+    ) : undefined
+  }, [referal, uplinkAddress])
 
   const uplineComponent = useCallback(() => {
     return account ? (
@@ -118,8 +117,8 @@ export default function Stake() {
         <ResponsiveSizedTextMedium fontWeight=".5rem">Your referral link</ResponsiveSizedTextMedium>
         <WordBreakDiv>{`${window.location.origin}/#/stake/${account}`}</WordBreakDiv>
       </AutoColumn>
-    ) : undefined;
-  }, [uplinkAddress, showReferal]);
+    ) : undefined
+  }, [uplinkAddress, showReferal])
 
   // Filtering and sorting pools
   // TODO: when we have active/ inactive toggle
@@ -141,50 +140,50 @@ export default function Stake() {
             info.tokens[0].name?.toLowerCase().includes(searchQuery) ||
             info.tokens[1].symbol?.toLowerCase().includes(searchQuery) ||
             info.tokens[1].name?.toLowerCase().includes(searchQuery)
-          );
-        });
+          )
+        })
       }
-      return poolsToDisplay;
+      return poolsToDisplay
     },
     [searchQuery],
-  );
+  )
 
   const chosenPoolsMemoized = useMemo(() => {
-    let chosenPools = [];
+    let chosenPools = []
     const sortPools = (infos: StakingInfo[]): StakingInfo[] => {
       switch (sortOption) {
         case 'earned':
-          return orderBy(infos, (info) => (info.earnedAmount ? Number(info.earnedAmount.numerator) : 0), 'desc');
+          return orderBy(infos, (info) => (info.earnedAmount ? Number(info.earnedAmount.numerator) : 0), 'desc')
         case 'latest':
-          return orderBy(infos, (info) => (info.periodFinish?.getTime() ? info.periodFinish.getTime() : 0), 'desc');
+          return orderBy(infos, (info) => (info.periodFinish?.getTime() ? info.periodFinish.getTime() : 0), 'desc')
         default:
-          return infos;
+          return infos
       }
-    };
-    chosenPools = stakingList(stakingInfos);
+    }
+    chosenPools = stakingList(stakingInfos)
     // if (isActive) {
     //   chosenPools = farmsList(activeFarms)
     // }
     // if (isInactive) {
     //   chosenPools = farmsList(inactiveFarms)
     // }
-    return sortPools(chosenPools);
-  }, [sortOption, stakingInfos, searchQuery]);
-  
+    return sortPools(chosenPools)
+  }, [sortOption, stakingInfos, searchQuery])
+
   const StyledHeading = styled.h1`
-  text-transform: uppercase;
-  font-family: Jost;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 56px;
-  line-height: 72px;
-  text-align: center;
-  width: 100%;
-  color: ${({ theme }) => theme.colors.primary};
-  background: ${({ theme }) => theme.colors.primary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  `;
+    text-transform: uppercase;
+    font-family: Jost;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 56px;
+    line-height: 72px;
+    text-align: center;
+    width: 100%;
+    color: ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.primary};
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  `
 
   const [onPresentStakeModal] = useModal(
     <StakeModal
@@ -200,11 +199,7 @@ export default function Stake() {
   )
 
   const [onPresentHarvestModal] = useModal(
-    <HarvestModal
-      stakingAddress={stakeAddress}
-      stakingInfo={stakeInfo}
-      onDismiss={handleDismissHarvest}
-    />,
+    <HarvestModal stakingAddress={stakeAddress} stakingInfo={stakeInfo} onDismiss={handleDismissHarvest} />,
     true,
     true,
     'HarvestModal',
@@ -226,7 +221,7 @@ export default function Stake() {
               <ConnectWalletButton width="100%" />
             </div>
           ) : (
-            <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between"></AutoRow>
+            <AutoRow gap="20px" style={{ margin: 0 }} justify="space-between" />
           )}
           <AutoColumn gap="1.5rem" justify="center">
             <ReferalButton
@@ -239,10 +234,8 @@ export default function Stake() {
               Show referal link
             </ReferalButton>
             <AutoColumn gap="2rem" style={{ width: '100%' }}>
-              <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
-                <Text>
-                  Stake Liquidity Pool (LP) tokens to earn
-                </Text>
+              <TitleRow style={{ marginTop: '1rem' }} padding="0">
+                <Text>Stake Liquidity Pool (LP) tokens to earn</Text>
               </TitleRow>
               <Divider />
               {uplineComponent()}
@@ -264,9 +257,7 @@ export default function Stake() {
                 </AutoColumn>
                 <AutoColumn gap="3px">
                   <Text>Sort by</Text>
-                  <Button
-                    onClick={() => (sortOption === 'earned' ? setSortOption('latest') : setSortOption('earned'))}
-                  >
+                  <Button onClick={() => (sortOption === 'earned' ? setSortOption('latest') : setSortOption('earned'))}>
                     {sortOption}
                   </Button>
                 </AutoColumn>
@@ -293,7 +284,7 @@ export default function Stake() {
                       handleStake={handleStake}
                       handleHarvest={handleHarvest}
                       toggleToken={toggleToken}
-                    ></PoolCard>
+                    />
                   ))}
                 </>
               ) : (
@@ -308,5 +299,5 @@ export default function Stake() {
         </LightCard>
       </PageWrapper>
     </>
-  );
+  )
 }

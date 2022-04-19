@@ -96,81 +96,76 @@ export default function Pool() {
   }
 
   const StyledHeading = styled.h1`
-  text-transform: uppercase;
-  font-family: Jost;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 56px;
-  line-height: 72px;
-  text-align: center;
-  width: 100%;
-  color: ${({ theme }) => theme.colors.primary};
-  background: ${({ theme }) => theme.colors.primary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  `;
+    font-family: Jost;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 56px;
+    line-height: 72px;
+    text-align: center;
+    width: 100%;
+    color: ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.primary};
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  `
 
   const CardSection = styled(AutoColumn)<{ disabled?: boolean }>`
-  padding: 1rem;
-  z-index: 1;
-  opacity: ${({ disabled }) => disabled && '0.4'};
-`;
+    padding: 1rem;
+    z-index: 1;
+    opacity: ${({ disabled }) => disabled && '0.4'};
+  `
 
-const CardNoise = styled.span`
-  background: url('/noise.png');
-  background-size: cover;
-  mix-blend-mode: overlay;
-  border-radius: 12px;
-  width: 100%;
-  height: 100%;
-  opacity: 0.15;
-  position: absolute;
-  top: 0;
-  left: 0;
-  user-select: none;
-`;
+  const CardNoise = styled.span`
+    background: url('/noise.png');
+    background-size: cover;
+    mix-blend-mode: overlay;
+    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    position: absolute;
+    top: 0;
+    left: 0;
+    user-select: none;
+  `
 
-const DataCard = styled(AutoColumn)<{ disabled?: boolean }>`
-  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ff007a 0%, #2172e5 100%);
-  border-radius: 12px;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-`;
+  const DataCard = styled(AutoColumn)<{ disabled?: boolean }>`
+    background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ff007a 0%, #2172e5 100%);
+    border-radius: 12px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  `
 
-const VoteCard = styled(DataCard)`
-  max-width: 840px;
-  background: radial-gradient(76.02% 75.41% at 1.84% 0%,#F3C914 0%,#151515 100%);
-  overflow: hidden;
-`;
+  const VoteCard = styled(DataCard)`
+    max-width: 840px;
+    background: radial-gradient(76.02% 75.41% at 1.84% 0%, #f3c914 0%, #151515 100%);
+    overflow: hidden;
+  `
 
   return (
     <Page>
-      <StyledHeading style={{marginBottom: 35}}>Swap your Tokens</StyledHeading>
+      <StyledHeading style={{ marginBottom: 35 }}>Swap your Tokens</StyledHeading>
       <VoteCard>
-          <CardNoise />
-          <CardSection>
-            <AutoColumn gap="md">
-              <RowBetween>
-                <Text fontWeight={600}>Liquidity provider rewards</Text>
-              </RowBetween>
-              <RowBetween>
-                <Text fontSize="14px">
-                  {`Liquidity providers earn a 0.2% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.`}
-                </Text>
-              </RowBetween>
-              <ExternalLink
-                style={{ color: 'white', textDecoration: 'underline' }}
-                target="_blank"
-                href=""
-              >
-                <Text fontSize="14px">Read more about providing liquidity</Text>
-              </ExternalLink>
-            </AutoColumn>
-          </CardSection>
+        <CardNoise />
+        <CardSection>
+          <AutoColumn gap="md">
+            <RowBetween>
+              <Text fontWeight={600}>Liquidity provider rewards</Text>
+            </RowBetween>
+            <RowBetween>
+              <Text fontSize="14px">
+                {`Liquidity providers earn a 0.2% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.`}
+              </Text>
+            </RowBetween>
+            <ExternalLink style={{ color: 'white', textDecoration: 'underline' }} target="_blank" href="">
+              <Text fontSize="14px">Read more about providing liquidity</Text>
+            </ExternalLink>
+          </AutoColumn>
+        </CardSection>
 
-          <CardNoise />
-        </VoteCard>
+        <CardNoise />
+      </VoteCard>
       <PoolAppBody>
         {/* <AppHeader title={t('Your Liquidity')} subtitle={t('Remove liquidity to receive tokens back')} /> */}
         <Body>
@@ -179,9 +174,9 @@ const VoteCard = styled(DataCard)`
           </AutoColumn>
           {renderBody()}
         </Body>
-        <CardFooter style={{ textAlign: 'center', display: 'flex', justifyContent: 'space-between' }}>
+        <CardFooter id="poolfooter" style={{ textAlign: 'center', display: 'flex', justifyContent: 'space-between' }}>
           <Link href="/add" passHref>
-            <Button id="join-pool-button" width="48%">
+            <Button id="join-pool-button" width="48%" >
               {t('Add Liquidity')}
             </Button>
           </Link>

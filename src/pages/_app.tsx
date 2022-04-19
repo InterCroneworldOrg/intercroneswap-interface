@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ResetCSS } from '@pancakeswap/uikit'
 import Script from 'next/script'
 import dynamic from 'next/dynamic'
@@ -23,6 +24,10 @@ import ErrorBoundary from '../components/ErrorBoundary'
 import Menu from '../components/Menu'
 import Providers from '../Providers'
 import GlobalStyle from '../style/Global'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import "../style/global.css"
+import "../style/responsive.css"
+
 
 const EasterEgg = dynamic(() => import('components/EasterEgg'), { ssr: false })
 
@@ -115,7 +120,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       <Menu>
         <Layout>
           <div style={{ position: 'absolute', bottom: 0, right: 0 }}>
-            <Image src="/back_logo.png" alt="me" width="255" height="510" />
+            {/* <Image src="/back_logo.png" alt="me" width="255" height="510" /> */}
           </div>
           <Component {...pageProps} />
         </Layout>

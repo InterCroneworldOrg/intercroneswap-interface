@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { Button, Text, Link, Flex, Checkbox, Message } from '@pancakeswap/uikit'
@@ -64,9 +65,7 @@ function ImportList({ listURL, list, onImport }: ImportProps) {
 
   handleAddList()
 
-  return (
-    <></>
-  )
+  return <></>
 }
 
 export default ImportList

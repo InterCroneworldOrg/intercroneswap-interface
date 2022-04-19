@@ -18,9 +18,38 @@ const InputRow = styled.div<{ selected: boolean }>`
   align-items: center;
   justify-content: flex-end;
   padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')};
+
 `
+const CurrencyWrapper = styled.div`
+  background: red
+  &:nth-child(2) {
+    background: red !important
+  }
+`;
 const CurrencySelectButton = styled(Button).attrs({ variant: 'text', scale: 'sm' })`
   padding: 0 0.5rem;
+  -webkit-box-align: center;
+  align-items: center;
+  height: 3.5rem;
+  font-size: 20px;
+  width: 162px;
+  font-weight: 400;
+  background: rgb(57 57 57);
+  color: rgb(255, 255, 255);
+  outline: none;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  padding: 0px 0.5rem;
+  //box-shadow: rgb(255 255 255 / 10%) 6px 10px;
+  < div{
+    background: red !important
+
+  }
+
+
+ 
 `
 const LabelRow = styled.div`
   display: flex;
@@ -40,7 +69,7 @@ const InputPanel = styled.div`
   z-index: 1;
 `
 const Container = styled.div`
-  border-radius: 16px;
+  border-radius: 5px;
   background-color: ${({ theme }) => theme.colors.primaryBright};
   box-shadow: ${({ theme }) => theme.shadows.inset};
 `
@@ -93,10 +122,12 @@ export default function CurrencyInputPanel({
     />,
   )
   return (
-    <Box position="relative" id={id}>
+    <Box position="relative" id={id} style={{ padding: 18 }}>
       <Flex mb="6px" alignItems="center" justifyContent="space-between">
         <Flex>
+          <CurrencyWrapper>
           <CurrencySelectButton
+         
             className="open-currency-select-button"
             selected={!!currency}
             onClick={() => {
@@ -128,6 +159,7 @@ export default function CurrencyInputPanel({
               {!disableCurrencySelect && <ChevronDownIcon />}
             </Flex>
           </CurrencySelectButton>
+          </CurrencyWrapper>
           {token && tokenAddress ? (
             <Flex style={{ gap: '4px' }} alignItems="center">
               <CopyButton

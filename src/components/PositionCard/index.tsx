@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react'
 import { JSBI, Pair, Percent } from '@intercroneswap/v2-sdk'
 import {
@@ -128,8 +129,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
             </AutoColumn>
           </CardBody>
         </Card>
-      ) : null
-      }
+      ) : null}
     </>
   )
 }

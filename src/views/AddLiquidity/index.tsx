@@ -282,25 +282,26 @@ export default function AddLiquidity() {
   )
 
   const StyledHeading = styled.h1`
-  text-transform: uppercase;
-  font-family: Jost;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 56px;
-  line-height: 72px;
-  text-align: center;
-  width: 100%;
-  color: ${({ theme }) => theme.colors.primary};
-  background: ${({ theme }) => theme.colors.primary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  `;
+    font-family: Jost;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 56px;
+    line-height: 72px;
+    text-align: center;
+    width: 100%;
+    color: ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.primary};
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  `
 
   return (
     <Page>
-      <StyledHeading>Swap Your Tokens</StyledHeading>
-      <div style={{ width: '100%', display: 'grid', gridTemplateColumns: (isDesktop ? '1fr 1fr' : '1fr'), marginTop: 20}}>
-        <div style={{width: '100%', justifyContent: 'end', display: 'flex', padding: (!isMobile ? "0px 40px" : "0px")}}>
+      <StyledHeading>Swap your tokens</StyledHeading>
+      <div
+        style={{ width: '100%', display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr', marginTop: 20 }}
+      >
+        <div style={{ width: '100%', justifyContent: 'end', display: 'flex', padding: !isMobile ? '0px 40px' : '0px' }}>
           <AppBody>
             <AppHeader
               title={t('Add Liquidity')}
@@ -352,7 +353,6 @@ export default function AddLiquidity() {
                   id="add-liquidity-input-tokenb"
                   showCommonBases
                 />
-                
 
                 {addIsUnsupported ? (
                   <Button disabled mb="4px">
@@ -414,7 +414,9 @@ export default function AddLiquidity() {
                           onPresentAddLiquidityModal()
                         }
                       }}
-                      disabled={!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
+                      disabled={
+                        !isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED
+                      }
                     >
                       {error ?? t('Supply')}
                     </Button>
@@ -426,7 +428,7 @@ export default function AddLiquidity() {
         </div>
         <Flex flexDirection="column" marginTop={15}>
           {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
-            <div style={{maxWidth: 560}}>
+            <div style={{ maxWidth: 560 }}>
               <LightCard padding="0px" borderRadius="20px">
                 <RowBetween padding="1rem">
                   <Text fontSize="14px">
@@ -446,7 +448,9 @@ export default function AddLiquidity() {
           )}
           {!addIsUnsupported ? (
             pair && !noLiquidity && pairState !== PairState.INVALID ? (
-              <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '560px', marginTop: '1rem', height: 220}}>
+              <AutoColumn
+                style={{ minWidth: '20rem', width: '100%', maxWidth: '560px', marginTop: '1rem', height: 220 }}
+              >
                 <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
               </AutoColumn>
             ) : null
