@@ -144,14 +144,14 @@ export default function StakeModal({
 
   const modalBottom = useCallback(() => {
     return (
-      <AutoRow justify="center" marginTop={30}>
+      <AutoRow justify={(approveState === ApprovalState.PENDING || approveState === ApprovalState.NOT_APPROVED) ? "space-between" : "center"} marginTop={30} >
         {(approveState === ApprovalState.PENDING || approveState === ApprovalState.NOT_APPROVED) && (
-          <Button width="50%" onClick={approveCallback}>
+          <Button width="48%" onClick={approveCallback}>
             Approve
           </Button>
         )}
         <Button
-          width="50%"
+          width="48%"
           onClick={isStaking ? doStake : doWithdraw}
           disabled={
             isStaking

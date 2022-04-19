@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@intercroneswap/v2-sdk'
+import { ChainId, Token, WETH } from '@intercroneswap/v2-sdk'
 import { serializeToken } from 'state/user/hooks/helpers'
 import { CHAIN_ID } from './networks'
 import { SerializedToken } from './types'
@@ -10,6 +10,21 @@ interface TokenList {
 }
 
 const defineTokens = <T extends TokenList>(t: T) => t
+
+export function getTokensFromDefaults(symbols: string): [Token, Token] | undefined {
+  const symbolsSplit = symbols.split('-');
+  if (symbolsSplit.length !== 2) {
+    return undefined;
+  }
+  const token0 = getTokenFromDefaults(symbolsSplit[0].toUpperCase());
+  const token1 = getTokenFromDefaults(symbolsSplit[1].toUpperCase());
+  return token0 && token1 ? [token0, token1] : undefined;
+}
+
+export function getTokenFromDefaults(symbol: string): Token | undefined {
+  const chainId = CHAIN_ID;
+  return symbol === 'BNB' ? WETH[parseInt(chainId, 10)] : DefaultTokensMap[symbol];
+}
 
 export const mainnetTokens = defineTokens({
   wbnb: new Token(
@@ -1272,6 +1287,22 @@ export const mainnetTokens = defineTokens({
     'TRON Token',
     'https://tron.network/',
   ),
+  ftm: new Token(
+    MAINNET,
+    '0xAD29AbB318791D579433D831ed122aFeAf29dcfe',
+    18,
+    'FTM',
+    'Fantom',
+    'http://fantom.foundation/',
+  ),
+  avax: new Token(
+    MAINNET,
+    '0x1CE0c2827e2eF14D5C4f29a091d735A204794041',
+    18,
+    'AVAX',
+    'Binance-Peg Avalanche Token',
+    'https://www.avalabs.org/',
+  ),
   win: new Token(
     MAINNET,
     '0xaeF0d72a118ce24feE3cD1d43d383897D05B4e99',
@@ -2093,7 +2124,14 @@ export const testnetTokens = defineTokens({
     'Bakeryswap Token',
     'https://www.bakeryswap.org/',
   ),
-  ICR: new Token(TESTNET, '0xb518912759D86409e747fad19Dbad9FE681761C3', 18, 'ICR', 'Intercroneswap Token', ''),
+  icr: new Token(
+    TESTNET,
+    '0xb518912759D86409e747fad19Dbad9FE681761C3',
+    18,
+    'ICR',
+    'Intercroneswap Token',
+    ''
+  ),
 } as const)
 
 const tokens = () => {
@@ -2120,5 +2158,38 @@ export const serializeTokens = () => {
 
   return serializedTokens
 }
+
+export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
+  ['ICR']: unserializedTokens.icr,
+  ['BTC']: unserializedTokens.btcb,
+  ['BUSD']: unserializedTokens.busd,
+  ['USDT']: unserializedTokens.usdt,
+  ['ETH']: unserializedTokens.eth,
+  ['CAKE']: unserializedTokens.cake,
+  ['DOT']: unserializedTokens.dot,
+  ['BSW']: unserializedTokens.bsw,
+  ['TRX']: unserializedTokens.trx,
+  ['FTM']: unserializedTokens.ftm,
+  ['AVAX']: unserializedTokens.avax,
+};
+
+const tokenArray: Token[] = [
+  unserializedTokens.icr,
+  unserializedTokens.btcb,
+  unserializedTokens.busd,
+  unserializedTokens.usdt,
+  unserializedTokens.eth,
+  unserializedTokens.cake,
+  unserializedTokens.dot,
+  unserializedTokens.bsw,
+  unserializedTokens.trx,
+  unserializedTokens.ftm,
+  unserializedTokens.avax,
+];
+
+export function getTokenByAddress(address: string): Token {
+  return tokenArray.find((token) => token.address.toLowerCase() === address.toLowerCase()) ?? unserializedTokens.icr;
+}
+
 
 export default unserializedTokens

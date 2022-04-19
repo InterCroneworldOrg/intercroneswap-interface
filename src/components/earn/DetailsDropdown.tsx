@@ -6,13 +6,13 @@ import { PairState } from 'hooks/usePairs'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useBUSDPrice from 'hooks/useBUSDPrice'
 import { CurrencyLogo } from 'components/Logo'
+import tokens from 'config/constants/tokens'
 import { StakingInfo } from '../../state/stake/hooks';
 import { Divider } from '../../theme';
 import { getBscScanLink } from '../../utils';
 import { unwrappedToken } from '../../utils/wrappedCurrency';
 import { Dots } from '../swap/styleds';
 import { Countdown } from './Countdown';
-import { BUSD } from '../../constants/tokens';
 
 import {
   AutoColumnToRow,
@@ -30,6 +30,8 @@ interface DetailsDropDownParams {
   stakedAmount: TokenAmount | undefined;
   totalStakedAmount: TokenAmount | undefined;
 }
+
+const { busd : BUSD } = tokens
 
 export default function DetailsDropdown({
   stakingInfo,

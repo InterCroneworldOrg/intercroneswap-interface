@@ -9,37 +9,69 @@ import styled, { ThemeContext } from 'styled-components'
 import { LightGreyCard, LightCard } from '../../components/Card'
 import { AutoColumn } from 'components/Layout/Column'
 import { DoubleCurrencyLogo } from 'components/Logo'
+import tokens, { getTokensFromDefaults } from 'config/constants/tokens'
 import PoolCard from '../../components/earn/PoolCard'
 import { ResponsiveSizedTextMedium } from '../../components/earn/styleds'
 import { AutoRow, RowBetween } from 'components/Layout/Row'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import { Dots } from '../../components/swap/styleds'
 import Page from '../Page'
-import { BUSD, ICR } from '../../constants/tokens'
 import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks'
 import { Divider } from '../../theme'
 import HarvestModal from './HarvestModal'
 import StakeModal from './StakeModal'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
-
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds'
+import { REWARDS_DURATION_DAYS, REWARDS_DURATION_DAYS_180, StakingRewardsInfo } from '../../state/stake/constants';
+
+const { icr: ICR, busd : BUSD } = tokens
+
+let stakingInfosRaw: {
+  [chainId: number]: {
+    [version: string]: {
+      [tokens: string]: string;
+    };
+  };
+} = {};
+fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
+  .then((response) => response.json())
+  .then((data) => (stakingInfosRaw = data));
 
 export default function Stake() {
   const router = useRouter()
   const theme = useContext(ThemeContext)
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
+  const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
+    const tmpinfos: StakingRewardsInfo[] = [];
+    stakingInfosRaw && chainId && stakingInfosRaw[chainId]
+      ? Object.keys(stakingInfosRaw[chainId]).map((version) => {
+          const vals = stakingInfosRaw[chainId][version];
+          Object.keys(vals).map((tokens) => {
+            const tokensFromDefault = getTokensFromDefaults(tokens);
+            if (tokensFromDefault) {
+              tmpinfos.push({
+                stakingRewardAddress: vals[tokens],
+                tokens: tokensFromDefault,
+                rewardsDays: version !== 'v0' ? REWARDS_DURATION_DAYS_180 : REWARDS_DURATION_DAYS,
+              });
+            }
+          });
+        })
+      : undefined;
+    return tmpinfos;
+  }, [chainId, stakingInfosRaw]);
 
-  const referalArr = router.query.referal || [];
+  const referalArr = router.query.referal || []
   let referal = undefined;
   if( referalArr.length == 1 ) {
-    referal = referalArr[0];
+    referal = referalArr[0]
     if( !isAddress(referal))
-      router.push('/stake');
+      router.push('/stake')
   }
   else if( referalArr.length )
     router.push('/stake');
 
-  const stakingInfos = useStakingInfo()
+  const stakingInfos = useStakingInfo(stakingRewardInfos)
 
   const [stakeAddress, setStakeAddress] = useState<string>('')
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined)

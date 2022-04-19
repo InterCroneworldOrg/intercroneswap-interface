@@ -9,6 +9,7 @@ import useBUSDPrice from 'hooks/useBUSDPrice'
 import { AutoColumn } from 'components/Layout/Column'
 import { CurrencyLogo } from 'components/Logo'
 import { AutoRow } from 'components/Layout/Row'
+import tokens from 'config/constants/tokens'
 import { Dots } from '../../views/Stake/styleds';
 import { StakingInfo } from '../../state/stake/hooks';
 import { useTokenBalance } from '../../state/wallet/hooks';
@@ -16,10 +17,11 @@ import { isOneTokenWETH, unwrappedToken } from '../../utils/wrappedCurrency';
 import { LightCard } from '../Card';
 import DetailsDropdown from './DetailsDropdown';
 import { YEARLY_RATE } from '../../constants';
-import { ICR, BUSD } from '../../constants/tokens';
 import { AutoRowToColumn, ResponsiveSizedTextMedium, ResponsiveSizedTextNormal, ArrowWrapper } from './styleds';
 import StyledChevronUp from './ChevronUp';
 import StyledChevronDown from './ChevronDown';
+
+const { icr: ICR, busd : BUSD } = tokens
 
 const ZERO = JSBI.BigInt(0);
 
