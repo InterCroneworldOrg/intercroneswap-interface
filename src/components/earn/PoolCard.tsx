@@ -1,6 +1,5 @@
 import { ETHER, JSBI, Percent, TokenAmount } from '@intercroneswap/v2-sdk';
 import { useContext, useState } from 'react';
-// import { ChevronDown, ChevronUp } from 'react-feather';
 import { Text, Button, LinkExternal} from '@pancakeswap/uikit'
 import { ThemeContext } from 'styled-components';
 import { PairState, usePair } from 'hooks/usePairs'
@@ -18,7 +17,9 @@ import { LightCard } from '../Card';
 import DetailsDropdown from './DetailsDropdown';
 import { YEARLY_RATE } from '../../constants';
 import { ICR, BUSD } from '../../constants/tokens';
-import { AutoRowToColumn, ResponsiveSizedTextMedium, ResponsiveSizedTextNormal } from './styleds';
+import { AutoRowToColumn, ResponsiveSizedTextMedium, ResponsiveSizedTextNormal, ArrowWrapper } from './styleds';
+import StyledChevronUp from './ChevronUp';
+import StyledChevronDown from './ChevronDown';
 
 const ZERO = JSBI.BigInt(0);
 
@@ -53,6 +54,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
 
   const USDPrice = useBUSDPrice(ICR);
   const USDPriceBNB = useBUSDPrice(weth);
+  console.log(USDPrice, USDPriceBNB);
   const ratePerYear = stakingInfo.rewardForDuration.multiply(YEARLY_RATE);
   const ratePerYearBUSD = ratePerYear && USDPrice?.quote(stakingInfo.rewardForDuration).multiply(YEARLY_RATE);
 
@@ -138,7 +140,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
           <ResponsiveSizedTextMedium fontWeight="0.7rem">Balance</ResponsiveSizedTextMedium>
           <LinkExternal
             style={{ textAlign: 'left', color: '#fff' }}
-            href={`#/add/${currency0 === ETHER ? ETHER.symbol : token0?.address}/${
+            href={`/add/${currency0 === ETHER ? ETHER.symbol : token0?.address}/${
               currency1 === ETHER ? ETHER.symbol : token1?.address
             }`}
           >
@@ -154,7 +156,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
             <Dots />
           )}
         </AutoRowToColumn>
-        <AutoColumn justify="center" style={{ width: '25rem' }} gap="1rem">
+        <AutoColumn justify="center" style={{ maxWidth: '25rem', width: '100%' }} gap="1rem">
           <AutoRow gap=".1rem">
             <Button
               padding="8px"
@@ -178,7 +180,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
               onClick={() => handleStake(address, LPSupply, stakingInfo)}
             >
               <AutoColumn>
-                <ResponsiveSizedTextMedium fontWeight="0.7rem">Stake</ResponsiveSizedTextMedium>
+              <ResponsiveSizedTextMedium fontWeight="0.7rem">Stake / Unstake</ResponsiveSizedTextMedium>
                 {pairState === PairState.EXISTS ? (
                   <ResponsiveSizedTextNormal fontWeight="0.5rem">
                     {LPSupply?.greaterThan(0) ? LPSupply?.toSignificant(4) : 'No liquidity'}
@@ -189,20 +191,13 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
               </AutoColumn>
             </Button>
           </AutoRow>
-          <Button padding="0px" width="2rem" onClick={() => setShowMore(!showMore)}>
-            {showMore ? (
-              <>
-                {/* {' '}
-                  Manage */}
-                {/* <ChevronUp size="20" style={{ marginLeft: '0px', color: '#fff' }} /> */}
-              </>
-            ) : (
-              <>
-                {/* Manage */}
-                {/* <ChevronDown size="20" style={{ marginLeft: '0px', color: '#fff' }} /> */}
-              </>
-            )}
-          </Button>
+          <ArrowWrapper clickable>
+            {showMore ? <StyledChevronUp
+              onClick={() => setShowMore(!showMore)} /> :
+              <StyledChevronDown
+              onClick={() => setShowMore(!showMore)} />
+            }
+          </ArrowWrapper>
         </AutoColumn>
       </AutoRow>
 

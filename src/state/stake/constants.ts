@@ -1,7 +1,7 @@
 import { ChainId, Token, WETH } from '@intercroneswap/v2-sdk';
-import { ICR, BTT, BUSD } from '../../constants/tokens';
+import { ICR, WBNB, BUSD, BTT } from '../../constants/tokens';
 
-export const REWARDS_DURATION_DAYS = 180;
+export const REWARDS_DURATION_DAYS = 14;
 export const REWARDS_DURATION_DAYS_180 = 180;
 
 interface StakingRewardsInfo {
@@ -39,6 +39,11 @@ export const STAKING_REWARDS_INFO: {
     {
       tokens: [BTT, ICR],
       stakingRewardAddress: '0xfA0DB80d4776A702E5a4792acdE4BDc81c254eD6',
+      rewardsDays: REWARDS_DURATION_DAYS_180,
+    },
+    {
+      tokens: [WBNB, ICR],
+      stakingRewardAddress: '0x4BF2513E3C0917C88b1aC2F6dAB53736C6626039',
       rewardsDays: REWARDS_DURATION_DAYS,
     },
   ],

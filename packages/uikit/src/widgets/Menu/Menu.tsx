@@ -167,9 +167,9 @@ const Menu: React.FC<NavProps> = ({
                   <a href="/liquidity/" className={`${Style.link} nav-link`}>
                     Liquidity
                   </a>
-                  {/* <a href="/stake/" className={`${Style.link} nav-link`}>
+                  <a href="/stake/" className={`${Style.link} nav-link`}>
                     Staking
-                  </a> */}
+                  </a>
                   <a href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                     NFT
                   </a>
