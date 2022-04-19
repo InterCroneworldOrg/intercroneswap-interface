@@ -62,21 +62,27 @@ font-weight: 400;
 font-size: 16px;
 color: #F0B90B;
 }
-div#basic-nav-dropdowns div {
+div#basic-nav-dropdowns a {
     margin: 10px;
     padding: 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
+    text-decoration: none;
 
 }
-div#basic-nav-dropdowns div:hover {
+div#basic-nav-dropdowns a:hover {
     background: #333333;
     border-radius: 8px;
+
 }
 div#basic-nav-dropdowns .active {
     background: #333333;
     border-radius: 8px;
+}
+
+.bsclogo:hover{
+    color: #F3C914;
 }
 
 #mainheader .navbar-light .navbar-toggler-icon{

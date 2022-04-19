@@ -53,24 +53,24 @@ export default function Header() {
           {dropshow ? (
             <div title="" id="basic-nav-dropdowns">
               <p>Select a Network</p>
-              <div className="trxlogo active">
+              <ExternalLink href="https://trx.intercroneswap.com/" className="trxlogo active">
                 <span>TRX</span>
                 <span style={{ marginLeft: '7px' }}>
                   <img width={25} src={EthLogo} alt="" />
                 </span>
-              </div>
-              <div className="bttlogo">
+              </ExternalLink>
+              <ExternalLink href="https://btt.intercroneswap.com/" className="bttlogo">
                 <span>BTT</span>
                 <span style={{ marginLeft: '7px' }}>
                   <img width={25} src={BTTLogo} alt="" />
                 </span>
-              </div>
-              <div className="bsclogo">
+              </ExternalLink>
+              <ExternalLink href="https://bsc.intercroneswap.com/" className="bsclogo">
                 <span>BSC</span>
                 <span style={{ marginLeft: '7px' }}>
                   <img width={25} src={BSCLogo} alt="" />
                 </span>
-              </div>
+              </ExternalLink>
             </div>
           ) : (
             ''
@@ -90,13 +90,6 @@ export default function Header() {
               <ExternalLink href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                 NFT
               </ExternalLink>
-              {/* <NavDropdown title="" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-              </NavDropdown> */}
             </Nav>
             <HeaderLinks>
               <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
@@ -105,7 +98,6 @@ export default function Header() {
               </AccountElement>
               <Settings />
             </HeaderLinks>
-            {/* <Menu /> */}
           </Navbar.Collapse>
         </Container>
       </Navbar>
