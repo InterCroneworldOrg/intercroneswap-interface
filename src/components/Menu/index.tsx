@@ -4,7 +4,6 @@ import { NextLinkFromReactRouter } from 'components/NextLink'
 import { Menu as UikitMenu, Text } from '@pancakeswap/uikit'
 import { languageList } from 'config/localization/languages'
 import { formatBigNumber } from 'utils/formatBalance'
-import { usePriceCakeBusd } from 'state/farms/hooks'
 import { usePhishingBannerManager } from 'state/user/hooks'
 import useTheme from 'hooks/useTheme'
 import { useGetBnbBalance } from 'hooks/useTokenBalance'
@@ -20,7 +19,6 @@ import UserMenu from './UserMenu'
 
 const Menu = (props) => {
   const { isDark, setTheme } = useTheme()
-  const cakePriceUsd = usePriceCakeBusd()
   const { currentLanguage, setLanguage, t } = useTranslation()
   const { pathname } = useRouter()
   const [showPhishingWarningBanner] = usePhishingBannerManager()
@@ -40,7 +38,13 @@ const Menu = (props) => {
       linkComponent={(linkProps) => {
         return <NextLinkFromReactRouter to={linkProps.href} {...linkProps} prefetch={false} />
       }}
-      bnbMenu={fetchStatus===FetchStatus.Fetched ? <Text style={{marginRight: 10}}>{formatBigNumber(balance, 6)} BNB</Text> : <></> }
+      bnbMenu={
+        fetchStatus === FetchStatus.Fetched ? (
+          <Text style={{ marginRight: 10 }}>{formatBigNumber(balance, 6)} BNB</Text>
+        ) : (
+          <></>
+        )
+      }
       userMenu={<UserMenu />}
       globalMenu={<GlobalSettings />}
       SocialMenu={<SocialMenu />}
@@ -50,7 +54,7 @@ const Menu = (props) => {
       currentLang={currentLanguage.code}
       langs={languageList}
       setLang={setLanguage}
-      cakePriceUsd={cakePriceUsd.toNumber()}
+      cakePriceUsd={0}
       links={menuItems}
       subLinks={true ? [] : activeMenuItem?.items}
       footerLinks={footerLinks(t)}

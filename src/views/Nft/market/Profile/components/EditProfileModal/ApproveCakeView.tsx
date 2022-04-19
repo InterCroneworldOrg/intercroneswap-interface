@@ -2,7 +2,6 @@ import { AutoRenewIcon, Button, Flex, InjectedModalProps, Text } from '@pancakes
 import { useTranslation } from 'contexts/Localization'
 import { useCake } from 'hooks/useContract'
 import useCatchTxError from 'hooks/useCatchTxError'
-import { useProfile } from 'state/profile/hooks'
 import { getPancakeProfileAddress } from 'utils/addressHelpers'
 import { formatBigNumber } from 'utils/formatBalance'
 import useGetProfileCosts from 'views/Nft/market/Profile/hooks/useGetProfileCosts'

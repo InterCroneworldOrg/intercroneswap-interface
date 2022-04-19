@@ -13,7 +13,6 @@ import {
 } from '@pancakeswap/uikit'
 import useAuth from 'hooks/useAuth'
 import { useRouter } from 'next/router'
-import { useProfile } from 'state/profile/hooks'
 import { usePendingTransactions } from 'state/transactions/hooks'
 import { useGetBnbBalance } from 'hooks/useTokenBalance'
 import { useTranslation } from 'contexts/Localization'
@@ -25,9 +24,6 @@ const SocialMenu = () => {
   const { logout } = useAuth()
   const { hasPendingTransactions, pendingNumber } = usePendingTransactions()
   const { balance, fetchStatus } = useGetBnbBalance()
-  const { isInitialized, isLoading, profile } = useProfile()
-  const hasProfile = isInitialized && !!profile
-  const avatarSrc = profile?.nft?.image?.thumbnail
   const [userMenuText, setUserMenuText] = useState<string>('')
   const [userMenuVariable, setUserMenuVariable] = useState<UserMenuVariant>('default')
   const isWrongNetwork: boolean = error && error instanceof UnsupportedChainIdError
@@ -45,15 +41,20 @@ const SocialMenu = () => {
   const UserMenuItems = () => {
     return (
       <>
-        <UserMenuItem as="button" onClick={()=>{console.log('NFT')}}>
+        <UserMenuItem
+          as="button"
+          onClick={() => {
+            console.log('NFT')
+          }}
+        >
           NFT
         </UserMenuItem>
       </>
     )
   }
   return (
-    <UIKitSocialMenu account={account} avatarSrc={avatarSrc} text={userMenuText} variant={userMenuVariable} >
-        <UserMenuItems />
+    <UIKitSocialMenu account={account} text={userMenuText} variant={userMenuVariable}>
+      <UserMenuItems />
     </UIKitSocialMenu>
   )
 }

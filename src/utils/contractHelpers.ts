@@ -161,9 +161,6 @@ export const getBunnySpecialContract = (signer?: Signer | Provider) => {
 export const getLotteryV2Contract = (signer?: Signer | Provider) => {
   return getContract(lotteryV2Abi, getLotteryV2Address(), signer) as LotteryV2
 }
-export const getMasterchefContract = (signer?: Signer | Provider) => {
-  return getContract(masterChef, getMasterChefAddress(), signer) as Masterchef
-}
 export const getClaimRefundContract = (signer?: Signer | Provider) => {
   return getContract(claimRefundAbi, getClaimRefundAddress(), signer) as ClaimRefund
 }
