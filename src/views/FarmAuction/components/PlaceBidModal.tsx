@@ -135,7 +135,7 @@ const PlaceBidModal: React.FC<PlaceBidModalProps> = ({
     setBid(valueToSet.toString())
   }
   return (
-    <StyledModal title={t('Place a Bid')} onDismiss={onDismiss} headerBackground={theme.colors.gradients.cardHeader}>
+    <StyledModal title={t('Place a Bid')} onDismiss={onDismiss} headerBackground={theme.colors.gradients.grey}>
       <ExistingInfo>
         <Flex justifyContent="space-between">
           <Text>{t('Your existing bid')}</Text>

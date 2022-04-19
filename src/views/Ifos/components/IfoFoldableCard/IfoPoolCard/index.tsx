@@ -120,7 +120,7 @@ const SmallCard: React.FC<IfoCardProps> = ({ poolId, ifo, publicIfoData, walletI
     <>
       {tooltipVisible && tooltip}
       <StyledCard>
-        <CardHeader p="16px 24px" variant={config.variant}>
+        <CardHeader p="16px 24px">
           <Flex justifyContent="space-between" alignItems="center">
             <Text bold fontSize="20px" lineHeight={1}>
               {config.title}
