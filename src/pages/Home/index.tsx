@@ -22,13 +22,18 @@ import Last6 from '../../assets/images/last6.png';
 
 const BannerWrapper = styled.div`
   background-image: url(${Banner});
+
   height: 800px;
   background-size: cover;
   width: 100%;
   background-repeat: no-repeat;
   background-position: center;
   @media (max-width: 768px) {
-    height: unset;
+    height: 250px;
+    background-image: url(${Banner});
+  }
+  @media (min-width: 1600px) {
+    height: 1200px;
   }
 `;
 const BannerBottom = styled.div`
@@ -39,6 +44,9 @@ const BannerBottom = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   margin-top: -190px;
+  @media (min-width: 1600px) {
+    height: 345px;
+  }
 `;
 
 const BannerContent = styled.div`
@@ -48,6 +56,7 @@ const BannerContent = styled.div`
     padding: 60px 20px;
     margin-top: unset;
     position: relative;
+    bottom: -130px;
   }
 `;
 
@@ -64,6 +73,8 @@ const BannerHeading = styled.h1`
   @media (max-width: 768px) {
     font-size: 24px;
     text-align: center;
+    line-height: unset;
+    margin: unset;
   }
 `;
 
@@ -87,7 +98,7 @@ const BannerDescription = styled.p`
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     position: absolute;
-    bottom: -30px;
+    //bottom: -125px;
     left: 50%;
     transform: translate(-50%);
   }
