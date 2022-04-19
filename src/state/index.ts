@@ -14,21 +14,18 @@ import {
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import burn from './burn/reducer'
-import farmsReducer from './farms'
 import { updateVersion } from './global/actions'
 import infoReducer from './info'
 import lists from './lists/reducer'
-import lotteryReducer from './lottery'
 import mint from './mint/reducer'
 import multicall from './multicall/reducer'
 import nftMarketReducer from './nftMarket/reducer'
-import poolsReducer from './pools'
 import predictionsReducer from './predictions'
 import swap from './swap/reducer'
 import transactions from './transactions/reducer'
 import user from './user/reducer'
 import limitOrders from './limitOrders/reducer'
-import stake from './stake/reducer';
+import stake from './stake/reducer'
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
 
@@ -57,10 +54,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
-    farms: farmsReducer,
-    pools: poolsReducer,
     predictions: predictionsReducer,
-    lottery: lotteryReducer,
     info: infoReducer,
     nftMarket: nftMarketReducer,
 
@@ -127,7 +121,7 @@ store = initializeStore()
  * @see https://redux-toolkit.js.org/usage/usage-with-typescript#getting-the-dispatch-type
  */
 export type AppDispatch = typeof store.dispatch
-export type   AppState = ReturnType<typeof store.getState>
+export type AppState = ReturnType<typeof store.getState>
 export const useAppDispatch = () => useDispatch()
 
 export default store
