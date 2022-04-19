@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { splitSignature } from '@ethersproject/bytes'
@@ -6,7 +8,18 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useRouter } from 'next/router'
 import useToast from 'hooks/useToast'
 import { Currency, currencyEquals, ETHER, Percent, WETH } from '@intercroneswap/v2-sdk'
-import { Button, Text, AddIcon, ArrowDownIcon, CardBody, Slider, Box, Flex, useModal, useMatchBreakpoints } from '@pancakeswap/uikit'
+import {
+  Button,
+  Text,
+  AddIcon,
+  ArrowDownIcon,
+  CardBody,
+  Slider,
+  Box,
+  Flex,
+  useModal,
+  useMatchBreakpoints,
+} from '@pancakeswap/uikit'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useTranslation } from 'contexts/Localization'
 import { CHAIN_ID } from 'config/constants/networks'
@@ -418,25 +431,26 @@ export default function RemoveLiquidity() {
   )
 
   const StyledHeading = styled.h1`
-  text-transform: uppercase;
-  font-family: Jost;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 56px;
-  line-height: 72px;
-  text-align: center;
-  width: 100%;
-  color: ${({ theme }) => theme.colors.primary};
-  background: ${({ theme }) => theme.colors.primary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  `;
+    font-family: Jost;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 56px;
+    line-height: 72px;
+    text-align: center;
+    width: 100%;
+    color: ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.primary};
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  `
 
   return (
     <Page>
-      <StyledHeading>Swap Your Tokens</StyledHeading>
-      <div style={{ width: '100%', display: 'grid', gridTemplateColumns: (isDesktop ? '1fr 1fr' : '1fr'), marginTop: 20}}>
-        <div style={{width: '100%', justifyContent: 'end', display: 'flex', padding: (!isMobile ? "0px 40px" : "0px")}}>
+      <StyledHeading>Swap your tokens</StyledHeading>
+      <div
+        style={{ width: '100%', display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr', marginTop: 20 }}
+      >
+        <div style={{ width: '100%', justifyContent: 'end', display: 'flex', padding: !isMobile ? '0px 40px' : '0px' }}>
           <AppBody>
             <AppHeader
               backTo="/liquidity"
@@ -655,7 +669,7 @@ export default function RemoveLiquidity() {
             </CardBody>
           </AppBody>
         </div>
-        <Flex flexDirection='column'>
+        <Flex flexDirection="column">
           {pair ? (
             <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '560px', marginTop: '1rem' }}>
               <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />

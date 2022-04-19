@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react'
 import styled from 'styled-components'
 import { Text, PancakeToggle, Toggle, Flex, Modal, InjectedModalProps, ThemeSwitcher } from '@pancakeswap/uikit'
@@ -60,20 +61,18 @@ const SettingsModal: React.FC<InjectedModalProps> = ({ onDismiss }) => {
 
   return (
     <Modal
-      title='Transaction Setting'
+      title="Transaction Setting"
       headerBackground="normalCard"
       onDismiss={onDismiss}
       style={{ maxWidth: '420px' }}
     >
       <ScrollableContainer>
-        
         <Flex flexDirection="column">
           <Text bold textTransform="uppercase" fontSize="12px" color="primaryBright" mb="24px">
             {t('Swaps & Liquidity')}
           </Text>
           <TransactionSettings />
         </Flex>
-        
       </ScrollableContainer>
     </Modal>
   )
