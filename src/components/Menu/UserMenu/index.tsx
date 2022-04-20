@@ -19,7 +19,7 @@ import { usePendingTransactions } from 'state/transactions/hooks'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useGetBnbBalance } from 'hooks/useTokenBalance'
 import { useTranslation } from 'contexts/Localization'
-import { nftsBaseUrl } from 'views/Nft/market/constants'
+// import { nftsBaseUrl } from 'views/Nft/market/constants'
 import { FetchStatus } from 'config/constants/types'
 import WalletModal, { WalletView, LOW_BNB_BALANCE } from './WalletModal'
 import ProfileUserMenuItem from './ProfileUserMenutItem'
@@ -76,7 +76,7 @@ const UserMenu = () => {
         <UserMenuItem
           as="button"
           disabled={isWrongNetwork}
-          onClick={() => router.push(`${nftsBaseUrl}/profile/${account.toLowerCase()}`)}
+          onClick={() => undefined /* router.push(`${nftsBaseUrl}/profile/${account.toLowerCase()}`) */}
         >
           {t('Your NFTs')}
         </UserMenuItem>

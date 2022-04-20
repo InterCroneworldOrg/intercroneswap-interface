@@ -14,7 +14,7 @@ import {
   getBunnyFactoryAddress,
   getBunnySpecialAddress,
   getLotteryV2Address,
-  getMasterChefAddress,
+  // getMasterChefAddress,
   getPointCenterIfoAddress,
   getClaimRefundAddress,
   getTradingCompetitionAddress,

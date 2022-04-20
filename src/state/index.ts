@@ -19,7 +19,7 @@ import infoReducer from './info'
 import lists from './lists/reducer'
 import mint from './mint/reducer'
 import multicall from './multicall/reducer'
-import nftMarketReducer from './nftMarket/reducer'
+// import nftMarketReducer from './nftMarket/reducer'
 import predictionsReducer from './predictions'
 import swap from './swap/reducer'
 import transactions from './transactions/reducer'
@@ -56,7 +56,7 @@ const persistedReducer = persistReducer(
   combineReducers({
     predictions: predictionsReducer,
     info: infoReducer,
-    nftMarket: nftMarketReducer,
+    // nftMarket: nftMarketReducer,
 
     limitOrders,
 
