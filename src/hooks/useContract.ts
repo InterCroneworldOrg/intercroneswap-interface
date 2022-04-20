@@ -9,7 +9,7 @@ import {
   getProfileContract,
   getIfoV1Contract,
   getIfoV2Contract,
-  getMasterchefContract,
+  // getMasterchefContract,
   getPointCenterIfoContract,
   getSouschefContract,
   getClaimRefundContract,
@@ -52,7 +52,7 @@ import {
 import { Contract } from '@ethersproject/contracts'
 import { ChainId, WETH } from '@intercroneswap/v2-sdk'
 import IPancakePairABI from '../config/abi/IPancakePair.json'
-import { abi as ISwapV2StakingABI } from '@intercroneswap/v2-staking/build/IStakingRewards.json';
+import { abi as ISwapV2StakingABI } from '@intercroneswap/v2-staking/build/IStakingRewards.json'
 import ENS_PUBLIC_RESOLVER_ABI from '../config/abi/ens-public-resolver.json'
 import ENS_ABI from '../config/abi/ens-registrar.json'
 import { ERC20_BYTES32_ABI } from '../config/abi/erc20'
@@ -127,10 +127,10 @@ export const useLotteryV2Contract = () => {
   return useMemo(() => getLotteryV2Contract(library.getSigner()), [library])
 }
 
-export const useMasterchef = () => {
-  const { library } = useActiveWeb3React()
-  return useMemo(() => getMasterchefContract(library.getSigner()), [library])
-}
+// export const useMasterchef = () => {
+//   const { library } = useActiveWeb3React()
+//   return useMemo(() => getMasterchefContract(library.getSigner()), [library])
+// }
 
 export const useSousChef = (id) => {
   const { library } = useActiveWeb3React()
@@ -325,5 +325,5 @@ export function useMulticallContract() {
 }
 
 export function useStakingContract(stakingAddress?: string, withSignerIfPossible?: boolean): Contract | null {
-  return useContract(stakingAddress, ISwapV2StakingABI, withSignerIfPossible);
+  return useContract(stakingAddress, ISwapV2StakingABI, withSignerIfPossible)
 }

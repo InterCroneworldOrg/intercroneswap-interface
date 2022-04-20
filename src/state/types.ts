@@ -14,7 +14,7 @@ import {
   DeserializedFarmConfig,
   FetchStatus,
 } from 'config/constants/types'
-import { NftToken, State as NftMarketState } from './nftMarket/types'
+// import { NftToken, State as NftMarketState } from './nftMarket/types'
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, State, unknown, AnyAction>
 
@@ -120,7 +120,7 @@ export interface Profile {
   tokenId: number
   isActive: boolean
   username: string
-  nft?: NftToken
+  // nft?: NftToken
   team?: Team
   hasRegistered: boolean
 }
@@ -567,5 +567,5 @@ export interface State {
   pools: PoolsState
   predictions: PredictionsState
   lottery: LotteryState
-  nftMarket: NftMarketState
+  // nftMarket: NftMarketState
 }
