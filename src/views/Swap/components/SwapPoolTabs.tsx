@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { darken } from 'polished';
+import styled from 'styled-components'
+import { darken } from 'polished'
 import { useRouter } from 'next/router'
 
 const Tabs = styled.div`
@@ -7,16 +7,15 @@ const Tabs = styled.div`
   border-radius: 3rem;
   justify-content: space-evenly;
   display: flex;
-`;
-
-const StyledNavLink = styled.button
 `
+
+const StyledNavLink = styled.button`
   border-width: 0px;
   background-color: ${({ theme }) => theme.colors.primaryBright};
   align-items: center;
   justify-content: center;
   height: 68px;
-  border-radius: 15px;
+  border-radius: 12px;
   outline: none;
   cursor: pointer;
   text-decoration: none;
@@ -32,9 +31,8 @@ const StyledNavLink = styled.button
   :focus {
     color: ${({ theme }) => darken(0.1, theme.colors.primary)};
   }
-`;
-const StyledDisabledNavLink = styled.button
 `
+const StyledDisabledNavLink = styled.button`
   border-width: 0px;
   background-color: transparent;
   align-items: center;
@@ -56,13 +54,12 @@ const StyledDisabledNavLink = styled.button
   :focus {
     color: ${({ theme }) => darken(0.1, theme.colors.primary)};
   }
-`;
+`
 
 const ActiveText = styled.div`
   font-weight: 500;
   font-size: 20px;
-`;
-
+`
 
 // const StyledTabLink = styled(StyledNavLink)<{ isActive: boolean }>`
 //   padding: 20px;
@@ -70,29 +67,21 @@ const ActiveText = styled.div`
 // `;
 
 export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
-  const router = useRouter();
+  const router = useRouter()
   return (
     <Tabs style={{ marginTop: '20px', marginBottom: '20px' }}>
-       { active === 'swap' && (
+      {active === 'swap' && (
         <>
-            <StyledNavLink>
-                Exchange
-            </StyledNavLink>
-            <StyledDisabledNavLink onClick={() => router.push('/liquidity')}>
-                Liquidity
-            </StyledDisabledNavLink>
+          <StyledNavLink>Exchange</StyledNavLink>
+          <StyledDisabledNavLink onClick={() => router.push('/liquidity')}>Liquidity</StyledDisabledNavLink>
         </>
-       )}
-       { active === 'pool' && (
+      )}
+      {active === 'pool' && (
         <>
-            <StyledDisabledNavLink onClick={() => router.push('/swap')}>
-                Exchange
-            </StyledDisabledNavLink>
-            <StyledNavLink>
-                Liquidity
-            </StyledNavLink>
+          <StyledDisabledNavLink onClick={() => router.push('/swap')}>Exchange</StyledDisabledNavLink>
+          <StyledNavLink>Liquidity</StyledNavLink>
         </>
-       )}
+      )}
     </Tabs>
-  );
+  )
 }

@@ -1,0 +1,53 @@
+@media only screen and (max-width: 768px) {
+    .navbar-nav{
+        padding: 5px 15px;
+    }
+    div#conntbtn > div > div{
+        width: 100%;
+    }
+    #tknhead{
+        font-size: 40px;
+        line-height: 50px;
+    }
+    button#swapbutton{
+        width: 100% !important;
+    }
+    div#swap-page{
+        padding: unset;
+    }
+    div#sociallinks{
+        padding-bottom: unset;
+    }
+    div#styledpage{
+        padding: 30px 15px;
+    }
+    div#styledfooter{
+        padding: unset !important;
+        margin: unset !important;
+    }
+    div#styledfooterflex{
+        padding: unset;
+        border: unset;
+        margin: unset;
+    }
+    div#socialiconparent{
+        margin-bottom: unset;
+    }
+    div#poolfooter{
+        flex-direction: column;
+    }
+    button#join-pool-button{
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    button#import-pool-link{
+        width: 100%;
+    }
+    div#styledfooterflex{
+        flex-direction: row;
+    flex-wrap: wrap;
+    }
+    div#styledfooterflex > ul{
+        width: 50%;
+    }
+  }

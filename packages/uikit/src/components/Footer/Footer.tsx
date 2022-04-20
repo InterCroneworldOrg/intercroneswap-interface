@@ -4,6 +4,7 @@ import { Flex, Box } from "../Box";
 import { Link } from "../Link";
 import {
   StyledFooter,
+  StyledFooterContainer,
   StyledIconMobileContainer,
   StyledList,
   StyledListItem,
@@ -32,12 +33,14 @@ const MenuItem: React.FC<FooterProps> = ({
   ...props
 }) => {
   return (
-    <StyledFooter p={["40px 16px", null, "56px 40px 32px 40px"]} {...props} justifyContent="center">
+    <StyledFooter p={["40px 16px", null, "56px 40px 32px 40px"]} {...props} justifyContent="center" id="styledfooter">
+      <StyledFooterContainer>
       <Flex flexDirection="column" width={["100%", null, "1200px;"]}>
         <StyledIconMobileContainer display={["block", null, "none"]}>
           {/* <LogoWithTextIcon isDark width="130px" /> */}
         </StyledIconMobileContainer>
         <Flex
+        id="styledfooterflex"
           order={[2, null, 1]}
           flexDirection={["column", null, "row"]}
           justifyContent="space-between"
@@ -76,19 +79,20 @@ const MenuItem: React.FC<FooterProps> = ({
         <StyledToolsContainer
           order={[1, null, 3]}
           flexDirection={["column", null, "row"]}
-          justifyContent="space-between"
+          justifyContent="start"
         >
           <Flex order={[2, null, 1]} alignItems="center">
             {/* <Box mr="20px">
               <CakePrice cakePriceUsd={cakePriceUsd} color={darkColors.textSubtle as keyof Colors} />
             </Box> */}
           </Flex>
-          <Flex order={[1, null, 2]} mb={["24px", null, "0"]} justifyContent="space-between" alignItems="center">
+          <Flex id="socialiconparent" order={[1, null, 2]} mb={["24px", null, "0"]} justifyContent="space-between" alignItems="center">
             <StyledSocialLinks order={[2]} pb={["42px", null, "32px"]} mb={["0", null, "32px"]} />
           </Flex>
         </StyledToolsContainer>
 
       </Flex>
+      </StyledFooterContainer>
     </StyledFooter>
   );
 };

@@ -9,11 +9,17 @@ import MenuItems from "../../components/MenuItems/MenuItems";
 import { SubMenuItems } from "../../components/SubMenuItems";
 import { useMatchBreakpoints } from "../../hooks";
 import CakePrice from "../../components/CakePrice/CakePrice";
-import Logo from "./components/Logo";
+// import Logo from "./components/Logo";
 import { MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
 import { NavProps } from "./types";
 // import LangSelector from "../../components/LangSelector/LangSelector";
 import { MenuContext } from "./context";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import Style from "../../styles/header.module.css";
+import { HeaderLinks, AccountElement } from "../../styles/header.styles";
+import Image from "next/image";
+import Logo from "../../assets/images/ISwap.svg";
+import EthLogo from "../../assets/images/eth-logo.png";
 
 const Wrapper = styled.div`
   position: relative;
@@ -26,7 +32,7 @@ const StyledNav = styled.nav`
   align-items: center;
   width: 100%;
   height: ${MENU_HEIGHT}px;
-  background: linear-gradient(180deg, #3B3B3B 0%, rgba(59, 59, 59, 0) 100%);
+  background: linear-gradient(180deg, #3b3b3b 0%, rgba(59, 59, 59, 0) 100%);
   border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
   transform: translate3d(0, 0, 0);
 
@@ -130,50 +136,59 @@ const Menu: React.FC<NavProps> = ({
   return (
     <MenuContext.Provider value={{ linkComponent }}>
       <Wrapper>
-        <FixedContainer showMenu={showMenu} height={totalTopMenuHeight}>
-          {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
-          <StyledNav>
-            <Flex>
-              <Logo isDark={isDark} href={homeLink?.href ?? "/"} />
-              {!isMobile && <MenuItems items={links} activeItem={activeItem} activeSubItem={activeSubItem} ml="24px" />}
-            </Flex>
-            <Flex alignItems="center" height="100%" paddingRight={20}>
-              {/* {!isMobile && !isMd && (
-                <Box mr="12px">
-                  <CakePrice showSkeleton={false} cakePriceUsd={cakePriceUsd} />
-                </Box>
-              )} */}
-              {/* <Box mt="4px">
-                <LangSelector
-                  currentLang={currentLang}
-                  langs={langs}
-                  setLang={setLang}
-                  buttonScale="xs"
-                  color="textSubtle"
-                  hideLanguage
-                />
-              </Box> */}
-              {/* {!isMobile && bnbMenu}  */}
-              {userMenu}
-              {/* {globalMenu} */}
-              {/* {SocialMenu}  */}
-            </Flex>
-          </StyledNav>
-        </FixedContainer>
-        {subLinks && (
-          <Flex justifyContent="space-around">
-            <SubMenuItems items={subLinksWithoutMobile} mt={`${totalTopMenuHeight + 1}px`} activeItem={activeSubItem} />
+        <header id="mainheader">
+          <Navbar
+            expand="lg"
+            style={{ width: "100%", background: "linear-gradient(180deg, #3B3B3B 0%, rgba(59, 59, 59, 0) 100%)" }}
+          >
+            <Container fluid>
+              <Navbar.Brand href="https://intercroneswap.com">
+                <Image src={Logo} alt="logo" width={115} height={40} />
+              </Navbar.Brand>
+              <div className={Style.tokenname}>
+                <span>TRX</span>
+                <span style={{ width: "30px", marginLeft: "7px" }}>
+                  <Image src={EthLogo} alt="logo" width="26" height="25" />
+                </span>
+              </div>
+              {/* <NavDropdown title="" id="basic-nav-dropdowns">
+            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+          </NavDropdown> */}
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="mx-auto">
+                  <a href="/swap/" className={`${Style.link} nav-link`}>
+                    Exchange
+                  </a>
+                  <a href="/liquidity/" className={`${Style.link} nav-link`}>
+                    Liquidity
+                  </a>
+                  {/* <a href="/stake/" className={`${Style.link} nav-link`}>
+                    Staking
+                  </a> */}
+                  <a href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
+                    NFT
+                  </a>
+                  {/* <NavDropdown title="" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+              </NavDropdown> */}
+                </Nav>
+                <HeaderLinks id="conntbtn">
+                  <AccountElement style={{ pointerEvents: "auto" }}>{userMenu}</AccountElement>
+                </HeaderLinks>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+        </header>
 
-            {subLinksMobileOnly?.length > 0 && (
-              <SubMenuItems
-                items={subLinksMobileOnly}
-                mt={`${totalTopMenuHeight + 1}px`}
-                activeItem={activeSubItem}
-                isMobileOnly
-              />
-            )}
-          </Flex>
-        )}
         <BodyWrapper mt={!subLinks ? `${totalTopMenuHeight + 1}px` : "0"}>
           <Inner isPushed={false} showMenu={showMenu}>
             {children}
