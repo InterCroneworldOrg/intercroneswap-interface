@@ -163,12 +163,12 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
             <Button
               padding="8px"
               width="48%"
-              style={{ color: '#000' }}
+              height={60}
               onClick={() => handleHarvest(address)}
             >
               <AutoColumn>
-                <ResponsiveSizedTextMedium fontWeight="0.8rem">Harvest</ResponsiveSizedTextMedium>
-                <ResponsiveSizedTextNormal fontWeight="0.5rem">
+                <ResponsiveSizedTextMedium fontWeight="0.8rem" color='rgb(44, 47, 54)'>Harvest</ResponsiveSizedTextMedium>
+                <ResponsiveSizedTextNormal fontWeight="0.5rem" color='rgb(44, 47, 54)'>
                   {stakingInfo.earnedAmount?.greaterThan(0)
                     ? stakingInfo.earnedAmount?.toSignificant(4)
                     : 'Nothing to Harvest'}
@@ -178,13 +178,13 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
             <Button
               padding="8px"
               width="48%"
-              style={{ color: '#000' }}
+              height={60}
               onClick={() => handleStake(address, LPSupply, stakingInfo)}
             >
               <AutoColumn>
-              <ResponsiveSizedTextMedium fontWeight="0.7rem">Stake / Unstake</ResponsiveSizedTextMedium>
+              <ResponsiveSizedTextMedium fontWeight="0.7rem" color='rgb(44, 47, 54)'>Stake / Unstake</ResponsiveSizedTextMedium>
                 {pairState === PairState.EXISTS ? (
-                  <ResponsiveSizedTextNormal fontWeight="0.5rem">
+                  <ResponsiveSizedTextNormal fontWeight="0.5rem" color='rgb(44, 47, 54)'>
                     {LPSupply?.greaterThan(0) ? LPSupply?.toSignificant(4) : 'No liquidity'}
                   </ResponsiveSizedTextNormal>
                 ) : (

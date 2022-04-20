@@ -80,6 +80,7 @@ export const TitleRow = styled(RowBetween)`
 `;
 
 export const ReferalButton = styled(Button)`
+  color: rgb(44, 47, 54);
   font-size: 1rem;
   ${({ theme }) => theme.mediaQueries.tab } {
     font-size: .6rem;
