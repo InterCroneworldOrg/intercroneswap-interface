@@ -96,6 +96,12 @@ const GlobalStyle = createGlobalStyle`
       opacity: 0;
     }
   }
+  button#swapbutton {
+    margin: 0 auto;
+    width: 50%;
+    padding: 23px 30px;
+    /* height: 47px; */
+}
 `
 
 export default GlobalStyle

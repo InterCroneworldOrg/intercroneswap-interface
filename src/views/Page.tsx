@@ -12,7 +12,8 @@ const StyledPage = styled.div<{ $removePadding: boolean; $noMinHeight }>`
   padding: ${({ $removePadding }) => ($removePadding ? '0' : '16px')};
   padding-bottom: 0;
   min-height: ${({ $noMinHeight }) => ($noMinHeight ? 'initial' : 'calc(100vh - 64px)')};
-  background: ${({ theme }) => theme.colors.gradients.grey};
+  /* background: ${({ theme }) => theme.colors.gradients.grey}; */
+  background: url('/bsc_logo.png') no-repeat right bottom;
 
   ${({ theme }) => theme.mediaQueries.xs} {
     background-size: auto;
@@ -48,7 +49,7 @@ const Page: React.FC<
   return (
     <>
       <PageMeta />
-      <StyledPage $removePadding={removePadding} $noMinHeight={noMinHeight} {...props}>
+      <StyledPage $removePadding={removePadding} $noMinHeight={noMinHeight} {...props} id="styledpage">
         {children}
         <Flex flexGrow={1} />
         {/* <Box display={['block', null, null, hideFooterOnDesktop ? 'none' : 'block']} width="100%">

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react'
 import { Token, Currency } from '@intercroneswap/v2-sdk'
 import { Button, Text, ErrorIcon, Flex, Message, Checkbox, Link, Tag, Grid } from '@pancakeswap/uikit'
@@ -25,16 +26,14 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
   const addToken = useAddUserToken()
 
   tokens.forEach((token) => addToken(token))
-    if (handleCurrencySelect) {
-      handleCurrencySelect(tokens[0])
+  if (handleCurrencySelect) {
+    handleCurrencySelect(tokens[0])
   }
 
   // use for showing import source on inactive tokens
   const inactiveTokenList = useCombinedInactiveList()
 
-  return (
-    <></>
-  )
+  return <></>
 }
 
 export default ImportToken

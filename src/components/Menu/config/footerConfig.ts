@@ -7,28 +7,28 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
     items: [
       {
         label: t('Exchange'),
-        href: 'https://bsc.intercroneswap.com/swap',
+        href: '/swap/',
       },
       {
         label: t('Liquidity'),
-        href: 'https://bsc.intercroneswap.com/liquidity',
+        href: '/liquidity/',
       },
       {
         label: t('Staking'),
-        href: 'https://bsc.intercroneswap.com/stake',
+        href: '/stake/',
       },
-      {
-        label: t('Dashboard'),
-        href: 'https://bsc.intercroneswap.com/swap',
-      },
+      // {
+      //   label: t('Dashboard'),
+      //   href: 'https://',
+      // },
       {
         label: t('NFT'),
-        href: 'https://bsc.intercroneswap.com/swap',
+        href: 'https://intercroneswap.com/nft/minting/',
       },
-      {
-        label: t('Market'),
-        href: 'https://bsc.intercroneswap.com/swap',
-      },
+      // {
+      //   label: t('Market'),
+      //   href: 'https://',
+      // },
     ],
   },
   {
@@ -36,23 +36,23 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
     items: [
       {
         label: t('Audit'),
-        href: 'https://bsc.intercroneswap.com/swap',
+        href: 'https://docs.intercroneswap.finance/security/audits',
       },
-      {
-        label: t('White Paper'),
-        href: 'https://bsc.intercroneswap.com/swap',
-      },
+      // {
+      //   label: t('White Paper'),
+      //   href: '',
+      // },
       {
         label: t('FAQ'),
-        href: 'https://bsc.intercroneswap.com/swap',
+        href: 'https://docs.intercroneswap.finance/',
       },
       {
         label: t('Roadmap'),
-        href: 'https://bsc.intercroneswap.com/swap',
+        href: 'https://docs.intercroneswap.finance/road-map/roadmap',
       },
       {
         label: t('Trading Guide'),
-        href: 'https://bsc.intercroneswap.com/swap',
+        href: 'https://docs.intercroneswap.finance/faq/how-to-swap-trade-token',
       },
     ],
   },
@@ -61,11 +61,11 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
     items: [
       {
         label: t('Documentation'),
-        href: 'https://bsc.intercroneswap.com/swap',
+        href: 'https://docs.intercroneswap.finance/',
       },
       {
         label: 'Github',
-        href: 'https://bsc.intercroneswap.com/swap',
+        href: 'https://github.com/InterCroneworldOrg',
       },
     ],
   },

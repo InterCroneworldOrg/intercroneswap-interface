@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react'
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
 import {
@@ -61,7 +62,7 @@ const UserMenu = () => {
     }
   }
   const UserTransactionModal = () => {
-    onPresentTransactionModal();
+    onPresentTransactionModal()
   }
   const UserMenuItems = () => {
     return (
@@ -97,14 +98,18 @@ const UserMenu = () => {
 
   if (account) {
     return (
-      <UIKitUserMenu account={account} avatarSrc={avatarSrc} text={userMenuText} variant={userMenuVariable} onClick={onPresentWalletModal} />
+      <UIKitUserMenu
+        account={account}
+        avatarSrc={avatarSrc}
+        text={userMenuText}
+        variant={userMenuVariable}
+        onClick={onPresentWalletModal}
+      />
     )
   }
 
   if (isWrongNetwork) {
-    return (
-      <UIKitUserMenu text={t('Wrong Network')} variant="danger" />
-    )
+    return <UIKitUserMenu text={t('Wrong Network')} variant="danger" />
   }
 
   return (

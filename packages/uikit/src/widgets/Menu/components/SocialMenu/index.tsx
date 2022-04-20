@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { usePopper } from "react-popper";
 import styled from "styled-components";
@@ -19,11 +20,11 @@ export const StyledUserMenu = styled(Flex)`
   padding-left: 8px;
   padding-right: 8px;
   position: relative;
-  border: 1px solid rgba(196,196,196,0.1);
+  border: 1px solid rgba(196, 196, 196, 0.1);
 
   &:hover {
     opacity: 0.65;
-    border: 2px solid #FFB807;
+    border: 2px solid #ffb807;
   }
 `;
 
@@ -84,7 +85,6 @@ const SocialMenu: React.FC<UserMenuProps> = ({
   children,
   ...props
 }) => {
-
   const [isOpen, setIsOpen] = useState(false);
   const [targetRef, setTargetRef] = useState<HTMLDivElement | null>(null);
   const [tooltipRef, setTooltipRef] = useState<HTMLDivElement | null>(null);
@@ -120,7 +120,9 @@ const SocialMenu: React.FC<UserMenuProps> = ({
   return (
     <Flex alignItems="center" height="100%" ref={setTargetRef} {...props}>
       <StyledSocialMenu>
-        <Text fontSize="40px" color="primary" style={{marginTop: -25, marginLeft: 5}}>...</Text>
+        <Text fontSize="40px" color="primary" style={{ marginTop: -25, marginLeft: 5 }}>
+          ...
+        </Text>
       </StyledSocialMenu>
       <Menu style={styles.popper} ref={setTooltipRef} {...attributes.popper} isOpen={isOpen}>
         <Box onClick={() => setIsOpen(false)}>{children}</Box>
