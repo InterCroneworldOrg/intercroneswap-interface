@@ -53,12 +53,9 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}/${{ github.ref_name }}/node_modules
-            ${{ github.workspace }}/${{ github.ref_name }}/.next/cache
-          # Generate a new cache whenever packages or source files change.
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js') }}
-          # If source files changed but packages didn't, rebuild from a prior cache. 
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+            ${{ runner.os }}-nextjs-
 
   copy_files:
     needs: setup_and_build
