@@ -19,7 +19,7 @@ import Style from "../../styles/header.module.css";
 import { HeaderLinks, AccountElement } from "../../styles/header.styles";
 import Image from "next/image";
 import Logo from "../../assets/images/ISwap.svg";
-import EthLogo from "../../assets/images/eth-logo.png";
+import EthLogo from "../../assets/images/bsclogo.png";
 
 const Wrapper = styled.div`
   position: relative;
@@ -146,7 +146,7 @@ const Menu: React.FC<NavProps> = ({
                 <Image src={Logo} alt="logo" width={115} height={40} />
               </Navbar.Brand>
               <div className={Style.tokenname}>
-                <span>TRX</span>
+                <span>BSC</span>
                 <span style={{ width: "30px", marginLeft: "7px" }}>
                   <Image src={EthLogo} alt="logo" width="26" height="25" />
                 </span>
