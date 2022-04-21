@@ -1,6 +1,19 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components'
 import { AutoRow } from 'components/Layout/Row'
 import { Text } from '@pancakeswap/uikit'
+
+export const ArrowWrapper = styled.div<{ clickable: boolean }>`
+  padding: 2px;
+  ${({ clickable }) =>
+    clickable
+      ? css`
+          :hover {
+            cursor: pointer;
+            opacity: 0.8;
+          }
+        `
+      : null}
+`;
 
 export const AutoRowToColumn = styled.div<{
   gap?: 'sm' | 'md' | 'lg' | string;
@@ -11,7 +24,7 @@ export const AutoRowToColumn = styled.div<{
   grid-auto-rows: auto;
   grid-row-gap: ${({ gap }) => (gap === 'sm' && '8px') || (gap === 'md' && '12px') || (gap === 'lg' && '24px') || gap};
   justify-items: ${({ justify }) => justify && justify};
-  ${({ theme }) => theme.mediaQueries.lg } {
+  ${({ theme }) => theme.mediaQueries.tab } {
     display: flex;
     padding: 0;
     width: 100%;
@@ -21,7 +34,7 @@ export const AutoRowToColumn = styled.div<{
 `;
 
 export const AutoColumnToRow = styled(AutoRow)`
-  ${({ theme }) => theme.mediaQueries.lg } {
+  ${({ theme }) => theme.mediaQueries.tab } {
     display: grid;
     margin: .5rem 0;
     padding: 0;
@@ -33,7 +46,7 @@ export const AutoColumnToRow = styled(AutoRow)`
 
 export const SpacedToCenteredAutoRow = styled(AutoRow)`
   justify-content: center;
-  ${({ theme }) => theme.mediaQueries.lg } {
+  ${({ theme }) => theme.mediaQueries.tab } {
     justify-content: space-between;
   }
 `;
@@ -44,7 +57,7 @@ export const RowBetweenToDiv = styled.div`
   justify-content: center;
   padding: 0 1rem;
   align-items: center;
-  ${({ theme }) => theme.mediaQueries.lg } {
+  ${({ theme }) => theme.mediaQueries.tab } {
     justify-content: space-between;
     width: 100%;
     padding: 0;
@@ -54,14 +67,14 @@ export const RowBetweenToDiv = styled.div`
 
 export const ResponsiveSizedTextNormal = styled(Text)`
   font-size: 1rem;
-  ${({ theme }) => theme.mediaQueries.lg } {
+  ${({ theme }) => theme.mediaQueries.tab } {
     font-size: .5rem;
   }
 `;
 
 export const ResponsiveSizedTextMedium = styled(Text)`
   font-size: 1rem;
-  ${({ theme }) => theme.mediaQueries.lg } {
+  ${({ theme }) => theme.mediaQueries.tab } {
     font-size: .7rem;
   }
 `;

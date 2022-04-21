@@ -106,7 +106,7 @@ export default function HarvestModal({ onDismiss, stakingAddress, balance }: Sta
 
   return (
     <TransactionConfirmationModal
-      title=""
+      title="Harvest"
       onDismiss={onDismiss}
       attemptingTxn={attemptingTxn}
       hash={txHash}
