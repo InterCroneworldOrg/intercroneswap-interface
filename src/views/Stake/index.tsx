@@ -1,4 +1,4 @@
-import { TokenAmount } from '@intercroneswap/v2-sdk'
+import { JSBI, TokenAmount } from '@intercroneswap/v2-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
 import { orderBy } from 'lodash'
@@ -23,7 +23,9 @@ import StakeModal from './StakeModal'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds'
 import { REWARDS_DURATION_DAYS, REWARDS_DURATION_DAYS_180, StakingRewardsInfo } from '../../state/stake/constants';
+import { Form } from 'react-bootstrap'
 
+const ZERO = JSBI.BigInt(0);
 const { icr: ICR, busd : BUSD } = tokens
 
 let stakingInfosRaw: {
@@ -81,7 +83,21 @@ export default function Stake() {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [sortOption, setSortOption] = useState('latest')
   const [showReferal, setShowReferal] = useState<boolean>(false)
+  const [isActive, setActive] = useState<boolean>(true);
+  const [isStakedOnly, setStakedOnly] = useState<boolean>(false);
   const { onUserInput } = useStakeActionHandlers()
+
+  const bindSortSelect = (event: any) => {
+    setSortOption(event.target.value);
+  };
+
+  const onStakedOnlyAction = () => {
+    setStakedOnly(!isStakedOnly);
+  };
+
+  const onSwitchAction = () => {
+    setActive(!isActive);
+  };
 
   const handleHarvest = (address: string) => {
     onPresentHarvestModal()
@@ -110,7 +126,7 @@ export default function Stake() {
   const handleInput = useCallback((event) => {
     const input = event.target.value
     setSearchQuery(input.toLowerCase())
-  }, [])
+  }, [searchQuery])
 
   const handleEnter = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -163,15 +179,14 @@ export default function Stake() {
   }, [uplinkAddress, showReferal])
 
   // Filtering and sorting pools
-  // TODO: when we have active/ inactive toggle
-  // const activePools = stakingInfos.filter((info) => info.active);
-  // const inactivePools = stakingInfos.filter((info) => !info.active);
-  // const stakedOnlyPools = activePools.filter(
-  //   (info) => info.stakedAmount && JSBI.greaterThan(info.stakedAmount.numerator, ZERO),
-  // );
-  // const stakedInactivePools = inactivePools.filter(
-  //   (info) => info.stakedAmount && JSBI.greaterThan(info.stakedAmount.numerator, ZERO),
-  // );
+  const activePools = stakingInfos.filter((info) => info.active);
+  const inactivePools = stakingInfos.filter((info) => !info.active);
+  const stakedOnlyPools = activePools.filter(
+    (info) => info.stakedAmount && JSBI.greaterThan(info.stakedAmount.numerator, ZERO),
+  );
+  const stakedInactivePools = inactivePools.filter(
+    (info) => info.stakedAmount && JSBI.greaterThan(info.stakedAmount.numerator, ZERO),
+  );
 
   const stakingList = useCallback(
     (poolsToDisplay: StakingInfo[]): StakingInfo[] => {
@@ -194,6 +209,8 @@ export default function Stake() {
     let chosenPools = []
     const sortPools = (infos: StakingInfo[]): StakingInfo[] => {
       switch (sortOption) {
+        case 'liquidity':
+          return orderBy(infos, (info) => (info.stakedAmount ? Number(info.stakedAmount.numerator) : 0), 'desc');
         case 'earned':
           return orderBy(infos, (info) => (info.earnedAmount ? Number(info.earnedAmount.numerator) : 0), 'desc')
         case 'latest':
@@ -202,15 +219,15 @@ export default function Stake() {
           return infos
       }
     }
-    chosenPools = stakingList(stakingInfos)
-    // if (isActive) {
-    //   chosenPools = farmsList(activeFarms)
-    // }
-    // if (isInactive) {
-    //   chosenPools = farmsList(inactiveFarms)
-    // }
+    chosenPools = stakingList(stakingInfos);
+    if (isActive) {
+      chosenPools = isStakedOnly ? stakingList(stakedOnlyPools) : stakingList(activePools);
+    }
+    if (!isActive) {
+      chosenPools = isStakedOnly ? stakingList(stakedInactivePools) : stakingList(inactivePools);
+    }
     return sortPools(chosenPools)
-  }, [sortOption, stakingInfos, searchQuery])
+  }, [sortOption, stakingInfos, searchQuery, isActive, isStakedOnly])
 
   const StyledHeading = styled.h1`
     text-transform: uppercase;
@@ -293,6 +310,13 @@ export default function Stake() {
               {/* TODO: when finished enable display */}
               <RowBetween>
                 <AutoColumn justify="flex-start" gap="1rem">
+                  <Form.Switch 
+                    label="Active"
+                    id="active-staking"
+                    onChange={onSwitchAction}
+                    defaultChecked={true}
+                    style={{ color: theme.colors.text }}
+                  />
                   <Text fontSize="1rem">Search</Text>
                   <SearchInput
                     type="text"
@@ -307,13 +331,24 @@ export default function Stake() {
                   />
                 </AutoColumn>
                 <AutoColumn gap="3px">
+                  <Form.Switch
+                    label="Staked only"
+                    id="staked-only"
+                    onChange={onStakedOnlyAction}
+                    defaultChecked={false}
+                    style={{ color: theme.colors.text }}
+                  />
                   <Text>Sort by</Text>
-                  <Button
-                    variant="secondary"
-                    onClick={() => (sortOption === 'earned' ? setSortOption('latest') : setSortOption('earned'))}
+                  <Form.Select
+                    style={{ color: theme.colors.text, background: theme.colors.background, borderColor: theme.colors.gold, borderRadius: ".7rem"}}
+                    onChange={bindSortSelect}
+                    value={sortOption}
                   >
-                    {sortOption}
-                  </Button>
+                    <option value={'latest'}>Latest</option>
+                    <option value={'liquidity'}>Liquidity</option>
+                    <option value={'earned'}>Earned</option>
+                    <option value={'apy'}>APY</option>
+                  </Form.Select>
                 </AutoColumn>
               </RowBetween>
               {!account ? (
