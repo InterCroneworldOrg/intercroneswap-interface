@@ -56,7 +56,6 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
 
   const USDPrice = useBUSDPrice(ICR);
   const USDPriceBNB = useBUSDPrice(weth);
-  console.log(USDPrice, USDPriceBNB);
   const ratePerYear = stakingInfo.rewardForDuration.multiply(YEARLY_RATE);
   const ratePerYearBUSD = ratePerYear && USDPrice?.quote(stakingInfo.rewardForDuration).multiply(YEARLY_RATE);
 
