@@ -64,7 +64,7 @@ export function Countdown({ exactEnd, durationDays }: { exactEnd?: Date; duratio
     <Text fontWeight={400}>
       {message}{' '}
       {Number.isFinite(timeRemaining) && (
-        <code>
+        <code style={{color: 'white'}}>
           {`${days}D ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
             .toString()
             .padStart(2, '0')}`}

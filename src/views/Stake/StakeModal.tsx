@@ -17,6 +17,7 @@ import { MaxButton } from './styleds';
 import tryParseAmount from 'utils/tryParseAmount'
 import { useGasPrice } from '../../state/user/hooks';
 import { calculateGasMargin } from '../../utils';
+import { StakeTabs } from './StakeTabs'
 
 interface StakeModalProps {
   onDismiss: () => void;
@@ -143,14 +144,14 @@ export default function StakeModal({
 
   const modalBottom = useCallback(() => {
     return (
-      <AutoRow justify="center">
+      <AutoRow justify={(approveState === ApprovalState.PENDING || approveState === ApprovalState.NOT_APPROVED) ? "space-between" : "center"} marginTop={30} >
         {(approveState === ApprovalState.PENDING || approveState === ApprovalState.NOT_APPROVED) && (
-          <Button width="50%" onClick={approveCallback}>
+          <Button width="48%" onClick={approveCallback}>
             Approve
           </Button>
         )}
         <Button
-          width="50%"
+          width="48%"
           onClick={isStaking ? doStake : doWithdraw}
           disabled={
             isStaking
@@ -203,14 +204,9 @@ export default function StakeModal({
   const confirmationContent = useCallback(() => {
     return (
       <AutoRow>
-        <Tabs style={{ width: '100%', margin: '8px 14px' }}>
-          <Button width="48%" onClick={() => swapStaking()}>
-            Stake
-          </Button>
-          <Button width="48%" onClick={() => swapStaking()}>
-            Unstake
-          </Button>
-        </Tabs>
+        <div style={{width: '100%'}}>
+          <StakeTabs active={isStaking ? 'stake' : 'unstake'} onClick={() => swapStaking()} />
+        </div>
         <ConfirmationModalContent
           // title={isStaking ? 'Deposit' : 'Remove deposit'}
           // onDismiss={onDismiss}

@@ -3,33 +3,75 @@ import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
 import { orderBy } from 'lodash'
 import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, useState } from 'react'
+import { isAddress } from 'utils'
 import { Text, Button, useModal } from '@pancakeswap/uikit'
 import styled, { ThemeContext } from 'styled-components'
+import { LightGreyCard, LightCard } from '../../components/Card'
 import { AutoColumn } from 'components/Layout/Column'
-import { AutoRow, RowBetween } from 'components/Layout/Row'
-import { GreyCard, LightCard } from '../../components/Card'
-// import DoubleCurrencyLogo from '../../components/DoubleLogo';
+import { DoubleCurrencyLogo } from 'components/Logo'
+import tokens, { getTokensFromDefaults } from 'config/constants/tokens'
 import PoolCard from '../../components/earn/PoolCard'
 import { ResponsiveSizedTextMedium } from '../../components/earn/styleds'
+import { AutoRow, RowBetween } from 'components/Layout/Row'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import { Dots } from '../../components/swap/styleds'
-// import { BUSD, ICR } from '../../constants/tokens';
+import Page from '../Page'
 import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks'
 import { Divider } from '../../theme'
 import HarvestModal from './HarvestModal'
 import StakeModal from './StakeModal'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
-
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds'
+import { REWARDS_DURATION_DAYS, REWARDS_DURATION_DAYS_180, StakingRewardsInfo } from '../../state/stake/constants';
+
+const { icr: ICR, busd : BUSD } = tokens
+
+let stakingInfosRaw: {
+  [chainId: number]: {
+    [version: string]: {
+      [tokens: string]: string;
+    };
+  };
+} = {};
+fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
+  .then((response) => response.json())
+  .then((data) => (stakingInfosRaw = data));
 
 export default function Stake() {
   const router = useRouter()
-  const { referal } = router.query
-  console.log(router.query)
   const theme = useContext(ThemeContext)
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
+  const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
+    const tmpinfos: StakingRewardsInfo[] = [];
+    stakingInfosRaw && chainId && stakingInfosRaw[chainId]
+      ? Object.keys(stakingInfosRaw[chainId]).map((version) => {
+          const vals = stakingInfosRaw[chainId][version];
+          Object.keys(vals).map((tokens) => {
+            const tokensFromDefault = getTokensFromDefaults(tokens);
+            if (tokensFromDefault) {
+              tmpinfos.push({
+                stakingRewardAddress: vals[tokens],
+                tokens: tokensFromDefault,
+                rewardsDays: version !== 'v0' ? REWARDS_DURATION_DAYS_180 : REWARDS_DURATION_DAYS,
+              });
+            }
+          });
+        })
+      : undefined;
+    return tmpinfos;
+  }, [chainId, stakingInfosRaw]);
 
-  const stakingInfos = useStakingInfo()
+  const referalArr = router.query.referal || []
+  let referal = undefined;
+  if( referalArr.length == 1 ) {
+    referal = referalArr[0]
+    if( !isAddress(referal))
+      router.push('/stake')
+  }
+  else if( referalArr.length )
+    router.push('/stake');
+
+  const stakingInfos = useStakingInfo(stakingRewardInfos)
 
   const [stakeAddress, setStakeAddress] = useState<string>('')
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined)
@@ -91,14 +133,14 @@ export default function Stake() {
         ) : (
           <>
             <WordBreakDiv>Confirm your upline {referal}</WordBreakDiv>
-            <Button width="10rem" onClick={() => alert()}>
+            <Button width="10rem" onClick={() => setUplinkAddress(referal ?? account)}>
               <Text>Confirm</Text>
             </Button>
           </>
         )}
       </>
     ) : undefined
-  }, [referal, uplinkAddress])
+  }, [referal, uplinkAddress, account]);
 
   const uplineComponent = useCallback(() => {
     return account ? (
@@ -115,7 +157,7 @@ export default function Stake() {
       >
         {referal ? confirmUpline() : undefined}
         <ResponsiveSizedTextMedium fontWeight=".5rem">Your referral link</ResponsiveSizedTextMedium>
-        <WordBreakDiv>{`${window.location.origin}/#/stake/${account}`}</WordBreakDiv>
+        <WordBreakDiv>{`${window.location.origin}/stake/${account}`}</WordBreakDiv>
       </AutoColumn>
     ) : undefined
   }, [uplinkAddress, showReferal])
@@ -199,43 +241,52 @@ export default function Stake() {
   )
 
   const [onPresentHarvestModal] = useModal(
-    <HarvestModal stakingAddress={stakeAddress} stakingInfo={stakeInfo} onDismiss={handleDismissHarvest} />,
+    <HarvestModal
+      stakingAddress={stakeAddress}
+      stakingInfo={stakeInfo}
+      onDismiss={handleDismissHarvest}
+    />,
     true,
     true,
     'HarvestModal',
   )
 
   return (
-    <>
+    <Page>
       <StyledHeading>LP Staking</StyledHeading>
-      <PageWrapper>
+      <PageWrapper style={{marginTop: 30}}>
         <AutoRow justify="center">
-          <Button width="15rem" onClick={() => setToggleToken(!toggleToken)}>
+          <Button variant="secondary" width="15rem" onClick={() => setToggleToken(!toggleToken)}>
             <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
-            {/* <DoubleCurrencyLogo currency0={BUSD} currency1={ICR} size={28} /> */}
+            <DoubleCurrencyLogo currency0={BUSD} currency1={ICR} size={28} />
           </Button>
         </AutoRow>
         <LightCard style={{ marginTop: '20px' }} padding="2rem 1rem">
           {!account ? (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <ConnectWalletButton width="100%" />
+              <ConnectWalletButton width="100%" maxWidth={300} />
             </div>
           ) : (
-            <AutoRow gap="20px" style={{ margin: 0 }} justify="space-between" />
+            <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between" />
           )}
           <AutoColumn gap="1.5rem" justify="center">
-            <ReferalButton
-              width="11rem"
-              height="2rem"
-              marginBottom="-4rem"
-              justifySelf="end"
-              onClick={() => setShowReferal(!showReferal)}
-            >
-              Show referal link
-            </ReferalButton>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', marginBottom: 20 }}>
+              <ReferalButton
+                width="11rem"
+                height="48px"
+                marginBottom="-4rem"
+                justifySelf="end"
+                onClick={() => setShowReferal(!showReferal)}
+              >
+                Show referal link
+              </ReferalButton>
+            </div>
+		
             <AutoColumn gap="2rem" style={{ width: '100%' }}>
-              <TitleRow style={{ marginTop: '1rem' }} padding="0">
+              <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
+                <Text fontSize="1.2rem">
                 <Text>Stake Liquidity Pool (LP) tokens to earn</Text>
+                </Text>
               </TitleRow>
               <Divider />
               {uplineComponent()}
@@ -246,7 +297,7 @@ export default function Stake() {
                   <SearchInput
                     type="text"
                     id="token-search-input"
-                    placeholder="tokenSearchPlaceholder"
+                    placeholder="Filter by token name"
                     value={searchQuery}
                     ref={inputRef as RefObject<HTMLInputElement>}
                     onChange={handleInput}
@@ -257,23 +308,26 @@ export default function Stake() {
                 </AutoColumn>
                 <AutoColumn gap="3px">
                   <Text>Sort by</Text>
-                  <Button onClick={() => (sortOption === 'earned' ? setSortOption('latest') : setSortOption('earned'))}>
+                  <Button
+                    variant="secondary"
+                    onClick={() => (sortOption === 'earned' ? setSortOption('latest') : setSortOption('earned'))}
+                  >
                     {sortOption}
                   </Button>
                 </AutoColumn>
               </RowBetween>
               {!account ? (
-                <GreyCard padding="1rem">
+                <LightGreyCard padding="1rem">
                   <Text color={theme.colors.text} textAlign="left">
                     Connect to a wallet to view your liquidity.
                   </Text>
-                </GreyCard>
+                </LightGreyCard>
               ) : stakingInfos.length === 0 ? (
-                <GreyCard padding="1rem">
+                <LightGreyCard padding="1rem">
                   <Text color={theme.colors.text} textAlign="left">
                     <Dots>Loading</Dots>
                   </Text>
-                </GreyCard>
+                </LightGreyCard>
               ) : chosenPoolsMemoized?.length > 0 ? (
                 <>
                   {chosenPoolsMemoized.map((stakingInfo) => (
@@ -284,20 +338,21 @@ export default function Stake() {
                       handleStake={handleStake}
                       handleHarvest={handleHarvest}
                       toggleToken={toggleToken}
-                    />
+                    ></PoolCard>
                   ))}
                 </>
               ) : (
-                <GreyCard style={{ padding: '12px' }}>
+                <LightGreyCard style={{ padding: '12px' }}>
                   <Text color={theme.colors.text} textAlign="left">
                     No liquidity found.
                   </Text>
-                </GreyCard>
+                </LightGreyCard>
               )}
             </AutoColumn>
           </AutoColumn>
         </LightCard>
       </PageWrapper>
-    </>
+    </Page>
+
   )
 }

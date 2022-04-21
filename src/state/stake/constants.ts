@@ -1,14 +1,16 @@
 import { ChainId, Token, WETH } from '@intercroneswap/v2-sdk';
-import { ICR, BTT, BUSD } from '../../constants/tokens';
+import tokens from 'config/constants/tokens'
 
-export const REWARDS_DURATION_DAYS = 180;
+export const REWARDS_DURATION_DAYS = 14;
 export const REWARDS_DURATION_DAYS_180 = 180;
 
-interface StakingRewardsInfo {
+export interface StakingRewardsInfo {
   tokens: [Token, Token];
   stakingRewardAddress: string;
   rewardsDays: number;
 }
+
+const { icr: ICR, busd : BUSD, wbnb : WBNB } = tokens
 
 export const STAKING_REWARDS_INFO: {
   [chainId: number]: StakingRewardsInfo[];
@@ -17,11 +19,6 @@ export const STAKING_REWARDS_INFO: {
     {
       tokens: [ICR, WETH[ChainId.MAINNET] as Token],
       stakingRewardAddress: '0xbe3f0022fa68a5eaaf3189825b19d652377420f5',
-      rewardsDays: REWARDS_DURATION_DAYS,
-    },
-    {
-      tokens: [BTT, ICR],
-      stakingRewardAddress: '0x2edb6be332d850e1d0a1abd933f456b3d48a8950',
       rewardsDays: REWARDS_DURATION_DAYS,
     },
     {
@@ -37,8 +34,8 @@ export const STAKING_REWARDS_INFO: {
   ],
   [ChainId.TESTNET]: [
     {
-      tokens: [BTT, ICR],
-      stakingRewardAddress: '0xfA0DB80d4776A702E5a4792acdE4BDc81c254eD6',
+      tokens: [WBNB, ICR],
+      stakingRewardAddress: '0x4BF2513E3C0917C88b1aC2F6dAB53736C6626039',
       rewardsDays: REWARDS_DURATION_DAYS,
     },
   ],

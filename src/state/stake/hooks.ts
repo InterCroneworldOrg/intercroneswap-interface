@@ -3,18 +3,19 @@ import { abi as ISwapV2StakingRewards } from '@intercroneswap/v2-staking/build/S
 import { Interface } from 'ethers/lib/utils';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import tokens, { getTokenByAddress } from 'config/constants/tokens'
 import { AppDispatch, AppState } from '..';
-import { ICR } from '../../constants/tokens';
 import { useWeb3React } from '@web3-react/core'
 import { useStakingContract } from '../../hooks/useContract';
 import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp';
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks';
 import tryParseAmount from 'utils/tryParseAmount'
 import { typeInput } from './actions';
-import { STAKING_REWARDS_INFO } from './constants';
+import { StakingRewardsInfo } from './constants';
 
 var ZERO = /*#__PURE__*/JSBI.BigInt(0);
+
+const { icr: ICR } = tokens;
 
 const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards);
 
@@ -66,16 +67,15 @@ export function useTotalStakedAmount(address: string): JSBI {
   return totalSupply ? JSBI.BigInt(totalSupply.toString()) : ZERO;
 }
 
-export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
+export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairToFilterBy?: Pair | null): StakingInfo[] {
   const { chainId, account } = useWeb3React();
 
-  // detect if staking is ended
   const currentBlockTimestamp = useCurrentBlockTimestamp();
 
   const info = useMemo(
     () =>
       chainId
-        ? STAKING_REWARDS_INFO[chainId]?.filter((stakingRewardInfo) =>
+        ? stakingRewardsInfos?.filter((stakingRewardInfo) =>
             pairToFilterBy === undefined
               ? true
               : pairToFilterBy === null
@@ -115,6 +115,13 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
     undefined,
     NEVER_RELOAD,
   );
+  const rewardsTokens = useMultipleContractSingleData(
+    rewardsAddresses,
+    ISwapV2StakingRewardsInterface,
+    'rewardsToken',
+    undefined,
+    NEVER_RELOAD,
+  );
   const periodFinishes = useMultipleContractSingleData(
     rewardsAddresses,
     ISwapV2StakingRewardsInterface,
@@ -141,6 +148,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
       // these get fetched regardless of account
       const totalSupplyState = totalSupplies[index];
       const rewardRateState = rewardRates[index];
+      const rewardsTokenState = rewardsTokens[index];
       const rewardForDurationState = rewardForDurations[index];
       const periodFinishState = periodFinishes[index];
 
@@ -156,7 +164,9 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
         rewardForDurationState &&
         !rewardForDurationState.loading &&
         periodFinishState &&
-        !periodFinishState.loading
+        !periodFinishState.loading &&
+        rewardsTokenState &&
+        !rewardsTokenState.loading
       ) {
         if (
           balanceState?.error ||
@@ -164,7 +174,8 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
           totalSupplyState.error ||
           rewardRateState.error ||
           rewardForDurationState.error ||
-          periodFinishState.error
+          periodFinishState.error ||
+          rewardsTokenState.error
         ) {
           console.error('Failed to load staking rewards info');
           return memo;
@@ -175,11 +186,11 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
         const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'));
 
         // check for account, if no account set to 0
-
+        const rewardsToken = getTokenByAddress(rewardsTokenState.result?.[0]);
         const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0));
         const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyState.result?.[0]));
-        const totalRewardRate = new TokenAmount(ICR, JSBI.BigInt(rewardRateState.result?.[0]));
-        const rewardForDuration = new TokenAmount(ICR, JSBI.BigInt(rewardForDurationState.result?.[0]));
+        const totalRewardRate = new TokenAmount(rewardsToken, JSBI.BigInt(rewardRateState.result?.[0]));
+        const rewardForDuration = new TokenAmount(rewardsToken, JSBI.BigInt(rewardForDurationState.result?.[0]));
 
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
@@ -187,7 +198,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
           totalRewardRate: TokenAmount,
         ): TokenAmount => {
           return new TokenAmount(
-            ICR,
+            rewardsToken,
             JSBI.greaterThan(totalStakedAmount.quotient, JSBI.BigInt(0))
               ? JSBI.divide(JSBI.multiply(totalRewardRate.quotient, stakedAmount.quotient), totalStakedAmount.quotient)
               : JSBI.BigInt(0),
@@ -207,7 +218,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
           stakingRewardAddress: rewardsAddress,
           tokens: info[index].tokens,
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
-          earnedAmount: new TokenAmount(ICR, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
+          earnedAmount: new TokenAmount(rewardsToken, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
           rewardRate: individualRewardRate,
           rewardForDuration,
           rewardDuration: rewardsDurations[index],
@@ -237,7 +248,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 }
 
 export function useTotalIcrEarned(): TokenAmount | undefined {
-  const stakingInfos = useStakingInfo();
+  const stakingInfos = useStakingInfo([]);
 
   return useMemo(() => {
     return (
