@@ -189,7 +189,7 @@ export default function AddLiquidity() {
         method(...args, {
           ...(value ? { value } : {}),
           gasLimit: calculateGasMargin(estimatedGasLimit),
-          gasPrice,
+          gasPrice: process.env.NEXT_PUBLIC_DEFAULT_GAS_PRICE,
         }).then((response) => {
           setLiquidityState({ attemptingTxn: false, liquidityErrorMessage: undefined, txHash: response.hash })
 

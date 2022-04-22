@@ -328,7 +328,7 @@ export default function RemoveLiquidity() {
       setLiquidityState({ attemptingTxn: true, liquidityErrorMessage: undefined, txHash: undefined })
       await routerContract[methodName](...args, {
         gasLimit: safeGasEstimate,
-        gasPrice,
+        gasPrice: process.env.NEXT_PUBLIC_DEFAULT_GAS_PRICE,
       })
         .then((response: TransactionResponse) => {
           setLiquidityState({ attemptingTxn: false, liquidityErrorMessage: undefined, txHash: response.hash })
