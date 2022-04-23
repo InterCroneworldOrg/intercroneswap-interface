@@ -13,7 +13,7 @@ export function GetAmountInBUSD(price?: Price, tokenAmount?: TokenAmount): Curre
   if (!price || !tokenAmount) {
     return undefined
   }
-  if (tokenAmount.token === tokens.busd) {
+  if (tokenAmount.token === tokens.usdt_t) {
     return tokenAmount
   }
   return price?.quote(tokenAmount)

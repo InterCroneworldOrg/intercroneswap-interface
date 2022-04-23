@@ -22,7 +22,7 @@ import { AutoRowToColumn, ResponsiveSizedTextMedium, ResponsiveSizedTextNormal, 
 import StyledChevronUp from './ChevronUp'
 import StyledChevronDown from './ChevronDown'
 
-const { icr: ICR, busd: BUSD } = tokens
+const { icr_t: ICR, usdt_t: BUSD } = tokens
 
 const ZERO = JSBI.BigInt(0)
 

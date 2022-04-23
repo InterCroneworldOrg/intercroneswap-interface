@@ -1,18 +1,18 @@
-import { TokenAmount } from '@intercroneswap/v2-sdk';
-import { useContext } from 'react';
-import { LinkExternal} from '@pancakeswap/uikit'
-import { ThemeContext } from 'styled-components';
+import { TokenAmount } from '@intercroneswap/v2-sdk'
+import { useContext } from 'react'
+import { LinkExternal } from '@pancakeswap/uikit'
+import { ThemeContext } from 'styled-components'
 import { PairState } from 'hooks/usePairs'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useBUSDPrice from 'hooks/useBUSDPrice'
 import { CurrencyLogo } from 'components/Logo'
 import tokens from 'config/constants/tokens'
-import { StakingInfo } from '../../state/stake/hooks';
-import { Divider } from '../../theme';
-import { getBscScanLink } from '../../utils';
-import { unwrappedToken } from '../../utils/wrappedCurrency';
-import { Dots } from '../swap/styleds';
-import { Countdown } from './Countdown';
+import { StakingInfo } from '../../state/stake/hooks'
+import { Divider } from '../../theme'
+import { getBscScanLink } from '../../utils'
+import { unwrappedToken } from '../../utils/wrappedCurrency'
+import { Dots } from '../swap/styleds'
+import { Countdown } from './Countdown'
 
 import {
   AutoColumnToRow,
@@ -20,18 +20,18 @@ import {
   RowBetweenToDiv,
   ResponsiveSizedTextMedium,
   ResponsiveSizedTextNormal,
-} from './styleds';
+} from './styleds'
 
 interface DetailsDropDownParams {
-  stakingInfo: StakingInfo;
-  toggleToken: boolean;
-  address: string;
-  pairState: PairState;
-  stakedAmount: TokenAmount | undefined;
-  totalStakedAmount: TokenAmount | undefined;
+  stakingInfo: StakingInfo
+  toggleToken: boolean
+  address: string
+  pairState: PairState
+  stakedAmount: TokenAmount | undefined
+  totalStakedAmount: TokenAmount | undefined
 }
 
-const { busd : BUSD } = tokens
+const { usdt_t: BUSD } = tokens
 
 export default function DetailsDropdown({
   stakingInfo,
@@ -41,13 +41,13 @@ export default function DetailsDropdown({
   stakedAmount,
   totalStakedAmount,
 }: DetailsDropDownParams) {
-  const theme = useContext(ThemeContext);
-  const { chainId } = useActiveWeb3React();
+  const theme = useContext(ThemeContext)
+  const { chainId } = useActiveWeb3React()
 
-  const currency = stakedAmount ? unwrappedToken(stakedAmount?.token) : undefined;
-  const USDPrice = useBUSDPrice(stakedAmount?.token);
-  const valueOfStakedAmountInBUSD = stakedAmount && USDPrice?.quote(stakedAmount);
-  const valueOfTotalStakedAmountInBUSD = totalStakedAmount && USDPrice?.quote(totalStakedAmount);
+  const currency = stakedAmount ? unwrappedToken(stakedAmount?.token) : undefined
+  const USDPrice = useBUSDPrice(stakedAmount?.token)
+  const valueOfStakedAmountInBUSD = stakedAmount && USDPrice?.quote(stakedAmount)
+  const valueOfTotalStakedAmountInBUSD = totalStakedAmount && USDPrice?.quote(totalStakedAmount)
 
   return (
     <AutoColumnToRow>
@@ -100,5 +100,5 @@ export default function DetailsDropdown({
         </LinkExternal>
       </SpacedToCenteredAutoRow>
     </AutoColumnToRow>
-  );
+  )
 }
