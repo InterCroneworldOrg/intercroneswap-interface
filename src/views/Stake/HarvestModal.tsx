@@ -45,7 +45,7 @@ export default function HarvestModal({ onDismiss, stakingAddress, balance }: Sta
         method({
           ...{},
           gasLimit: calculateGasMargin(estimatedGasLimit),
-          gasPrice,
+          gasPrice: process.env.NEXT_PUBLIC_DEFAULT_GAS_PRICE,
         }).then((response) => {
           setAttemptingTxn(false);
           addTransaction(response, {

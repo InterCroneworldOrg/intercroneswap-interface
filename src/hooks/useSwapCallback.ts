@@ -128,7 +128,7 @@ export function useSwapCallback(
 
         return contract[methodName](...args, {
           gasLimit: calculateGasMargin(gasEstimate),
-          gasPrice,
+          gasPrice: process.env.NEXT_PUBLIC_DEFAULT_GAS_PRICE,
           ...(value && !isZero(value) ? { value, from: account } : { from: account }),
         })
           .then((response: any) => {

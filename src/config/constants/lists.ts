@@ -14,7 +14,7 @@ export const DEFAULT_LIST_OF_LISTS: string[] = [
   // COINGECKO,
   // PANCAKE_TOP100,
   // PANCAKE_EXTENDED,
-  ISWAP_DEFAULT_LIST,
+  //ISWAP_DEFAULT_LIST,
   ...UNSUPPORTED_LIST_URLS, // need to load unsupported tokens as well
 ]
 

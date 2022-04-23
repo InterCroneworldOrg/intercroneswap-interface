@@ -15,7 +15,7 @@ import { StakingRewardsInfo } from './constants'
 
 var ZERO = /*#__PURE__*/ JSBI.BigInt(0)
 
-const { icr: ICR } = tokens
+const { icr_t: ICR } = tokens
 
 const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards)
 

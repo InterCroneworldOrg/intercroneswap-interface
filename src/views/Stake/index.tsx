@@ -26,7 +26,7 @@ import { Form } from 'react-bootstrap'
 import { breakpointMap } from '../../../packages/uikit/src/theme/base'
 
 const ZERO = JSBI.BigInt(0)
-const { icr: ICR, busd: BUSD } = tokens
+const { icr_t: ICR, usdt_t: BUSD } = tokens
 
 let stakingInfosRaw: {
   [chainId: number]: {

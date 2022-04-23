@@ -10,7 +10,6 @@ const SocialMenu = () => {
   const { account } = useWeb3React()
   const { hasPendingTransactions, pendingNumber } = usePendingTransactions()
   const { profile } = useProfile()
-  const avatarSrc = profile?.nft?.image?.thumbnail
   const [userMenuText, setUserMenuText] = useState<string>('')
   const [userMenuVariable, setUserMenuVariable] = useState<UserMenuVariant>('default')
 
@@ -32,7 +31,7 @@ const SocialMenu = () => {
     )
   }
   return (
-    <UIKitSocialMenu account={account} avatarSrc={avatarSrc} text={userMenuText} variant={userMenuVariable}>
+    <UIKitSocialMenu account={account} text={userMenuText} variant={userMenuVariable}>
       <UserMenuItems />
     </UIKitSocialMenu>
   )

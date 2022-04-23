@@ -1,0 +1,76 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Deploy live Site btt subdomain
+
+on:
+  push:
+    branches: [main-btt]
+
+  workflow_dispatch:
+
+env:
+  BSC_WORK_PATH: btt-interface
+
+defaults:
+  run:
+    shell: bash
+    working-directory: btt-interface
+
+jobs:
+  setup_and_build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [self-hosted]
+        node: [16]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          ref: 'main-btt'
+          path: ${{env.BTT_WORK_PATH}}
+
+      - name: Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cp .env.production .env
+          npm ci
+
+      - name: Build
+        run: CI=false npm run build
+
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ github.workspace }}/${{ github.ref_name }}/node_modules
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-
+
+  copy_files:
+    needs: setup_and_build
+    runs-on: self-hosted
+    steps:
+      - name: rsync
+        run: |
+          rsync -av ${{ github.workspace }}/${{ github.repo }}${{env.BTT_WORK_PATH}}/ ${{ secrets.BTT_SERVER_LOCATION }}
+
+  deploy_pm2:
+    needs: copy_files
+    runs-on: self-hosted
+    steps:
+      - name: pm2
+        run: |
+          cd ${{ secrets.BTT_SERVER_LOCATION }}
+          pm2 delete BTT-interface || : && pm2 start npm --name "BTT-interface" -- start --watch
+          pm2 save
