@@ -1,5 +1,5 @@
 import throttle from "lodash/throttle";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 // import BottomNav from "../../components/BottomNav";
 import { Box } from "../../components/Box";
@@ -19,7 +19,40 @@ import Style from "../../styles/header.module.css";
 import { HeaderLinks, AccountElement } from "../../styles/header.styles";
 import Image from "next/image";
 import Logo from "../../assets/images/ISwap.svg";
-import EthLogo from "../../assets/images/eth-logo.png";
+import BscLogo from "../../assets/images/bsclogo.png";
+import BttLogo from "../../assets/images/bttlogo.png";
+import TrxLogo from "../../assets/images/trxlogo.png";
+import uparrow from "../../assets/images/uparrow.png";
+import downarrow from "../../assets/images/downarrow.png";
+import { Link, LinkExternal } from "../../components/Link";
+
+const getLogoPropsFromChainID = (chainId: number): { name: string; src: any; color: string } => {
+  let logoProps: { name: string; src: any; color: string } = {
+    name: "BSC",
+    src: BscLogo,
+    color: "#F0B90B",
+  };
+  switch (chainId) {
+    case 56:
+    case 97:
+      logoProps = {
+        name: "BSC",
+        src: BscLogo,
+        color: "#F0B90B",
+      };
+      return logoProps;
+    case 1029:
+    case 199:
+      logoProps = {
+        name: "BTT",
+        src: BttLogo,
+        color: "#FFFFFF",
+      };
+      return logoProps;
+    default:
+      return logoProps;
+  }
+};
 
 const Wrapper = styled.div`
   position: relative;
@@ -89,10 +122,37 @@ const Menu: React.FC<NavProps> = ({
   langs,
   buyCakeLabel,
   children,
+  chainId,
 }) => {
   const { isMobile, isMd } = useMatchBreakpoints();
   const [showMenu, setShowMenu] = useState(true);
   const refPrevOffset = useRef(typeof window === "undefined" ? 0 : window.pageYOffset);
+
+  const [dropshow, setDropShow] = useState(false);
+  const [toggle, setToggle] = useState(false);
+
+  const changeHamIcon = () => {
+    setToggle(!toggle);
+  };
+
+  const changeDropMenu = () => {
+    setDropShow(!dropshow);
+  };
+
+  const headerLogo = useCallback(() => {
+    const { name, src, color } = getLogoPropsFromChainID(chainId);
+    return (
+      <div className={"tokenname"} style={{ color }}>
+        <span>{name}</span>
+        <span style={{ width: "30px", marginLeft: "7px" }}>
+          <Image src={src} alt="logo" width="26" height="25" />
+          <span onClick={changeDropMenu}>
+            <Image className={Style.droparrow} width={16} src={dropshow ? uparrow : downarrow} alt="" />
+          </span>
+        </span>
+      </div>
+    );
+  }, [dropshow, toggle]);
 
   const topBannerHeight = isMobile ? TOP_BANNER_HEIGHT_MOBILE : TOP_BANNER_HEIGHT;
 
@@ -145,19 +205,30 @@ const Menu: React.FC<NavProps> = ({
               <Navbar.Brand href="https://intercroneswap.com">
                 <Image src={Logo} alt="logo" width={115} height={40} />
               </Navbar.Brand>
-              <div className={Style.tokenname}>
-                <span>TRX</span>
-                <span style={{ width: "30px", marginLeft: "7px" }}>
-                  <Image src={EthLogo} alt="logo" width="26" height="25" />
-                </span>
-              </div>
-              {/* <NavDropdown title="" id="basic-nav-dropdowns">
-            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-          </NavDropdown> */}
+              {headerLogo()}
+              {dropshow ? (
+                <div title="" id="basic-nav-dropdowns">
+                  <p>Select a Network</p>
+                  <Link href="https://trx.intercroneswap.com/" className="trxlogo active">
+                    <span>TRX</span>
+                    <span style={{ marginLeft: "7px" }}>
+                      <Image width={25} height={25} src={TrxLogo} alt="" />
+                    </span>
+                  </Link>
+                  <Link href="https://btt.intercroneswap.com/" className="bttlogo">
+                    <span>BTT</span>
+                    <span style={{ marginLeft: "7px" }}>
+                      <Image width={25} height={25} src={BttLogo} alt="" />
+                    </span>
+                  </Link>
+                  <Link href="https://bsc.intercroneswap.com/" className="bsclogo">
+                    <span>BSC</span>
+                    <span style={{ marginLeft: "7px" }}>
+                      <Image width={25} height={25} src={BscLogo} alt="" />
+                    </span>
+                  </Link>
+                </div>
+              ) : undefined}
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mx-auto">

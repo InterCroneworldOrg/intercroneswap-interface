@@ -25,9 +25,10 @@ import Menu from '../components/Menu'
 import Providers from '../Providers'
 import GlobalStyle from '../style/Global'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import "../style/global.css"
-import "../style/responsive.css"
-
+import '../style/global.css'
+import '../style/override.css'
+import '../style/responsive.css'
+import '../style/custom.scss'
 
 const EasterEgg = dynamic(() => import('components/EasterEgg'), { ssr: false })
 
