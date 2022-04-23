@@ -66,7 +66,7 @@ const ConnectModal: React.FC<Props> = ({ login, onDismiss = () => null, displayC
       <ModalBody width={["390px", null, "410px"]}>
         <WalletWrapper py="24px" maxHeight="453px" overflowY="auto">
           <Grid gridTemplateColumns="1fr">
-            {displayListConfig.map((wallet, id) => (id===0 &&
+            {displayListConfig.map((wallet, id) => (id < 2 &&
               <Box key={wallet.title}>
                 <div style={{width: '95%', paddingLeft: '5%'}}>
                   <WalletCard walletConfig={wallet} login={login} onDismiss={onDismiss} />
