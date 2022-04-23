@@ -26,8 +26,8 @@ import Providers from '../Providers'
 import GlobalStyle from '../style/Global'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../style/global.css'
-import '../style/override.css'
 import '../style/responsive.css'
+import '../style/override.css'
 import '../style/custom.scss'
 
 const EasterEgg = dynamic(() => import('components/EasterEgg'), { ssr: false })
@@ -120,9 +120,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     <ProductionErrorBoundary>
       <Menu>
         <Layout>
-          <div style={{ position: 'absolute', bottom: 0, right: 0 }}>
-            {/* <Image src="/back_logo.png" alt="me" width="255" height="510" /> */}
-          </div>
           <Component {...pageProps} />
         </Layout>
       </Menu>
