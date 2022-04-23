@@ -10,6 +10,7 @@ import { AutoColumn } from 'components/Layout/Column'
 import { CurrencyLogo } from 'components/Logo'
 import { AutoRow } from 'components/Layout/Row'
 import tokens from 'config/constants/tokens'
+import { DoubleTokenAmount, GetAmountInBUSD } from 'utils/tokens'
 import { Dots } from '../../views/Stake/styleds'
 import { StakingInfo } from '../../state/stake/hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
@@ -20,7 +21,6 @@ import { YEARLY_RATE } from '../../constants'
 import { AutoRowToColumn, ResponsiveSizedTextMedium, ResponsiveSizedTextNormal, ArrowWrapper } from './styleds'
 import StyledChevronUp from './ChevronUp'
 import StyledChevronDown from './ChevronDown'
-import { DoubleTokenAmount, GetAmountInBUSD } from 'utils/tokens'
 
 const { icr: ICR, busd: BUSD } = tokens
 

@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { NextLinkFromReactRouter } from 'components/NextLink'
 import { Menu as UikitMenu, Text } from '@pancakeswap/uikit'
+import { CHAIN_ID } from 'config/constants/networks'
 import { languageList } from 'config/localization/languages'
 import { formatBigNumber } from 'utils/formatBalance'
 import { usePriceCakeBusd } from 'state/farms/hooks'
@@ -64,6 +65,7 @@ const Menu = (props) => {
       activeItem={activeMenuItem?.href}
       activeSubItem={activeSubMenuItem?.href}
       buyCakeLabel={t('Buy CAKE')}
+      chainId={CHAIN_ID}
       {...props}
     />
   )
