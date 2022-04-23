@@ -2125,7 +2125,7 @@ export const testnetTokens = defineTokens({
     'Bakeryswap Token',
     'https://www.bakeryswap.org/',
   ),
-  icr: new Token(TESTNET, '0xb518912759D86409e747fad19Dbad9FE681761C3', 18, 'ICR', 'Intercroneswap Token', ''),
+  ICR: new Token(TESTNET, '0xb518912759D86409e747fad19Dbad9FE681761C3', 18, 'ICR', 'Intercroneswap Token', ''),
 } as const)
 
 const tokens = () => {

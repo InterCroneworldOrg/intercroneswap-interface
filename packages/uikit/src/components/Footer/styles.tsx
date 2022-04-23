@@ -4,14 +4,14 @@ import { Box, Flex } from "../Box";
 import SocialLinks from "./Components/SocialLinks";
 
 export const StyledFooter = styled(Flex)`
-  background: linear-gradient(180deg, #1C1C1C 0%, rgba(51, 51, 51, 0.67) 18.21%, #333333 38.13%);
+  background: linear-gradient(180deg, #1c1c1c 0%, rgba(51, 51, 51, 0.67) 18.21%, #333333 38.13%);
 `;
 
 export const StyledFooterContainer = styled.div`
-background-image: url(/chess-big-icon.png);
-background-repeat: no-repeat;
-background-position: 100%;
-background-size: contain;
+  background-image: url(/chess-big-icon.png);
+  background-repeat: no-repeat;
+  background-position: 100%;
+  background-size: contain;
 `;
 
 export const StyledList = styled.ul`
@@ -55,8 +55,7 @@ export const StyledToolsContainer = styled(Flex)`
   }
 `;
 
-export const StyledSocialLinks = styled(SocialLinks)`
-`;
+export const StyledSocialLinks = styled(SocialLinks)``;
 
 export const StyledText = styled.span`
   color: ${darkColors.text};
