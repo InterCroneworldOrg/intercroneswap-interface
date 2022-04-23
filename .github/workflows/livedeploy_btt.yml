@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  BSC_WORK_PATH: btt-interface
+  BTT_WORK_PATH: btt-interface
 
 defaults:
   run:
