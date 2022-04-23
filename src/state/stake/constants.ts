@@ -1,19 +1,19 @@
-import { ChainId, Token, WETH } from '@intercroneswap/v2-sdk';
+import { ChainId, Token, WETH } from '@intercroneswap/v2-sdk'
 import tokens from 'config/constants/tokens'
 
-export const REWARDS_DURATION_DAYS = 14;
-export const REWARDS_DURATION_DAYS_180 = 180;
+export const REWARDS_DURATION_DAYS = 14
+export const REWARDS_DURATION_DAYS_180 = 180
 
 export interface StakingRewardsInfo {
-  tokens: [Token, Token];
-  stakingRewardAddress: string;
-  rewardsDays: number;
+  tokens: [Token, Token]
+  stakingRewardAddress: string
+  rewardsDays: number
 }
 
-const { icr: ICR, busd : BUSD, wbnb : WBNB } = tokens
+const { icr_t: ICR, usdt_t: BUSD, wbtt: WBNB } = tokens
 
 export const STAKING_REWARDS_INFO: {
-  [chainId: number]: StakingRewardsInfo[];
+  [chainId: number]: StakingRewardsInfo[]
 } = {
   [ChainId.MAINNET]: [
     {
@@ -39,7 +39,7 @@ export const STAKING_REWARDS_INFO: {
       rewardsDays: REWARDS_DURATION_DAYS,
     },
   ],
-};
+}
 
 // export const STAKING_REWARDS_INFO_P1: {
 //   [chainId: number]: StakingRewardsInfo[];

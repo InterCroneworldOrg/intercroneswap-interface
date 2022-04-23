@@ -78,7 +78,7 @@ export default function StakeModal({
         method(...args, {
           ...{},
           gasLimit: calculateGasMargin(estimatedGasLimit),
-          gasPrice,
+          gasPrice: process.env.NEXT_PUBLIC_DEFAULT_GAS_PRICE,
         }).then((response) => {
           setAttemptingTxn(false)
           addTransaction(response, {
@@ -119,7 +119,7 @@ export default function StakeModal({
         method(...args, {
           ...{},
           gasLimit: calculateGasMargin(estimatedGasLimit),
-          gasPrice,
+          gasPrice: process.env.NEXT_PUBLIC_DEFAULT_GAS_PRICE,
         }).then((response) => {
           setAttemptingTxn(false)
           console.log('Calling stake method')
