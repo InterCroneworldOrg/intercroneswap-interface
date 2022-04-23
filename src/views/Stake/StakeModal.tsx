@@ -1,30 +1,30 @@
-import { TokenAmount } from '@intercroneswap/v2-sdk';
-import { useCallback, useContext, useState } from 'react';
-import { ThemeContext } from 'styled-components';
-import { Text, Button } from '@pancakeswap/uikit';
-import { AutoColumn } from 'components/Layout/Column';
-import NumericalInput from '../../components/NumericalInput';
-import { AutoRow, RowBetween } from 'components/Layout/Row';
-import TransactionConfirmationModal, { ConfirmationModalContent } from '../../components/TransactionConfirmationModal';
-import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback';
-import { useWeb3React } from '@web3-react/core';
-import { StakingInfo, useStakeActionHandlers, useStakeState } from '../../state/stake/hooks';
-import { getStakingContract } from '../../utils';
+import { TokenAmount } from '@intercroneswap/v2-sdk'
+import { useCallback, useContext, useState } from 'react'
+import { ThemeContext } from 'styled-components'
+import { Text, Button } from '@pancakeswap/uikit'
+import { AutoColumn } from 'components/Layout/Column'
+import NumericalInput from '../../components/NumericalInput'
+import { AutoRow, RowBetween } from 'components/Layout/Row'
+import TransactionConfirmationModal, { ConfirmationModalContent } from '../../components/TransactionConfirmationModal'
+import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
+import { useWeb3React } from '@web3-react/core'
+import { StakingInfo, useStakeActionHandlers, useStakeState } from '../../state/stake/hooks'
+import { getStakingContract } from '../../utils'
 // import { TransactionResponse } from '@ethersproject/providers';
-import { useTransactionAdder } from '../../state/transactions/hooks';
-import { Tabs } from '../../components/NavigationTabs';
-import { MaxButton } from './styleds';
+import { useTransactionAdder } from '../../state/transactions/hooks'
+import { Tabs } from '../../components/NavigationTabs'
+import { MaxButton } from './styleds'
 import tryParseAmount from 'utils/tryParseAmount'
-import { useGasPrice } from '../../state/user/hooks';
-import { calculateGasMargin } from '../../utils';
+import { useGasPrice } from '../../state/user/hooks'
+import { calculateGasMargin } from '../../utils'
 import { StakeTabs } from './StakeTabs'
 
 interface StakeModalProps {
-  onDismiss: () => void;
-  stakingAddress: string;
-  balance?: TokenAmount;
-  stakingInfo?: StakingInfo;
-  referalAddress?: string;
+  onDismiss: () => void
+  stakingAddress: string
+  balance?: TokenAmount
+  stakingInfo?: StakingInfo
+  referalAddress?: string
 }
 
 export default function StakeModal({
@@ -34,45 +34,45 @@ export default function StakeModal({
   stakingInfo,
   referalAddress,
 }: StakeModalProps) {
-  const { account, chainId, library } = useWeb3React();
-  const gasPrice = useGasPrice();
-  const theme = useContext(ThemeContext);
-  const stakeState = useStakeState();
+  const { account, chainId, library } = useWeb3React()
+  const gasPrice = useGasPrice()
+  const theme = useContext(ThemeContext)
+  const stakeState = useStakeState()
 
-  const [isStaking, setIsStaking] = useState<boolean>(true);
-  const { onUserInput } = useStakeActionHandlers();
+  const [isStaking, setIsStaking] = useState<boolean>(true)
+  const { onUserInput } = useStakeActionHandlers()
 
-  const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false); // clicked confirm
-  const [txHash, setTxHash] = useState<string>('');
-  const addTransaction = useTransactionAdder();
+  const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false) // clicked confirm
+  const [txHash, setTxHash] = useState<string>('')
+  const addTransaction = useTransactionAdder()
 
-  const stakeAmount = tryParseAmount(stakeState.typedValue, balance?.token);
+  const stakeAmount = tryParseAmount(stakeState.typedValue, balance?.token)
 
   const swapStaking = () => {
-    setIsStaking(!isStaking);
-    onUserInput('');
-  };
+    setIsStaking(!isStaking)
+    onUserInput('')
+  }
 
   const handleTypeInput = useCallback(
     (value: string) => {
-      onUserInput(value);
+      onUserInput(value)
     },
     [onUserInput],
-  );
+  )
 
   async function doWithdraw() {
     if (!chainId || !library || !account) {
-      return;
+      return
     }
 
-    const stakingContract = getStakingContract(chainId, stakingAddress, library, account);
+    const stakingContract = getStakingContract(chainId, stakingAddress, library, account)
     if (!stakeState?.typedValue || !balance) {
-      return;
+      return
     }
-    const estimate = stakingContract.estimateGas.withdraw;
-    const method = stakingContract.withdraw;
-    const args: Array<string | string[] | number> = [stakeAmount?.raw.toString() ?? '0'];
-    setAttemptingTxn(true);
+    const estimate = stakingContract.estimateGas.withdraw
+    const method = stakingContract.withdraw
+    const args: Array<string | string[] | number> = [stakeAmount?.raw.toString() ?? '0']
+    setAttemptingTxn(true)
     await estimate(...args, {})
       .then((estimatedGasLimit) =>
         method(...args, {
@@ -80,40 +80,40 @@ export default function StakeModal({
           gasLimit: calculateGasMargin(estimatedGasLimit),
           gasPrice,
         }).then((response) => {
-          setAttemptingTxn(false);
+          setAttemptingTxn(false)
           addTransaction(response, {
             summary: `Withdraw ${stakeState.typedValue}`,
-          });
-          setTxHash(response.hash);
+          })
+          setTxHash(response.hash)
         }),
       )
       .finally(() => {
-        setTxHash('');
+        setTxHash('')
       })
       .catch((err) => {
-        setAttemptingTxn(false);
+        setAttemptingTxn(false)
         if (err?.code !== 4001) {
-          console.error(err);
+          console.error(err)
         }
-      });
+      })
   }
 
   async function doStake() {
     if (!chainId || !library || !account) {
-      return;
+      return
     }
 
-    const stakingContract = getStakingContract(chainId, stakingAddress, library, account);
+    const stakingContract = getStakingContract(chainId, stakingAddress, library, account)
     if (!stakeState?.typedValue || !balance) {
-      return;
+      return
     }
-    const estimate = stakingContract.estimateGas.stake;
-    const method = stakingContract.stake;
+    const estimate = stakingContract.estimateGas.stake
+    const method = stakingContract.stake
     const args: Array<string | string[] | number> = [
       stakeAmount?.raw.toString(),
       referalAddress ? referalAddress : account,
-    ];
-    setAttemptingTxn(true);
+    ]
+    setAttemptingTxn(true)
     await estimate(...args, {})
       .then((estimatedGasLimit) =>
         method(...args, {
@@ -121,30 +121,37 @@ export default function StakeModal({
           gasLimit: calculateGasMargin(estimatedGasLimit),
           gasPrice,
         }).then((response) => {
-          setAttemptingTxn(false);
-          console.log('Calling stake method');
+          setAttemptingTxn(false)
+          console.log('Calling stake method')
           addTransaction(response, {
             summary: `Stake ${stakeState.typedValue}`,
-          });
-          setTxHash(response.hash);
+          })
+          setTxHash(response.hash)
         }),
       )
       .finally(() => {
-        setTxHash('');
+        setTxHash('')
       })
       .catch((err) => {
-        setAttemptingTxn(false);
+        setAttemptingTxn(false)
         if (err?.code !== 4001) {
-          console.error(err);
+          console.error(err)
         }
-      });
+      })
   }
 
-  const [approveState, approveCallback] = useApproveCallback(balance, stakingAddress);
+  const [approveState, approveCallback] = useApproveCallback(balance, stakingAddress)
 
   const modalBottom = useCallback(() => {
     return (
-      <AutoRow justify={(approveState === ApprovalState.PENDING || approveState === ApprovalState.NOT_APPROVED) ? "space-between" : "center"} marginTop={30} >
+      <AutoRow
+        justify={
+          approveState === ApprovalState.PENDING || approveState === ApprovalState.NOT_APPROVED
+            ? 'space-between'
+            : 'center'
+        }
+        marginTop={30}
+      >
         {(approveState === ApprovalState.PENDING || approveState === ApprovalState.NOT_APPROVED) && (
           <Button width="48%" onClick={approveCallback}>
             Approve
@@ -162,8 +169,8 @@ export default function StakeModal({
           {isStaking ? 'Deposit' : 'Remove'}
         </Button>
       </AutoRow>
-    );
-  }, [stakeState, balance, isStaking, approveState, stakingInfo]);
+    )
+  }, [stakeState, balance, isStaking, approveState, stakingInfo])
 
   const modalHeader = useCallback(() => {
     return (
@@ -190,21 +197,21 @@ export default function StakeModal({
             }}
             width="fit-content"
             onClick={() => {
-              onUserInput((isStaking ? balance?.toFixed(8) : stakingInfo?.stakedAmount?.toFixed(8)) ?? '');
+              onUserInput((isStaking ? balance?.toExact() : stakingInfo?.stakedAmount?.toExact()) ?? '')
             }}
           >
             <Text>MAX</Text>
           </MaxButton>
         </RowBetween>
       </AutoColumn>
-    );
-  }, [stakeState, balance, isStaking, stakingInfo]);
+    )
+  }, [stakeState, balance, isStaking, stakingInfo])
 
   // const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
   const confirmationContent = useCallback(() => {
     return (
       <AutoRow>
-        <div style={{width: '100%'}}>
+        <div style={{ width: '100%' }}>
           <StakeTabs active={isStaking ? 'stake' : 'unstake'} onClick={() => swapStaking()} />
         </div>
         <ConfirmationModalContent
@@ -214,12 +221,12 @@ export default function StakeModal({
           bottomContent={modalBottom}
         />
       </AutoRow>
-    );
-  }, [onDismiss, modalBottom, modalHeader, txHash]);
+    )
+  }, [onDismiss, modalBottom, modalHeader, txHash])
 
   const pendingText = `${isStaking ? 'Staking' : 'Withdrawing'} ${stakeState.typedValue} ${
     stakingInfo?.tokens[0].symbol
-  } / ${stakingInfo?.tokens[1]?.symbol} LP Tokens`;
+  } / ${stakingInfo?.tokens[1]?.symbol} LP Tokens`
 
   return (
     <TransactionConfirmationModal
@@ -230,5 +237,5 @@ export default function StakeModal({
       content={confirmationContent}
       pendingText={pendingText}
     />
-  );
+  )
 }
