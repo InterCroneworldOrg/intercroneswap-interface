@@ -54,6 +54,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
   const stakedAmount = pair ? new TokenAmount(pair?.liquidityToken, stakingInfo.stakedAmount.raw) : undefined
 
   const USDPrice = useBUSDPrice(token0)
+  const USDPriceBackup = useBUSDPrice(token1)
   const earnedUSDPrice = useBUSDPrice(stakingInfo.earnedAmount.token)
   const ratePerYear = stakingInfo.rewardForDuration.multiply(YEARLY_RATE)
   const ratePerYearBUSD = ratePerYear && earnedUSDPrice?.quote(stakingInfo.rewardForDuration).multiply(YEARLY_RATE)
@@ -65,7 +66,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
     !!LPSupply &&
     stakedAmount &&
     JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.stakedAmount.raw)
-      ? DoubleTokenAmount(pair.getLiquidityValue(token0, LPTotalSupply, stakedAmount, false))
+      ? DoubleTokenAmount(pair.getLiquidityValue(USDPrice ? token0 : token1, LPTotalSupply, stakedAmount, false))
       : undefined
 
   const totalStakedInToken =
@@ -74,10 +75,10 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
     !!LPSupply &&
     totalStakedAmount &&
     JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.totalStakedAmount.raw)
-      ? DoubleTokenAmount(pair.getLiquidityValue(token0, LPTotalSupply, totalStakedAmount, false))
+      ? DoubleTokenAmount(pair.getLiquidityValue(USDPrice ? token0 : token1, LPTotalSupply, totalStakedAmount, false))
       : undefined
 
-  const valueOfTotalStakedAmountInBUSD = GetAmountInBUSD(USDPrice, totalStakedInToken)
+  const valueOfTotalStakedAmountInBUSD = GetAmountInBUSD(USDPrice ?? USDPriceBackup, totalStakedInToken)
   const valueOfEarnedAmountInBUSD = GetAmountInBUSD(earnedUSDPrice, stakingInfo.earnedAmount)
 
   const apr =
