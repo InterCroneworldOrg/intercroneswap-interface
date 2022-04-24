@@ -13,7 +13,7 @@ const StyledPage = styled.div<{ $removePadding: boolean; $noMinHeight }>`
   padding-bottom: 0;
   min-height: ${({ $noMinHeight }) => ($noMinHeight ? 'initial' : 'calc(100vh - 64px)')};
   /* background: ${({ theme }) => theme.colors.gradients.grey}; */
-  background: url('/bsc_logo.png') no-repeat right bottom;
+  background: url('/btt_logo.png') no-repeat right bottom;
 
   ${({ theme }) => theme.mediaQueries.xs} {
     background-size: auto;
