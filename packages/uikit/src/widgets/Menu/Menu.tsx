@@ -26,23 +26,23 @@ import uparrow from "../../assets/images/uparrow.png";
 import downarrow from "../../assets/images/downarrow.png";
 import { Link, LinkExternal } from "../../components/Link";
 
-const getLogoPropsFromChainID = (chainId: number): { name: string; src: any; color: string } => {
+const getLogoPropsFromChainID = (chainId: string): { name: string; src: any; color: string } => {
   let logoProps: { name: string; src: any; color: string } = {
     name: "BSC",
     src: BscLogo,
     color: "#F0B90B",
   };
   switch (chainId) {
-    case 56:
-    case 97:
+    case "56":
+    case "97":
       logoProps = {
         name: "BSC",
         src: BscLogo,
         color: "#F0B90B",
       };
       return logoProps;
-    case 1029:
-    case 199:
+    case "1029":
+    case "199":
       logoProps = {
         name: "BTT",
         src: BttLogo,
@@ -139,8 +139,8 @@ const Menu: React.FC<NavProps> = ({
     setDropShow(!dropshow);
   };
 
+  const { name, src, color } = getLogoPropsFromChainID(chainId);
   const headerLogo = useCallback(() => {
-    const { name, src, color } = getLogoPropsFromChainID(chainId);
     return (
       <div className={"tokenname"} style={{ color }}>
         <span>{name}</span>
@@ -152,7 +152,7 @@ const Menu: React.FC<NavProps> = ({
         </span>
       </div>
     );
-  }, [dropshow, toggle]);
+  }, [dropshow, toggle, chainId]);
 
   const topBannerHeight = isMobile ? TOP_BANNER_HEIGHT_MOBILE : TOP_BANNER_HEIGHT;
 
@@ -214,18 +214,27 @@ const Menu: React.FC<NavProps> = ({
                     <span style={{ marginLeft: "7px" }}>
                       <Image width={25} height={25} src={TrxLogo} alt="" />
                     </span>
+                    {name === "TRX" && (
+                      <span style={{ textAlign: "center", fontSize: ".6rem" }}>Your actual network</span>
+                    )}
                   </Link>
                   <Link href="https://btt.intercroneswap.com/" className="bttlogo">
                     <span>BTT</span>
                     <span style={{ marginLeft: "7px" }}>
                       <Image width={25} height={25} src={BttLogo} alt="" />
                     </span>
+                    {name === "BTT" && (
+                      <span style={{ textAlign: "center", fontSize: ".6rem" }}>Your actual network</span>
+                    )}
                   </Link>
                   <Link href="https://bsc.intercroneswap.com/" className="bsclogo">
                     <span>BSC</span>
                     <span style={{ marginLeft: "7px" }}>
                       <Image width={25} height={25} src={BscLogo} alt="" />
                     </span>
+                    {name === "BSC" && (
+                      <span style={{ textAlign: "center", fontSize: ".6rem" }}>Your actual network</span>
+                    )}
                   </Link>
                 </div>
               ) : undefined}
