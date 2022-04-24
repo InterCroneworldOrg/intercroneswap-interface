@@ -100,6 +100,7 @@ export function useApproveCallback(
       [spender, useExact ? amountToApprove.raw.toString() : MaxUint256],
       {
         gasLimit: calculateGasMargin(estimatedGas),
+        gasPrice: process.env.NEXT_PUBLIC_DEFAULT_GAS_PRICE,
       },
     )
       .then((response: TransactionResponse) => {

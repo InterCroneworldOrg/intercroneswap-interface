@@ -25,6 +25,7 @@ import TrxLogo from "../../assets/images/trxlogo.png";
 import uparrow from "../../assets/images/uparrow.png";
 import downarrow from "../../assets/images/downarrow.png";
 import { Link, LinkExternal } from "../../components/Link";
+import { borderRadius } from "styled-system";
 
 const getLogoPropsFromChainID = (chainId: string): { name: string; src: any; color: string } => {
   let logoProps: { name: string; src: any; color: string } = {
@@ -247,9 +248,24 @@ const Menu: React.FC<NavProps> = ({
                   <a href="/liquidity/" className={`${Style.link} nav-link`}>
                     Liquidity
                   </a>
-                  <a href="/stake/" className={`${Style.link} nav-link`}>
+                  <div>
+                    <span
+                      style={{
+                        color: "red",
+                        position: "fixed",
+                        fontSize: ".6rem",
+                        border: "1px solid",
+                        padding: "0 4px",
+                        borderRadius: "4px",
+                      }}
+                    >
+                      Coming Soon
+                    </span>
+                    <span className={`${Style.link} nav-link`}>Staking</span>
+                  </div>
+                  {/* <a href="/stake/" className={`${Style.link} nav-link`}>
                     Staking
-                  </a>
+                  </a> */}
                   <a href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                     NFT
                   </a>
