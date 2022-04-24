@@ -338,11 +338,11 @@ const ImageBox = styled.div`
   }
 `;
 
-const BSC_LAUNCH = 1649869200000;
+const BTT_LAUNCH = 1650873600000;
 
 const Home = () => {
-  const isBSC_Launched = Date.now() > BSC_LAUNCH;
-  const bscLaunchDate = new Date(BSC_LAUNCH);
+  const isBTTLaunched = Date.now() > BTT_LAUNCH;
+  const bttLaunchDate = new Date(BTT_LAUNCH);
   return (
     <>
       <BannerWrapper>
@@ -373,9 +373,23 @@ const Home = () => {
             <Col md={12} className={Styles.box}>
               <img src={BSCLogo} className={Styles.icon} />
               <BoxContent>BSC Blockchain</BoxContent>
-              {isBSC_Launched ? (
+              <ExternalLink
+                href="https://bsc.intercroneswap.com/#/"
+                style={{ textDecoration: 'none', color: '#4a4a4a' }}
+              >
+                <YellowBox>
+                  <YellowBoxContent>Active</YellowBoxContent>
+                </YellowBox>
+              </ExternalLink>
+            </Col>
+          </Col>
+          <Col md={4}>
+            <Col md={12} className={Styles.box}>
+              <img src={BTTLogo} className={Styles.icon} />
+              <BoxContent>BTT Blockchain</BoxContent>
+              {isBTTLaunched ? (
                 <ExternalLink
-                  href="https://bsc.intercroneswap.com/#/"
+                  href="https://btt.intercroneswap.com/#/"
                   style={{ textDecoration: 'none', color: '#4a4a4a' }}
                 >
                   <YellowBox>
@@ -390,23 +404,10 @@ const Home = () => {
                 >
                   <YellowBoxContent style={{ color: 'white' }}>
                     Coming In
-                    <Countdown exactEnd={bscLaunchDate} showMessage={false} />
+                    <Countdown exactEnd={bttLaunchDate} showMessage={false} />
                   </YellowBoxContent>
                 </YellowBox>
               )}
-            </Col>
-          </Col>
-          <Col md={4}>
-            <Col md={12} className={Styles.box}>
-              <img src={BTTLogo} className={Styles.icon} />
-              <BoxContent>BTT Blockchain</BoxContent>
-              <YellowBox
-                style={{
-                  background: 'linear-gradient(rgb(169 155 4) 0%, rgb(116 85 5) 100%)',
-                }}
-              >
-                <YellowBoxContent style={{ color: 'white' }}>Coming Soon</YellowBoxContent>
-              </YellowBox>
             </Col>
           </Col>
         </Row>
