@@ -1,5 +1,5 @@
 {
-  "name": "Iswap Default List BSC",
+  "name": "Iswap Default List BTT",
   "tokens": [
     {
       "name": "InterCrone",
@@ -15,7 +15,7 @@
       "address": "0x252CD063341a1A47933086b93f85417C09C54aec",
       "chainId": 199,
       "decimals": 8,
-      "logoURI": "https://coin.top/production/logo/TN3W4H6rK2ce4vX9YnFQHwKENnHjoxb3m9.png"
+      "logoURI": "https://coin.top/production/upload/logo/TKqvrVG7a2zJvQ3VysLoiz9ijuMNDehwy7.png"
     },
     {
       "name": "Bitcoin",
@@ -31,7 +31,7 @@
       "address": "0xdB28719F7f938507dBfe4f0eAe55668903D34a15",
       "chainId": 199,
       "decimals": 18,
-      "logoURI": "https://bscscan.com/token/images/busd_32.png"
+      "logoURI": "https://coin.top/production/logo/usdtlogo.png"
     },
     {
       "name": "Tether",
