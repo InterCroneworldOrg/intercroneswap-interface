@@ -75,6 +75,7 @@ export default function Stake({
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
   const [toggleToken, setToggleToken] = useState(false);
+  const [toggleSearch, setToggleSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortOption, setSortOption] = useState<'latest' | 'liquidity' | 'earned' | 'apy'>('latest');
   const [showStake, setShowStake] = useState<boolean>(false);
@@ -183,10 +184,8 @@ export default function Stake({
     ) : undefined;
   }, [uplinkAddress, showReferal]);
 
-  // Filtering and sorting pools
-  // TODO: when we have active/ inactive toggle
-  const activePools = stakingInfos.filter((info) => info.active);
-  const inactivePools = stakingInfos.filter((info) => !info.active);
+  const activePools = stakingInfos.filter((info) => info.active && info.periodFinish);
+  const inactivePools = stakingInfos.filter((info) => !info.active || (info.active && !info.periodFinish));
   const stakedOnlyPools = activePools.filter(
     (info) => info.stakedAmount && JSBI.greaterThan(info.stakedAmount.numerator, ZERO),
   );
@@ -197,12 +196,20 @@ export default function Stake({
   const stakingList = useCallback(
     (poolsToDisplay: StakingInfo[]): StakingInfo[] => {
       if (searchQuery) {
+        if (!toggleSearch) {
+          return poolsToDisplay.filter((info: StakingInfo) => {
+            return (
+              info.tokens[0].symbol?.toLowerCase().includes(searchQuery) ||
+              info.tokens[0].name?.toLowerCase().includes(searchQuery) ||
+              info.tokens[1].symbol?.toLowerCase().includes(searchQuery) ||
+              info.tokens[1].name?.toLowerCase().includes(searchQuery)
+            );
+          });
+        }
         return poolsToDisplay.filter((info: StakingInfo) => {
           return (
-            info.tokens[0].symbol?.toLowerCase().includes(searchQuery) ||
-            info.tokens[0].name?.toLowerCase().includes(searchQuery) ||
-            info.tokens[1].symbol?.toLowerCase().includes(searchQuery) ||
-            info.tokens[1].name?.toLowerCase().includes(searchQuery)
+            info.earnedAmount.token.symbol?.toLowerCase().includes(searchQuery) ||
+            info.earnedAmount.token.name?.toLowerCase().includes(searchQuery)
           );
         });
       }
@@ -305,7 +312,17 @@ export default function Stake({
                 </RowBetween>
               ) : undefined}
               <RowBetween>
-                <TYPE.white fontSize="1rem">Search</TYPE.white>
+                <ButtonSecondary
+                  width={isMobile ? '45%' : '13%'}
+                  onClick={() => {
+                    setToggleSearch(!toggleSearch);
+                    setSearchQuery('');
+                  }}
+                >
+                  <ResponsiveSizedTextMedium>
+                    Search {toggleSearch ? 'Earn token' : 'LP Token'}
+                  </ResponsiveSizedTextMedium>
+                </ButtonSecondary>
                 <TYPE.white>Sort by</TYPE.white>
               </RowBetween>
               <RowBetween>
@@ -318,7 +335,7 @@ export default function Stake({
                   onChange={handleInput}
                   onKeyDown={handleEnter}
                   width="1rem"
-                  style={{ fontSize: '1rem', width: isMobile ? '45%' : '194px' }}
+                  style={{ fontSize: '.9rem', width: isMobile ? '57%' : '194px' }}
                 />
                 <AutoRow gap="2rem" justify="flex-end">
                   {!isMobile ? (
@@ -344,7 +361,7 @@ export default function Stake({
                       color: theme.text1,
                       background: theme.bg1,
                       borderColor: theme.primary3,
-                      width: isMobile ? '40%' : '150px',
+                      width: isMobile ? '45%' : '150px',
                     }}
                     onChange={bindSortSelect}
                     value={sortOption}

@@ -52,6 +52,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
   const stakedAmount = pair ? new TokenAmount(pair?.liquidityToken, stakingInfo.stakedAmount.raw) : undefined;
 
   const USDPrice = useUSDTPrice(token0);
+  const USDPriceBackup = useUSDTPrice(token1);
   const earnedUSDPrice = useUSDTPrice(stakingInfo.earnedAmount.token);
   // const USDPriceTRX = useUSDTPrice(weth);
   const ratePerYear = stakingInfo.rewardForDuration.multiply(YEARLY_RATE);
@@ -64,7 +65,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
     !!LPSupply &&
     stakedAmount &&
     JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.stakedAmount.raw)
-      ? DoubleTokenAmount(pair.getLiquidityValue(token0, LPTotalSupply, stakedAmount, false))
+      ? DoubleTokenAmount(pair.getLiquidityValue(USDPrice ? token0 : token1, LPTotalSupply, stakedAmount, false))
       : undefined;
 
   const totalStakedInToken =
@@ -73,10 +74,10 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
     !!LPSupply &&
     totalStakedAmount &&
     JSBI.greaterThan(LPTotalSupply?.raw, stakingInfo.totalStakedAmount.raw)
-      ? DoubleTokenAmount(pair.getLiquidityValue(token0, LPTotalSupply, totalStakedAmount, false))
+      ? DoubleTokenAmount(pair.getLiquidityValue(USDPrice ? token0 : token1, LPTotalSupply, totalStakedAmount, false))
       : undefined;
 
-  const valueOfTotalStakedAmountInUSDT = GetAmountInUSDT(USDPrice, totalStakedInToken);
+  const valueOfTotalStakedAmountInUSDT = GetAmountInUSDT(USDPrice ?? USDPriceBackup, totalStakedInToken);
   const valueOfEarnedAmountInUSDT = GetAmountInUSDT(earnedUSDPrice, stakingInfo.earnedAmount);
 
   const apr =
@@ -101,13 +102,13 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
           <AutoRow>
             <CurrencyLogo currency={currency0} size="1.2rem" />
             &nbsp;
-            <TYPE.white fontWeight={500} fontSize="1.2rem">
+            <TYPE.white fontWeight={500} fontSize="1rem">
               {currency0?.symbol}&nbsp;/
             </TYPE.white>
             &nbsp;
             <CurrencyLogo currency={currency1} size="1.2rem" />
             &nbsp;
-            <TYPE.white fontWeight={500} fontSize="1.2rem">
+            <TYPE.white fontWeight={500} fontSize="1rem">
               {currency1?.symbol}
             </TYPE.white>
           </AutoRow>
@@ -119,10 +120,10 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
             </ResponsiveSizedTextMedium>
           </AutoRow>
         </AutoRowToColumn>
-        <AutoRowToColumn gap="0.5rem">
+        <AutoRowToColumn gap="2px">
           <ResponsiveSizedTextMedium fontWeight="1.3rem">Ends on</ResponsiveSizedTextMedium>
           <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
-            {stakingInfo.periodFinish?.toLocaleString() || 'Not available yet'}
+            {stakingInfo.periodFinish?.toLocaleDateString() || 'Not available yet'}
           </ResponsiveSizedTextNormal>
         </AutoRowToColumn>
         <AutoRowToColumn gap="1px">
