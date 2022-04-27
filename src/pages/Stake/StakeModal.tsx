@@ -15,10 +15,11 @@ import { TransactionResponse } from '@ethersproject/providers';
 import { DEFAULT_FEE_LIMIT } from '../../tron-config';
 import { useTransactionAdder } from '../../state/transactions/hooks';
 import { Tabs } from '../../components/NavigationTabs';
-import { TYPE } from '../../theme';
+import { ExternalLink, TYPE } from '../../theme';
 import { MaxButton } from './styleds';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import { tryParseAmount } from '../../state/swap/hooks';
+import { unwrappedToken } from '../../utils/wrappedCurrency';
 
 interface StakeModalProps {
   isOpen: boolean;
@@ -43,6 +44,11 @@ export default function StakeModal({
 
   const [isStaking, setIsStaking] = useState<boolean>(true);
   const { onUserInput, onTxHashChange, onAttemptingTxn } = useStakeActionHandlers();
+  const token0 = stakingInfo?.tokens[0];
+  const token1 = stakingInfo?.tokens[1];
+
+  const currency0 = token0 ? unwrappedToken(token0) : undefined;
+  const currency1 = token1 ? unwrappedToken(token1) : undefined;
 
   const addTransaction = useTransactionAdder();
 
@@ -146,24 +152,30 @@ export default function StakeModal({
 
   const modalBottom = useCallback(() => {
     return (
-      <AutoRow justify="center">
-        {(approveState === ApprovalState.PENDING || approveState === ApprovalState.NOT_APPROVED) && (
+      <AutoColumn justify="center">
+        {approveState === ApprovalState.PENDING || approveState === ApprovalState.NOT_APPROVED ? (
           <ButtonPrimary width="50%" onClick={approveCallback}>
             Approve
           </ButtonPrimary>
+        ) : (
+          <ButtonPrimary
+            width="50%"
+            onClick={isStaking ? doStake : doWithdraw}
+            disabled={
+              isStaking
+                ? Number(stakeState.typedValue) > Number(balance?.toExact())
+                : Number(stakeState.typedValue) > Number(stakingInfo?.stakedAmount?.toExact())
+            }
+          >
+            {isStaking ? 'Deposit' : 'Remove'}
+          </ButtonPrimary>
         )}
-        <ButtonPrimary
-          width="50%"
-          onClick={isStaking ? doStake : doWithdraw}
-          disabled={
-            isStaking
-              ? Number(stakeState.typedValue) > Number(balance?.toExact())
-              : Number(stakeState.typedValue) > Number(stakingInfo?.stakedAmount?.toExact())
-          }
-        >
-          {isStaking ? 'Deposit' : 'Remove'}
-        </ButtonPrimary>
-      </AutoRow>
+        <ExternalLink href={`/add`}>
+          <TYPE.white fontWeight="0.7rem" style={{ textDecorationLine: 'underline' }}>
+            Get LP {currency0?.symbol}/{currency1?.symbol}
+          </TYPE.white>
+        </ExternalLink>
+      </AutoColumn>
     );
   }, [stakeState, balance, isStaking, approveState, stakingInfo, isOpen]);
 

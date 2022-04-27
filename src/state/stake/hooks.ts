@@ -29,6 +29,7 @@ export interface StakingInfo {
   rewardDuration: number;
   periodFinish: Date | undefined;
   active: boolean;
+  fee: number;
   getHypotheticalRewardRate: (
     stakedAmount: TokenAmount,
     totalStakedAmount: TokenAmount,
@@ -146,6 +147,13 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
     undefined,
     NEVER_RELOAD,
   );
+  const fees = useMultipleContractSingleData(
+    rewardsAddresses,
+    ISwapV2StakingRewardsInterface,
+    'fee',
+    undefined,
+    NEVER_RELOAD,
+  );
 
   return useMemo(() => {
     if (!chainId) return [];
@@ -161,6 +169,7 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
       const rewardsTokenState = rewardsTokens[index];
       const rewardForDurationState = rewardForDurations[index];
       const periodFinishState = periodFinishes[index];
+      const feeState = fees[index];
 
       if (
         // these may be undefined if not logged in
@@ -176,7 +185,9 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
         periodFinishState &&
         !periodFinishState.loading &&
         rewardsTokenState &&
-        !rewardsTokenState.loading
+        !rewardsTokenState.loading &&
+        feeState &&
+        !feeState.loading
       ) {
         if (
           balanceState?.error ||
@@ -185,7 +196,8 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
           rewardRateState.error ||
           rewardForDurationState.error ||
           periodFinishState.error ||
-          rewardsTokenState.error
+          rewardsTokenState.error ||
+          feeState.error
         ) {
           console.error('Failed to load staking rewards info');
           return memo;
@@ -223,6 +235,7 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
         // compare period end timestamp vs current block timestamp (in seconds)
         const active =
           periodFinishSeconds && currentBlockTimestamp ? periodFinishSeconds > currentBlockTimestamp.toNumber() : true;
+        const fee = feeState.result?.[0]?.toNumber();
 
         memo.push({
           stakingRewardAddress: rewardsAddress,
@@ -237,6 +250,7 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
           totalStakedAmount,
           getHypotheticalRewardRate,
           active,
+          fee,
         });
       }
       return memo;

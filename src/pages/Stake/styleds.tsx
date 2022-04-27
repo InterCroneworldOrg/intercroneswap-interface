@@ -91,7 +91,8 @@ export const ReferalButton = styled(ButtonPrimary)`
 export const WordBreakDiv = styled.div`
   word-break: break-all;
   font-size: 1rem;
+  color: ${({ theme }) => theme.text1};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     font-size: .7rem;
-  `}
+  `};
 `;

@@ -65,3 +65,10 @@ export const ResponsiveSizedTextMedium = styled(TYPE.white)`
     font-size: .7rem;
   `}
 `;
+
+export const ButtonAutoRow = styled(AutoRow)`
+  width: 450px;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    width: 100%;
+  `}
+`;
