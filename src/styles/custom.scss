@@ -1,6 +1,7 @@
 
 $primary: #F3C914;
-$light: #020202;
-$body-bg: #333333;
+$light: rgba(196, 196, 196, 0.1);
+$body-bg: rgba(196, 196, 196, 0.1);
+$form-select-bg: #FFFFFF;
 
 @import '~bootstrap/scss/bootstrap.scss';
