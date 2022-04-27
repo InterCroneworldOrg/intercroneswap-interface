@@ -1,18 +1,18 @@
-import { TokenAmount } from '@intercroneswap/v2-sdk';
-import { useContext } from 'react';
-import { LinkExternal} from '@pancakeswap/uikit'
-import { ThemeContext } from 'styled-components';
+import { TokenAmount } from '@intercroneswap/v2-sdk'
+import { useContext } from 'react'
+import { Link } from '@pancakeswap/uikit'
+import { ThemeContext } from 'styled-components'
 import { PairState } from 'hooks/usePairs'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useBUSDPrice from 'hooks/useBUSDPrice'
 import { CurrencyLogo } from 'components/Logo'
 import tokens from 'config/constants/tokens'
-import { StakingInfo } from '../../state/stake/hooks';
-import { Divider } from '../../theme';
-import { getBscScanLink } from '../../utils';
-import { unwrappedToken } from '../../utils/wrappedCurrency';
-import { Dots } from '../swap/styleds';
-import { Countdown } from './Countdown';
+import { StakingInfo } from '../../state/stake/hooks'
+import { Divider } from '../../theme'
+import { getBscScanLink } from '../../utils'
+import { unwrappedToken } from '../../utils/wrappedCurrency'
+import { Dots } from '../swap/styleds'
+import { Countdown } from './Countdown'
 
 import {
   AutoColumnToRow,
@@ -20,18 +20,18 @@ import {
   RowBetweenToDiv,
   ResponsiveSizedTextMedium,
   ResponsiveSizedTextNormal,
-} from './styleds';
+} from './styleds'
 
 interface DetailsDropDownParams {
-  stakingInfo: StakingInfo;
-  toggleToken: boolean;
-  address: string;
-  pairState: PairState;
-  stakedAmount: TokenAmount | undefined;
-  totalStakedAmount: TokenAmount | undefined;
+  stakingInfo: StakingInfo
+  toggleToken: boolean
+  address: string
+  pairState: PairState
+  stakedAmount: TokenAmount | undefined
+  totalStakedAmount: TokenAmount | undefined
 }
 
-const { busd : BUSD } = tokens
+const { busd: BUSD } = tokens
 
 export default function DetailsDropdown({
   stakingInfo,
@@ -41,13 +41,13 @@ export default function DetailsDropdown({
   stakedAmount,
   totalStakedAmount,
 }: DetailsDropDownParams) {
-  const theme = useContext(ThemeContext);
-  const { chainId } = useActiveWeb3React();
+  const theme = useContext(ThemeContext)
+  const { chainId } = useActiveWeb3React()
 
-  const currency = stakedAmount ? unwrappedToken(stakedAmount?.token) : undefined;
-  const USDPrice = useBUSDPrice(stakedAmount?.token);
-  const valueOfStakedAmountInBUSD = stakedAmount && USDPrice?.quote(stakedAmount);
-  const valueOfTotalStakedAmountInBUSD = totalStakedAmount && USDPrice?.quote(totalStakedAmount);
+  const currency = stakedAmount ? unwrappedToken(stakedAmount?.token) : undefined
+  const USDPrice = useBUSDPrice(stakedAmount?.token)
+  const valueOfStakedAmountInBUSD = stakedAmount && USDPrice?.quote(stakedAmount)
+  const valueOfTotalStakedAmountInBUSD = totalStakedAmount && USDPrice?.quote(totalStakedAmount)
 
   return (
     <AutoColumnToRow>
@@ -57,48 +57,48 @@ export default function DetailsDropdown({
           <Countdown exactEnd={stakingInfo.periodFinish} durationDays={stakingInfo.rewardDuration} />
         </RowBetweenToDiv>
         <RowBetweenToDiv>
-          <ResponsiveSizedTextMedium fontWeight="0.7rem">Staked</ResponsiveSizedTextMedium>
+          <ResponsiveSizedTextNormal fontWeight="0.7rem">Staked</ResponsiveSizedTextNormal>
           {toggleToken ? (
-            <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.colors.primary}>
+            <ResponsiveSizedTextMedium fontWeight="0.6rem" color={theme.colors.primary}>
               {stakedAmount?.toSignificant() ?? '-'} <CurrencyLogo currency={currency} size=".8rem" />
-            </ResponsiveSizedTextNormal>
+            </ResponsiveSizedTextMedium>
           ) : (
-            <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.colors.primary}>
+            <ResponsiveSizedTextMedium fontWeight="0.6rem" color={theme.colors.primary}>
               {valueOfStakedAmountInBUSD?.toFixed(2) ?? '-'} <CurrencyLogo currency={BUSD} size=".8rem" />
-            </ResponsiveSizedTextNormal>
+            </ResponsiveSizedTextMedium>
           )}
         </RowBetweenToDiv>
         <RowBetweenToDiv>
-          <ResponsiveSizedTextMedium fontWeight="0.7rem">Total Staked</ResponsiveSizedTextMedium>
+          <ResponsiveSizedTextNormal fontWeight="0.7rem">Total Staked</ResponsiveSizedTextNormal>
           {pairState === PairState.EXISTS ? (
             <>
               {toggleToken ? (
-                <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.colors.primary}>
+                <ResponsiveSizedTextMedium fontWeight="0.7rem" color={theme.colors.primary}>
                   {totalStakedAmount?.toSignificant(4)} <CurrencyLogo currency={currency} size=".8rem" />
-                </ResponsiveSizedTextNormal>
+                </ResponsiveSizedTextMedium>
               ) : (
-                <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.colors.primary}>
+                <ResponsiveSizedTextMedium fontWeight="0.7rem" color={theme.colors.primary}>
                   {valueOfTotalStakedAmountInBUSD?.toFixed(2)} <CurrencyLogo currency={BUSD} size=".8rem" />
-                </ResponsiveSizedTextNormal>
+                </ResponsiveSizedTextMedium>
               )}
             </>
           ) : (
             <Dots />
           )}
         </RowBetweenToDiv>
-        <LinkExternal
+        <Link
           style={{ textAlign: 'center', color: '#fff', textDecorationLine: 'underline' }}
           href={chainId ? getBscScanLink(address, 'address', chainId) : '#'}
         >
-          <ResponsiveSizedTextMedium fontWeight="0.7rem">View Smart Contract</ResponsiveSizedTextMedium>
-        </LinkExternal>
-        <LinkExternal
+          <ResponsiveSizedTextNormal fontWeight="0.7rem">View Smart Contract</ResponsiveSizedTextNormal>
+        </Link>
+        <Link
           style={{ textAlign: 'center', color: '#fff', textDecorationLine: 'underline' }}
           href={chainId ? getBscScanLink(stakingInfo.rewardForDuration.token.address, 'token', chainId) : '#'}
         >
-          <ResponsiveSizedTextMedium fontWeight="0.7rem">View Token Info</ResponsiveSizedTextMedium>
-        </LinkExternal>
+          <ResponsiveSizedTextNormal fontWeight="0.7rem">View Token Info</ResponsiveSizedTextNormal>
+        </Link>
       </SpacedToCenteredAutoRow>
     </AutoColumnToRow>
-  );
+  )
 }
