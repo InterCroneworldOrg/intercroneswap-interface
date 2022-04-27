@@ -14,7 +14,7 @@ import BGImage from '../assets/images/back_logo.png';
 //159px -17px 150px 73px #113b8c, 11px 33px 56px 13px rgb(249 115 65 / 0%);
 export * from './components';
 
-const MEDIA_WIDTHS = {
+export const MEDIA_WIDTHS = {
   upToExtraSmall: 500,
   upToSmall: 720,
   upToMedium: 960,

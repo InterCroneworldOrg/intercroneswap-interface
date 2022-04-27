@@ -104,15 +104,15 @@ export const ButtonGray = styled(Base)`
   font-size: 16px;
   font-weight: 500;
   &:focus {
-    box-shadow: 0 0 0 1pt ${({ theme, disabled }) => !disabled && darken(0.05, theme.bg2)};
-    background-color: ${({ theme, disabled }) => !disabled && darken(0.05, theme.bg2)};
+    box-shadow: 0 0 0 1pt ${({ theme, disabled }) => !disabled && darken(0.05, theme.bg1)};
+    background-color: ${({ theme, disabled }) => !disabled && darken(0.05, theme.bg1)};
   }
   &:hover {
-    background-color: ${({ theme, disabled }) => !disabled && darken(0.05, theme.bg2)};
+    background-color: ${({ theme, disabled }) => !disabled && darken(0.05, theme.bg1)};
   }
   &:active {
-    box-shadow: 0 0 0 1pt ${({ theme, disabled }) => !disabled && darken(0.1, theme.bg2)};
-    background-color: ${({ theme, disabled }) => !disabled && darken(0.1, theme.bg2)};
+    box-shadow: 0 0 0 1pt ${({ theme, disabled }) => !disabled && darken(0.1, theme.bg1)};
+    background-color: ${({ theme, disabled }) => !disabled && darken(0.1, theme.bg1)};
   }
 `;
 

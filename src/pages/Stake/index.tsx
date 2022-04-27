@@ -20,7 +20,7 @@ import { USDT, getTokensFromDefaults, ICR } from '../../constants/tokens';
 import { useActiveWeb3React } from '../../hooks';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks';
-import { Button, Divider, TYPE } from '../../theme';
+import { Button, Divider, MEDIA_WIDTHS, TYPE } from '../../theme';
 import { StyledHeading } from '../App';
 import HarvestModal from './HarvestModal';
 import StakeModal from './StakeModal';
@@ -46,6 +46,7 @@ export default function Stake({
 }: RouteComponentProps<{ referal?: string }>) {
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
+  const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
   const { account, chainId } = useActiveWeb3React();
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];
@@ -103,10 +104,11 @@ export default function Stake({
     setShowHarvest(true);
   };
 
-  const handleDismissHarvest = () => {
+  const handleDismissHarvest = useCallback(() => {
     setStakeAddress('');
     setShowHarvest(false);
-  };
+    onTxHashChange('');
+  }, [stakeAddress, showHarvest]);
   const inputRef = useRef<HTMLInputElement>();
 
   const handleStake = (address: string, pairSupply?: TokenAmount, stakingInfo?: StakingInfo) => {
@@ -236,6 +238,11 @@ export default function Stake({
   return (
     <>
       <StyledHeading>LP Staking</StyledHeading>
+      <TitleRow style={{ marginTop: '1rem' }} textAlign="center" padding={'0'}>
+        <TYPE.mediumHeader width="100%" style={{ marginTop: '0.5rem', justifySelf: 'center', color: theme.text1 }}>
+          Stake Liquidity Pool (LP) tokens to earn
+        </TYPE.mediumHeader>
+      </TitleRow>
       <PageWrapper>
         <StakeModal
           isOpen={showStake}
@@ -251,12 +258,6 @@ export default function Stake({
           stakingInfo={stakeInfo}
           onDismiss={handleDismissHarvest}
         />
-        <AutoRow justify="center">
-          <ButtonSecondary width="15rem" onClick={() => setToggleToken(!toggleToken)}>
-            <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
-            <CurrencyLogo currency={toggleToken ? ICR : USDT} />
-          </ButtonSecondary>
-        </AutoRow>
         <LightCard style={{ marginTop: '20px' }} padding="2rem 1rem">
           {!account ? (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -271,23 +272,22 @@ export default function Stake({
             <ReferalButton
               width="11rem"
               height="2rem"
-              marginBottom="-4rem"
+              margin="0"
+              padding=".5rem"
               justifySelf="end"
               onClick={() => setShowReferal(!showReferal)}
             >
               Show referal link
             </ReferalButton>
-            <AutoColumn gap="2rem" style={{ width: '100%' }}>
-              <TitleRow style={{ marginTop: '1rem' }} textAlign="center" padding={'0'}>
-                <TYPE.mediumHeader width="100%" style={{ marginTop: '0.5rem', justifySelf: 'center' }}>
-                  Stake Liquidity Pool (LP) tokens to earn
-                </TYPE.mediumHeader>
-              </TitleRow>
+            <ButtonSecondary width="15rem" onClick={() => setToggleToken(!toggleToken)}>
+              <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
+              <CurrencyLogo currency={toggleToken ? ICR : USDT} style={{ marginLeft: '1rem' }} />
+            </ButtonSecondary>
+            <AutoColumn gap="1rem" style={{ width: '100%' }}>
               <Divider />
               {uplineComponent()}
-              {/* TODO: when finished enable display */}
-              <RowBetween>
-                <AutoColumn justify="flex-start" gap="1rem">
+              {isMobile ? (
+                <RowBetween>
                   <Form.Switch
                     label="Active"
                     id="active-staking"
@@ -295,20 +295,6 @@ export default function Stake({
                     defaultChecked={true}
                     style={{ color: theme.text1 }}
                   />
-                  <TYPE.white fontSize="1rem">Search</TYPE.white>
-                  <SearchInput
-                    type="text"
-                    id="token-search-input"
-                    placeholder={t('poolSearchPlaceholder')}
-                    value={searchQuery}
-                    ref={inputRef as RefObject<HTMLInputElement>}
-                    onChange={handleInput}
-                    onKeyDown={handleEnter}
-                    width="1rem"
-                    style={{ fontSize: '1rem' }}
-                  />
-                </AutoColumn>
-                <AutoColumn gap="3px">
                   <Form.Switch
                     label="Staked only"
                     id="staked-only"
@@ -316,9 +302,50 @@ export default function Stake({
                     defaultChecked={false}
                     style={{ color: theme.text1 }}
                   />
-                  <TYPE.white>Sort by</TYPE.white>
+                </RowBetween>
+              ) : undefined}
+              <RowBetween>
+                <TYPE.white fontSize="1rem">Search</TYPE.white>
+                <TYPE.white>Sort by</TYPE.white>
+              </RowBetween>
+              <RowBetween>
+                <SearchInput
+                  type="text"
+                  id="token-search-input"
+                  placeholder={t('poolSearchPlaceholder')}
+                  value={searchQuery}
+                  ref={inputRef as RefObject<HTMLInputElement>}
+                  onChange={handleInput}
+                  onKeyDown={handleEnter}
+                  width="1rem"
+                  style={{ fontSize: '1rem', width: isMobile ? '45%' : '194px' }}
+                />
+                <AutoRow gap="2rem" justify="flex-end">
+                  {!isMobile ? (
+                    <>
+                      <Form.Switch
+                        label="Active"
+                        id="active-staking"
+                        onChange={onSwitchAction}
+                        defaultChecked={true}
+                        style={{ color: theme.text1 }}
+                      />
+                      <Form.Switch
+                        label="Staked only"
+                        id="staked-only"
+                        onChange={onStakedOnlyAction}
+                        defaultChecked={false}
+                        style={{ color: theme.text1 }}
+                      />
+                    </>
+                  ) : undefined}
                   <Form.Select
-                    style={{ color: theme.text1, background: theme.bg1, borderColor: theme.primary3 }}
+                    style={{
+                      color: theme.text1,
+                      background: theme.bg1,
+                      borderColor: theme.primary3,
+                      width: isMobile ? '40%' : '150px',
+                    }}
                     onChange={bindSortSelect}
                     value={sortOption}
                   >
@@ -327,7 +354,7 @@ export default function Stake({
                     <option value={'earned'}>Earned</option>
                     <option value={'apy'}>APY</option>
                   </Form.Select>
-                </AutoColumn>
+                </AutoRow>
               </RowBetween>
               {!account ? (
                 <GreyCard padding="1rem">
