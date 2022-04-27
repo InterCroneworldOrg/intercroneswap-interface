@@ -111,6 +111,13 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
               {currency1?.symbol}
             </Text>
           </AutoRow>
+          <AutoRow gap="2px">
+            <Text>Earn</Text>
+            <CurrencyLogo currency={stakingInfo.earnedAmount.token} size="1rem" />
+            <Text fontWeight={400} fontSize="1rem">
+              {stakingInfo.earnedAmount.token?.symbol}
+            </Text>
+          </AutoRow>
         </AutoRowToColumn>
         <AutoRowToColumn gap="0.5rem">
           <ResponsiveSizedTextNormal fontWeight="1.3rem">Ends on</ResponsiveSizedTextNormal>

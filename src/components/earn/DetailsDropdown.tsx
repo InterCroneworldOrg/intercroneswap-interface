@@ -53,6 +53,11 @@ export default function DetailsDropdown({
     <AutoColumnToRow>
       <Divider />
       <SpacedToCenteredAutoRow gap=".3rem">
+        {stakingInfo.fee > 0 ? (
+          <RowBetweenToDiv>
+            <ResponsiveSizedTextMedium>Fee {stakingInfo.fee} %</ResponsiveSizedTextMedium>
+          </RowBetweenToDiv>
+        ) : undefined}
         <RowBetweenToDiv>
           <Countdown exactEnd={stakingInfo.periodFinish} durationDays={stakingInfo.rewardDuration} />
         </RowBetweenToDiv>
