@@ -182,7 +182,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
               </ResponsiveSizedTextNormal>
             </AutoColumn>
           </ButtonPrimary>
-          {LPSupply?.greaterThan(ZERO) ? (
+          {LPSupply?.greaterThan(ZERO) || stakingInfo.stakedAmount?.greaterThan(ZERO) ? (
             <ButtonPrimary
               padding="8px"
               borderRadius="8px"
