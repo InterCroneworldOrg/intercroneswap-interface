@@ -35,7 +35,9 @@ let stakingInfosRaw: {
     };
   };
 } = {};
-fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
+fetch(
+  'https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/revert-2-revert-1-gnagy-add-new-staking-addresses/staking-addresses.json',
+)
   .then((response) => response.json())
   .then((data) => (stakingInfosRaw = data));
 
@@ -67,7 +69,6 @@ export default function Stake({
       : undefined;
     return tmpinfos;
   }, [chainId, stakingInfosRaw]);
-
   const stakingInfos = useStakingInfo(stakingRewardInfos);
 
   const [stakeAddress, setStakeAddress] = useState<string>('');
