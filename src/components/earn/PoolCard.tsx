@@ -176,7 +176,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
               </ResponsiveSizedTextNormal>
             </AutoColumn>
           </Button>
-          {LPSupply?.greaterThan(ZERO) ? (
+          {LPSupply?.greaterThan(ZERO) || stakingInfo.stakedAmount?.greaterThan(ZERO) ? (
             <Button padding="8px" width="45%" height={45} onClick={() => handleStake(address, LPSupply, stakingInfo)}>
               <AutoColumn>
                 <ResponsiveSizedTextMedium color="rgb(44, 47, 54)">Stake / Unstake</ResponsiveSizedTextMedium>
