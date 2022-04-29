@@ -172,7 +172,7 @@ const ClaimInnerContainer: React.FC<ClaimInnerProps> = ({ onSuccess, roundsToCla
             fontSize="44px"
             bold
             color="secondary"
-            unit=" CAKE!"
+            unit=" ICR!"
           />
           <PresentWonIcon ml={['0', null, '12px']} width="64px" />
         </Flex>
