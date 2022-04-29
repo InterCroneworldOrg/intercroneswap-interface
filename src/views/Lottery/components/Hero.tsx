@@ -227,11 +227,7 @@ const Hero = () => {
     if (status === LotteryStatus.OPEN) {
       return (
         <>
-          {prizeInBusd.isNaN() ? (
-            <Skeleton my="7px" height={60} width={190} />
-          ) : (
-            <PrizeTotalBalance fontSize="64px" bold prefix="$" value={prizeTotal} mb="8px" decimals={0} />
-          )}
+          <PrizeTotalBalance fontSize="64px" bold unit=" ICR" value={getBalanceNumber(amountCollectedInCake)} mb="8px" decimals={0} />
           <Heading mb="32px" scale="lg" color="#ffffff">
             {t('in prizes!')}
           </Heading>
@@ -256,7 +252,7 @@ const Hero = () => {
         <img src="/images/lottery/ticket-r.png" width="121px" height="72px" alt="" />
       </StarsDecorations>
       <Heading mb="8px" scale="md" color="#ffffff" id="lottery-hero-title">
-        {t('The PancakeSwap Lottery')}
+        {t('The Lottery')}
       </Heading>
       {getHeroHeading()}
       <TicketContainer

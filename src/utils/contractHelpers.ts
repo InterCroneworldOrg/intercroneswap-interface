@@ -4,7 +4,7 @@ import { Contract } from '@ethersproject/contracts'
 import { simpleRpcProvider } from 'utils/providers'
 import poolsConfig from 'config/constants/pools'
 import { PoolCategory } from 'config/constants/types'
-import tokens from 'config/constants/tokens'
+import tokens, { testnetTokens } from 'config/constants/tokens'
 
 // Addresses
 import {
@@ -144,7 +144,7 @@ export const getPointCenterIfoContract = (signer?: Signer | Provider) => {
   return getContract(pointCenterIfo, getPointCenterIfoAddress(), signer) as PointCenterIfo
 }
 export const getCakeContract = (signer?: Signer | Provider) => {
-  return getContract(cakeAbi, tokens.cake.address, signer) as Cake
+  return getContract(cakeAbi, testnetTokens.ICR.address, signer) as ICR
 }
 export const getProfileContract = (signer?: Signer | Provider) => {
   return getContract(profileABI, getPancakeProfileAddress(), signer) as PancakeProfile
