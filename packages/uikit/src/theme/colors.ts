@@ -19,31 +19,6 @@ export const additionalColors = {
   bronze: "#E7974D",
 };
 
-export const lightColors: Colors = {
-  ...baseColors,
-  ...additionalColors,
-  background: "#1c1c1c",
-  backgroundDisabled: "#E9EAEB",
-  backgroundAlt: "#0a0a1e",
-  backgroundAlt2: "rgba(255, 255, 255, 0.7)",
-  cardBorder: "#1c1c1c",
-  contrast: "#191326",
-  dropdown: "#F6F6F6",
-  dropdownDeep: "#EEEEEE",
-  invertedContrast: "#FFFFFF",
-  input: "#eeeaf4",
-  inputSecondary: "#d7caec",
-  tertiary: "transparent",
-  text: "#FFFFFF",
-  textDisabled: "#BDC2C4",
-  textSubtle: "#565a69",
-  disabled: "#E9EAEB",
-  gradients: {
-    grey: "linear-gradient(180deg, #08060C 0%, #3c3742 100%)",
-    gold: "linear-gradient(180deg, #FFD800 0%, #FDAB32 100%)",
-  },
-};
-
 export const darkColors: Colors = {
   ...baseColors,
   ...additionalColors,
@@ -69,4 +44,30 @@ export const darkColors: Colors = {
     grey: "linear-gradient(180deg, #08060C 0%, #3c3742 100%)",
     gold: "linear-gradient(180deg, #FFD800 0%, #FDAB32 100%)",
   },
+};
+
+export const lightColors: Colors = {
+  ...darkColors,
+  // ...baseColors,
+  // ...additionalColors,
+  // background: "#1c1c1c",
+  // backgroundDisabled: "#E9EAEB",
+  // backgroundAlt: "#0a0a1e",
+  // backgroundAlt2: "rgba(255, 255, 255, 0.7)",
+  // cardBorder: "#1c1c1c",
+  // contrast: "#191326",
+  // dropdown: "#F6F6F6",
+  // dropdownDeep: "#EEEEEE",
+  // invertedContrast: "#FFFFFF",
+  // input: "#eeeaf4",
+  // inputSecondary: "#d7caec",
+  // tertiary: "transparent",
+  // text: "#FFFFFF",
+  // textDisabled: "#BDC2C4",
+  // textSubtle: "#565a69",
+  // disabled: "#E9EAEB",
+  // gradients: {
+  //   grey: "linear-gradient(180deg, #08060C 0%, #3c3742 100%)",
+  //   gold: "linear-gradient(180deg, #FFD800 0%, #FDAB32 100%)",
+  // },
 };
