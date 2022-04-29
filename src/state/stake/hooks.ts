@@ -1,76 +1,77 @@
-import { CurrencyAmount, JSBI, Pair, Token, TokenAmount } from '@intercroneswap/v2-sdk';
-import { abi as ISwapV2StakingRewards } from '@intercroneswap/v2-staking/build/StakingRewards.json';
-import { Interface } from 'ethers/lib/utils';
-import { useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { CurrencyAmount, JSBI, Pair, Token, TokenAmount } from '@intercroneswap/v2-sdk'
+import { abi as ISwapV2StakingRewards } from '@intercroneswap/v2-staking/build/StakingRewards.json'
+import { Interface } from 'ethers/lib/utils'
+import { useCallback, useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import tokens, { getTokenByAddress } from 'config/constants/tokens'
-import { AppDispatch, AppState } from '..';
+import { AppDispatch, AppState } from '..'
 import { useWeb3React } from '@web3-react/core'
-import { useStakingContract } from '../../hooks/useContract';
-import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp';
-import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks';
+import { useStakingContract } from '../../hooks/useContract'
+import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp'
+import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks'
 import tryParseAmount from 'utils/tryParseAmount'
-import { typeInput } from './actions';
-import { StakingRewardsInfo } from './constants';
+import { typeInput } from './actions'
+import { StakingRewardsInfo } from './constants'
 
-var ZERO = /*#__PURE__*/JSBI.BigInt(0);
+var ZERO = /*#__PURE__*/ JSBI.BigInt(0)
 
-const { icr: ICR } = tokens;
+const { icr: ICR } = tokens
 
-const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards);
+const ISwapV2StakingRewardsInterface = new Interface(ISwapV2StakingRewards)
 
-export const STAKING_GENESIS = 1647797301;
+export const STAKING_GENESIS = 1647797301
 export interface StakingInfo {
-  stakingRewardAddress: string;
-  tokens: [Token, Token];
-  stakedAmount: TokenAmount;
-  earnedAmount: TokenAmount;
-  totalStakedAmount: TokenAmount;
-  totalRewardRate: TokenAmount;
-  rewardRate: TokenAmount;
-  rewardForDuration: TokenAmount;
-  rewardDuration: number;
-  periodFinish: Date | undefined;
-  active: boolean;
+  stakingRewardAddress: string
+  tokens: [Token, Token]
+  stakedAmount: TokenAmount
+  earnedAmount: TokenAmount
+  totalStakedAmount: TokenAmount
+  totalRewardRate: TokenAmount
+  rewardRate: TokenAmount
+  rewardForDuration: TokenAmount
+  rewardDuration: number
+  periodFinish: Date | undefined
+  active: boolean
+  fee: number
   getHypotheticalRewardRate: (
     stakedAmount: TokenAmount,
     totalStakedAmount: TokenAmount,
     totalRewardRate: TokenAmount,
-  ) => TokenAmount;
+  ) => TokenAmount
 }
 
 export function useStakeState(): AppState['stake'] {
-  return useSelector<AppState, AppState['stake']>((state) => state.stake);
+  return useSelector<AppState, AppState['stake']>((state) => state.stake)
 }
 
 export function useStakeActionHandlers(): {
-  onUserInput: (typedValue: string) => void;
+  onUserInput: (typedValue: string) => void
 } {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>()
 
   const onFieldChange = useCallback(
     (typedValue: string) => {
-      dispatch(typeInput({ typedValue }));
+      dispatch(typeInput({ typedValue }))
     },
     [dispatch],
-  );
+  )
 
   return {
     onUserInput: onFieldChange,
-  };
+  }
 }
 
 export function useTotalStakedAmount(address: string): JSBI {
-  const contract = useStakingContract(address);
+  const contract = useStakingContract(address)
 
-  const totalSupply = useSingleCallResult(contract, 'totalSupply')?.result?.[0];
-  return totalSupply ? JSBI.BigInt(totalSupply.toString()) : ZERO;
+  const totalSupply = useSingleCallResult(contract, 'totalSupply')?.result?.[0]
+  return totalSupply ? JSBI.BigInt(totalSupply.toString()) : ZERO
 }
 
 export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairToFilterBy?: Pair | null): StakingInfo[] {
-  const { chainId, account } = useWeb3React();
+  const { chainId, account } = useWeb3React()
 
-  const currentBlockTimestamp = useCurrentBlockTimestamp();
+  const currentBlockTimestamp = useCurrentBlockTimestamp()
 
   const info = useMemo(
     () =>
@@ -85,12 +86,12 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
           ) ?? []
         : [],
     [chainId, pairToFilterBy],
-  );
+  )
 
-  const accountArg = useMemo(() => [account ?? undefined], [account]);
+  const accountArg = useMemo(() => [account ?? undefined], [account])
 
-  const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info]);
-  const rewardsDurations = useMemo(() => info.map(({ rewardsDays }) => rewardsDays), [info]);
+  const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
+  const rewardsDurations = useMemo(() => info.map(({ rewardsDays }) => rewardsDays), [info])
 
   // get all the info from the staking rewards contracts
   const balances = useMultipleContractSingleData(
@@ -98,14 +99,14 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
     ISwapV2StakingRewardsInterface,
     'balanceOf',
     accountArg,
-  );
+  )
   const earnedAmounts = useMultipleContractSingleData(
     rewardsAddresses,
     ISwapV2StakingRewardsInterface,
     'earned',
     accountArg,
-  );
-  const totalSupplies = useMultipleContractSingleData(rewardsAddresses, ISwapV2StakingRewardsInterface, 'totalSupply');
+  )
+  const totalSupplies = useMultipleContractSingleData(rewardsAddresses, ISwapV2StakingRewardsInterface, 'totalSupply')
 
   // tokens per second, constants
   const rewardRates = useMultipleContractSingleData(
@@ -114,43 +115,51 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
     'rewardRate',
     undefined,
     NEVER_RELOAD,
-  );
+  )
   const rewardsTokens = useMultipleContractSingleData(
     rewardsAddresses,
     ISwapV2StakingRewardsInterface,
     'rewardsToken',
     undefined,
     NEVER_RELOAD,
-  );
+  )
   const periodFinishes = useMultipleContractSingleData(
     rewardsAddresses,
     ISwapV2StakingRewardsInterface,
     'periodFinish',
     undefined,
     NEVER_RELOAD,
-  );
+  )
   const rewardForDurations = useMultipleContractSingleData(
     rewardsAddresses,
     ISwapV2StakingRewardsInterface,
     'getRewardForDuration',
     undefined,
     NEVER_RELOAD,
-  );
+  )
+  const fees = useMultipleContractSingleData(
+    rewardsAddresses,
+    ISwapV2StakingRewardsInterface,
+    'fee',
+    undefined,
+    NEVER_RELOAD,
+  )
 
   return useMemo(() => {
-    if (!chainId) return [];
+    if (!chainId) return []
 
     return rewardsAddresses.reduce<StakingInfo[]>((memo, rewardsAddress, index) => {
       // these two are dependent on account
-      const balanceState = balances[index];
-      const earnedAmountState = earnedAmounts[index];
+      const balanceState = balances[index]
+      const earnedAmountState = earnedAmounts[index]
 
       // these get fetched regardless of account
-      const totalSupplyState = totalSupplies[index];
-      const rewardRateState = rewardRates[index];
-      const rewardsTokenState = rewardsTokens[index];
-      const rewardForDurationState = rewardForDurations[index];
-      const periodFinishState = periodFinishes[index];
+      const totalSupplyState = totalSupplies[index]
+      const rewardRateState = rewardRates[index]
+      const rewardsTokenState = rewardsTokens[index]
+      const rewardForDurationState = rewardForDurations[index]
+      const periodFinishState = periodFinishes[index]
+      const feeState = fees[index]
 
       if (
         // these may be undefined if not logged in
@@ -166,7 +175,9 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
         periodFinishState &&
         !periodFinishState.loading &&
         rewardsTokenState &&
-        !rewardsTokenState.loading
+        !rewardsTokenState.loading &&
+        feeState &&
+        !feeState.loading
       ) {
         if (
           balanceState?.error ||
@@ -175,22 +186,23 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
           rewardRateState.error ||
           rewardForDurationState.error ||
           periodFinishState.error ||
-          rewardsTokenState.error
+          rewardsTokenState.error ||
+          feeState.error
         ) {
-          console.error('Failed to load staking rewards info');
-          return memo;
+          console.error('Failed to load staking rewards info')
+          return memo
         }
 
         // get the LP token
-        const tokens = info[index].tokens;
-        const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'));
+        const tokens = info[index].tokens
+        const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'))
 
         // check for account, if no account set to 0
-        const rewardsToken = getTokenByAddress(rewardsTokenState.result?.[0]);
-        const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0));
-        const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyState.result?.[0]));
-        const totalRewardRate = new TokenAmount(rewardsToken, JSBI.BigInt(rewardRateState.result?.[0]));
-        const rewardForDuration = new TokenAmount(rewardsToken, JSBI.BigInt(rewardForDurationState.result?.[0]));
+        const rewardsToken = getTokenByAddress(rewardsTokenState.result?.[0])
+        const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
+        const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyState.result?.[0]))
+        const totalRewardRate = new TokenAmount(rewardsToken, JSBI.BigInt(rewardRateState.result?.[0]))
+        const rewardForDuration = new TokenAmount(rewardsToken, JSBI.BigInt(rewardForDurationState.result?.[0]))
 
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
@@ -202,17 +214,19 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
             JSBI.greaterThan(totalStakedAmount.quotient, JSBI.BigInt(0))
               ? JSBI.divide(JSBI.multiply(totalRewardRate.quotient, stakedAmount.quotient), totalStakedAmount.quotient)
               : JSBI.BigInt(0),
-          );
-        };
+          )
+        }
 
-        const individualRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, totalRewardRate);
+        const individualRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, totalRewardRate)
 
-        const periodFinishSeconds = periodFinishState.result?.[0]?.toNumber();
-        const periodFinishMs = periodFinishSeconds * 1000;
+        const periodFinishSeconds = periodFinishState.result?.[0]?.toNumber()
+        const periodFinishMs = periodFinishSeconds * 1000
 
         // compare period end timestamp vs current block timestamp (in seconds)
         const active =
-          periodFinishSeconds && currentBlockTimestamp ? periodFinishSeconds > currentBlockTimestamp.toNumber() : true;
+          periodFinishSeconds && currentBlockTimestamp ? periodFinishSeconds > currentBlockTimestamp.toNumber() : true
+
+        const fee = feeState.result?.[0]?.toNumber()
 
         memo.push({
           stakingRewardAddress: rewardsAddress,
@@ -227,10 +241,11 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
           totalStakedAmount,
           getHypotheticalRewardRate,
           active,
-        });
+          fee,
+        })
       }
-      return memo;
-    }, []);
+      return memo
+    }, [])
   }, [
     balances,
     chainId,
@@ -244,11 +259,11 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
     rewardsAddresses,
     totalSupplies,
     ICR,
-  ]);
+  ])
 }
 
 export function useTotalIcrEarned(): TokenAmount | undefined {
-  const stakingInfos = useStakingInfo([]);
+  const stakingInfos = useStakingInfo([])
 
   return useMemo(() => {
     return (
@@ -256,8 +271,8 @@ export function useTotalIcrEarned(): TokenAmount | undefined {
         (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
         new TokenAmount(ICR, '0'),
       ) ?? new TokenAmount(ICR, '0')
-    );
-  }, [stakingInfos]);
+    )
+  }, [stakingInfos])
 }
 
 // based on typed value
@@ -266,16 +281,16 @@ export function useDerivedStakeInfo(
   stakingToken: Token | undefined,
   userLiquidityUnstaked: TokenAmount | undefined,
 ): {
-  parsedAmount?: CurrencyAmount;
+  parsedAmount?: CurrencyAmount
 } {
-  const parsedInput: CurrencyAmount | undefined = tryParseAmount(typedValue, stakingToken);
+  const parsedInput: CurrencyAmount | undefined = tryParseAmount(typedValue, stakingToken)
 
   const parsedAmount =
     parsedInput && userLiquidityUnstaked && JSBI.lessThanOrEqual(parsedInput.quotient, userLiquidityUnstaked.quotient)
       ? parsedInput
-      : undefined;
+      : undefined
 
   return {
     parsedAmount,
-  };
+  }
 }
