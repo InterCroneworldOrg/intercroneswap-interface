@@ -123,7 +123,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
         <AutoRowToColumn gap="2px">
           <ResponsiveSizedTextMedium fontWeight="1.3rem">Ends on</ResponsiveSizedTextMedium>
           <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
-            {stakingInfo.periodFinish?.toLocaleDateString() || 'Not available yet'}
+            {stakingInfo.periodFinish?.toLocaleDateString() || 'Coming soon'}
           </ResponsiveSizedTextNormal>
         </AutoRowToColumn>
         <AutoRowToColumn gap="1px">
