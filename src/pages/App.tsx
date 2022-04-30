@@ -36,6 +36,7 @@ import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects';
 import { RedirectToReferal } from './Stake/redirects';
 import ChessLarge from '../assets/images/chess-big-icon.png';
 import { isMobile } from '../theme';
+import Markets from './Markets';
 // import Vote from './Vote'
 // import VotePage from './Vote/VotePage'
 
@@ -169,6 +170,7 @@ export default function App() {
               <Route exact strict path="/pool" component={Pool} />
               <Route exact strict path="/stake" component={Stake} />
               <Route exact strict path="/stake/:referal" component={RedirectToReferal} />
+              <Route exact strict path="/markets" component={Markets} />
               {/* <Route exact strict path="/vote" component={Vote} /> */}
               <Route exact strict path="/votepage" component={VoteComingSoon} />
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
