@@ -78,14 +78,14 @@ export default function Header() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mx-auto">
-              <ExternalLink href="https://trx.intercroneswap.com/#/swap/" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://trx.intercroneswap.com/#/swap" className={`${Style.link} nav-link`}>
                 Exchange
               </ExternalLink>
-              <ExternalLink href="https://trx.intercroneswap.com/#/pool/" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://trx.intercroneswap.com/#/pool" className={`${Style.link} nav-link`}>
                 Liquidity
               </ExternalLink>
-              <ExternalLink href="https://trx.intercroneswap.com/#/stake/" className={`${Style.link} nav-link`}>
-                Staking
+              <ExternalLink href="https://trx.intercroneswap.com/#/stake" className={`${Style.link} nav-link`}>
+                🔥 Staking
               </ExternalLink>
               <ExternalLink href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                 NFT
