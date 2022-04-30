@@ -155,7 +155,7 @@ export default function Header() {
                 Liquidity
               </Link>
               <Link to="/stake" className={`${Style.link} nav-link`}>
-                Staking
+                🔥 Staking
               </Link>
               <ExternalLink href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                 NFT
