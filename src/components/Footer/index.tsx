@@ -42,17 +42,17 @@ const Footer = () => {
           <p className={Style.iswap}>ISwap</p>
           <ul className={Style.ul}>
             <li>
-              <ExternalLink href="https://trx.intercroneswap.com/#/swap/" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://trx.intercroneswap.com/#/swap" className={`${Style.link} nav-link`}>
                 Exchange
               </ExternalLink>
             </li>
             <li>
-              <ExternalLink href="https://trx.intercroneswap.com/#/pool/" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://trx.intercroneswap.com/#/pool" className={`${Style.link} nav-link`}>
                 Liquidity
               </ExternalLink>
             </li>
             <li>
-              <ExternalLink href="https://trx.intercroneswap.com/#/stake/" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://trx.intercroneswap.com/#/stake" className={`${Style.link} nav-link`}>
                 Staking
               </ExternalLink>
             </li>
