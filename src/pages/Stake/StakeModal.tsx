@@ -1,8 +1,8 @@
-import { TokenAmount } from '@intercroneswap/v2-sdk';
+import { ETHER, TokenAmount } from '@intercroneswap/v2-sdk';
 import ReactGA from 'react-ga';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { ThemeContext } from 'styled-components';
-import { ButtonGray, ButtonPrimary } from '../../components/Button';
+import { ButtonConfirmed, ButtonGray, ButtonPrimary } from '../../components/Button';
 import { AutoColumn } from '../../components/Column';
 import NumericalInput from '../../components/NumericalInput';
 import { AutoRow, RowBetween } from '../../components/Row';
@@ -20,6 +20,7 @@ import { MaxButton } from './styleds';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import { tryParseAmount } from '../../state/swap/hooks';
 import { unwrappedToken } from '../../utils/wrappedCurrency';
+import Loader from '../../components/Loader';
 
 interface StakeModalProps {
   isOpen: boolean;
@@ -148,15 +149,36 @@ export default function StakeModal({
       });
   }, [account, isOpen, stakeState.typedValue]);
 
-  const [approveState, approveCallback] = useApproveCallback(balance, stakingAddress);
+  const [approval, approveCallback] = useApproveCallback(balance, stakingAddress);
+
+  const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
+
+  // mark when a user has submitted an approval, reset onTokenSelection for input field
+  useEffect(() => {
+    if (approval === ApprovalState.PENDING) {
+      setApprovalSubmitted(true);
+    }
+  }, [approval, approvalSubmitted]);
 
   const modalBottom = useCallback(() => {
     return (
       <AutoColumn justify="center">
-        {approveState === ApprovalState.PENDING || approveState === ApprovalState.NOT_APPROVED ? (
-          <ButtonPrimary width="50%" onClick={approveCallback}>
-            Approve
-          </ButtonPrimary>
+        {approval === ApprovalState.PENDING || approval === ApprovalState.NOT_APPROVED ? (
+          <ButtonConfirmed
+            onClick={approveCallback}
+            disabled={approval !== ApprovalState.NOT_APPROVED || approvalSubmitted}
+            width="48%"
+            altDisabledStyle={approval === ApprovalState.PENDING} // show solid button while waiting
+            confirmed={approval !== ApprovalState.PENDING && approval !== ApprovalState.NOT_APPROVED}
+          >
+            {approval === ApprovalState.PENDING ? (
+              <AutoRow gap="6px" justify="center">
+                Approving <Loader stroke="white" />
+              </AutoRow>
+            ) : (
+              'Approve'
+            )}
+          </ButtonConfirmed>
         ) : (
           <ButtonPrimary
             width="50%"
@@ -170,14 +192,18 @@ export default function StakeModal({
             {isStaking ? 'Deposit' : 'Remove'}
           </ButtonPrimary>
         )}
-        <ExternalLink href={`/add`}>
+        <ExternalLink
+          href={`#/add/${currency0 === ETHER ? ETHER.symbol : token0?.address}/${
+            currency1 === ETHER ? ETHER.symbol : token1?.address
+          }`}
+        >
           <TYPE.white fontWeight="0.7rem" style={{ textDecorationLine: 'underline' }}>
             Get LP {currency0?.symbol}/{currency1?.symbol}
           </TYPE.white>
         </ExternalLink>
       </AutoColumn>
     );
-  }, [stakeState, balance, isStaking, approveState, stakingInfo, isOpen]);
+  }, [stakeState, balance, isStaking, approval, stakingInfo, isOpen]);
 
   const modalHeader = useCallback(() => {
     return (
