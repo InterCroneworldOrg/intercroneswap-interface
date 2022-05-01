@@ -1,33 +1,49 @@
 import { TYPE } from '../../theme';
-import { Percent, Price, Token, TokenAmount } from '@intercroneswap/v2-sdk';
+import { Pair, Percent, Price, Token, TokenAmount } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 import { LightCard } from '../Card';
-import { AutoRow, RowFixed } from '../Row';
+import { AutoRow, PercentageDiv } from '../Row';
 import { unwrappedToken } from '../../utils/wrappedCurrency';
 import CurrencyLogo from '../CurrencyLogo';
+import useUSDTPrice from '../../hooks/useUSDTPrice';
+import { DoubleTokenAmount, GetAmountInUSDT } from '../../utils/tokenAmountCalculations';
 
 export interface MarketCardProps {
-  tokens: [Token, Token];
-  lastPrice: Price;
-  liquidity: TokenAmount;
-  dailyVolume: TokenAmount;
+  pair: Pair;
+  tokens?: [Token, Token];
+  lastPrice?: Price;
+  liquidity?: TokenAmount;
+  dailyVolume?: TokenAmount;
   apy?: Percent;
   stakingAddress?: string;
 }
 
 export default function MarketCard({
-  tokens,
-  lastPrice,
-  liquidity,
-  dailyVolume,
-  apy,
+  pair,
   stakingAddress,
-}: MarketCardProps) {
+}: // lastPrice,
+// liquidity,
+// dailyVolume,
+// apy,
+MarketCardProps) {
   const theme = useContext(ThemeContext);
   // const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
 
-  const [token0, token1] = tokens;
+  const token0 = pair.token0;
+  const token1 = pair.token1;
+
+  const USDPrice = useUSDTPrice(token0);
+  const USDPriceBackup = useUSDTPrice(token1);
+  const lastPrice = USDPrice ?? USDPriceBackup;
+
+  const liquidity = USDPrice
+    ? GetAmountInUSDT(USDPrice, DoubleTokenAmount(pair.reserve0))
+    : GetAmountInUSDT(USDPriceBackup, DoubleTokenAmount(pair.reserve1));
+
+  const dailyVolume: TokenAmount | undefined = undefined;
+
+  const apy: Percent | undefined = undefined;
 
   const currency0 = unwrappedToken(token0);
   const currency1 = unwrappedToken(token1);
@@ -41,8 +57,8 @@ export default function MarketCard({
         background: theme.bg3,
       }}
     >
-      <AutoRow>
-        <RowFixed width="25%">
+      <AutoRow justify="start" gap=".2rem">
+        <PercentageDiv style={{ width: '25%' }}>
           <CurrencyLogo currency={currency0} size="1.2rem" />
           &nbsp;
           <TYPE.white fontWeight={500} fontSize="1rem">
@@ -54,12 +70,22 @@ export default function MarketCard({
           <TYPE.white fontWeight={500} fontSize="1rem">
             {currency1?.symbol}
           </TYPE.white>
-        </RowFixed>
-        <TYPE.yellow width="15%">$ {lastPrice.toFixed(2)}</TYPE.yellow>
-        <TYPE.yellow width="15%">$ {liquidity.toFixed(2)}</TYPE.yellow>
-        <TYPE.yellow width="15%">$ {dailyVolume.toFixed(2)}</TYPE.yellow>
-        <TYPE.yellow width="15%">{apy ? `${apy.toFixed(2)} %` : '-'}</TYPE.yellow>
-        <TYPE.yellow width="15%">{stakingAddress ? 'Active' : 'Inactive'}</TYPE.yellow>
+        </PercentageDiv>
+        <AutoRow style={{ width: '15%' }}>
+          <TYPE.yellow>$ {lastPrice?.toFixed(2)}</TYPE.yellow>
+        </AutoRow>
+        <AutoRow style={{ width: '15%' }}>
+          <TYPE.yellow>$ {liquidity?.toFixed(2)}</TYPE.yellow>
+        </AutoRow>
+        <AutoRow style={{ width: '15%' }}>
+          <TYPE.yellow>$ {dailyVolume}</TYPE.yellow>
+        </AutoRow>
+        <AutoRow style={{ width: '12%' }}>
+          <TYPE.yellow>{apy ? `${apy} %` : '-'}</TYPE.yellow>
+        </AutoRow>
+        <AutoRow style={{ width: '15%' }}>
+          <TYPE.yellow>{stakingAddress ? 'Active' : 'Inactive'}</TYPE.yellow>
+        </AutoRow>
       </AutoRow>
     </LightCard>
   );
