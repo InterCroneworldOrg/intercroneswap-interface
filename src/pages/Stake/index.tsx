@@ -20,7 +20,7 @@ import { USDT, getTokensFromDefaults, ICR } from '../../constants/tokens';
 import { useActiveWeb3React } from '../../hooks';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks';
-import { Button, Divider, MEDIA_WIDTHS, TYPE } from '../../theme';
+import { Button, MEDIA_WIDTHS, TYPE } from '../../theme';
 import { StyledHeading } from '../App';
 import HarvestModal from './HarvestModal';
 import StakeModal from './StakeModal';
@@ -265,7 +265,29 @@ export default function Stake({
           stakingInfo={stakeInfo}
           onDismiss={handleDismissHarvest}
         />
-        <LightCard style={{ marginTop: '20px' }} padding="2rem 1rem">
+        <RowBetween marginTop="1rem">
+          {isMobile ? (
+            <ButtonSecondary width={'45%'} justifySelf="start" onClick={() => setToggleToken(!toggleToken)}>
+              <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
+              <CurrencyLogo currency={toggleToken ? ICR : USDT} style={{ marginLeft: '1rem' }} />
+            </ButtonSecondary>
+          ) : (
+            <div />
+          )}
+          <ReferalButton
+            height="3rem"
+            margin="0"
+            padding=".5rem"
+            onClick={() => setShowReferal(!showReferal)}
+            style={{
+              width: isMobile ? '45%' : '16rem',
+              justifySelf: 'flex-end',
+            }}
+          >
+            Show referal link
+          </ReferalButton>
+        </RowBetween>
+        <LightCard style={{ marginTop: '20px' }} padding="1rem 1rem">
           {!account ? (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button style={{ maxWidth: '260px' }} onClick={toggleWalletModal}>
@@ -275,23 +297,8 @@ export default function Stake({
           ) : (
             <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between"></AutoRow>
           )}
-          <AutoColumn gap="1.5rem" justify="center">
-            <ReferalButton
-              width="11rem"
-              height="2rem"
-              margin="0"
-              padding=".5rem"
-              justifySelf="end"
-              onClick={() => setShowReferal(!showReferal)}
-            >
-              Show referal link
-            </ReferalButton>
-            <ButtonSecondary width="15rem" onClick={() => setToggleToken(!toggleToken)}>
-              <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
-              <CurrencyLogo currency={toggleToken ? ICR : USDT} style={{ marginLeft: '1rem' }} />
-            </ButtonSecondary>
+          <AutoColumn gap="1rem" justify="center">
             <AutoColumn gap="1rem" style={{ width: '100%' }}>
-              <Divider />
               {uplineComponent()}
               {isMobile ? (
                 <RowBetween>
@@ -311,19 +318,36 @@ export default function Stake({
                   />
                 </RowBetween>
               ) : undefined}
-              <RowBetween>
-                <ButtonSecondary
-                  width={isMobile ? '45%' : '13%'}
-                  onClick={() => {
-                    setToggleSearch(!toggleSearch);
-                    setSearchQuery('');
-                  }}
-                >
-                  <ResponsiveSizedTextMedium>
-                    Search {toggleSearch ? 'Earn token' : 'LP Token'}
+              <RowBetween style={{ marginBottom: isMobile ? '-1rem' : '-1.5rem' }}>
+                <AutoRow gap=".3rem" width={isMobile ? '40%' : '14%'}>
+                  <ResponsiveSizedTextMedium
+                    onClick={() => setToggleSearch(false)}
+                    color={!toggleSearch ? theme.primary3 : theme.text1}
+                    style={{ textDecorationLine: 'underline', cursor: 'pointer' }}
+                  >
+                    LP token
                   </ResponsiveSizedTextMedium>
-                </ButtonSecondary>
-                <TYPE.white>Sort by</TYPE.white>
+                  <ResponsiveSizedTextMedium
+                    onClick={() => setToggleSearch(true)}
+                    color={toggleSearch ? theme.primary3 : theme.text1}
+                    style={{ textDecorationLine: 'underline', cursor: 'pointer' }}
+                  >
+                    Earn token
+                  </ResponsiveSizedTextMedium>
+                </AutoRow>
+                {!isMobile && (
+                  <AutoRow>
+                    <ButtonSecondary width={'15rem'} onClick={() => setToggleToken(!toggleToken)}>
+                      <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
+                      <CurrencyLogo currency={toggleToken ? ICR : USDT} style={{ marginLeft: '1rem' }} />
+                    </ButtonSecondary>
+                  </AutoRow>
+                )}
+                <AutoRow style={{ width: isMobile ? '45%' : '15%' }}>
+                  <TYPE.white justifyContent="left" textAlign="start">
+                    Sort by
+                  </TYPE.white>
+                </AutoRow>
               </RowBetween>
               <RowBetween>
                 <SearchInput
@@ -335,7 +359,7 @@ export default function Stake({
                   onChange={handleInput}
                   onKeyDown={handleEnter}
                   width="1rem"
-                  style={{ fontSize: '.9rem', width: isMobile ? '57%' : '194px' }}
+                  style={{ fontSize: '.9rem', width: isMobile ? '60%' : '194px' }}
                 />
                 <AutoRow gap="2rem" justify="flex-end">
                   {!isMobile ? (
@@ -358,10 +382,13 @@ export default function Stake({
                   ) : undefined}
                   <Form.Select
                     style={{
-                      color: theme.text1,
-                      background: theme.bg1,
-                      borderColor: theme.primary3,
+                      color: theme.text3,
+                      background: theme.bg3,
+                      border: 'none',
                       width: isMobile ? '45%' : '150px',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      cursor: 'pointer',
                     }}
                     onChange={bindSortSelect}
                     value={sortOption}

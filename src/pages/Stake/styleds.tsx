@@ -69,6 +69,9 @@ export const Dots = styled.span`
 export const PageWrapper = styled(AutoColumn)`
   max-width: 80%;
   width: 100%;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    max-width: 95%;
+  `};
 `;
 
 export const TitleRow = styled(RowBetween)`

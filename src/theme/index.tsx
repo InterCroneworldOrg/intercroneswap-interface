@@ -59,7 +59,7 @@ export function colors(darkMode: boolean): Colors {
     textConeectToWaletOnNavbar: darkMode ? '#c3c5cb' : '#000000',
     // backgrounds / greys
     // bg1: darkMode ? '#151313' : '#FFFFFF',
-    bg1: darkMode ? '#232323' : '#FFFFFF',
+    bg1: darkMode ? 'rgba(35,35,35, 1)' : '#FFFFFF',
     settingCardbg: darkMode ? '#020202' : '#ffffff',
     bg2: darkMode ? '#0A0A1E' : 'rgba(0,0,0,0)',
     // radial-gradient(82.02% 184.41% at 52.84% -52%,#363cff4a -43%,#dfd1e275 80%)
@@ -67,7 +67,7 @@ export function colors(darkMode: boolean): Colors {
     Rdial1: darkMode ? '#020202' : '#ffffff75',
     // bg2: darkMode ? '#2C2F36' : '#F7F8FA',
     // bg3: darkMode ? '#40444F' : '#EDEEF2',
-    bg3: darkMode ? 'rgba(196, 196, 196, 0.1)' : '#EDEEF2',
+    bg3: darkMode ? 'rgba(196, 196, 196, 0.15)' : '#EDEEF2',
     bg4: darkMode ? 'rgba(196, 196, 196, 0.1)' : '#CED0D9',
     bg5: darkMode ? '#6C7284' : '#888D9B',
     bgSWAP6: darkMode ? '#ed7b17' : '#ed7b17',
@@ -233,6 +233,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  font-family: Poppins;
 }
 
 * {
