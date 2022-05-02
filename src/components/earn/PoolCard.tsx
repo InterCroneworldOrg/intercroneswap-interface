@@ -13,7 +13,7 @@ import useUSDTPrice from '../../hooks/useUSDTPrice';
 import { Dots } from '../../pages/Stake/styleds';
 import { StakingInfo } from '../../state/stake/hooks';
 import { useTokenBalance } from '../../state/wallet/hooks';
-import { ExternalLink, MEDIA_WIDTHS, TYPE } from '../../theme';
+import { Divider, ExternalLink, MEDIA_WIDTHS, TYPE } from '../../theme';
 import { unwrappedToken } from '../../utils/wrappedCurrency';
 import { ButtonEmpty, ButtonPrimary } from '../Button';
 import { LightCard } from '../Card';
@@ -93,13 +93,13 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
       style={{
         marginTop: '2px',
         margin: '0rem',
-        padding: '.5rem',
+        padding: '.5rem 1rem',
         background: theme.bg3,
       }}
     >
       <AutoRow justify="space-between" gap=".2rem">
-        <AutoRowToColumn>
-          <AutoRow>
+        <AutoRowToColumn justify="center">
+          <AutoRow justify={isMobile ? 'center' : undefined}>
             <CurrencyLogo currency={currency0} size="1.2rem" />
             &nbsp;
             <TYPE.white fontWeight={500} fontSize="1rem">
@@ -112,12 +112,11 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
               {currency1?.symbol}
             </TYPE.white>
           </AutoRow>
-          <AutoRow gap="2px" justify={isMobile ? 'flex-end' : undefined}>
-            <ResponsiveSizedTextMedium>Earn</ResponsiveSizedTextMedium>
-            <CurrencyLogo currency={stakingInfo.earnedAmount.token} size="1rem" />
-            <ResponsiveSizedTextMedium fontWeight={400} fontSize="1rem">
-              {stakingInfo.earnedAmount.token?.symbol}
+          <AutoRow gap="2px" justify={isMobile ? 'center' : 'start'}>
+            <ResponsiveSizedTextMedium fontWeight={400} fontSize="1rem" style={{ color: theme.primary3 }}>
+              Earn {stakingInfo.earnedAmount.token?.symbol}
             </ResponsiveSizedTextMedium>
+            <CurrencyLogo currency={stakingInfo.earnedAmount.token} size="1rem" />
           </AutoRow>
         </AutoRowToColumn>
         <AutoRowToColumn gap="2px">
@@ -127,9 +126,9 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
           </ResponsiveSizedTextNormal>
         </AutoRowToColumn>
         <AutoRowToColumn gap="1px">
-          <ResponsiveSizedTextMedium fontWeight="1.3rem">Earned / APY</ResponsiveSizedTextMedium>
+          <ResponsiveSizedTextMedium fontWeight={400}>Earned / APY</ResponsiveSizedTextMedium>
           {toggleToken ? (
-            <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
+            <ResponsiveSizedTextNormal fontWeight={400} color={theme.primary3}>
               {stakingInfo.earnedAmount.toSignificant()}
               <CurrencyLogo currency={stakingInfo.earnedAmount.token} size=".8rem" />/{' '}
               {apr ? `${apr.toFixed(2)} %` : '-'}
@@ -143,41 +142,43 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
         </AutoRowToColumn>
         <AutoRowToColumn gap="1px" style={{ width: !isMobile ? '8rem' : undefined }}>
           <AutoRow gap={isMobile ? '2rem' : '.2rem'} width="10rem">
-            <ResponsiveSizedTextMedium fontWeight="0.7rem">Balance</ResponsiveSizedTextMedium>
+            <ResponsiveSizedTextMedium fontWeight={400}>Balance</ResponsiveSizedTextMedium>
             <ExternalLink
               style={{ textAlign: 'left', color: '#fff' }}
               href={`#/add/${currency0 === ETHER ? ETHER.symbol : token0?.address}/${
                 currency1 === ETHER ? ETHER.symbol : token1?.address
               }`}
             >
-              <ResponsiveSizedTextMedium fontWeight={400} style={{ textDecorationLine: 'underline' }}>
-                Get LP
-              </ResponsiveSizedTextMedium>
+              {stakingInfo.stakedAmount?.greaterThan(ZERO) && (
+                <ResponsiveSizedTextMedium fontWeight={400} style={{ textDecorationLine: 'underline' }}>
+                  Get LP
+                </ResponsiveSizedTextMedium>
+              )}
             </ExternalLink>
           </AutoRow>
           {pairState === PairState.EXISTS ? (
-            <ResponsiveSizedTextNormal fontWeight="0.7rem" color={theme.primary3}>
+            <ResponsiveSizedTextNormal fontWeight={400} color={theme.primary3}>
               {LPSupply?.toSignificant(4)}
             </ResponsiveSizedTextNormal>
           ) : (
             <Dots></Dots>
           )}
         </AutoRowToColumn>
-        <ButtonAutoRow gap=".1rem" justify="flex-end">
+        <ButtonAutoRow gap=".5rem" justify="flex-end">
           <ButtonPrimary
             padding="8px"
             borderRadius="8px"
-            width="45%"
+            width={isMobile ? '43%' : '40%'}
             height={45}
             style={{ color: '#000' }}
             onClick={() => handleHarvest(address)}
             disabled={stakingInfo.earnedAmount?.equalTo(ZERO)}
           >
             <AutoColumn>
-              <ResponsiveSizedTextMedium fontWeight="0.8rem" style={{ color: theme.text5 }}>
+              <ResponsiveSizedTextMedium fontWeight="400" style={{ color: theme.text5 }}>
                 Harvest
               </ResponsiveSizedTextMedium>
-              <ResponsiveSizedTextNormal fontWeight="0.5rem" style={{ color: theme.text5 }}>
+              <ResponsiveSizedTextNormal fontWeight="400" style={{ color: theme.text5 }}>
                 {stakingInfo.earnedAmount?.toSignificant(4)}
               </ResponsiveSizedTextNormal>
             </AutoColumn>
@@ -186,7 +187,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
             <ButtonPrimary
               padding="8px"
               borderRadius="8px"
-              width="45%"
+              width={isMobile ? '43%' : '40%'}
               height={45}
               style={{ color: '#000' }}
               onClick={() => handleStake(address, LPSupply, stakingInfo)}
@@ -195,16 +196,13 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
                 <ResponsiveSizedTextMedium fontWeight="0.7rem" style={{ color: theme.text5 }}>
                   Stake / Unstake
                 </ResponsiveSizedTextMedium>
-                <ResponsiveSizedTextNormal fontWeight="0.5rem" style={{ color: theme.text5 }}>
-                  {LPSupply?.toSignificant(4)}
-                </ResponsiveSizedTextNormal>
               </AutoColumn>
             </ButtonPrimary>
           ) : (
             <ButtonPrimary
               padding="8px"
               borderRadius="8px"
-              width="45%"
+              width={isMobile ? '43%' : '40%'}
               height={45}
               style={{ color: '#000' }}
               onClick={(e) => {
@@ -219,7 +217,13 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
               </ResponsiveSizedTextMedium>
             </ButtonPrimary>
           )}
-          <ButtonEmpty padding="0px" borderRadius="6" width="6%" onClick={() => setShowMore(!showMore)}>
+          {showMore && isMobile && <Divider />}
+          <ButtonEmpty
+            padding="0px"
+            borderRadius="6"
+            width={isMobile ? '100%' : '6%'}
+            onClick={() => setShowMore(!showMore)}
+          >
             {showMore ? (
               <>
                 {/* {' '}

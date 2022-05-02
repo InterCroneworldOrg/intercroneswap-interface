@@ -13,7 +13,7 @@ const Base = styled(RebassButton)<{
 }>`
   padding: ${({ padding }) => (padding ? padding : '18px')};
   width: ${({ width }) => (width ? width : '100%')};
-  font-weight: 500;
+  font-weight: 400;
   text-align: center;
   border-radius: 12px;
   border-radius: ${({ borderRadius }) => borderRadius && borderRadius};

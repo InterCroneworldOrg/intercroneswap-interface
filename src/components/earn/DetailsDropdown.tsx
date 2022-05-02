@@ -6,7 +6,7 @@ import { PairState } from '../../data/Reserves';
 import { useActiveWeb3React } from '../../hooks';
 import useUSDTPrice from '../../hooks/useUSDTPrice';
 import { StakingInfo } from '../../state/stake/hooks';
-import { Divider, ExternalLink } from '../../theme';
+import { Divider, ExternalLink, MEDIA_WIDTHS } from '../../theme';
 import { getEtherscanLink } from '../../utils';
 import { unwrappedToken } from '../../utils/wrappedCurrency';
 import CurrencyLogo from '../CurrencyLogo';
@@ -39,6 +39,7 @@ export default function DetailsDropdown({
 }: DetailsDropDownParams) {
   const theme = useContext(ThemeContext);
   const { chainId } = useActiveWeb3React();
+  const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
 
   const currency = stakedAmount ? unwrappedToken(stakedAmount?.token) : undefined;
   const USDPrice = useUSDTPrice(stakedAmount?.token);
@@ -46,12 +47,13 @@ export default function DetailsDropdown({
   const valueOfTotalStakedAmountInUSDT = totalStakedAmount && USDPrice?.quote(totalStakedAmount);
 
   return (
-    <AutoColumnToRow>
-      <Divider />
-      <SpacedToCenteredAutoRow gap=".3rem">
+    <AutoColumnToRow justify="center">
+      {!isMobile && <Divider style={{ width: '75%' }} />}
+      <SpacedToCenteredAutoRow gap=".5rem">
         {stakingInfo.fee > 0 ? (
           <RowBetweenToDiv>
-            <ResponsiveSizedTextMedium>Fee {stakingInfo.fee} %</ResponsiveSizedTextMedium>
+            <ResponsiveSizedTextMedium>Fee</ResponsiveSizedTextMedium>
+            <ResponsiveSizedTextMedium>{stakingInfo.fee} %</ResponsiveSizedTextMedium>
           </RowBetweenToDiv>
         ) : undefined}
         <RowBetweenToDiv>

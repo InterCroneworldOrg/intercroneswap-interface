@@ -16,6 +16,7 @@ export const AutoRowToColumn = styled.div<{
     padding: 0;
     width: 100%;
     justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
   `}
 `;
@@ -54,16 +55,10 @@ export const RowBetweenToDiv = styled.div`
 
 export const ResponsiveSizedTextNormal = styled(TYPE.white)`
   font-size: 1rem;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    font-size: .5rem;
-  `}
 `;
 
 export const ResponsiveSizedTextMedium = styled(TYPE.white)`
   font-size: 1rem;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    font-size: .7rem;
-  `}
 `;
 
 export const ButtonAutoRow = styled(AutoRow)`
