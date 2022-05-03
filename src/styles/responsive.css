@@ -28,9 +28,8 @@
     }
     .tokenname {
       
-        left: 25px;
-        position: absolute;
-        top: 28px;
+        margin-top: 0;
+        margin-left: 0;
     }
     div#basic-nav-dropdowns{
         width: 125px;
