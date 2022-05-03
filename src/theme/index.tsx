@@ -21,6 +21,8 @@ export const MEDIA_WIDTHS = {
   upToLarge: 1280,
 };
 
+export const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
+
 const mediaWidthTemplates: { [width in keyof typeof MEDIA_WIDTHS]: typeof css } = Object.keys(MEDIA_WIDTHS).reduce(
   (accumulator, size) => {
     (accumulator as any)[size] = (a: any, b: any, c: any) => css`
