@@ -3,6 +3,8 @@ import { AutoRow } from 'components/Layout/Row'
 import { Text } from '@pancakeswap/uikit'
 
 export const ArrowWrapper = styled.div<{ clickable: boolean }>`
+  display: flex;
+  justify-content: center;
   padding: 2px;
   width: 5%;
   ${({ clickable }) =>
@@ -67,18 +69,12 @@ export const RowBetweenToDiv = styled.div`
 `
 
 export const ResponsiveSizedTextNormal = styled(Text)`
-  font-size: 16px;
-  ${({ theme }) => theme.mediaQueries.xs} {
-    font-size: 0.7rem;
-  }
+  font-size: 1rem;
 `
 
 export const ResponsiveSizedTextMedium = styled(Text)`
-  font-weight: 500;
-  font-size: 16px;
-  ${({ theme }) => theme.mediaQueries.xs} {
-    font-size: 0.7rem;
-  }
+  font-weight: 400;
+  font-size: 1rem;
 `
 export const ButtonAutoRow = styled(AutoRow)`
   width: 450px;

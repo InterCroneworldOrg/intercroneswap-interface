@@ -38,7 +38,7 @@ export const darkColors: Colors = {
   tertiary: "#353547",
   text: "#F4EEFF",
   textDisabled: "#000000",
-  textSubtle: "#B8ADD2",
+  textSubtle: "#6C7284",
   disabled: "linear-gradient(90deg, rgba(255, 184, 7, 0.5) 8.49%, rgba(255, 234, 0, 0.5) 100%)",
   gradients: {
     grey: "linear-gradient(180deg, #08060C 0%, #3c3742 100%)",
