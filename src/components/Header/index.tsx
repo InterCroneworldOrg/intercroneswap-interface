@@ -7,8 +7,6 @@ import Logo from '../../assets/images/ISwap.svg';
 import { useActiveWeb3React } from '../../hooks';
 import Web3Status from '../Web3Status';
 import EthLogo from '../../assets/images/eth-logo.png';
-import BTTLogo from '../../assets/images/bttlogo.png';
-import BSCLogo from '../../assets/images/bsclogo.png';
 import PriceCard from '../PriceCard';
 import { ExternalLink, isMobile } from '../../theme';
 import downarrow from '../../assets/images/downarrow.png';
@@ -16,6 +14,7 @@ import uparrow from '../../assets/images/uparrow.png';
 import { useCallback, useState } from 'react';
 import Settings from '../Settings';
 import { Box } from 'rebass';
+import Blockchains from '../Blockchains';
 
 const Row = styled(Box)<{ align?: string; padding?: string; border?: string; borderRadius?: string }>`
   display: flex;
@@ -112,24 +111,7 @@ export default function Header() {
         {dropshow ? (
           <div title="" id="basic-nav-dropdowns">
             <p>Select a Network</p>
-            <ExternalLink href="https://trx.intercroneswap.com/" className="trxlogo active">
-              <span>TRX</span>
-              <span style={{ marginLeft: '7px' }}>
-                <img width={25} src={EthLogo} alt="" />
-              </span>
-            </ExternalLink>
-            <ExternalLink href="https://btt.intercroneswap.com/" className="bttlogo">
-              <span>BTT</span>
-              <span style={{ marginLeft: '7px' }}>
-                <img width={25} src={BTTLogo} alt="" />
-              </span>
-            </ExternalLink>
-            <ExternalLink href="https://bsc.intercroneswap.com/" className="bsclogo">
-              <span>BSC</span>
-              <span style={{ marginLeft: '7px' }}>
-                <img width={25} src={BSCLogo} alt="" />
-              </span>
-            </ExternalLink>
+            <Blockchains />
           </div>
         ) : (
           ''

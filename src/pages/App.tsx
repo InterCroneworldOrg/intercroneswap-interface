@@ -34,6 +34,8 @@ import Sample from './Sample';
 // import Home from './Home';
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects';
 import { RedirectToReferal } from './Stake/redirects';
+import ChessLarge from '../assets/images/chess-big-icon.png';
+import { isMobile } from '../theme';
 // import Vote from './Vote'
 // import VotePage from './Vote/VotePage'
 
@@ -50,9 +52,22 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
 `;
 const FooterWrapper = styled.footer`
+  display: flex;
   width: 100%;
-  padding: 30px 0;
-  background: linear-gradient(180deg, #1c1c1c 0%, rgba(51, 51, 51, 0.67) 18.21%, #333333 38.13%);
+  padding: 30px 0 15px 0;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(28, 28, 28, 0) 0%, rgba(51, 51, 51, 0.4) 18.21%, #333333 38.13%);
+`;
+
+const ChessIcon = styled.div`
+  background: url(${ChessLarge});
+  height: 581px;
+  width: 294px;
+  overflow: hidden;
+  margin-left: 7rem;
+  margin-bottom: -15px;
+  border-radius: 0px;
+  opacity: 0.7;
 `;
 
 const BodyWrapper = styled.div`
@@ -383,6 +398,7 @@ export default function App() {
         </BodyWrapper>
         <FooterWrapper>
           <Footer />
+          {!isMobile && <ChessIcon />}
         </FooterWrapper>
       </AppWrapper>
     </Suspense>
