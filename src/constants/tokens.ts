@@ -63,6 +63,13 @@ export const KLV = new Token(ChainId.MAINNET, '0xD8B8089856CED3038601CBEB1E3F765
 export const Doge = new Token(ChainId.MAINNET, '0x53A58D995EF4937017A8AB47722186A12A27905E', 8, 'Doge ', 'Dogecoin');
 export const TURU = new Token(ChainId.MAINNET, '0x6471f94b57853c253273275fd695606aff44cd8f', 8, 'turu ', 'turu');
 export const BBT = new Token(ChainId.MAINNET, '0x4cd9f886fcfd6bbdb234954b817f47bd49b6667c', 8, 'BBT', 'BabyTuru');
+export const COME = new Token(
+  ChainId.MAINNET,
+  '0xea98a5047a37dd4b10f331adb17b55aafa682f19',
+  18,
+  'COME',
+  'CommunityEarth',
+);
 
 export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['ICR']: ICR,
@@ -89,6 +96,7 @@ export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['DOGE']: Doge,
   ['TURU']: TURU,
   ['BBT']: BBT,
+  ['COME']: COME,
 };
 
 const tokens: Token[] = [
@@ -115,6 +123,7 @@ const tokens: Token[] = [
   Doge,
   TURU,
   BBT,
+  COME,
 ];
 
 export function getTokenByAddress(address: string): Token {
