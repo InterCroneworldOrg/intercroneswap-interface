@@ -1,11 +1,14 @@
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Style from '../../styles/footer.module.css';
 
 import styled from 'styled-components';
 import { Facebook, Youtube, Twitter, Instagram, Send } from 'react-feather';
-import { ExternalLink } from '../../theme';
+import { Divider, ExternalLink, isMobile } from '../../theme';
 import PriceCard from '../PriceCard';
+import { AutoRow } from '../Row';
+import { AutoColumnToRow } from '../earn/styleds';
+import { FooterBlockchains } from '../Blockchains';
 
 const FootContent = styled.div`
   display: flex;
@@ -15,7 +18,7 @@ const FootContent = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     width: 100%;
   }
 `;
@@ -37,9 +40,17 @@ const MenuItem = styled(ExternalLink)`
 `;
 const Footer = () => {
   return (
-    <Container className={Style.footcontainer}>
-      <Row>
-        <Col md={4}>
+    <AutoRow
+      justify="center"
+      gap="1rem"
+      padding={isMobile ? '2rem 2rem' : '5rem 2rem 0rem 10rem'}
+      style={{ width: '75%' }}
+    >
+      <AutoColumnToRow
+        gap={isMobile ? '1rem' : '0rem'}
+        style={{ background: 'rgba(0,0,0,0)', width: isMobile ? '100%' : '85%', justifyContent: 'start' }}
+      >
+        <Col md={3}>
           <p className={Style.iswap}>ISwap</p>
           <ul className={Style.ul}>
             <li>
@@ -74,7 +85,7 @@ const Footer = () => {
             </li>
           </ul>
         </Col>
-        <Col md={4}>
+        <Col md={3}>
           <p className={Style.footerheader}>About</p>
           <ul className={Style.ul}>
             <li>
@@ -114,7 +125,11 @@ const Footer = () => {
             </li>
           </ul>
         </Col>
-        <Col md={4} className="lastcol">
+        <Col md={3}>
+          <p className={Style.footerheader}>Blockchains</p>
+          <FooterBlockchains />
+        </Col>
+        <Col md={3} className="lastcol">
           <p className={Style.footerheader}>Developers</p>
           <ul className={Style.ul}>
             <li>
@@ -129,8 +144,8 @@ const Footer = () => {
             </li>
           </ul>
         </Col>
-      </Row>
-      <hr />
+      </AutoColumnToRow>
+      <Divider />
       <FootContent>
         <PriceCard />
         <SocialIconWrapper>
@@ -151,7 +166,7 @@ const Footer = () => {
           </MenuItem>
         </SocialIconWrapper>
       </FootContent>
-    </Container>
+    </AutoRow>
   );
 };
 

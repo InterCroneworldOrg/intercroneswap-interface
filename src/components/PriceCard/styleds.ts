@@ -11,6 +11,6 @@ export const AmountWrapper = styled.div`
   text-align: left;
   @media (max-width: 768px) {
     margin-bottom: 15px;
-    text-align: center;
+    text-align: left;
   }
 `;

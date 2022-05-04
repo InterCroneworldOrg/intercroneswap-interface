@@ -343,7 +343,7 @@ html {
 
 body {
   min-height: 100vh;
-  background:url(${BGImage}) no-repeat right bottom ;
+  background:url(${BGImage}) no-repeat right;
 
   // background-position:
 
