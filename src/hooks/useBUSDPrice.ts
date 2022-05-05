@@ -70,6 +70,10 @@ export const useCakeBusdPrice = (): Price | undefined => {
   return cakeBusdPrice
 }
 
+export const useIcrBusdPrice = (): Price | undefined => {
+  return useBUSDPrice(tokens.icr)
+}
+
 export const useBUSDCurrencyAmount = (currency: Currency, amount: number): number | undefined => {
   const { chainId } = useActiveWeb3React()
   const busdPrice = useBUSDPrice(currency)

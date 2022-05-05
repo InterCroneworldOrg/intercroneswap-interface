@@ -6,12 +6,12 @@ import { Menu as UikitMenu, Text } from '@pancakeswap/uikit'
 import { CHAIN_ID } from 'config/constants/networks'
 import { languageList } from 'config/localization/languages'
 import { formatBigNumber } from 'utils/formatBalance'
-import { usePriceCakeBusd } from 'state/farms/hooks'
 import useTheme from 'hooks/useTheme'
 import { useGetBnbBalance } from 'hooks/useTokenBalance'
 import { FetchStatus } from 'config/constants/types'
 import { useTranslation } from 'contexts/Localization'
 import PhishingWarningBanner from 'components/PhishingWarningBanner'
+import { useIcrBusdPrice } from 'hooks/useBUSDPrice'
 import { footerLinks } from './config/footerConfig'
 import { useMenuItems } from './hooks/useMenuItems'
 import GlobalSettings from './GlobalSettings'
@@ -21,7 +21,7 @@ import UserMenu from './UserMenu'
 
 const Menu = (props) => {
   const { isDark, setTheme } = useTheme()
-  const cakePriceUsd = usePriceCakeBusd()
+  const cakePriceUsd = useIcrBusdPrice()
   const { currentLanguage, setLanguage, t } = useTranslation()
   const { pathname } = useRouter()
 
@@ -56,7 +56,7 @@ const Menu = (props) => {
       currentLang={currentLanguage.code}
       langs={languageList}
       setLang={setLanguage}
-      cakePriceUsd={cakePriceUsd.toNumber()}
+      cakePriceUsd={cakePriceUsd?.toFixed(4)}
       links={menuItems}
       subLinks={[]}
       footerLinks={footerLinks(t)}

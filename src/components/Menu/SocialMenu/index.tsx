@@ -27,14 +27,7 @@ const SocialMenu = () => {
   const UserMenuItems = () => {
     return (
       <>
-        <UserMenuItem
-          as="button"
-          onClick={() => {
-            console.log('NFT')
-          }}
-        >
-          NFT
-        </UserMenuItem>
+        <UserMenuItem as="button">NFT</UserMenuItem>
       </>
     )
   }
