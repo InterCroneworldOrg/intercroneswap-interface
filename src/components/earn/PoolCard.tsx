@@ -1,6 +1,7 @@
 import { ETHER, JSBI, Percent, TokenAmount } from '@intercroneswap/v2-sdk'
 import { useContext, useState } from 'react'
-import { Text, Button, LinkExternal, Link } from '@pancakeswap/uikit'
+import { Divider } from 'theme'
+import { Text, Button, Link } from '@pancakeswap/uikit'
 import { ThemeContext } from 'styled-components'
 import { PairState, usePair } from 'hooks/usePairs'
 import useTotalSupply from 'hooks/useTotalSupply'
@@ -15,7 +16,7 @@ import { Dots } from '../../views/Stake/styleds'
 import { StakingInfo } from '../../state/stake/hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
-import { LightCard, LightGreyCard } from '../Card'
+import { LightGreyCard } from '../Card'
 import DetailsDropdown from './DetailsDropdown'
 import { YEARLY_RATE } from '../../constants'
 import {
@@ -28,7 +29,6 @@ import {
 import StyledChevronUp from './ChevronUp'
 import StyledChevronDown from './ChevronDown'
 import { breakpointMap } from '../../../packages/uikit/src/theme/base'
-import { Divider } from 'theme'
 
 const { icr: ICR, busd: BUSD } = tokens
 

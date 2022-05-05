@@ -7,7 +7,6 @@ import { CHAIN_ID } from 'config/constants/networks'
 import { languageList } from 'config/localization/languages'
 import { formatBigNumber } from 'utils/formatBalance'
 import { usePriceCakeBusd } from 'state/farms/hooks'
-import { usePhishingBannerManager } from 'state/user/hooks'
 import useTheme from 'hooks/useTheme'
 import { useGetBnbBalance } from 'hooks/useTokenBalance'
 import { FetchStatus } from 'config/constants/types'
@@ -25,7 +24,6 @@ const Menu = (props) => {
   const cakePriceUsd = usePriceCakeBusd()
   const { currentLanguage, setLanguage, t } = useTranslation()
   const { pathname } = useRouter()
-  const [showPhishingWarningBanner] = usePhishingBannerManager()
 
   const menuItems = useMenuItems()
 
@@ -60,7 +58,7 @@ const Menu = (props) => {
       setLang={setLanguage}
       cakePriceUsd={cakePriceUsd.toNumber()}
       links={menuItems}
-      subLinks={true ? [] : activeMenuItem?.items}
+      subLinks={[]}
       footerLinks={footerLinks(t)}
       activeItem={activeMenuItem?.href}
       activeSubItem={activeSubMenuItem?.href}
