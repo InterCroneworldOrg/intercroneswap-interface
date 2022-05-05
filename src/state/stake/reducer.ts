@@ -1,16 +1,21 @@
+import { TokenAmount } from '@intercroneswap/v2-sdk';
 import { createReducer } from '@reduxjs/toolkit';
-import { setAttemptingTxn, setTxHash, typeInput } from './actions';
+import { addStakeAmounts, setAttemptingTxn, setTxHash, typeInput } from './actions';
 
 export interface StakeState {
   typedValue: string;
   attemptingTxn: boolean;
   txHash: string;
+  stakeAmounts: {
+    [stakeAddress: string]: [TokenAmount, TokenAmount];
+  };
 }
 
 const initialState: StakeState = {
   typedValue: '',
   txHash: '',
   attemptingTxn: false,
+  stakeAmounts: {},
 };
 
 export default createReducer<StakeState>(initialState, (builder) => {
@@ -30,6 +35,18 @@ export default createReducer<StakeState>(initialState, (builder) => {
     return {
       ...state,
       attemptingTxn,
+    };
+  });
+  builder.addCase(addStakeAmounts, (state, { payload: { stakeAddress, stakedAmounts } }) => {
+    let currentAmounts = state.stakeAmounts[stakeAddress];
+    if (currentAmounts) {
+      currentAmounts = stakedAmounts;
+    } else {
+      state.stakeAmounts[stakeAddress] = stakedAmounts;
+    }
+
+    return {
+      ...state,
     };
   });
 });
