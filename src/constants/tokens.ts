@@ -29,6 +29,7 @@ export const USDJ = new Token(
 );
 export const TUSD = new Token(ChainId.MAINNET, '0xCEBDE71077B830B958C8DA17BCDDEEB85D0BCF25', 18, 'TUSD ', 'TrueUSD');
 export const USDC = new Token(ChainId.MAINNET, '0x3487B63D30B5B2C87FB7FFA8BCFADE38EAAC1ABE', 6, 'USDC ', 'USD Coin');
+export const USDD = new Token(ChainId.MAINNET, '0x94F24E992CA04B49C6F2A2753076EF8938ED4DAA', 18, 'USDD ', 'USDD Coin');
 export const WIN = new Token(ChainId.MAINNET, '0x74472E7D35395A6B5ADD427EECB7F4B62AD2B071', 6, 'WIN ', 'WINK');
 export const LIVE = new Token(ChainId.MAINNET, '0xD829659F0F7661F29F12F07A5BE33C13B6C9DD59', 6, 'LIVE ', 'TRONbetLive');
 export const DICE = new Token(ChainId.MAINNET, '0x6CE0632A762689A207B9CCE915E93AA9596816CA', 6, 'DICE ', 'TRONbetDice');
@@ -74,6 +75,7 @@ export const COME = new Token(
 export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['ICR']: ICR,
   ['USDT']: USDT,
+  ['USDD']: USDD,
   ['ETH']: ETH,
   ['BTT']: BTT,
   ['MEOX']: MEOX,
@@ -102,6 +104,7 @@ export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
 const tokens: Token[] = [
   ICR,
   USDT,
+  USDD,
   ETH,
   BTT,
   MEOX,
