@@ -1,5 +1,5 @@
 import { TYPE } from '../../theme';
-import { Pair, Percent, Price, Token, TokenAmount } from '@intercroneswap/v2-sdk';
+import { Pair, Percent, Token, TokenAmount } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 import { LightCard } from '../Card';
@@ -8,11 +8,11 @@ import { unwrappedToken } from '../../utils/wrappedCurrency';
 import CurrencyLogo from '../CurrencyLogo';
 import useUSDTPrice from '../../hooks/useUSDTPrice';
 import { DoubleTokenAmount, GetAmountInUSDT } from '../../utils/tokenAmountCalculations';
+import { currencyFormatter } from '../../utils';
 
 export interface MarketCardProps {
   pair: Pair;
   tokens?: [Token, Token];
-  lastPrice?: Price;
   liquidity?: TokenAmount;
   dailyVolume?: TokenAmount;
   apy?: Percent;
@@ -35,7 +35,6 @@ MarketCardProps) {
 
   const USDPrice = useUSDTPrice(token0);
   const USDPriceBackup = useUSDTPrice(token1);
-  const lastPrice = USDPrice ?? USDPriceBackup;
 
   const liquidity = USDPrice
     ? GetAmountInUSDT(USDPrice, DoubleTokenAmount(pair.reserve0))
@@ -53,12 +52,12 @@ MarketCardProps) {
       style={{
         marginTop: '2px',
         margin: '0rem',
-        padding: '1rem',
+        padding: '1rem 3rem',
         background: theme.bg3,
       }}
     >
       <AutoRow justify="start" gap=".2rem">
-        <PercentageDiv style={{ width: '25%' }}>
+        <PercentageDiv style={{ width: '30%' }}>
           <CurrencyLogo currency={currency0} size="1.2rem" />
           &nbsp;
           <TYPE.white fontWeight={500} fontSize="1rem">
@@ -72,15 +71,12 @@ MarketCardProps) {
           </TYPE.white>
         </PercentageDiv>
         <AutoRow style={{ width: '15%' }}>
-          <TYPE.yellow>$ {lastPrice?.toFixed(2)}</TYPE.yellow>
+          <TYPE.yellow>{currencyFormatter.format(Number(liquidity?.toFixed(2)))}</TYPE.yellow>
         </AutoRow>
         <AutoRow style={{ width: '15%' }}>
-          <TYPE.yellow>$ {liquidity?.toFixed(2)}</TYPE.yellow>
+          <TYPE.yellow>{dailyVolume ? `$ ${dailyVolume}` : '-'}</TYPE.yellow>
         </AutoRow>
         <AutoRow style={{ width: '15%' }}>
-          <TYPE.yellow>$ {dailyVolume}</TYPE.yellow>
-        </AutoRow>
-        <AutoRow style={{ width: '12%' }}>
           <TYPE.yellow>{apy ? `${apy} %` : '-'}</TYPE.yellow>
         </AutoRow>
         <AutoRow style={{ width: '15%' }}>

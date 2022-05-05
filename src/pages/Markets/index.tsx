@@ -7,13 +7,25 @@ import { LightCard } from '../../components/Card';
 import { AutoRow, RowBetween } from '../../components/Row';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import MarketCard from '../../components/markets/MarketCard';
-import { Pair } from '@intercroneswap/v2-sdk';
+import { Pair, Token, ZERO } from '@intercroneswap/v2-sdk';
 import { AutoColumn } from '../../components/Column';
 import { useTrackedTokenPairs } from '../../state/user/hooks';
 import { usePairs } from '../../data/Reserves';
 import { getTokensFromDefaults } from '../../constants/tokens';
 import { StakingRewardsInfo, REWARDS_DURATION_DAYS_180, REWARDS_DURATION_DAYS } from '../../state/stake/constants';
 import { useActiveWeb3React } from '../../hooks';
+
+const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): boolean => {
+  if (!tokens2) {
+    return false;
+  }
+  const [token10, token11] = tokens1;
+  const [token20, token21] = tokens2;
+
+  if (!token10.equals(token20) && !token10.equals(token21)) return false;
+  if (!token11.equals(token20) && !token11.equals(token21)) return false;
+  return true;
+};
 
 let stakingInfosRaw: {
   [chainId: number]: {
@@ -31,33 +43,6 @@ fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/sta
 //   .then((response) => response.json())
 //   .then((data) => (marketInfosRaw = data));
 
-// const dummyData: MarketCardProps[] = [
-//   {
-//     tokens: [ICR, MEOX],
-//     lastPrice: new Price(USDT, ICR, 1500, 16),
-//     dailyVolume: new TokenAmount(USDT, 34532),
-//     liquidity: new TokenAmount(USDT, 23552),
-//   },
-//   {
-//     tokens: [ICR, WETH[ChainId.MAINNET]],
-//     lastPrice: new Price(USDT, ICR, 1500, 16),
-//     dailyVolume: new TokenAmount(USDT, 34532),
-//     liquidity: new TokenAmount(USDT, 23552),
-//   },
-//   {
-//     tokens: [ICR, USDT],
-//     lastPrice: new Price(USDT, ICR, 1500, 16),
-//     dailyVolume: new TokenAmount(USDT, 34532),
-//     liquidity: new TokenAmount(USDT, 23552),
-//   },
-//   {
-//     tokens: [ICR, BTT],
-//     lastPrice: new Price(USDT, ICR, 1500, 16),
-//     dailyVolume: new TokenAmount(USDT, 34532),
-//     liquidity: new TokenAmount(USDT, 23552),
-//   },
-// ];
-
 export default function Markets() {
   const { t } = useTranslation();
   //   const theme = useContext(ThemeContext);
@@ -67,8 +52,9 @@ export default function Markets() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const trackedTokenPairs = useTrackedTokenPairs();
   const v1Pairs = usePairs(trackedTokenPairs);
-  // const v1IsLoading = v1Pairs?.length || v1Pairs?.some((V1Pair) => !V1Pair);
   const allPairs = v1Pairs.map(([, pair]) => pair).filter((v1Pair): v1Pair is Pair => Boolean(v1Pair));
+  const pairsWithLiquidity = allPairs.filter((pair) => pair.reserve0.greaterThan(ZERO));
+  // console.log(marketInfosRaw, 'marketinfos');
 
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];
@@ -125,28 +111,28 @@ export default function Markets() {
                 style={{ fontSize: '.9rem', width: isMobile ? '57%' : '194px' }}
               />
             </RowBetween>
-            <AutoRow style={{ padding: '0 1rem' }}>
-              <TYPE.white width="25%">Pair</TYPE.white>
-              <TYPE.white width="15%">Last Price</TYPE.white>
+            <AutoRow style={{ padding: '0rem 3rem' }}>
+              <TYPE.white width="30%">Pair</TYPE.white>
               <TYPE.white width="15%">Liquidity</TYPE.white>
               <TYPE.white width="15%">24h volume</TYPE.white>
               <TYPE.white width="15%">APY</TYPE.white>
               <TYPE.white width="15%">LP Staking</TYPE.white>
             </AutoRow>
             <Divider />
-            {allPairs.map((pair) => (
-              <>
-                <MarketCard
-                  key={pair.liquidityToken.address}
-                  pair={pair}
-                  stakingAddress={
-                    stakingRewardInfos.find((info) => {
-                      return info.tokens === [pair.token0, pair.token1] || info.tokens === [pair.token1, pair.token0];
-                    })?.stakingRewardAddress
-                  }
-                />
-              </>
-            ))}
+            {pairsWithLiquidity &&
+              pairsWithLiquidity.length > 0 &&
+              pairsWithLiquidity.map((pair) => (
+                <>
+                  <MarketCard
+                    key={pair.liquidityToken.address}
+                    pair={pair}
+                    stakingAddress={
+                      stakingRewardInfos.find((info) => tokenPairsAreEqual(info.tokens, [pair.token0, pair.token1]))
+                        ?.stakingRewardAddress
+                    }
+                  />
+                </>
+              ))}
             {/* {dummyData.map((marketInfo) => (
               <>
                 <MarketCard
