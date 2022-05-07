@@ -130,7 +130,8 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
           <ResponsiveSizedTextNormal fontWeight="1.3rem">Earned / APY</ResponsiveSizedTextNormal>
           {toggleToken ? (
             <ResponsiveSizedTextMedium fontWeight="0.6rem" color={theme.colors.primary}>
-              {stakingInfo.earnedAmount.toSignificant()} <CurrencyLogo currency={ICR} size=".8rem" />/{' '}
+              {stakingInfo.earnedAmount.toSignificant(4)}{' '}
+              <CurrencyLogo currency={stakingInfo.earnedAmount.token} size=".8rem" />/{' '}
               {apr ? `${apr.toFixed(2)} %` : '-'}{' '}
             </ResponsiveSizedTextMedium>
           ) : (

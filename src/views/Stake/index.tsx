@@ -78,7 +78,7 @@ export default function Stake() {
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined)
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined)
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined)
-  const [toggleToken, setToggleToken] = useState(true)
+  const [toggleToken, setToggleToken] = useState(false)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [sortOption, setSortOption] = useState('latest')
   const [showReferal, setShowReferal] = useState<boolean>(false)
@@ -290,7 +290,7 @@ export default function Stake() {
               style={{ background: theme.colors.background, border: `1px solid ${theme.colors.primary}` }}
             >
               <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
-              <CurrencyLogo currency={toggleToken ? BUSD : ICR} size={'28px'} style={{ marginLeft: '1rem' }} />
+              <CurrencyLogo currency={toggleToken ? ICR : BUSD} size={'28px'} style={{ marginLeft: '1rem' }} />
             </Button>
           ) : (
             <div />
