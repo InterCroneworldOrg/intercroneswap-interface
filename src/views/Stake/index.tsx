@@ -17,7 +17,6 @@ import { SearchInput } from '../../components/SearchModal/styleds'
 import { Dots } from '../../components/swap/styleds'
 import Page from '../Page'
 import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks'
-import { Divider } from '../../theme'
 import HarvestModal from './HarvestModal'
 import StakeModal from './StakeModal'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
@@ -75,10 +74,11 @@ export default function Stake() {
   const stakingInfos = useStakingInfo(stakingRewardInfos)
 
   const [stakeAddress, setStakeAddress] = useState<string>('')
+  const [toggleSearch, setToggleSearch] = useState(false)
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined)
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined)
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined)
-  const [toggleToken, setToggleToken] = useState(true)
+  const [toggleToken, setToggleToken] = useState(false)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [sortOption, setSortOption] = useState('latest')
   const [showReferal, setShowReferal] = useState<boolean>(false)
@@ -174,13 +174,12 @@ export default function Stake() {
         }}
       >
         {referal ? confirmUpline() : undefined}
-        <ResponsiveSizedTextMedium fontWeight=".5rem">Your referral link</ResponsiveSizedTextMedium>
+        <ResponsiveSizedTextMedium>Your referral link</ResponsiveSizedTextMedium>
         <WordBreakDiv>{`${window.location.origin}/stake/${account}`}</WordBreakDiv>
       </AutoColumn>
     ) : undefined
   }, [uplinkAddress, showReferal])
 
-  // Filtering and sorting pools
   const activePools = stakingInfos.filter((info) => info.active)
   const inactivePools = stakingInfos.filter((info) => !info.active)
   const stakedOnlyPools = activePools.filter(
@@ -193,12 +192,20 @@ export default function Stake() {
   const stakingList = useCallback(
     (poolsToDisplay: StakingInfo[]): StakingInfo[] => {
       if (searchQuery) {
+        if (!toggleSearch) {
+          return poolsToDisplay.filter((info: StakingInfo) => {
+            return (
+              info.tokens[0].symbol?.toLowerCase().includes(searchQuery) ||
+              info.tokens[0].name?.toLowerCase().includes(searchQuery) ||
+              info.tokens[1].symbol?.toLowerCase().includes(searchQuery) ||
+              info.tokens[1].name?.toLowerCase().includes(searchQuery)
+            )
+          })
+        }
         return poolsToDisplay.filter((info: StakingInfo) => {
           return (
-            info.tokens[0].symbol?.toLowerCase().includes(searchQuery) ||
-            info.tokens[0].name?.toLowerCase().includes(searchQuery) ||
-            info.tokens[1].symbol?.toLowerCase().includes(searchQuery) ||
-            info.tokens[1].name?.toLowerCase().includes(searchQuery)
+            info.earnedAmount.token.symbol?.toLowerCase().includes(searchQuery) ||
+            info.earnedAmount.token.name?.toLowerCase().includes(searchQuery)
           )
         })
       }
@@ -269,11 +276,38 @@ export default function Stake() {
   return (
     <Page>
       <StyledHeading>LP Staking</StyledHeading>
-      <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
-        <Text>Stake Liquidity Pool (LP) tokens to earn</Text>
+      <TitleRow style={{ marginTop: '1rem', textAlign: 'center' }} padding={'0'}>
+        <Text width="100%" style={{ marginTop: '0.5rem', justifySelf: 'center', color: theme.colors.text }}>
+          Stake Liquidity Pool (LP) tokens to earn
+        </Text>
       </TitleRow>
       <PageWrapper style={{ marginTop: 30 }}>
-        <LightCard style={{ marginTop: '20px' }} padding="2rem 1rem">
+        <RowBetween marginTop="1rem">
+          {isMobile ? (
+            <Button
+              width="45%"
+              onClick={() => setToggleToken(!toggleToken)}
+              style={{ background: theme.colors.background, border: `1px solid ${theme.colors.primary}` }}
+            >
+              <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
+              <CurrencyLogo currency={toggleToken ? ICR : BUSD} size={'28px'} style={{ marginLeft: '1rem' }} />
+            </Button>
+          ) : (
+            <div />
+          )}
+          <ReferalButton
+            height="3rem"
+            margin="0"
+            onClick={() => setShowReferal(!showReferal)}
+            style={{
+              width: isMobile ? '45%' : '16rem',
+              justifySelf: 'flex-end',
+            }}
+          >
+            Show referal link
+          </ReferalButton>
+        </RowBetween>
+        <LightCard style={{ marginTop: '20px' }} padding="1rem 1rem">
           {!account ? (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <ConnectWalletButton width="100%" maxWidth={300} />
@@ -281,29 +315,8 @@ export default function Stake() {
           ) : (
             <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between" />
           )}
-          <AutoColumn gap="1.5rem" justify="center">
-            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', marginBottom: 20 }}>
-              <ReferalButton
-                width="11rem"
-                height="48px"
-                marginBottom="-4rem"
-                justifySelf="end"
-                onClick={() => setShowReferal(!showReferal)}
-              >
-                Show referal link
-              </ReferalButton>
-            </div>
-            <Button
-              width="15rem"
-              onClick={() => setToggleToken(!toggleToken)}
-              style={{ background: theme.colors.background, border: `1px solid ${theme.colors.primary}` }}
-            >
-              <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
-              <CurrencyLogo currency={toggleToken ? BUSD : ICR} size={'28px'} style={{ marginLeft: '1rem' }} />
-            </Button>
-
+          <AutoColumn gap="1rem" justify="center">
             <AutoColumn gap="1rem" style={{ width: '100%' }}>
-              <Divider />
               {uplineComponent()}
               {isMobile ? (
                 <RowBetween>
@@ -323,26 +336,55 @@ export default function Stake() {
                   />
                 </RowBetween>
               ) : undefined}
-              <RowBetween>
-                <Text fontSize="1rem">Search</Text>
-                <Text>Sort by</Text>
+              <RowBetween style={{ marginBottom: isMobile ? '-1rem' : '-1.5rem' }}>
+                <AutoRow gap=".3rem" width={isMobile ? '55%' : '20%'}>
+                  <Text
+                    onClick={() => setToggleSearch(false)}
+                    color={!toggleSearch ? theme.colors.primary : theme.colors.text}
+                    style={{ textDecorationLine: 'underline', cursor: 'pointer' }}
+                  >
+                    LP token
+                  </Text>
+                  <Text
+                    onClick={() => setToggleSearch(false)}
+                    color={toggleSearch ? theme.colors.primary : theme.colors.text}
+                    style={{ textDecorationLine: 'underline', cursor: 'pointer' }}
+                  >
+                    Earn token
+                  </Text>
+                </AutoRow>
+                {!isMobile && (
+                  <AutoRow justify="center">
+                    <Button
+                      width="15rem"
+                      onClick={() => setToggleToken(!toggleToken)}
+                      style={{ background: theme.colors.backgroundAlt, border: `1px solid ${theme.colors.primary}` }}
+                    >
+                      <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
+                      <CurrencyLogo currency={toggleToken ? BUSD : ICR} size={'28px'} style={{ marginLeft: '1rem' }} />
+                    </Button>
+                  </AutoRow>
+                )}
+                <AutoRow style={{ width: isMobile ? '35%' : '15%' }}>
+                  <Text textAlign="start">Sort by</Text>
+                </AutoRow>
               </RowBetween>
               <RowBetween>
                 <SearchInput
                   type="text"
                   id="token-search-input"
-                  placeholder="Filter by token name"
+                  placeholder="Search name"
                   value={searchQuery}
                   ref={inputRef as RefObject<HTMLInputElement>}
                   onChange={handleInput}
                   onKeyDown={handleEnter}
                   style={{
-                    fontSize: '1rem',
+                    fontSize: '.9rem',
                     background: theme.colors.backgroundAlt2,
-                    width: isMobile ? '45%' : '194px',
+                    width: isMobile ? '60%' : '194px',
                   }}
                 />
-                <AutoRow gap="2rem" justify="flex-end" margin="0">
+                <AutoRow gap="2rem" justify="flex-end">
                   {!isMobile ? (
                     <>
                       <Form.Switch
@@ -363,11 +405,13 @@ export default function Stake() {
                   ) : undefined}
                   <Form.Select
                     style={{
-                      color: theme.colors.text,
+                      color: theme.colors.textSubtle,
                       background: theme.colors.backgroundAlt2,
-                      borderColor: theme.colors.gold,
-                      borderRadius: '.6rem',
-                      width: isMobile ? '40%' : '150px',
+                      border: 'none',
+                      width: isMobile ? '50%' : '165px',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      cursor: 'pointer',
                     }}
                     onChange={bindSortSelect}
                     value={sortOption}

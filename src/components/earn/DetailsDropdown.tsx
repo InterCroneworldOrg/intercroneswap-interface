@@ -21,6 +21,7 @@ import {
   ResponsiveSizedTextMedium,
   ResponsiveSizedTextNormal,
 } from './styleds'
+import { breakpointMap } from '../../../packages/uikit/src/theme/base'
 
 interface DetailsDropDownParams {
   stakingInfo: StakingInfo
@@ -43,6 +44,7 @@ export default function DetailsDropdown({
 }: DetailsDropDownParams) {
   const theme = useContext(ThemeContext)
   const { chainId } = useActiveWeb3React()
+  const isMobile = window.innerWidth <= breakpointMap.sm
 
   const currency = stakedAmount ? unwrappedToken(stakedAmount?.token) : undefined
   const USDPrice = useBUSDPrice(stakedAmount?.token)
@@ -51,7 +53,7 @@ export default function DetailsDropdown({
 
   return (
     <AutoColumnToRow>
-      <Divider />
+      {!isMobile && <Divider />}
       <SpacedToCenteredAutoRow gap=".3rem">
         {stakingInfo.fee > 0 ? (
           <RowBetweenToDiv>

@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components'
 
 // styles
 export const Dots = styled.span`
@@ -20,4 +20,4 @@ export const Dots = styled.span`
       content: '...';
     }
   }
-`;
+`

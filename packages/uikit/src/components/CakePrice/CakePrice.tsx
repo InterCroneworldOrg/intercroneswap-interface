@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import LogoRound from "../Svg/Icons/LogoRound";
 import Text from "../Text/Text";
 import Skeleton from "../Skeleton/Skeleton";
 import { Colors } from "../../theme";
+import Logo from "../../assets/images/chessicon.png";
+import Image from "next/image";
+import { Row } from "../../styles/header.styles";
 
 export interface Props {
   color?: keyof Colors;
@@ -24,17 +26,16 @@ const PriceLink = styled.a`
   }
 `;
 
-const CakePrice: React.FC<Props> = ({ cakePriceUsd, color = "textSubtle", showSkeleton = true }) => {
+const CakePrice: React.FC<Props> = ({ cakePriceUsd, color = "primary", showSkeleton = true }) => {
   return cakePriceUsd ? (
-    <PriceLink
-      href="https://pancakeswap.finance/swap?outputCurrency=0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82"
-      target="_blank"
-    >
-      <LogoRound width="24px" mr="8px" />
-      <Text color={color} bold>{`$${cakePriceUsd.toFixed(3)}`}</Text>
-    </PriceLink>
+    <Row width="14rem" justify="flex-end">
+      <PriceLink href={`/swap?outputCurrency=0x4f60Ad2c684296458b12053c0EF402e162971e00`} target="_blank">
+        <Image src={Logo} alt="logo" width={30} height={30} style={{ marginRight: "4px" }} />
+        <Text color={color}>{`$${cakePriceUsd} USD`}</Text>
+      </PriceLink>
+    </Row>
   ) : showSkeleton ? (
-    <Skeleton width={80} height={24} />
+    <Skeleton width={100} height={24} />
   ) : null;
 };
 

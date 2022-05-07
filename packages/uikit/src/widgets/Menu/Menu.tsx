@@ -8,7 +8,6 @@ import Footer from "../../components/Footer";
 import MenuItems from "../../components/MenuItems/MenuItems";
 import { SubMenuItems } from "../../components/SubMenuItems";
 import { useMatchBreakpoints } from "../../hooks";
-import CakePrice from "../../components/CakePrice/CakePrice";
 // import Logo from "./components/Logo";
 import { MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
 import { NavProps } from "./types";
@@ -25,6 +24,7 @@ import TrxLogo from "../../assets/images/trxlogo.png";
 import uparrow from "../../assets/images/uparrow.png";
 import downarrow from "../../assets/images/downarrow.png";
 import { Link, LinkExternal } from "../../components/Link";
+import { CakePrice } from "../../components/CakePrice";
 
 const getLogoPropsFromChainID = (chainId: string): { name: string; src: any; color: string } => {
   let logoProps: { name: string; src: any; color: string } = {
@@ -248,7 +248,7 @@ const Menu: React.FC<NavProps> = ({
                     Liquidity
                   </a>
                   <a href="/stake/" className={`${Style.link} nav-link`}>
-                    Staking
+                    🔥 Staking
                   </a>
                   <a href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                     NFT
@@ -262,6 +262,7 @@ const Menu: React.FC<NavProps> = ({
               </NavDropdown> */}
                 </Nav>
                 <HeaderLinks id="conntbtn">
+                  {cakePriceUsd ? <CakePrice cakePriceUsd={cakePriceUsd} /> : null}
                   <AccountElement style={{ pointerEvents: "auto" }}>{userMenu}</AccountElement>
                 </HeaderLinks>
               </Navbar.Collapse>
