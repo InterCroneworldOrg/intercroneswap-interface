@@ -12,18 +12,18 @@ interface TokenList {
 const defineTokens = <T extends TokenList>(t: T) => t
 
 export function getTokensFromDefaults(symbols: string): [Token, Token] | undefined {
-  const symbolsSplit = symbols.split('-');
+  const symbolsSplit = symbols.split('-')
   if (symbolsSplit.length !== 2) {
-    return undefined;
+    return undefined
   }
-  const token0 = getTokenFromDefaults(symbolsSplit[0].toUpperCase());
-  const token1 = getTokenFromDefaults(symbolsSplit[1].toUpperCase());
-  return token0 && token1 ? [token0, token1] : undefined;
+  const token0 = getTokenFromDefaults(symbolsSplit[0].toUpperCase())
+  const token1 = getTokenFromDefaults(symbolsSplit[1].toUpperCase())
+  return token0 && token1 ? [token0, token1] : undefined
 }
 
 export function getTokenFromDefaults(symbol: string): Token | undefined {
-  const chainId = CHAIN_ID;
-  return symbol === 'BNB' ? WETH[parseInt(chainId, 10)] : DefaultTokensMap[symbol];
+  const chainId = CHAIN_ID
+  return symbol === 'BNB' ? WETH[parseInt(chainId, 10)] : DefaultTokensMap[symbol]
 }
 
 export const mainnetTokens = defineTokens({
@@ -2124,14 +2124,7 @@ export const testnetTokens = defineTokens({
     'Bakeryswap Token',
     'https://www.bakeryswap.org/',
   ),
-  icr: new Token(
-    TESTNET,
-    '0xb518912759D86409e747fad19Dbad9FE681761C3',
-    18,
-    'ICR',
-    'Intercroneswap Token',
-    ''
-  ),
+  icr: new Token(TESTNET, '0xb518912759D86409e747fad19Dbad9FE681761C3', 18, 'ICR', 'Intercroneswap Token', ''),
 } as const)
 
 const tokens = () => {
@@ -2164,6 +2157,7 @@ export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['BTC']: unserializedTokens.btcb,
   ['BUSD']: unserializedTokens.busd,
   ['USDT']: unserializedTokens.usdt,
+  ['BTT']: unserializedTokens.btt,
   ['ETH']: unserializedTokens.eth,
   ['CAKE']: unserializedTokens.cake,
   ['DOT']: unserializedTokens.dot,
@@ -2171,7 +2165,7 @@ export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['TRX']: unserializedTokens.trx,
   ['FTM']: unserializedTokens.ftm,
   ['AVAX']: unserializedTokens.avax,
-};
+}
 
 const tokenArray: Token[] = [
   unserializedTokens.icr,
@@ -2185,11 +2179,11 @@ const tokenArray: Token[] = [
   unserializedTokens.trx,
   unserializedTokens.ftm,
   unserializedTokens.avax,
-];
+  unserializedTokens.btt,
+]
 
 export function getTokenByAddress(address: string): Token {
-  return tokenArray.find((token) => token.address.toLowerCase() === address.toLowerCase()) ?? unserializedTokens.icr;
+  return tokenArray.find((token) => token.address.toLowerCase() === address.toLowerCase()) ?? unserializedTokens.icr
 }
-
 
 export default unserializedTokens

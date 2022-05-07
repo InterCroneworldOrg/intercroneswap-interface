@@ -74,6 +74,14 @@
       "logoURI": "https://bscscan.com/token/images/tron_32.png"
     },
     {
+      "name": "BitTorrent",
+      "symbol": "BTT",
+      "address": "0x352Cb5E19b12FC216548a2677bD0fce83BaE434B",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "https://bscscan.com/token/images/bittorrent_32.png"
+    },
+    {
       "name": "Fantom",
       "symbol": "FTM",
       "address": "0xAD29AbB318791D579433D831ed122aFeAf29dcfe",
