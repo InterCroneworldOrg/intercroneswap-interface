@@ -86,7 +86,6 @@ export const ReferalButton = styled(Button)`
   color: rgb(44, 47, 54);
   font-size: 1rem;
   ${({ theme }) => theme.mediaQueries.tab} {
-    font-size: 0.6rem;
     width: 6rem;
   }
 `
