@@ -86,7 +86,6 @@ export const TitleRow = styled(RowBetween)`
 export const ReferalButton = styled(ButtonPrimary)`
   font-size: 1rem;
   ${({ theme }) => theme.mediaWidth.upToMedium`
-    font-size: .6rem;
     width: 6rem;
   `}
 `;

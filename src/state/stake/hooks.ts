@@ -1,7 +1,6 @@
 import { CurrencyAmount, JSBI, Pair, Token, TokenAmount, ZERO } from '@intercroneswap/v2-sdk';
 import { abi as ISwapV2StakingRewards } from '@intercroneswap/v2-staking/build/StakingRewards.json';
 import { Interface } from 'ethers/lib/utils';
-import { stringify } from 'querystring';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -46,7 +45,7 @@ export function useStakeActionHandlers(): {
   onUserInput: (typedValue: string) => void;
   onTxHashChange: (hashValue: string) => void;
   onAttemptingTxn: (attmeping: boolean) => void;
-  onAddStakeAmounts: (stakeAddress: string, tokenAmounts: [TokenAmount, TokenAmount]) => void;
+  onAddStakeAmounts: (payload: { stakeAddress: string; stakedAmounts: [TokenAmount, TokenAmount] }) => void;
 } {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -67,8 +66,9 @@ export function useStakeActionHandlers(): {
   const onTxHashChange = useCallback((hash: string) => dispatch(setTxHash({ txHash: hash })), [dispatch]);
 
   const onAddStakeAmounts = useCallback(
-    (payload: { stakeAddress: string; stakedAmounts: [TokenAmount, TokenAmount] }) =>
-      dispatch(addStakeAmounts(payload)),
+    (payload: { stakeAddress: string; stakedAmounts: [TokenAmount, TokenAmount] }) => {
+      dispatch(addStakeAmounts(payload));
+    },
     [dispatch],
   );
 
