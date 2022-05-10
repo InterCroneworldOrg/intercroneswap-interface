@@ -23,7 +23,7 @@ export function getTokensFromDefaults(symbols: string): [Token, Token] | undefin
 
 export function getTokenFromDefaults(symbol: string): Token | undefined {
   const chainId = CHAIN_ID
-  return undefined // TODO: symbol === 'BNB' ? WETH[parseInt(chainId, 10)] : DefaultTokensMap[symbol]
+  return symbol === 'BTT' ? WETH[parseInt(chainId, 10)] : DefaultTokensMap[symbol]
 }
 
 export const mainnetTokens = defineTokens({
@@ -47,7 +47,7 @@ export const mainnetTokens = defineTokens({
     MAINNET,
     '0x252CD063341a1A47933086b93f85417C09C54aec',
     8,
-    'ICR_t',
+    'ICR_b',
     'Intercrone',
     'www.intercroneswap.com',
   ),
@@ -73,6 +73,33 @@ export const mainnetTokens = defineTokens({
     18,
     'USDT_t',
     'Tether',
+    'www.intercroneswap.com',
+  ),
+  usdt_b: new Token(
+    MAINNET,
+    '0x9B5F27f6ea9bBD753ce3793a07CbA3C74644330d',
+    18,
+    'USDT_b',
+    'Tether',
+    'www.intercroneswap.com',
+  ),
+  bnb: new Token(MAINNET, '0x185a4091027E2dB459a2433F85f894dC3013aeB5', 18, 'BNB', 'BNB', 'www.intercroneswap.com'),
+  matic: new Token(
+    MAINNET,
+    '0x39A2ec2E3570aA234e49ffEC96F0684a352e3E0E',
+    18,
+    'MATIC',
+    'MATIC_e',
+    'www.intercroneswap.com',
+  ),
+  tron: new Token(MAINNET, '0xEdf53026aeA60f8F75FcA25f8830b7e2d6200662', 6, 'Tron', 'TRX', 'www.intercroneswap.com'),
+  xrp: new Token(MAINNET, '0xF5DbB4e26C1946DFd5aD8cf2e1Cbda3510721bB8', 18, 'XRP', 'XRP_b', 'www.intercroneswap.com'),
+  avax_b: new Token(
+    MAINNET,
+    '0x4CC2FC7373B491db83bE3feB5db622e0773420cf',
+    18,
+    'Avalance',
+    'AVAX_b',
     'www.intercroneswap.com',
   ),
   eth: new Token(MAINNET, '0x1249C65AfB11D179FFB3CE7D4eEDd1D9b98AD006', 8, 'ETH', 'Ethereum', 'www.intercroneswap.com'),
@@ -147,37 +174,38 @@ export const serializeTokens = () => {
   return serializedTokens
 }
 
-// TODO: Adjust when BTT staking starts
-// export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
-//   ['ICR']: unserializedTokens.icr,
-//   ['BTC']: unserializedTokens.btcb,
-//   ['BUSD']: unserializedTokens.busd,
-//   ['USDT']: unserializedTokens.usdt,
-//   ['ETH']: unserializedTokens.eth,
-//   ['CAKE']: unserializedTokens.cake,
-//   ['DOT']: unserializedTokens.dot,
-//   ['BSW']: unserializedTokens.bsw,
-//   ['TRX']: unserializedTokens.trx,
-//   ['FTM']: unserializedTokens.ftm,
-//   ['AVAX']: unserializedTokens.avax,
-// }
+export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
+  ['ICRT']: unserializedTokens.icr_t,
+  ['ICRB']: unserializedTokens.icr_b,
+  ['BTCB']: unserializedTokens.btc_b,
+  ['USDTT']: unserializedTokens.usdt_t,
+  ['USDTB']: unserializedTokens.usdt_b,
+  ['ETH']: unserializedTokens.eth,
+  ['CAKE']: unserializedTokens.cake,
+  ['BNB']: unserializedTokens.bnb,
+  ['MATIC']: unserializedTokens.matic,
+  ['TRX']: unserializedTokens.tron,
+  ['XRP']: unserializedTokens.xrp,
+  ['AVAXB']: unserializedTokens.avax_b,
+}
 
-// const tokenArray: Token[] = [
-//   unserializedTokens.icr,
-//   unserializedTokens.btcb,
-//   unserializedTokens.busd,
-//   unserializedTokens.usdt,
-//   unserializedTokens.eth,
-//   unserializedTokens.cake,
-//   unserializedTokens.dot,
-//   unserializedTokens.bsw,
-//   unserializedTokens.trx,
-//   unserializedTokens.ftm,
-//   unserializedTokens.avax,
-// ]
+const tokenArray: Token[] = [
+  unserializedTokens.icr_t,
+  unserializedTokens.icr_b,
+  unserializedTokens.btc_b,
+  unserializedTokens.usdt_t,
+  unserializedTokens.usdt_b,
+  unserializedTokens.eth,
+  unserializedTokens.cake,
+  unserializedTokens.bnb,
+  unserializedTokens.matic,
+  unserializedTokens.tron,
+  unserializedTokens.xrp,
+  unserializedTokens.avax_b,
+]
 
 export function getTokenByAddress(address: string): Token {
-  return undefined // TODO: tokenArray.find((token) => token.address.toLowerCase() === address.toLowerCase()) ?? unserializedTokens.icr
+  return tokenArray.find((token) => token.address.toLowerCase() === address.toLowerCase()) ?? unserializedTokens.icr_t
 }
 
 export default unserializedTokens

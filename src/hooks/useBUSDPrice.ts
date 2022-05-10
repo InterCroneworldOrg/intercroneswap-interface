@@ -71,7 +71,7 @@ export const useCakeBusdPrice = (): Price | undefined => {
 }
 
 export const useIcrBusdPrice = (): Price | undefined => {
-  return useBUSDPrice(tokens.icr)
+  return useBUSDPrice(tokens.icr_t)
 }
 
 export const useBUSDCurrencyAmount = (currency: Currency, amount: number): number | undefined => {
