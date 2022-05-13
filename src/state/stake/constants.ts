@@ -6,4 +6,5 @@ export interface StakingRewardsInfo {
   tokens: [Token, Token]
   stakingRewardAddress: string
   rewardsDays: number
+  legacy: boolean
 }
