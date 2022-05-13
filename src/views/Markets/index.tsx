@@ -105,6 +105,7 @@ export default function Markets() {
                 stakingRewardAddress: vals[tokens],
                 tokens: tokensFromDefault,
                 rewardsDays: version !== 'v0' ? REWARDS_DURATION_DAYS_180 : REWARDS_DURATION_DAYS,
+                legacy: version === 'v1',
               })
             }
           })

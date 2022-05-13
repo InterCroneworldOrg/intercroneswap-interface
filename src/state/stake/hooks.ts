@@ -32,6 +32,7 @@ export interface StakingInfo {
   rewardDuration: number
   periodFinish: Date | undefined
   active: boolean
+  legacy: boolean
   fee: number
   getHypotheticalRewardRate: (
     stakedAmount: TokenAmount,
@@ -92,6 +93,7 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
   const rewardsDurations = useMemo(() => info.map(({ rewardsDays }) => rewardsDays), [info])
+  const legacyContracts = useMemo(() => info.map(({ legacy }) => legacy), [info])
 
   // get all the info from the staking rewards contracts
   const balances = useMultipleContractSingleData(
@@ -241,6 +243,7 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
           totalStakedAmount,
           getHypotheticalRewardRate,
           active,
+          legacy: legacyContracts[index],
           fee,
         })
       }

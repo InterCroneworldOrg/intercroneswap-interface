@@ -56,6 +56,7 @@ export default function Stake() {
                 stakingRewardAddress: vals[tokens],
                 tokens: tokensFromDefault,
                 rewardsDays: version !== 'v0' ? REWARDS_DURATION_DAYS_180 : REWARDS_DURATION_DAYS,
+                legacy: version === 'v1',
               })
             }
           })
@@ -84,6 +85,7 @@ export default function Stake() {
   const [showReferal, setShowReferal] = useState<boolean>(false)
   const [isActive, setActive] = useState<boolean>(true)
   const [isStakedOnly, setStakedOnly] = useState<boolean>(false)
+  const [isLegacy, setLegacy] = useState<boolean>(false)
   const { onUserInput } = useStakeActionHandlers()
 
   const bindSortSelect = (event: any) => {
@@ -92,6 +94,10 @@ export default function Stake() {
 
   const onStakedOnlyAction = () => {
     setStakedOnly(!isStakedOnly)
+  }
+
+  const onLegacyAction = () => {
+    setLegacy(!isLegacy)
   }
 
   const onSwitchAction = () => {
@@ -211,11 +217,11 @@ export default function Stake() {
       }
       return poolsToDisplay
     },
-    [searchQuery],
+    [searchQuery, isLegacy],
   )
 
   const chosenPoolsMemoized = useMemo(() => {
-    let chosenPools = []
+    let chosenPools: StakingInfo[] = []
     const sortPools = (infos: StakingInfo[]): StakingInfo[] => {
       switch (sortOption) {
         case 'liquidity':
@@ -235,8 +241,16 @@ export default function Stake() {
     if (!isActive) {
       chosenPools = isStakedOnly ? stakingList(stakedInactivePools) : stakingList(inactivePools)
     }
+    if (isLegacy) {
+      chosenPools = chosenPools.filter((info) => info.legacy)
+    }
+    if (!isLegacy) {
+      chosenPools = chosenPools.filter((info) => !info.legacy)
+    }
+    console.log(chosenPools, isLegacy, 'chosenPools')
+
     return sortPools(chosenPools)
-  }, [sortOption, stakingInfos, searchQuery, isActive, isStakedOnly])
+  }, [sortOption, stakingInfos, searchQuery, isActive, isStakedOnly, isLegacy])
 
   const StyledHeading = styled.h1`
     text-transform: uppercase;
@@ -328,6 +342,13 @@ export default function Stake() {
                     style={{ color: theme.colors.text }}
                   />
                   <Form.Switch
+                    label="Legacy"
+                    id="legacy"
+                    onChange={onLegacyAction}
+                    defaultChecked={false}
+                    style={{ color: theme.colors.text }}
+                  />
+                  <Form.Switch
                     label="Staked only"
                     id="staked-only"
                     onChange={onStakedOnlyAction}
@@ -396,6 +417,13 @@ export default function Stake() {
                         id="active-staking"
                         onChange={onSwitchAction}
                         defaultChecked={true}
+                        style={{ color: theme.colors.text }}
+                      />
+                      <Form.Switch
+                        label="Legacy"
+                        id="legacy"
+                        onChange={onLegacyAction}
+                        defaultChecked={false}
                         style={{ color: theme.colors.text }}
                       />
                       <Form.Switch
