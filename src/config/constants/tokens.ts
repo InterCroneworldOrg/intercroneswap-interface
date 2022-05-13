@@ -70,7 +70,7 @@ export const mainnetTokens = defineTokens({
   usdt_t: new Token(
     MAINNET,
     '0xdB28719F7f938507dBfe4f0eAe55668903D34a15',
-    18,
+    6,
     'USDT_t',
     'Tether',
     'www.intercroneswap.com',
