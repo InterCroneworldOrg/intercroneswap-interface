@@ -4,7 +4,7 @@ import { Link } from '@pancakeswap/uikit'
 import { ThemeContext } from 'styled-components'
 import { PairState } from 'hooks/usePairs'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import useBUSDPrice from 'hooks/useBUSDPrice'
+import { useCorrectBUSDPrice } from 'hooks/useBUSDPrice'
 import { CurrencyLogo } from 'components/Logo'
 import tokens from 'config/constants/tokens'
 import { StakingInfo } from '../../state/stake/hooks'
@@ -47,7 +47,7 @@ export default function DetailsDropdown({
   const isMobile = window.innerWidth <= breakpointMap.sm
 
   const currency = stakedAmount ? unwrappedToken(stakedAmount?.token) : undefined
-  const USDPrice = useBUSDPrice(stakedAmount?.token)
+  const USDPrice = useCorrectBUSDPrice(stakedAmount?.token)
   const valueOfStakedAmountInBUSD = stakedAmount && USDPrice?.quote(stakedAmount)
   const valueOfTotalStakedAmountInBUSD = totalStakedAmount && USDPrice?.quote(totalStakedAmount)
 

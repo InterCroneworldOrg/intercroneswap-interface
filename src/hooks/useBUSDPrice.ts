@@ -6,7 +6,7 @@ import { multiplyPriceByAmount } from 'utils/prices'
 import { wrappedCurrency } from '../utils/wrappedCurrency'
 import { PairState, usePairs } from './usePairs'
 
-const { wbtt: WBNB, usdt_t } = tokens
+const { wbtt: WBNB, usdt_t, usdt_b } = tokens
 
 /**
  * Returns the price in BUSD of the input currency
@@ -63,6 +63,68 @@ export default function useBUSDPrice(currency?: Currency): Price | undefined {
 
     return undefined
   }, [chainId, currency, ethPair, ethPairState, busdEthPair, busdEthPairState, busdPair, busdPairState, wrapped])
+}
+
+/**
+ * Returns the price in BUSD of the input currency
+ * @param currency currency to compute the BUSD price of
+ */
+export function useBUSDPriceB(currency?: Currency): Price | undefined {
+  const { chainId } = useActiveWeb3React()
+  const wrapped = wrappedCurrency(currency, chainId)
+  const tokenPairs: [Currency | undefined, Currency | undefined][] = useMemo(
+    () => [
+      [chainId && wrapped && currencyEquals(WBNB, wrapped) ? undefined : currency, chainId ? WBNB : undefined],
+      [wrapped?.equals(usdt_b) ? undefined : wrapped, usdt_b],
+      [chainId ? WBNB : undefined, usdt_b],
+    ],
+    [chainId, currency, wrapped],
+  )
+  const [[ethPairState, ethPair], [busdPairState, busdPair], [busdEthPairState, busdEthPair]] = usePairs(tokenPairs)
+
+  return useMemo(() => {
+    if (!currency || !wrapped || !chainId) {
+      return undefined
+    }
+    // handle weth/eth
+    if (wrapped.equals(WBNB)) {
+      if (busdPair) {
+        const price = busdPair.priceOf(WBNB)
+        return new Price(currency, usdt_b, price.denominator, price.numerator)
+      }
+      return undefined
+    }
+    // handle busd
+    if (wrapped.equals(usdt_b)) {
+      return new Price(usdt_b, usdt_b, '1', '1')
+    }
+
+    const ethPairETHAmount = ethPair?.reserveOf(WBNB)
+    const ethPairETHBUSDValue: JSBI =
+      ethPairETHAmount && busdEthPair ? busdEthPair.priceOf(WBNB).quote(ethPairETHAmount).raw : JSBI.BigInt(0)
+
+    // all other tokens
+    // first try the busd pair
+    if (busdPairState === PairState.EXISTS && busdPair && busdPair.reserveOf(usdt_b).greaterThan(ethPairETHBUSDValue)) {
+      const price = busdPair.priceOf(wrapped)
+      return new Price(currency, usdt_b, price.denominator, price.numerator)
+    }
+    if (ethPairState === PairState.EXISTS && ethPair && busdEthPairState === PairState.EXISTS && busdEthPair) {
+      if (busdEthPair.reserveOf(usdt_b).greaterThan('0') && ethPair.reserveOf(WBNB).greaterThan('0')) {
+        const ethBusdPrice = busdEthPair.priceOf(usdt_b)
+        const currencyEthPrice = ethPair.priceOf(WBNB)
+        const busdPrice = ethBusdPrice.multiply(currencyEthPrice).invert()
+        return new Price(currency, usdt_b, busdPrice.denominator, busdPrice.numerator)
+      }
+    }
+
+    return undefined
+  }, [chainId, currency, ethPair, ethPairState, busdEthPair, busdEthPairState, busdPair, busdPairState, wrapped])
+}
+
+export const useCorrectBUSDPrice = (currency?: Currency): Price | undefined => {
+  if (!currency) return undefined
+  return currency.symbol.endsWith('_b') ? useBUSDPriceB(currency) : useBUSDPrice(currency)
 }
 
 export const useCakeBusdPrice = (): Price | undefined => {

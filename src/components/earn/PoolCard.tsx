@@ -6,7 +6,7 @@ import { ThemeContext } from 'styled-components'
 import { PairState, usePair } from 'hooks/usePairs'
 import useTotalSupply from 'hooks/useTotalSupply'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import useBUSDPrice from 'hooks/useBUSDPrice'
+import { useCorrectBUSDPrice } from 'hooks/useBUSDPrice'
 import { AutoColumn } from 'components/Layout/Column'
 import { CurrencyLogo } from 'components/Logo'
 import { AutoRow } from 'components/Layout/Row'
@@ -30,7 +30,7 @@ import StyledChevronUp from './ChevronUp'
 import StyledChevronDown from './ChevronDown'
 import { breakpointMap } from '../../../packages/uikit/src/theme/base'
 
-const { icr_t: ICR, usdt_t: BUSD } = tokens
+const { usdt_t: BUSD } = tokens
 
 const ZERO = JSBI.BigInt(0)
 
@@ -62,9 +62,10 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
   const totalStakedAmount = pair ? new TokenAmount(pair?.liquidityToken, stakingInfo.totalStakedAmount.raw) : undefined
   const stakedAmount = pair ? new TokenAmount(pair?.liquidityToken, stakingInfo.stakedAmount.raw) : undefined
 
-  const USDPrice = useBUSDPrice(token0)
-  const USDPriceBackup = useBUSDPrice(token1)
-  const earnedUSDPrice = useBUSDPrice(stakingInfo.earnedAmount.token)
+  const USDPrice = useCorrectBUSDPrice(token0)
+  const USDPriceBackup = useCorrectBUSDPrice(token1)
+
+  const earnedUSDPrice = useCorrectBUSDPrice(stakingInfo.earnedAmount.token)
   const ratePerYear = stakingInfo.rewardForDuration.multiply(YEARLY_RATE)
   const ratePerYearBUSD = ratePerYear && earnedUSDPrice?.quote(stakingInfo.rewardForDuration).multiply(YEARLY_RATE)
 
