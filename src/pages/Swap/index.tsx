@@ -6,17 +6,13 @@ import styled, { ThemeContext } from 'styled-components';
 import AddressInputPanel from '../../components/AddressInputPanel';
 import { ButtonError, ButtonPrimary, ButtonConfirmed } from '../../components/Button';
 import { GreyCard } from '../../components/Card';
-// Card,
 import Column, { AutoColumn } from '../../components/Column';
 import ConfirmSwapModal from '../../components/swap/ConfirmSwapModal';
 import CurrencyInputPanel from '../../components/CurrencyInputPanel';
-import { SwapPoolTabs } from '../../components/NavigationTabs';
 import { AutoRow, RowBetween } from '../../components/Row';
-// import AdvancedSwapDetailsDropdown from '../../components/swap/AdvancedSwapDetailsDropdown'
 import BetterTradeLink, { DefaultVersionLink } from '../../components/swap/BetterTradeLink';
 import confirmPriceImpactWithoutFee from '../../components/swap/confirmPriceImpactWithoutFee';
 import { ArrowWrapper, BottomGrouping, SwapCallbackError, Wrapper } from '../../components/swap/styleds';
-// import TradePrice from '../../components/swap/TradePrice';
 import TokenWarningModal from '../../components/TokenWarningModal';
 import ProgressSteps from '../../components/ProgressSteps';
 
@@ -38,7 +34,7 @@ import {
   useSwapState,
 } from '../../state/swap/hooks';
 import { useExpertModeManager, useUserSlippageTolerance } from '../../state/user/hooks';
-import { LinkStyledButton, TYPE } from '../../theme';
+import { Divider, LinkStyledButton, TYPE } from '../../theme';
 import { maxAmountSpend } from '../../utils/maxAmountSpend';
 import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices';
 import AppBody, { Container } from '../AppBody';
@@ -46,10 +42,6 @@ import Loader from '../../components/Loader';
 import { ReactComponent as YellowArrowDown } from '../../assets/images/arrow-down-yellow.svg';
 import AdvancedSwapDetailsDropdown from '../../components/swap/AdvancedSwapDetailsDropdown';
 import { StyledHeading } from '../App';
-const AppBodyContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 const StyledArrowDown = styled(YellowArrowDown)``;
 
 export default function Swap() {
@@ -263,6 +255,7 @@ export default function Swap() {
   );
 
   const handleMaxInput = useCallback(() => {
+    console.log(maxAmountInput, 'maxAmount');
     maxAmountInput && onUserInput(Field.INPUT, maxAmountInput.toExact());
   }, [maxAmountInput, onUserInput]);
 
@@ -281,11 +274,10 @@ export default function Swap() {
       />
       <Container>
         <AppBody>
-          <AppBodyContainer>
-            {/* <BelowAppbody></BelowAppbody> */}
-            {/* <BelowAppbody1></BelowAppbody1> */}
-          </AppBodyContainer>
-          <SwapPoolTabs active={'swap'} />
+          <RowBetween>
+            <TYPE.white>Exchange</TYPE.white>
+          </RowBetween>
+          <Divider />
           <Wrapper id="swap-page">
             <ConfirmSwapModal
               isOpen={showConfirm}
@@ -355,35 +347,6 @@ export default function Swap() {
                   <AddressInputPanel id="recipient" value={recipient} onChange={onChangeRecipient} />
                 </>
               ) : null}
-
-              {/* {showWrap ? null : (
-                <Card padding={'.25rem .75rem 0 .75rem'} borderRadius={'20px'}>
-                  <AutoColumn gap="4px">
-                    {Boolean(trade) && (
-                      <RowBetween align="center">
-                        <Text fontWeight={500} fontSize={14} color={theme.text2}>
-                          Price
-                        </Text>
-                        <TradePrice
-                          price={trade?.executionPrice}
-                          showInverted={showInverted}
-                          setShowInverted={setShowInverted}
-                        />
-                      </RowBetween>
-                    )}
-                    {allowedSlippage !== INITIAL_ALLOWED_SLIPPAGE && (
-                      <RowBetween align="center">
-                        <ClickableText fontWeight={500} fontSize={14} color={theme.text2} onClick={toggleSettings}>
-                          Slippage Tolerance
-                        </ClickableText>
-                        <ClickableText fontWeight={500} fontSize={14} color={theme.text2} onClick={toggleSettings}>
-                          {allowedSlippage / 100}%
-                        </ClickableText>
-                      </RowBetween>
-                    )}
-                  </AutoColumn>
-                </Card>
-              )} */}
             </AutoColumn>
             <BottomGrouping>
               <div style={{ maxWidth: '350px', margin: '0 auto' }}>
