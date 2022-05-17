@@ -5,13 +5,12 @@ name: Deploy live Site TRX subdomain
 
 on:
   push:
-    branches: [ main-trx ]
+    branches: [main-trx]
 
   workflow_dispatch:
-    
+
 jobs:
   build:
-
     runs-on: self-hosted
 
     defaults:
@@ -23,16 +22,17 @@ jobs:
         node-version: [16.x]
 
     steps:
-    - uses: actions/checkout@v3
-      with:
-        ref: 'main-trx'
-        path: 'trx-interface'
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: cp .env.production .env
-    - run: npm i
-    - run: CI=false npm run build
-    - run: rsync -av /root/actions-runner/_work/intercroneswap-interface/intercroneswap-interface/trx-interface/build/ /var/www/html/trx-interface/
+      - uses: actions/checkout@v3
+        with:
+          ref: 'main-trx'
+          path: 'trx-interface'
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: trx-interface/package-lock.json
+      - run: cp .env.production .env
+      - run: npm i
+      - run: CI=false npm run build
+      - run: rsync -av /root/actions-runner/_work/intercroneswap-interface/intercroneswap-interface/trx-interface/build/ /var/www/html/trx-interface/
