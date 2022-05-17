@@ -50,6 +50,7 @@ export interface Colors {
   primary6: Color;
   primary7: Color;
   primary8: Color;
+  gradient1: Color;
 
   primaryText1: Color;
 

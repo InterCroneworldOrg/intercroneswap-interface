@@ -75,7 +75,7 @@ export function colors(darkMode: boolean): Colors {
     cardsBoxShadowTopleftCorner1: darkMode ? 'rgb(249 115 65 / 0%)' : '#363cff',
     cardsBoxShadowTopRightcorner: darkMode ? 'rgb(228 96 24)' : 'rgb(179 71 136 / 85%)',
     cardsBoxShadowTopRightCorner1: darkMode ? 'rgb(78 71 179)' : 'rgb(179 71 136 / 85%)',
-    settingMenuiconStrokeColor: darkMode ? '#F3C914' : '#F3C914',
+    settingMenuiconStrokeColor: darkMode ? '#FFFFFF' : '#FFFFFF',
     voteCardColor: darkMode
       ? 'radial-gradient(76.02% 75.41% at 1.84% 0%,#F3C914 0%,#151515 100%)'
       : 'radial-gradient(76.02% 75.41% at 1.84% 0%,#F3C914 0%,rgba(0,0,0,0) 100%)',
@@ -99,6 +99,8 @@ export function colors(darkMode: boolean): Colors {
     primary5: darkMode ? 'rgba(0, 0, 0, 0)' : 'rgba(0,0,0,0)',
     primary7: darkMode ? '#F97341' : '#F97341',
     primary8: darkMode ? '#020202' : 'rgba(0,0,0,0)',
+    gradient1: 'linear-gradient(360deg, #FFB807 38.83%, #FFEA00 79.17%)',
+
     // primary5: darkMode ? '#153d6f70' : '#FDEAF1',
 
     // color text
