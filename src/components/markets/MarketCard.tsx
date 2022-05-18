@@ -1,14 +1,15 @@
-import { TYPE } from '../../theme';
-import { Pair, Percent, Token, TokenAmount } from '@intercroneswap/v2-sdk';
+import { ExternalLink, TYPE } from '../../theme';
+import { ChainId, Pair, Percent, Token, TokenAmount } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
-import { ThemeContext } from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 import { LightCard } from '../Card';
-import { AutoRow, PercentageDiv } from '../Row';
+import { AutoRow } from '../Row';
 import { unwrappedToken } from '../../utils/wrappedCurrency';
 import CurrencyLogo from '../CurrencyLogo';
 import useUSDTPrice from '../../hooks/useUSDTPrice';
 import { DoubleTokenAmount, GetAmountInUSDT } from '../../utils/tokenAmountCalculations';
-import { currencyFormatter } from '../../utils';
+import { currencyFormatter, getEtherscanLink } from '../../utils';
+import { useWeb3React } from '@web3-react/core';
 
 export interface MarketCardProps {
   pair: Pair;
@@ -18,6 +19,12 @@ export interface MarketCardProps {
   apy?: Percent;
   stakingAddress?: string;
 }
+
+const MobileHidden = styled(AutoRow)`
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    display: none;
+  `}
+`;
 
 export default function MarketCard({
   pair,
@@ -29,6 +36,7 @@ export default function MarketCard({
 MarketCardProps) {
   const theme = useContext(ThemeContext);
   // const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
+  const { chainId } = useWeb3React();
 
   const token0 = pair.token0;
   const token1 = pair.token1;
@@ -57,7 +65,10 @@ MarketCardProps) {
       }}
     >
       <AutoRow justify="start" gap=".2rem">
-        <PercentageDiv style={{ width: '30%' }}>
+        <ExternalLink
+          style={{ width: '30%', display: 'flex' }}
+          href={getEtherscanLink(chainId ?? ChainId.MAINNET, pair.liquidityToken.address, 'contract')}
+        >
           <CurrencyLogo currency={currency0} size="1.2rem" />
           &nbsp;
           <TYPE.white fontWeight={500} fontSize="1rem">
@@ -69,19 +80,19 @@ MarketCardProps) {
           <TYPE.white fontWeight={500} fontSize="1rem">
             {currency1?.symbol}
           </TYPE.white>
-        </PercentageDiv>
+        </ExternalLink>
         <AutoRow style={{ width: '15%' }}>
           <TYPE.yellow>{currencyFormatter.format(Number(liquidity?.toFixed(2)))}</TYPE.yellow>
         </AutoRow>
-        <AutoRow style={{ width: '15%' }}>
+        <MobileHidden style={{ width: '15%' }}>
           <TYPE.yellow>{dailyVolume ? `$ ${dailyVolume}` : '-'}</TYPE.yellow>
-        </AutoRow>
-        <AutoRow style={{ width: '15%' }}>
+        </MobileHidden>
+        <MobileHidden style={{ width: '15%' }}>
           <TYPE.yellow>{apy ? `${apy} %` : '-'}</TYPE.yellow>
-        </AutoRow>
-        <AutoRow style={{ width: '15%' }}>
+        </MobileHidden>
+        <MobileHidden style={{ width: '15%' }}>
           <TYPE.yellow>{stakingAddress ? 'Active' : 'Inactive'}</TYPE.yellow>
-        </AutoRow>
+        </MobileHidden>
       </AutoRow>
     </LightCard>
   );

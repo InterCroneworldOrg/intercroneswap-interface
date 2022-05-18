@@ -37,6 +37,13 @@ export default function useUSDTPrice(currency?: Token): Price | undefined {
       return new Price(stablecoin, stablecoin, '1', '1');
     }
 
+    if (
+      currency?.wrapped.symbol?.toLowerCase().startsWith('usd') ||
+      currency?.wrapped.symbol?.toLowerCase().endsWith('usd')
+    ) {
+      return new Price(currency, currency, '1', '1');
+    }
+
     // use v2 price if available, v3 as fallback
     if (v2USDTTrade) {
       const { numerator, denominator } = v2USDTTrade.route.midPrice;

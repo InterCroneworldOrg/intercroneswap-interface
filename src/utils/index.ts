@@ -29,7 +29,7 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
 export function getEtherscanLink(
   chainId: ChainId,
   data: string,
-  type: 'transaction' | 'token' | 'address' | 'block',
+  type: 'transaction' | 'token' | 'address' | 'block' | 'contract',
 ): string {
   const prefix = `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[11111]}tronscan.org`;
 
@@ -39,6 +39,9 @@ export function getEtherscanLink(
     }
     case 'token': {
       return `${prefix}/#/token20/${ethAddress.toTron(data)}`;
+    }
+    case 'contract': {
+      return `${prefix}/#/contract/${ethAddress.toTron(data)}`;
     }
     case 'address':
     default: {
