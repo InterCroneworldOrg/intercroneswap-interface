@@ -1,7 +1,7 @@
 import { ChainId, Token, WETH } from '@intercroneswap/v2-sdk'
 import tokens from 'config/constants/tokens'
 
-export const REWARDS_DURATION_DAYS = 14
+export const REWARDS_DURATION_DAYS = 180
 export const REWARDS_DURATION_DAYS_180 = 180
 
 export interface StakingRewardsInfo {
