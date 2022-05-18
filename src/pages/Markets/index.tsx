@@ -7,13 +7,12 @@ import { LightCard } from '../../components/Card';
 import { AutoRow, RowBetween } from '../../components/Row';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import MarketCard from '../../components/markets/MarketCard';
-import { Pair, Token, ZERO } from '@intercroneswap/v2-sdk';
+import { ChainId, Pair, Token, ZERO } from '@intercroneswap/v2-sdk';
 import { AutoColumn } from '../../components/Column';
-import { useTrackedTokenPairs } from '../../state/user/hooks';
-import { usePairs } from '../../data/Reserves';
 import { getTokensFromDefaults } from '../../constants/tokens';
 import { StakingRewardsInfo, REWARDS_DURATION_DAYS_180, REWARDS_DURATION_DAYS } from '../../state/stake/constants';
 import { useActiveWeb3React } from '../../hooks';
+import { usePairs } from '../../data/Reserves';
 
 const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): boolean => {
   if (!tokens2) {
@@ -27,6 +26,44 @@ const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): 
   return true;
 };
 
+const convertRawInfoToTokenAmounts = (pairInfo: any): [Token, Token] | undefined => {
+  if (pairInfo) {
+    try {
+      const tokenA = new Token(
+        ChainId.MAINNET,
+        pairInfo.tokenA_hex.replace('41', '0x'),
+        Number(pairInfo.tokenA_Decimal),
+        pairInfo.tokenA_Abbr,
+        pairInfo.tokenA_Name,
+      );
+      // const tokenABalance = JSBI.multiply(
+      //   JSBI.BigInt(Math.trunc(Number(pairInfo.tokenA_balance))),
+      //   JSBI.multiply(TEN, JSBI.BigInt(Number(pairInfo.tokenA_Decimal))),
+      // );
+
+      // const tokenAAmount = new TokenAmount(tokenA, tokenABalance);
+      const tokenB = new Token(
+        ChainId.MAINNET,
+        pairInfo.tokenB_hex.replace('41', '0x'),
+        Number(pairInfo.tokenB_Decimal),
+        pairInfo.tokenB_Abbr,
+        pairInfo.tokenB_Name,
+      );
+      // const tokenBBalance = JSBI.multiply(
+      //   JSBI.BigInt(Math.trunc(Number(pairInfo.tokenB_Balance))),
+      //   JSBI.multiply(TEN, JSBI.BigInt(Number(pairInfo.tokenB_Decimal))),
+      // );
+      // const tokenBAmount = new TokenAmount(tokenB, tokenBBalance);
+      // const pair = new Pair(tokenAAmount, tokenBAmount, pairInfo.pair_hex.replace('41', '0x'));
+      return [tokenA, tokenB];
+    } catch (error) {
+      console.error(error, 'Error while creating pair');
+      return undefined;
+    }
+  }
+  return undefined;
+};
+
 let stakingInfosRaw: {
   [chainId: number]: {
     [version: string]: {
@@ -37,11 +74,20 @@ let stakingInfosRaw: {
 fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
   .then((response) => response.json())
   .then((data) => (stakingInfosRaw = data));
-// let marketInfosRaw: any;
+let marketInfosRaw: any[];
+const allPairs: [Token, Token][] = [];
 
-// fetch('http://194.163.183.153:3099/api/v1/tronscan-pairs')
-//   .then((response) => response.json())
-//   .then((data) => (marketInfosRaw = data));
+fetch('https://api.intercroneswap.com/api/v1/getallpairs/tron?size=100')
+  .then((response) => response.json())
+  .then((data) => {
+    marketInfosRaw = data?.pairs;
+    marketInfosRaw.map((pairInfo) => {
+      const pair = convertRawInfoToTokenAmounts(pairInfo);
+      if (pair) {
+        allPairs.push(pair);
+      }
+    });
+  });
 
 export default function Markets() {
   const { t } = useTranslation();
@@ -50,11 +96,10 @@ export default function Markets() {
   const { chainId } = useActiveWeb3React();
   const inputRef = useRef<HTMLInputElement>();
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const trackedTokenPairs = useTrackedTokenPairs();
-  const v1Pairs = usePairs(trackedTokenPairs);
-  const allPairs = v1Pairs.map(([, pair]) => pair).filter((v1Pair): v1Pair is Pair => Boolean(v1Pair));
-  const pairsWithLiquidity = allPairs.filter((pair) => pair.reserve0.greaterThan(ZERO));
-  // console.log(marketInfosRaw, 'marketinfos');
+  // const trackedTokenPairs = useTrackedTokenPairs();
+  const v1Pairs = usePairs(allPairs);
+  const allPairsLoaded = v1Pairs.map(([, pair]) => pair).filter((v1Pair): v1Pair is Pair => Boolean(v1Pair));
+  const pairsWithLiquidity = allPairsLoaded.filter((pair) => pair.reserve0.greaterThan(ZERO));
 
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];
@@ -121,10 +166,10 @@ export default function Markets() {
             <Divider />
             {pairsWithLiquidity &&
               pairsWithLiquidity.length > 0 &&
-              pairsWithLiquidity.map((pair) => (
+              pairsWithLiquidity.map((pair, index) => (
                 <>
                   <MarketCard
-                    key={pair.liquidityToken.address}
+                    key={index}
                     pair={pair}
                     stakingAddress={
                       stakingRewardInfos.find((info) => tokenPairsAreEqual(info.tokens, [pair.token0, pair.token1]))
