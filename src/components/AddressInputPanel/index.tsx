@@ -102,7 +102,7 @@ export default function AddressInputPanel({
                 Recipient
               </TYPE.black>
               {address && chainId && (
-                <ExternalLink href={getEtherscanLink(chainId, name ?? address, 'address')} style={{ fontSize: '14px' }}>
+                <ExternalLink href={getEtherscanLink(chainId, name ?? address, 'token')} style={{ fontSize: '14px' }}>
                   (View on Tronscan)
                 </ExternalLink>
               )}

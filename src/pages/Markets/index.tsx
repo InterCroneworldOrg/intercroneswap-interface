@@ -31,10 +31,10 @@ const convertRawInfoToTokenAmounts = (pairInfo: any): [Token, Token] | undefined
     try {
       const tokenA = new Token(
         ChainId.MAINNET,
-        pairInfo.tokenA_hex.replace('41', '0x'),
-        Number(pairInfo.tokenA_Decimal),
-        pairInfo.tokenA_Abbr,
-        pairInfo.tokenA_Name,
+        pairInfo.tokenAHex.replace('41', '0x'),
+        Number(pairInfo.tokenADecimal),
+        pairInfo.tokenAAbbr,
+        pairInfo.tokenAName,
       );
       // const tokenABalance = JSBI.multiply(
       //   JSBI.BigInt(Math.trunc(Number(pairInfo.tokenA_balance))),
@@ -44,10 +44,10 @@ const convertRawInfoToTokenAmounts = (pairInfo: any): [Token, Token] | undefined
       // const tokenAAmount = new TokenAmount(tokenA, tokenABalance);
       const tokenB = new Token(
         ChainId.MAINNET,
-        pairInfo.tokenB_hex.replace('41', '0x'),
-        Number(pairInfo.tokenB_Decimal),
-        pairInfo.tokenB_Abbr,
-        pairInfo.tokenB_Name,
+        pairInfo.tokenBHex.replace('41', '0x'),
+        Number(pairInfo.tokenBDecimal),
+        pairInfo.tokenBAbbr,
+        pairInfo.tokenBName,
       );
       // const tokenBBalance = JSBI.multiply(
       //   JSBI.BigInt(Math.trunc(Number(pairInfo.tokenB_Balance))),
@@ -99,7 +99,7 @@ export default function Markets() {
   // const trackedTokenPairs = useTrackedTokenPairs();
   const v1Pairs = usePairs(allPairs);
   const allPairsLoaded = v1Pairs.map(([, pair]) => pair).filter((v1Pair): v1Pair is Pair => Boolean(v1Pair));
-  const pairsWithLiquidity = allPairsLoaded.filter((pair) => pair.reserve0.greaterThan(ZERO));
+  const pairsWithLiquidity = allPairsLoaded.filter((pair) => pair.reserve0.greaterThan(ZERO)).reverse();
 
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];
