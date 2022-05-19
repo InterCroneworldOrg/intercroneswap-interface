@@ -95,7 +95,7 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
     ratePerYearBUSD &&
     valueOfTotalStakedAmountInBUSD &&
     JSBI.greaterThan(valueOfTotalStakedAmountInBUSD.numerator, ZERO)
-      ? new Percent(ratePerYearBUSD.numerator, JSBI.multiply(valueOfTotalStakedAmountInBUSD.numerator, JSBI.BigInt(2)))
+      ? new Percent(ratePerYearBUSD.numerator, valueOfTotalStakedAmountInBUSD.numerator)
       : undefined
 
   return (
