@@ -4,6 +4,7 @@ import { ExternalProvider } from '@ethersproject/providers'
 import { ChainId } from '@intercroneswap/v2-sdk'
 import { BASE_URL, BASE_BSC_SCAN_URLS } from 'config'
 import { nodes } from './getRpcUrl'
+import getTokenLogoURL from './getTokenLogoURL'
 
 const NETWORK_CONFIG = {
   [ChainId.MAINNET]: {
@@ -83,7 +84,7 @@ export const registerToken = async (tokenAddress: string, tokenSymbol: string, t
         address: tokenAddress,
         symbol: tokenSymbol,
         decimals: tokenDecimals,
-        image: `${BASE_URL}/images/tokens/${tokenAddress}.png`,
+        image: getTokenLogoURL(tokenAddress),
       },
     },
   })
