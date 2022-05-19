@@ -57,6 +57,26 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
     ],
   },
   {
+    label: t('Blockchains'),
+    items: [
+      {
+        label: t('TRX'),
+        href: 'https://trx.intercroneswap.com/',
+        withLogo: true,
+      },
+      {
+        label: t('BSC'),
+        href: 'https://bsc.intercroneswap.com/',
+        withLogo: true,
+      },
+      {
+        label: t('BTT'),
+        href: 'https://btt.intercroneswap.com/',
+        withLogo: true,
+      },
+    ],
+  },
+  {
     label: t('Developers'),
     items: [
       {

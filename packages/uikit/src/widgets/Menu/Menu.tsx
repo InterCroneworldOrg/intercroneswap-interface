@@ -26,7 +26,7 @@ import downarrow from "../../assets/images/downarrow.png";
 import { Link, LinkExternal } from "../../components/Link";
 import { CakePrice } from "../../components/CakePrice";
 
-const getLogoPropsFromChainID = (chainId: string): { name: string; src: any; color: string } => {
+export const getLogoPropsFromChainID = (chainId: string): { name: string; src: any; color: string } => {
   let logoProps: { name: string; src: any; color: string } = {
     name: "BSC",
     src: BscLogo,
