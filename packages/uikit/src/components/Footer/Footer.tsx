@@ -15,6 +15,40 @@ import {
   StyledToolsContainer,
 } from "./styles";
 import { FooterProps } from "./types";
+import BscLogo from "../../assets/images/bsclogo.png";
+import BttLogo from "../../assets/images/bttlogo.png";
+import TrxLogo from "../../assets/images/trxlogo.png";
+import Image from "next/image";
+
+const getPropsForBlockchain = (
+  name: string
+): {
+  image: any;
+  color: string;
+} => {
+  switch (name) {
+    case "BTT":
+      return {
+        image: BttLogo,
+        color: "#FFFFFF",
+      };
+    case "TRX":
+      return {
+        image: TrxLogo,
+        color: "#FF0013",
+      };
+    case "BSC":
+      return {
+        image: BscLogo,
+        color: "#F0B90B",
+      };
+    default:
+      return {
+        image: BscLogo,
+        color: "#F0B90B",
+      };
+  }
+};
 
 const MenuItem: React.FC<FooterProps> = ({
   items,
@@ -47,7 +81,7 @@ const MenuItem: React.FC<FooterProps> = ({
             {items?.map((item) => (
               <StyledList key={item.label}>
                 <StyledListItem>{item.label}</StyledListItem>
-                {item.items?.map(({ label, href, isHighlighted = false }) => (
+                {item.items?.map(({ label, href, withLogo = false, isHighlighted = false }) => (
                   <StyledListItem key={label}>
                     {href ? (
                       <Link
@@ -57,7 +91,16 @@ const MenuItem: React.FC<FooterProps> = ({
                         color={isHighlighted ? baseColors.warning : darkColors.text}
                         bold={false}
                       >
-                        {label}
+                        {withLogo ? (
+                          <>
+                            <span style={{ color: getPropsForBlockchain(label).color, width: "2.5rem" }}>{label}</span>
+                            <span style={{ marginLeft: "7px" }}>
+                              <Image width={25} height={25} src={getPropsForBlockchain(label).image} alt="" />
+                            </span>
+                          </>
+                        ) : (
+                          label
+                        )}
                       </Link>
                     ) : (
                       <StyledText>{label}</StyledText>
