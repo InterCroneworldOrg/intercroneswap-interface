@@ -287,7 +287,7 @@ export default function Stake() {
             <Button
               width="45%"
               onClick={() => setToggleToken(!toggleToken)}
-              style={{ background: theme.colors.background, border: `1px solid ${theme.colors.primary}` }}
+              style={{ zIndex: '2', background: theme.colors.background, border: `1px solid ${theme.colors.primary}` }}
             >
               <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
               <CurrencyLogo currency={toggleToken ? ICR : BUSD} size={'28px'} style={{ marginLeft: '1rem' }} />
@@ -358,7 +358,11 @@ export default function Stake() {
                     <Button
                       width="15rem"
                       onClick={() => setToggleToken(!toggleToken)}
-                      style={{ background: theme.colors.backgroundAlt, border: `1px solid ${theme.colors.primary}` }}
+                      style={{
+                        zIndex: '5',
+                        background: theme.colors.backgroundAlt,
+                        border: `1px solid ${theme.colors.primary}`,
+                      }}
                     >
                       <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
                       <CurrencyLogo currency={toggleToken ? BUSD : ICR} size={'28px'} style={{ marginLeft: '1rem' }} />
