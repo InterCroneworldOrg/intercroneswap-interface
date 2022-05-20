@@ -1,4 +1,4 @@
-import { Currency, Pair } from '@intercroneswap/v2-sdk';
+import { Currency, ETHER, Pair } from '@intercroneswap/v2-sdk';
 import { useState, useContext, useCallback } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import { darken } from 'polished';
@@ -6,13 +6,18 @@ import { useCurrencyBalance } from '../../state/wallet/hooks';
 import CurrencySearchModal from '../SearchModal/CurrencySearchModal';
 import CurrencyLogo from '../CurrencyLogo';
 import DoubleCurrencyLogo from '../DoubleLogo';
-import { RowBetween } from '../Row';
+import { AutoRow, RowBetween } from '../Row';
 import { TYPE } from '../../theme';
 import { Input as NumericalInput } from '../NumericalInput';
 import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg';
 
 import { useActiveWeb3React } from '../../hooks';
 import { useTranslation } from 'react-i18next';
+import { useAllLists } from '../../state/lists/hooks';
+import { registerToken } from '../../utils/wallet';
+import { wrappedCurrency } from '../../utils/wrappedCurrency';
+import { TronlinkIcon } from '../Svg/Icons/tronlink';
+import { ButtonEmpty } from '../Button';
 
 const InputRow = styled.div<{ selected: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -177,9 +182,11 @@ export default function CurrencyInputPanel({
   const { t } = useTranslation();
 
   const [modalOpen, setModalOpen] = useState(false);
-  const { account } = useActiveWeb3React();
+  const { chainId, account } = useActiveWeb3React();
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined);
   const theme = useContext(ThemeContext);
+  const allTokens = useAllLists();
+  const token = currency && wrappedCurrency(currency, chainId);
 
   const handleDismissSearch = useCallback(() => {
     setModalOpen(false);
@@ -227,37 +234,47 @@ export default function CurrencyInputPanel({
           )}
           <CurrencySelectContainer>
             <RowBetween>
-              <CurrencySelect
-                selected={!!currency}
-                className="open-currency-select-button"
-                onClick={() => {
-                  if (!disableCurrencySelect) {
-                    setModalOpen(true);
-                  }
-                }}
-              >
-                <Aligner>
-                  {pair ? (
-                    <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin={true} />
-                  ) : currency ? (
-                    <CurrencyLogo currency={currency} size={'24px'} />
-                  ) : null}
-                  {pair ? (
-                    <StyledTokenName className="pair-name-container">
-                      {pair?.token0.symbol}:{pair?.token1.symbol}
-                    </StyledTokenName>
-                  ) : (
-                    <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
-                      {(currency && currency.symbol && currency.symbol.length > 20
-                        ? currency.symbol.slice(0, 4) +
-                          '...' +
-                          currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
-                        : currency?.symbol) || t('selectToken')}
-                    </StyledTokenName>
-                  )}
-                  {!disableCurrencySelect && <StyledDropDown selected={!!currency} />}
-                </Aligner>
-              </CurrencySelect>
+              <AutoRow gap="3px">
+                <CurrencySelect
+                  selected={!!currency}
+                  className="open-currency-select-button"
+                  onClick={() => {
+                    if (!disableCurrencySelect) {
+                      setModalOpen(true);
+                    }
+                  }}
+                >
+                  <Aligner>
+                    {pair ? (
+                      <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin={true} />
+                    ) : currency ? (
+                      <CurrencyLogo currency={currency} size={'24px'} />
+                    ) : null}
+                    {pair ? (
+                      <StyledTokenName className="pair-name-container">
+                        {pair?.token0.symbol}:{pair?.token1.symbol}
+                      </StyledTokenName>
+                    ) : (
+                      <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
+                        {(currency && currency.symbol && currency.symbol.length > 20
+                          ? currency.symbol.slice(0, 4) +
+                            '...' +
+                            currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
+                          : currency?.symbol) || t('selectToken')}
+                      </StyledTokenName>
+                    )}
+                    {!disableCurrencySelect && <StyledDropDown selected={!!currency} />}
+                  </Aligner>
+                </CurrencySelect>
+                {currency !== ETHER && token && token.symbol && (
+                  <ButtonEmpty
+                    onClick={() => registerToken(token.address, token.symbol ?? '', token.decimals, allTokens)}
+                    style={{ alignSelf: 'flex-end', width: '20px' }}
+                  >
+                    <TronlinkIcon />
+                  </ButtonEmpty>
+                )}
+              </AutoRow>
               <div>
                 <TYPE.body color={theme.primary3} textAlign={'right'} fontWeight={500} fontSize={14}>
                   Balance

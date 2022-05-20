@@ -17,6 +17,7 @@ interface tronWeb {
   enable: () => Promise<string[]>;
   on?: (method: string, listener: (...args: any[]) => void) => void;
   removeListener?: (method: string, listener: (...args: any[]) => void) => void;
+  request: any;
   trx?: { getBlock?: (m: string) => Promise };
   defaultAddress?: {
     base58?: '';
