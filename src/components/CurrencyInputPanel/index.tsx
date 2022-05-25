@@ -8,6 +8,7 @@ import CurrencyLogo from '../CurrencyLogo';
 import DoubleCurrencyLogo from '../DoubleLogo';
 import { AutoRow, RowBetween } from '../Row';
 import { TYPE } from '../../theme';
+import { ethAddress } from '@intercroneswap/java-tron-provider';
 import { Input as NumericalInput } from '../NumericalInput';
 import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg';
 
@@ -18,6 +19,7 @@ import { registerToken } from '../../utils/wallet';
 import { wrappedCurrency } from '../../utils/wrappedCurrency';
 import { TronlinkIcon } from '../Svg/Icons/tronlink';
 import { ButtonEmpty } from '../Button';
+import CopyHelper from '../AccountDetails/Copy';
 
 const InputRow = styled.div<{ selected: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -267,12 +269,15 @@ export default function CurrencyInputPanel({
                   </Aligner>
                 </CurrencySelect>
                 {currency !== ETHER && token && token.symbol && (
-                  <ButtonEmpty
-                    onClick={() => registerToken(token.address, token.symbol ?? '', token.decimals, allTokens)}
-                    style={{ alignSelf: 'flex-end', width: '20px' }}
-                  >
-                    <TronlinkIcon />
-                  </ButtonEmpty>
+                  <>
+                    <CopyHelper toCopy={ethAddress.toTron(token.address)} />
+                    <ButtonEmpty
+                      onClick={() => registerToken(token.address, token.symbol ?? '', token.decimals, allTokens)}
+                      style={{ alignSelf: 'flex-end', width: '20px' }}
+                    >
+                      <TronlinkIcon />
+                    </ButtonEmpty>
+                  </>
                 )}
               </AutoRow>
               <div>
