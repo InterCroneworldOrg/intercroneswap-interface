@@ -7,12 +7,11 @@ import { LightCard } from '../../components/Card';
 import { AutoRow, RowBetween } from '../../components/Row';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import MarketCard from '../../components/markets/MarketCard';
-import { ChainId, Pair, Token, ZERO } from '@intercroneswap/v2-sdk';
+import { ChainId, Token } from '@intercroneswap/v2-sdk';
 import { AutoColumn } from '../../components/Column';
 import { getTokensFromDefaults } from '../../constants/tokens';
 import { StakingRewardsInfo, REWARDS_DURATION_DAYS_180, REWARDS_DURATION_DAYS } from '../../state/stake/constants';
 import { useActiveWeb3React } from '../../hooks';
-import { usePairs } from '../../data/Reserves';
 
 const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): boolean => {
   if (!tokens2) {
@@ -26,7 +25,15 @@ const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): 
   return true;
 };
 
-const convertRawInfoToTokenAmounts = (pairInfo: any): [Token, Token] | undefined => {
+interface MarketData {
+  pairAddress: string;
+  token0: Token;
+  token1: Token;
+  liquidity: number;
+  dailyVolume: number;
+}
+
+const convertRawInfoToTokenAmounts = (pairInfo: any): MarketData | undefined => {
   if (pairInfo) {
     try {
       const tokenA = new Token(
@@ -55,7 +62,13 @@ const convertRawInfoToTokenAmounts = (pairInfo: any): [Token, Token] | undefined
       // );
       // const tokenBAmount = new TokenAmount(tokenB, tokenBBalance);
       // const pair = new Pair(tokenAAmount, tokenBAmount, pairInfo.pair_hex.replace('41', '0x'));
-      return [tokenA, tokenB];
+      return {
+        token0: tokenA,
+        token1: tokenB,
+        liquidity: pairInfo.liquidityinUSD,
+        dailyVolume: pairInfo.volumen24H,
+        pairAddress: pairInfo.pairHex,
+      };
     } catch (error) {
       console.error(error, 'Error while creating pair');
       return undefined;
@@ -75,18 +88,19 @@ fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/sta
   .then((response) => response.json())
   .then((data) => (stakingInfosRaw = data));
 let marketInfosRaw: any[];
-const allPairs: [Token, Token][] = [];
+const allPairs: MarketData[] = [];
 
-fetch('https://api.intercroneswap.com/api/v1/getallpairs/tron?size=100')
+fetch('https://api.intercroneswap.com/api/v1/getallpairs/tron?size=100&page=0')
   .then((response) => response.json())
   .then((data) => {
     marketInfosRaw = data?.pairs;
     marketInfosRaw.map((pairInfo) => {
       const pair = convertRawInfoToTokenAmounts(pairInfo);
-      if (pair) {
+      if (pair && pair.liquidity > 0) {
         allPairs.push(pair);
       }
     });
+    allPairs.sort((pairA, pairB) => pairB.liquidity - pairA.liquidity);
   });
 
 export default function Markets() {
@@ -97,9 +111,9 @@ export default function Markets() {
   const inputRef = useRef<HTMLInputElement>();
   const [searchQuery, setSearchQuery] = useState<string>('');
   // const trackedTokenPairs = useTrackedTokenPairs();
-  const v1Pairs = usePairs(allPairs);
-  const allPairsLoaded = v1Pairs.map(([, pair]) => pair).filter((v1Pair): v1Pair is Pair => Boolean(v1Pair));
-  const pairsWithLiquidity = allPairsLoaded.filter((pair) => pair.reserve0.greaterThan(ZERO)).reverse();
+  // const v1Pairs = usePairs(allPairs);
+  // const allPairsLoaded = v1Pairs.map(([, pair]) => pair).filter((v1Pair): v1Pair is Pair => Boolean(v1Pair));
+  // const pairsWithLiquidity = allPairsLoaded.filter((pair) => pair.reserve0.greaterThan(ZERO)).reverse();
 
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];
@@ -164,13 +178,16 @@ export default function Markets() {
               <TYPE.white width="15%">LP Staking</TYPE.white>
             </AutoRow>
             <Divider />
-            {pairsWithLiquidity &&
-              pairsWithLiquidity.length > 0 &&
-              pairsWithLiquidity.map((pair, index) => (
+            {allPairs &&
+              allPairs.length > 0 &&
+              allPairs.map((pair, index) => (
                 <>
                   <MarketCard
-                    key={index}
-                    pair={pair}
+                    key={pair.pairAddress}
+                    tokens={[pair.token0, pair.token1]}
+                    dailyVolume={pair.dailyVolume}
+                    liquidity={pair.liquidity}
+                    pairAddress={pair.pairAddress}
                     stakingAddress={
                       stakingRewardInfos.find((info) => tokenPairsAreEqual(info.tokens, [pair.token0, pair.token1]))
                         ?.stakingRewardAddress
