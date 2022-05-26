@@ -1,21 +1,19 @@
 import { ExternalLink, TYPE } from '../../theme';
-import { ChainId, Pair, Percent, Token, TokenAmount } from '@intercroneswap/v2-sdk';
+import { ChainId, Percent, Token } from '@intercroneswap/v2-sdk';
 import { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import { LightCard } from '../Card';
 import { AutoRow } from '../Row';
 import { unwrappedToken } from '../../utils/wrappedCurrency';
 import CurrencyLogo from '../CurrencyLogo';
-import useUSDTPrice from '../../hooks/useUSDTPrice';
-import { DoubleTokenAmount, GetAmountInUSDT } from '../../utils/tokenAmountCalculations';
 import { currencyFormatter, getEtherscanLink } from '../../utils';
 import { useWeb3React } from '@web3-react/core';
 
 export interface MarketCardProps {
-  pair: Pair;
-  tokens?: [Token, Token];
-  liquidity?: TokenAmount;
-  dailyVolume?: TokenAmount;
+  pairAddress: string;
+  tokens: [Token, Token];
+  liquidity: number;
+  dailyVolume: number;
   apy?: Percent;
   stakingAddress?: string;
 }
@@ -27,28 +25,24 @@ const MobileHidden = styled(AutoRow)`
 `;
 
 export default function MarketCard({
-  pair,
+  tokens,
+  pairAddress,
   stakingAddress,
-}: // lastPrice,
-// liquidity,
-// dailyVolume,
-// apy,
+  liquidity,
+  dailyVolume,
+}: // apy,
 MarketCardProps) {
   const theme = useContext(ThemeContext);
   // const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
   const { chainId } = useWeb3React();
 
-  const token0 = pair.token0;
-  const token1 = pair.token1;
+  const [token0, token1] = tokens;
 
-  const USDPrice = useUSDTPrice(token0);
-  const USDPriceBackup = useUSDTPrice(token1);
+  // const liquidity = USDPrice
+  //   ? GetAmountInUSDT(USDPrice, DoubleTokenAmount(pair.reserve0))
+  //   : GetAmountInUSDT(USDPriceBackup, DoubleTokenAmount(pair.reserve1));
 
-  const liquidity = USDPrice
-    ? GetAmountInUSDT(USDPrice, DoubleTokenAmount(pair.reserve0))
-    : GetAmountInUSDT(USDPriceBackup, DoubleTokenAmount(pair.reserve1));
-
-  const dailyVolume: TokenAmount | undefined = undefined;
+  // const dailyVolume: TokenAmount | undefined = undefined;
 
   const apy: Percent | undefined = undefined;
 
@@ -67,7 +61,7 @@ MarketCardProps) {
       <AutoRow justify="start" gap=".2rem">
         <ExternalLink
           style={{ width: '30%', display: 'flex' }}
-          href={getEtherscanLink(chainId ?? ChainId.MAINNET, pair.liquidityToken.address, 'contract')}
+          href={getEtherscanLink(chainId ?? ChainId.MAINNET, pairAddress, 'contract')}
         >
           <CurrencyLogo currency={currency0} size="1.2rem" />
           &nbsp;
@@ -82,7 +76,7 @@ MarketCardProps) {
           </TYPE.white>
         </ExternalLink>
         <AutoRow style={{ width: '15%' }}>
-          <TYPE.yellow>{currencyFormatter.format(Number(liquidity?.toFixed(2)))}</TYPE.yellow>
+          <TYPE.yellow>{currencyFormatter.format(liquidity)}</TYPE.yellow>
         </AutoRow>
         <MobileHidden style={{ width: '15%' }}>
           <TYPE.yellow>{dailyVolume ? `$ ${dailyVolume}` : '-'}</TYPE.yellow>
