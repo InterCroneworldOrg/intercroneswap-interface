@@ -11,7 +11,7 @@
     "@intercroneswap/token-lists": "^0.0.5",
     "@intercroneswap/v1-core": "^0.0.6",
     "@intercroneswap/v2-periphery": "0.1.2-trx",
-    "@intercroneswap/v2-sdk": "1.0.3-trx",
+    "@intercroneswap/v2-sdk": "1.0.3-trx-oldfactory",
     "@intercroneswap/v2-staking": "^0.0.2",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.16.0",

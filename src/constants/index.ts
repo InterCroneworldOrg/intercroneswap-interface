@@ -5,7 +5,7 @@ import { injected } from '../connectors';
 import { REWARDS_DURATION_DAYS_180 } from '../state/stake/constants';
 
 export const ROUTER_ADDRESSES: { [chainId: number]: string } = {
-  [ChainId.MAINNET]: '0x8e1d1d9b31a603b14a58b822b075050ddced7e94',
+  [ChainId.MAINNET]: '0x807A60EDDB912507D3AD1558BFF65092B48603D9',
   [ChainId.NILE]: '',
   [ChainId.SHASTA]: '0x5f887c70df576b6ce9c3518a02e341f8bc1d0659',
 };
