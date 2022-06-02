@@ -1,4 +1,4 @@
-import { TokenAmount, Pair, Currency } from '@intercroneswap/v2-sdk'
+import { Token, TokenAmount, Pair, Currency, JSBI, ChainId } from '@intercroneswap/v2-sdk'
 import { useMemo } from 'react'
 import IPancakePairABI from 'config/abi/IPancakePair.json'
 import { Interface } from '@ethersproject/abi'
@@ -6,6 +6,9 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 import { useMultipleContractSingleData } from '../state/multicall/hooks'
 import { wrappedCurrency } from '../utils/wrappedCurrency'
+import useInterval from './useInterval'
+import { time } from 'console'
+import { chain } from 'lodash'
 
 const PAIR_INTERFACE = new Interface(IPancakePairABI)
 
@@ -59,4 +62,44 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
 
 export function usePair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair | null] {
   return usePairs([[tokenA, tokenB]])[0]
+}
+
+export function useDbPairs(pairInfos: any[]): Pair[] | null {
+  const { chainId } = useActiveWeb3React()
+
+  useInterval(() => {
+    const fetchData = async () => {
+      const response = await (
+        await fetch(`http://localhost:8080/pairs/all?chainId=${chainId && ChainId.MAINNET}`)
+      ).json()
+
+      pairInfos = response.data
+    }
+    fetchData()
+  }, 1000 * 30)
+
+  return useMemo(() => {
+    return pairInfos.map((pairInfo) => {
+      const tokenAInfo = pairInfo.TokenAmount0
+      const tokenBInfo = pairInfo.TokenAmount1
+      const tokenA = new Token(
+        tokenAInfo.chain_id,
+        tokenAInfo.address,
+        tokenAInfo.decimals,
+        tokenAInfo.symbol,
+        tokenAInfo.name,
+      )
+      const tokenB = new Token(
+        tokenBInfo.chain_id,
+        tokenBInfo.address,
+        tokenBInfo.decimals,
+        tokenBInfo.symbol,
+        tokenBInfo.name,
+      )
+
+      const tokenAmountA = new TokenAmount(tokenA, JSBI.BigInt(tokenAInfo.numerator))
+      const tokenAmountB = new TokenAmount(tokenB, JSBI.BigInt(tokenBInfo.numerator))
+      return new Pair(tokenAmountA, tokenAmountB)
+    })
+  }, [pairInfos, chainId])
 }

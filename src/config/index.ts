@@ -35,3 +35,5 @@ export const AUCTION_WHITELISTED_BIDDERS_TO_FETCH = 500
 export const IPFS_GATEWAY = 'https://ipfs.io/ipfs'
 // In reality its 10000 because of fast refresh, a bit less here to cover for possible long request times
 export const PANCAKE_BUNNIES_UPDATE_FREQUENCY = 8000
+
+export const BACKEND_URL = 'http://localhost:8080'
