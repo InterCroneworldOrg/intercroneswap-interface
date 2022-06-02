@@ -98,3 +98,18 @@ export const WordBreakDiv = styled.div`
   }
   color: ${({ theme }) => theme.colors.textSubtle};
 `
+
+export const StyledHeading = styled.h1`
+  text-transform: uppercase;
+  font-family: Jost;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 56px;
+  line-height: 72px;
+  text-align: center;
+  width: 100%;
+  color: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.primary};
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`

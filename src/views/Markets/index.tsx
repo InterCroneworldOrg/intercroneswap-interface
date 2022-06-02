@@ -1,22 +1,22 @@
 import { Divider } from '../../theme'
 import { RefObject, useCallback, useRef, useState, KeyboardEvent, useMemo } from 'react'
-import { PageWrapper } from '../Stake/styleds'
+import { PageWrapper, StyledHeading } from '../Stake/styleds'
 import { LightCard } from '../../components/Card'
 import { Text } from '@pancakeswap/uikit'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import MarketCard from '../../components/markets/MarketCard'
-import { ChainId, JSBI, Pair, Token } from '@intercroneswap/v2-sdk'
+import { ChainId, JSBI, Token } from '@intercroneswap/v2-sdk'
 import { StakingRewardsInfo, REWARDS_DURATION_DAYS_180, REWARDS_DURATION_DAYS } from '../../state/stake/constants'
 import { AutoColumn } from 'components/Layout/Column'
 import { getTokensFromDefaults } from 'config/constants/tokens'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { usePairs } from 'hooks/usePairs'
-import { StyledHeading } from 'views/Home/components/Banners/Styled'
 import { RowBetween, AutoRow } from '../../../packages/uikit/src/styles/header.styles'
 import { breakpointMap } from '../../../packages/uikit/src/theme/base'
-import { useRouter } from 'next/router'
-import { useTrackedTokenPairs } from 'state/user/hooks'
+import { useDbPairs } from 'hooks/usePairs'
+import useInterval from 'hooks/useInterval'
+import { BACKEND_URL } from 'config'
+import Page from 'views/Page'
 
 const ZERO = JSBI.BigInt(0)
 const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): boolean => {
@@ -76,37 +76,28 @@ let stakingInfosRaw: {
     }
   }
 } = {}
-fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
-  .then((response) => response.json())
-  .then((data) => (stakingInfosRaw = data))
-let marketInfosRaw: any[]
-const allPairs: [Token, Token][] = []
-
-fetch('https://api.intercroneswap.com/api/v1/getallpairs/tron?size=100')
-  .then((response) => response.json())
-  .then((data) => {
-    marketInfosRaw = data?.pairs
-    marketInfosRaw.map((pairInfo) => {
-      const pair = convertRawInfoToTokenAmounts(pairInfo)
-      if (pair) {
-        allPairs.push(pair)
-      }
-    })
-  })
+// fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
+//   .then((response) => response.json())
+//   .then((data) => (stakingInfosRaw = data))
 
 export default function Markets() {
-  const router = useRouter()
-  router.push('/market')
   const { t } = useTranslation()
   //   const theme = useContext(ThemeContext);
-  const isMobile = window.innerWidth <= breakpointMap.md
   const { chainId } = useActiveWeb3React()
+  const isMobile = window.innerWidth <= breakpointMap.md
+  const [pairInfos, setPairInfos] = useState<any[]>([])
+  useInterval(() => {
+    const fetchData = async () => {
+      const response = await (await fetch(`${BACKEND_URL}/pairs/all?chainId=${chainId && ChainId.MAINNET}`)).json()
+      setPairInfos(response.data)
+    }
+    fetchData()
+  }, 1000 * 30)
+
   const inputRef = useRef<HTMLInputElement>()
   const [searchQuery, setSearchQuery] = useState<string>('')
-  const trackedTokenPairs = useTrackedTokenPairs()
-  const v1Pairs = usePairs(trackedTokenPairs)
-  const allPairsLoaded = v1Pairs.map(([, pair]) => pair).filter((v1Pair): v1Pair is Pair => Boolean(v1Pair))
-  const pairsWithLiquidity = allPairsLoaded.filter((pair) => pair.reserve0.greaterThan(ZERO)).reverse()
+  const pairs = useDbPairs(pairInfos)
+  const pairsWithLiquidity = pairs.filter((pair) => pair.reserve0.greaterThan(ZERO)).reverse()
 
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = []
@@ -144,7 +135,7 @@ export default function Markets() {
   )
 
   return (
-    <>
+    <Page>
       <StyledHeading>Markets</StyledHeading>
       <PageWrapper justify="center">
         <LightCard style={{ marginTop: '20px' }}>
@@ -199,6 +190,6 @@ export default function Markets() {
           </AutoColumn>
         </LightCard>
       </PageWrapper>
-    </>
+    </Page>
   )
 }
