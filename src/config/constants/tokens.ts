@@ -2167,6 +2167,7 @@ export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['TRX']: unserializedTokens.trx,
   ['FTM']: unserializedTokens.ftm,
   ['AVAX']: unserializedTokens.avax,
+  ['ADA']: unserializedTokens.ada,
 }
 
 const tokenArray: Token[] = [
@@ -2183,6 +2184,7 @@ const tokenArray: Token[] = [
   unserializedTokens.ftm,
   unserializedTokens.avax,
   unserializedTokens.btt,
+  unserializedTokens.ada,
 ]
 
 export function getTokenByAddress(address: string): Token {
