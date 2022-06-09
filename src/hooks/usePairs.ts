@@ -1,4 +1,4 @@
-import { TokenAmount, Pair, Currency } from '@intercroneswap/v2-sdk'
+import { TokenAmount, Pair, Currency, Token, JSBI } from '@intercroneswap/v2-sdk'
 import { useMemo } from 'react'
 import IPancakePairABI from 'config/abi/IPancakePair.json'
 import { Interface } from '@ethersproject/abi'
@@ -59,4 +59,35 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
 
 export function usePair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair | null] {
   return usePairs([[tokenA, tokenB]])[0]
+}
+
+export function useDbPairs(pairInfos: any[]): Pair[] | null {
+  const { chainId } = useActiveWeb3React()
+
+  console.log(pairInfos)
+
+  return useMemo(() => {
+    return pairInfos.map((pairInfo) => {
+      const tokenAInfo = pairInfo.TokenAmount0
+      const tokenBInfo = pairInfo.TokenAmount1
+      const tokenA = new Token(
+        tokenAInfo.chain_id,
+        tokenAInfo.address,
+        tokenAInfo.decimals,
+        tokenAInfo.symbol,
+        tokenAInfo.name,
+      )
+      const tokenB = new Token(
+        tokenBInfo.chain_id,
+        tokenBInfo.address,
+        tokenBInfo.decimals,
+        tokenBInfo.symbol,
+        tokenBInfo.name,
+      )
+
+      const tokenAmountA = new TokenAmount(tokenA, JSBI.BigInt(tokenAInfo.numerator))
+      const tokenAmountB = new TokenAmount(tokenB, JSBI.BigInt(tokenBInfo.numerator))
+      return new Pair(tokenAmountA, tokenAmountB)
+    })
+  }, [pairInfos, chainId])
 }
