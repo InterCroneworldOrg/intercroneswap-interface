@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from "styled-components";
 import { space } from "styled-system";
-import { SvgProps } from "./types";
+import { SvgProps } from "../earn/types";
 
 const rotate = keyframes`
   from {

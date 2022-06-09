@@ -108,8 +108,8 @@ export const StyledHeading = styled.h1`
   line-height: 72px;
   text-align: center;
   width: 100%;
+  background: linear-gradient(90deg, #ffb807 46.32%, #ffea00 66.69%);
   color: ${({ theme }) => theme.colors.primary};
-  background: ${({ theme }) => theme.colors.primary};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `

@@ -26,8 +26,8 @@ import {
   ArrowWrapper,
   ButtonAutoRow,
 } from './styleds'
-import StyledChevronUp from './ChevronUp'
-import StyledChevronDown from './ChevronDown'
+import StyledChevronUp from '../Chevrons/ChevronUp'
+import StyledChevronDown from '../Chevrons/ChevronDown'
 import { breakpointMap } from '../../../packages/uikit/src/theme/base'
 
 const { icr: ICR, busd: BUSD } = tokens
