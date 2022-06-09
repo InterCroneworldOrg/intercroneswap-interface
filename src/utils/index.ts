@@ -7,7 +7,7 @@ import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import IPancakeRouter02ABI from 'config/abi/IPancakeRouter02.json'
 import { IPancakeRouter02 } from 'config/abi/types/IPancakeRouter02'
-import { abi as ISwapV2StakingABI } from '@intercroneswap/v2-staking/build/IStakingRewards.json';
+import { abi as ISwapV2StakingABI } from '@intercroneswap/v2-staking/build/IStakingRewards.json'
 import { CHAIN_ID } from 'config/constants/networks'
 import { JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@intercroneswap/v2-sdk'
 import { ROUTER_ADDRESS } from '../config/constants'
@@ -103,7 +103,7 @@ export function getRouterContract(_: number, library: Web3Provider, account?: st
 }
 
 export function getStakingContract(_: number, address: string, library: any, account?: string): Contract {
-  return getContract(address, ISwapV2StakingABI, getProviderOrSigner(library, account));
+  return getContract(address, ISwapV2StakingABI, getProviderOrSigner(library, account))
 }
 
 export function escapeRegExp(string: string): string {
@@ -114,3 +114,8 @@ export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currenc
   if (currency === ETHER) return true
   return Boolean(currency instanceof Token && defaultTokens[currency.chainId]?.[currency.address])
 }
+
+export const currencyFormatter = Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+})
