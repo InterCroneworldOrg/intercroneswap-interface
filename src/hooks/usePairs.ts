@@ -67,16 +67,7 @@ export function usePair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair 
 export function useDbPairs(pairInfos: any[]): Pair[] | null {
   const { chainId } = useActiveWeb3React()
 
-  useInterval(() => {
-    const fetchData = async () => {
-      const response = await (
-        await fetch(`http://localhost:8080/pairs/all?chainId=${chainId && ChainId.MAINNET}`)
-      ).json()
-
-      pairInfos = response.data
-    }
-    fetchData()
-  }, 1000 * 30)
+  console.log(pairInfos)
 
   return useMemo(() => {
     return pairInfos.map((pairInfo) => {

@@ -173,3 +173,13 @@ export function useCurrency(currencyId: string | undefined): Currency | Token | 
   const token = useToken(isBNB ? undefined : currencyId)
   return isBNB ? ETHER : token
 }
+
+export function useDbTokens(tokenInfos: any[]): Token[] | null {
+  const { chainId } = useActiveWeb3React()
+
+  return useMemo(() => {
+    return tokenInfos.map((tokenInfo) => {
+      return new Token(tokenInfo.chain_id, tokenInfo.address, tokenInfo.decimals, tokenInfo.symbol, tokenInfo.name)
+    })
+  }, [tokenInfos, chainId])
+}

@@ -1,5 +1,5 @@
 import { Divider } from '../../theme'
-import { RefObject, useCallback, useRef, useState, KeyboardEvent, useMemo } from 'react'
+import { RefObject, useCallback, useRef, useState, KeyboardEvent, useMemo, useContext } from 'react'
 import { PageWrapper, StyledHeading } from '../Stake/styleds'
 import { LightCard } from '../../components/Card'
 import { Text } from '@pancakeswap/uikit'
@@ -13,12 +13,12 @@ import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { RowBetween, AutoRow } from '../../../packages/uikit/src/styles/header.styles'
 import { breakpointMap } from '../../../packages/uikit/src/theme/base'
-import { useDbPairs } from 'hooks/usePairs'
 import useInterval from 'hooks/useInterval'
 import { BACKEND_URL } from 'config'
 import Page from 'views/Page'
+import { MarketInfo, useMarkets } from 'hooks/useMarkets'
+import { ThemeContext } from 'styled-components'
 
-const ZERO = JSBI.BigInt(0)
 const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): boolean => {
   if (!tokens2) {
     return false
@@ -31,44 +31,6 @@ const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): 
   return true
 }
 
-const convertRawInfoToTokenAmounts = (pairInfo: any): [Token, Token] | undefined => {
-  if (pairInfo) {
-    try {
-      const tokenA = new Token(
-        ChainId.MAINNET,
-        pairInfo.tokenAHex.replace('41', '0x'),
-        Number(pairInfo.tokenADecimal),
-        pairInfo.tokenAAbbr,
-        pairInfo.tokenAName,
-      )
-      // const tokenABalance = JSBI.multiply(
-      //   JSBI.BigInt(Math.trunc(Number(pairInfo.tokenA_balance))),
-      //   JSBI.multiply(TEN, JSBI.BigInt(Number(pairInfo.tokenA_Decimal))),
-      // );
-
-      // const tokenAAmount = new TokenAmount(tokenA, tokenABalance);
-      const tokenB = new Token(
-        ChainId.MAINNET,
-        pairInfo.tokenBHex.replace('41', '0x'),
-        Number(pairInfo.tokenBDecimal),
-        pairInfo.tokenBAbbr,
-        pairInfo.tokenBName,
-      )
-      // const tokenBBalance = JSBI.multiply(
-      //   JSBI.BigInt(Math.trunc(Number(pairInfo.tokenB_Balance))),
-      //   JSBI.multiply(TEN, JSBI.BigInt(Number(pairInfo.tokenB_Decimal))),
-      // );
-      // const tokenBAmount = new TokenAmount(tokenB, tokenBBalance);
-      // const pair = new Pair(tokenAAmount, tokenBAmount, pairInfo.pair_hex.replace('41', '0x'));
-      return [tokenA, tokenB]
-    } catch (error) {
-      console.error(error, 'Error while creating pair')
-      return undefined
-    }
-  }
-  return undefined
-}
-
 let stakingInfosRaw: {
   [chainId: number]: {
     [version: string]: {
@@ -76,19 +38,19 @@ let stakingInfosRaw: {
     }
   }
 } = {}
-// fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
-//   .then((response) => response.json())
-//   .then((data) => (stakingInfosRaw = data))
+fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
+  .then((response) => response.json())
+  .then((data) => (stakingInfosRaw = data))
 
 export default function Markets() {
   const { t } = useTranslation()
-  //   const theme = useContext(ThemeContext);
+  const theme = useContext(ThemeContext)
   const { chainId } = useActiveWeb3React()
   const isMobile = window.innerWidth <= breakpointMap.md
   const [pairInfos, setPairInfos] = useState<any[]>([])
   useInterval(() => {
     const fetchData = async () => {
-      const response = await (await fetch(`${BACKEND_URL}/pairs/all?chainId=${chainId && ChainId.MAINNET}`)).json()
+      const response = await (await fetch(`${BACKEND_URL}/pairs/markets?chainId=${chainId && ChainId.MAINNET}`)).json()
       setPairInfos(response.data)
     }
     fetchData()
@@ -96,8 +58,22 @@ export default function Markets() {
 
   const inputRef = useRef<HTMLInputElement>()
   const [searchQuery, setSearchQuery] = useState<string>('')
-  const pairs = useDbPairs(pairInfos)
-  const pairsWithLiquidity = pairs.filter((pair) => pair.reserve0.greaterThan(ZERO)).reverse()
+
+  const markets = useMarkets(pairInfos)
+
+  const marketList = useMemo(() => {
+    if (searchQuery) {
+      return markets.filter((info: MarketInfo) => {
+        return (
+          info.pair.token0.symbol?.toLowerCase().includes(searchQuery) ||
+          info.pair.token0.name?.toLowerCase().includes(searchQuery) ||
+          info.pair.token1.symbol?.toLowerCase().includes(searchQuery) ||
+          info.pair.token1.name?.toLowerCase().includes(searchQuery)
+        )
+      })
+    }
+    return markets
+  }, [markets, searchQuery])
 
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = []
@@ -136,57 +112,47 @@ export default function Markets() {
 
   return (
     <Page>
-      <StyledHeading>Markets</StyledHeading>
-      <PageWrapper justify="center">
-        <LightCard style={{ marginTop: '20px' }}>
-          <AutoColumn gap="1.5rem" justify="center">
+      <StyledHeading>Top Pools</StyledHeading>
+      <PageWrapper justify="center" style={{ marginTop: 30 }}>
+        <LightCard style={{ margin: '5rem 0' }}>
+          <AutoColumn gap="1rem" justify="space-between">
             <RowBetween>
-              <Text>Top Pools</Text>
+              <Text style={{ fontSize: '2rem' }}>Top Pools</Text>
+            </RowBetween>
+            <RowBetween style={{ padding: '0rem 1rem', margin: 0 }}>
+              <Text width="20%">Pair</Text>
+              <Text width="13%">Liquidity</Text>
+              <Text width="13%">24h volume</Text>
+              <Text width="13%">APY</Text>
+              <Text width="13%">LP Staking</Text>
               <SearchInput
                 type="text"
                 id="token-search-input"
-                placeholder={t('poolSearchPlaceholder')}
+                placeholder={t('Search')}
                 value={searchQuery}
                 ref={inputRef as RefObject<HTMLInputElement>}
                 onChange={handleInput}
                 onKeyDown={handleEnter}
-                width="1rem"
-                style={{ fontSize: '.9rem', width: isMobile ? '57%' : '194px' }}
+                style={{ fontSize: '.9rem', width: '25%' }}
               />
             </RowBetween>
-            <AutoRow style={{ padding: '0rem 3rem' }}>
-              <Text width="30%">Pair</Text>
-              <Text width="15%">Liquidity</Text>
-              <Text width="15%">24h volume</Text>
-              <Text width="15%">APY</Text>
-              <Text width="15%">LP Staking</Text>
-            </AutoRow>
-            <Divider />
-            {pairsWithLiquidity &&
-              pairsWithLiquidity.length > 0 &&
-              pairsWithLiquidity.map((pair, index) => (
+            <Divider style={{ margin: 0 }} />
+            {marketList &&
+              marketList.length > 0 &&
+              marketList.map((market, index) => (
                 <>
                   <MarketCard
                     key={index}
-                    pair={pair}
+                    pair={market.pair}
+                    liquidity={market.usdAmount}
                     stakingAddress={
-                      stakingRewardInfos.find((info) => tokenPairsAreEqual(info.tokens, [pair.token0, pair.token1]))
-                        ?.stakingRewardAddress
+                      stakingRewardInfos.find((info) =>
+                        tokenPairsAreEqual(info.tokens, [market.pair.token0, market.pair.token1]),
+                      )?.stakingRewardAddress
                     }
                   />
                 </>
               ))}
-            {/* {dummyData.map((marketInfo) => (
-              <>
-                <MarketCard
-                  key={marketInfo.tokens[1].symbol}
-                  tokens={marketInfo.tokens}
-                  dailyVolume={marketInfo.dailyVolume}
-                  liquidity={marketInfo.liquidity}
-                  lastPrice={marketInfo.lastPrice}
-                />
-              </>
-            ))} */}
           </AutoColumn>
         </LightCard>
       </PageWrapper>
