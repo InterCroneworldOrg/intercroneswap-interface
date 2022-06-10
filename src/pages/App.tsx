@@ -155,7 +155,6 @@ export default function App() {
               <Route exact strict path="/swap" component={Swap} />
               <Route exact strict path="/nft" component={Sample} />
               <Route exact strict path="/dashboard" component={Sample} />
-              <Route exact strict path="/market" component={Sample} />
               <Route exact strict path="/audit" component={Sample} />
               <Route exact strict path="/white-paper" component={Sample} />
               <Route exact strict path="/faq" component={Sample} />
@@ -171,6 +170,7 @@ export default function App() {
               <Route exact strict path="/stake" component={Stake} />
               <Route exact strict path="/stake/:referal" component={RedirectToReferal} />
               <Route exact strict path="/markets" component={Markets} />
+              <Route exact strict path="/markets/:page" component={Markets} />
               {/* <Route exact strict path="/vote" component={Vote} /> */}
               <Route exact strict path="/votepage" component={VoteComingSoon} />
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />

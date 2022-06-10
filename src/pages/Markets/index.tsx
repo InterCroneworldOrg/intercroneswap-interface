@@ -1,5 +1,5 @@
 import { Divider, MEDIA_WIDTHS, TYPE } from '../../theme';
-import { RefObject, useCallback, useRef, useState, KeyboardEvent, useMemo } from 'react';
+import { RefObject, useCallback, useRef, useState, KeyboardEvent, useMemo, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyledHeading } from '../App';
 import { PageWrapper } from '../Stake/styleds';
@@ -15,6 +15,9 @@ import { useActiveWeb3React } from '../../hooks';
 import useInterval from '../../hooks/useInterval';
 import { BACKEND_URL } from '../../constants';
 import { useMarkets, MarketInfo } from '../../hooks/useMarkets';
+import { RouteComponentProps } from 'react-router-dom';
+import { Pagination } from 'react-bootstrap';
+import { ThemeContext } from 'styled-components';
 
 const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): boolean => {
   if (!tokens2) {
@@ -39,21 +42,34 @@ fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/sta
   .then((response) => response.json())
   .then((data) => (stakingInfosRaw = data));
 
-export default function Markets() {
+export default function Markets({
+  match: {
+    params: { page },
+  },
+}: RouteComponentProps<{ page?: string }>) {
   const { t } = useTranslation();
-  //   const theme = useContext(ThemeContext);
+  const theme = useContext(ThemeContext);
+
   const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
   const { chainId } = useActiveWeb3React();
   const inputRef = useRef<HTMLInputElement>();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [pairInfos, setPairInfos] = useState<any[]>([]);
+  const [pagingInfo, setPagingInfo] = useState<any>(undefined);
+  const fetchData = async () => {
+    const response = await (
+      await fetch(`${BACKEND_URL}/markets?chainId=${chainId && ChainId.MAINNET}&page=${page}`)
+    ).json();
+    setPairInfos(response.data.markets);
+    setPagingInfo(response.data.pagination);
+  };
   useInterval(() => {
-    const fetchData = async () => {
-      const response = await (await fetch(`${BACKEND_URL}/pairs/markets?chainId=${chainId && ChainId.MAINNET}`)).json();
-      setPairInfos(response.data);
-    };
     fetchData();
   }, 1000 * 30);
+  useEffect(() => {
+    fetchData();
+  }, [page]);
+
   const markets = useMarkets(pairInfos);
 
   const marketList = useMemo(() => {
@@ -68,7 +84,7 @@ export default function Markets() {
       });
     }
     return markets;
-  }, [markets, searchQuery]);
+  }, [markets, searchQuery, page]);
 
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];
@@ -111,9 +127,11 @@ export default function Markets() {
       <PageWrapper>
         <LightCard style={{ marginTop: '20px' }}>
           <AutoColumn gap="1rem" justify="center">
-            <RowBetween>
-              <TYPE.white style={{ fontSize: '2rem' }}>Top Pools</TYPE.white>
-            </RowBetween>
+            {pagingInfo && pagingInfo.page === 1 && (
+              <RowBetween>
+                <TYPE.white style={{ fontSize: '2rem' }}>Top Pools</TYPE.white>
+              </RowBetween>
+            )}
             <RowBetween style={{ padding: '0rem 3rem' }}>
               <TYPE.white width="20%">Pair</TYPE.white>
               <TYPE.white width="13%">Liquidity</TYPE.white>
@@ -148,20 +166,38 @@ export default function Markets() {
                   />
                 </>
               ))}
-            {/* {dummyData.map((marketInfo) => (
-              <>
-                <MarketCard
-                  key={marketInfo.tokens[1].symbol}
-                  tokens={marketInfo.tokens}
-                  dailyVolume={marketInfo.dailyVolume}
-                  liquidity={marketInfo.liquidity}
-                  lastPrice={marketInfo.lastPrice}
-                />
-              </>
-            ))} */}
           </AutoColumn>
         </LightCard>
       </PageWrapper>
+      {pagingInfo && (
+        <Pagination color={theme.text1} style={{ background: theme.bg1, marginTop: '2rem' }}>
+          <Pagination.First style={{ background: theme.bg1 }} href={`/#/markets/1`} />
+          {pagingInfo.page > 1 && <Pagination.Prev href={`/#/markets/${pagingInfo.page - 1}`} />}
+          {pagingInfo.page > 2 && <Pagination.Item href={`/#/markets/1`}>1</Pagination.Item>}
+          {pagingInfo.page > 3 && <Pagination.Ellipsis />}
+          {Array.from({ length: 3 }, (_, i) => i + pagingInfo.page - 1).map((val) => {
+            if (val <= pagingInfo.maxPages && val > 0) {
+              return (
+                <Pagination.Item
+                  key={val}
+                  active={pagingInfo.page === val}
+                  disabled={pagingInfo.page === val}
+                  href={`/#/markets/${val}`}
+                >
+                  {val}
+                </Pagination.Item>
+              );
+            }
+            return undefined;
+          })}
+          {pagingInfo.page < pagingInfo.maxPages - 2 && <Pagination.Ellipsis />}
+          {pagingInfo.page < pagingInfo.maxPages - 1 && (
+            <Pagination.Item href={`/#/markets/${pagingInfo.maxPages}`}>{pagingInfo.maxPages}</Pagination.Item>
+          )}
+          {pagingInfo.page !== pagingInfo.maxPages && <Pagination.Next href={`/#/markets/${pagingInfo.page + 1}`} />}
+          <Pagination.Last href={`/#/markets/${pagingInfo.maxPages}`} />
+        </Pagination>
+      )}
     </>
   );
 }
