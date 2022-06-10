@@ -1,6 +1,6 @@
-import { ExternalLink, TYPE } from '../../theme';
-import { ChainId, Percent, Token } from '@intercroneswap/v2-sdk';
-import { useContext } from 'react';
+import { ExternalLink, MEDIA_WIDTHS, TYPE } from '../../theme';
+import { ChainId, ETHER, Pair, Percent, TokenAmount } from '@intercroneswap/v2-sdk';
+import { useContext, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import { LightCard } from '../Card';
 import { AutoRow } from '../Row';
@@ -8,12 +8,14 @@ import { unwrappedToken } from '../../utils/wrappedCurrency';
 import CurrencyLogo from '../CurrencyLogo';
 import { currencyFormatter, getEtherscanLink } from '../../utils';
 import { useWeb3React } from '@web3-react/core';
+import { ButtonEmpty, ButtonPrimary } from '../Button';
+import { ChevronUp, ChevronDown } from 'react-feather';
+import { ResponsiveSizedTextMedium } from '../earn/styleds';
 
 export interface MarketCardProps {
-  pairAddress: string;
-  tokens: [Token, Token];
-  liquidity: number;
-  dailyVolume: number;
+  pair: Pair;
+  liquidity?: string;
+  dailyVolume?: TokenAmount;
   apy?: Percent;
   stakingAddress?: string;
 }
@@ -25,43 +27,35 @@ const MobileHidden = styled(AutoRow)`
 `;
 
 export default function MarketCard({
-  tokens,
-  pairAddress,
+  pair,
   stakingAddress,
   liquidity,
-  dailyVolume,
 }: // apy,
 MarketCardProps) {
   const theme = useContext(ThemeContext);
-  // const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
+  const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
   const { chainId } = useWeb3React();
-
-  const [token0, token1] = tokens;
-
-  // const liquidity = USDPrice
-  //   ? GetAmountInUSDT(USDPrice, DoubleTokenAmount(pair.reserve0))
-  //   : GetAmountInUSDT(USDPriceBackup, DoubleTokenAmount(pair.reserve1));
-
-  // const dailyVolume: TokenAmount | undefined = undefined;
+  const [showMore, setShowMore] = useState(false);
 
   const apy: Percent | undefined = undefined;
+  const dailyVolume = '';
 
-  const currency0 = unwrappedToken(token0);
-  const currency1 = unwrappedToken(token1);
+  const currency0 = unwrappedToken(pair.token0);
+  const currency1 = unwrappedToken(pair.token1);
 
   return (
     <LightCard
       style={{
         marginTop: '2px',
         margin: '0rem',
-        padding: '1rem 3rem',
+        padding: '1rem 1rem',
         background: theme.bg3,
       }}
     >
       <AutoRow justify="start" gap=".2rem">
         <ExternalLink
-          style={{ width: '30%', display: 'flex' }}
-          href={getEtherscanLink(chainId ?? ChainId.MAINNET, pairAddress, 'contract')}
+          style={{ width: '20%', display: 'flex' }}
+          href={getEtherscanLink(chainId ?? ChainId.MAINNET, pair.liquidityToken.address, 'contract')}
         >
           <CurrencyLogo currency={currency0} size="1.2rem" />
           &nbsp;
@@ -75,18 +69,71 @@ MarketCardProps) {
             {currency1?.symbol}
           </TYPE.white>
         </ExternalLink>
-        <AutoRow style={{ width: '15%' }}>
-          <TYPE.yellow>{currencyFormatter.format(liquidity)}</TYPE.yellow>
+        <AutoRow style={{ width: '13%' }}>
+          <TYPE.yellow>{currencyFormatter.format(Number(liquidity))}</TYPE.yellow>
         </AutoRow>
-        <MobileHidden style={{ width: '15%' }}>
-          <TYPE.yellow>{dailyVolume ? `$ ${dailyVolume}` : '-'}</TYPE.yellow>
+        <MobileHidden style={{ width: '13%' }}>
+          <TYPE.yellow>{dailyVolume ? `$ ${dailyVolume}` : 'Coming Soon'}</TYPE.yellow>
         </MobileHidden>
-        <MobileHidden style={{ width: '15%' }}>
+        <MobileHidden style={{ width: '13%' }}>
           <TYPE.yellow>{apy ? `${apy} %` : '-'}</TYPE.yellow>
         </MobileHidden>
-        <MobileHidden style={{ width: '15%' }}>
+        <MobileHidden style={{ width: '13%' }}>
           <TYPE.yellow>{stakingAddress ? 'Active' : 'Inactive'}</TYPE.yellow>
         </MobileHidden>
+        <ButtonPrimary
+          padding="8px"
+          borderRadius="8px"
+          width="10%"
+          height={45}
+          style={{ color: '#000' }}
+          onClick={(e) => {
+            e.preventDefault();
+            window.location.href = `#/swap/${currency0 === ETHER ? ETHER.symbol : pair.token0?.address}/${
+              currency1 === ETHER ? ETHER.symbol : pair.token1?.address
+            }`;
+          }}
+        >
+          <ResponsiveSizedTextMedium fontWeight="0.7rem" style={{ color: theme.text5 }}>
+            Swap
+          </ResponsiveSizedTextMedium>
+        </ButtonPrimary>
+        <ButtonPrimary
+          padding="8px"
+          borderRadius="8px"
+          width="10%"
+          height={45}
+          style={{ color: '#000' }}
+          onClick={(e) => {
+            e.preventDefault();
+            window.location.href = `#/add/${currency0 === ETHER ? ETHER.symbol : pair.token0?.address}/${
+              currency1 === ETHER ? ETHER.symbol : pair.token1?.address
+            }`;
+          }}
+        >
+          <ResponsiveSizedTextMedium fontWeight="0.7rem" style={{ color: theme.text5 }}>
+            Get LP
+          </ResponsiveSizedTextMedium>
+        </ButtonPrimary>
+        <ButtonEmpty
+          padding="0px"
+          borderRadius="6"
+          width={isMobile ? '100%' : '3%'}
+          onClick={() => setShowMore(!showMore)}
+        >
+          {showMore ? (
+            <>
+              {/* {' '}
+                  Manage */}
+              <ChevronUp size="20" style={{ marginLeft: '0px', color: '#fff' }} />
+            </>
+          ) : (
+            <>
+              {/* Manage */}
+              <ChevronDown size="20" style={{ marginLeft: '0px', color: '#fff' }} />
+            </>
+          )}
+        </ButtonEmpty>
       </AutoRow>
     </LightCard>
   );

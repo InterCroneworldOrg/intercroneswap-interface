@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { StyledHeading } from '../App';
 import { PageWrapper } from '../Stake/styleds';
 import { LightCard } from '../../components/Card';
-import { AutoRow, RowBetween } from '../../components/Row';
+import { RowBetween } from '../../components/Row';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import MarketCard from '../../components/markets/MarketCard';
 import { ChainId, Token } from '@intercroneswap/v2-sdk';
@@ -12,6 +12,9 @@ import { AutoColumn } from '../../components/Column';
 import { getTokensFromDefaults } from '../../constants/tokens';
 import { StakingRewardsInfo, REWARDS_DURATION_DAYS_180, REWARDS_DURATION_DAYS } from '../../state/stake/constants';
 import { useActiveWeb3React } from '../../hooks';
+import useInterval from '../../hooks/useInterval';
+import { BACKEND_URL } from '../../constants';
+import { useMarkets, MarketInfo } from '../../hooks/useMarkets';
 
 const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): boolean => {
   if (!tokens2) {
@@ -25,58 +28,6 @@ const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): 
   return true;
 };
 
-interface MarketData {
-  pairAddress: string;
-  token0: Token;
-  token1: Token;
-  liquidity: number;
-  dailyVolume: number;
-}
-
-const convertRawInfoToTokenAmounts = (pairInfo: any): MarketData | undefined => {
-  if (pairInfo) {
-    try {
-      const tokenA = new Token(
-        ChainId.MAINNET,
-        pairInfo.tokenAHex.replace('41', '0x'),
-        Number(pairInfo.tokenADecimal),
-        pairInfo.tokenAAbbr,
-        pairInfo.tokenAName,
-      );
-      // const tokenABalance = JSBI.multiply(
-      //   JSBI.BigInt(Math.trunc(Number(pairInfo.tokenA_balance))),
-      //   JSBI.multiply(TEN, JSBI.BigInt(Number(pairInfo.tokenA_Decimal))),
-      // );
-
-      // const tokenAAmount = new TokenAmount(tokenA, tokenABalance);
-      const tokenB = new Token(
-        ChainId.MAINNET,
-        pairInfo.tokenBHex.replace('41', '0x'),
-        Number(pairInfo.tokenBDecimal),
-        pairInfo.tokenBAbbr,
-        pairInfo.tokenBName,
-      );
-      // const tokenBBalance = JSBI.multiply(
-      //   JSBI.BigInt(Math.trunc(Number(pairInfo.tokenB_Balance))),
-      //   JSBI.multiply(TEN, JSBI.BigInt(Number(pairInfo.tokenB_Decimal))),
-      // );
-      // const tokenBAmount = new TokenAmount(tokenB, tokenBBalance);
-      // const pair = new Pair(tokenAAmount, tokenBAmount, pairInfo.pair_hex.replace('41', '0x'));
-      return {
-        token0: tokenA,
-        token1: tokenB,
-        liquidity: pairInfo.liquidityinUSD,
-        dailyVolume: pairInfo.volumen24H,
-        pairAddress: pairInfo.pairHex,
-      };
-    } catch (error) {
-      console.error(error, 'Error while creating pair');
-      return undefined;
-    }
-  }
-  return undefined;
-};
-
 let stakingInfosRaw: {
   [chainId: number]: {
     [version: string]: {
@@ -87,21 +38,6 @@ let stakingInfosRaw: {
 fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
   .then((response) => response.json())
   .then((data) => (stakingInfosRaw = data));
-let marketInfosRaw: any[];
-const allPairs: MarketData[] = [];
-
-fetch('https://api.intercroneswap.com/api/v1/getallpairs/tron?size=100&page=0')
-  .then((response) => response.json())
-  .then((data) => {
-    marketInfosRaw = data?.pairs;
-    marketInfosRaw.map((pairInfo) => {
-      const pair = convertRawInfoToTokenAmounts(pairInfo);
-      if (pair && pair.liquidity > 0) {
-        allPairs.push(pair);
-      }
-    });
-    allPairs.sort((pairA, pairB) => pairB.liquidity - pairA.liquidity);
-  });
 
 export default function Markets() {
   const { t } = useTranslation();
@@ -110,10 +46,29 @@ export default function Markets() {
   const { chainId } = useActiveWeb3React();
   const inputRef = useRef<HTMLInputElement>();
   const [searchQuery, setSearchQuery] = useState<string>('');
-  // const trackedTokenPairs = useTrackedTokenPairs();
-  // const v1Pairs = usePairs(allPairs);
-  // const allPairsLoaded = v1Pairs.map(([, pair]) => pair).filter((v1Pair): v1Pair is Pair => Boolean(v1Pair));
-  // const pairsWithLiquidity = allPairsLoaded.filter((pair) => pair.reserve0.greaterThan(ZERO)).reverse();
+  const [pairInfos, setPairInfos] = useState<any[]>([]);
+  useInterval(() => {
+    const fetchData = async () => {
+      const response = await (await fetch(`${BACKEND_URL}/pairs/markets?chainId=${chainId && ChainId.MAINNET}`)).json();
+      setPairInfos(response.data);
+    };
+    fetchData();
+  }, 1000 * 30);
+  const markets = useMarkets(pairInfos);
+
+  const marketList = useMemo(() => {
+    if (searchQuery) {
+      return markets?.filter((info: MarketInfo) => {
+        return (
+          info.pair.token0.symbol?.toLowerCase().includes(searchQuery) ||
+          info.pair.token0.name?.toLowerCase().includes(searchQuery) ||
+          info.pair.token1.symbol?.toLowerCase().includes(searchQuery) ||
+          info.pair.token1.name?.toLowerCase().includes(searchQuery)
+        );
+      });
+    }
+    return markets;
+  }, [markets, searchQuery]);
 
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];
@@ -155,9 +110,16 @@ export default function Markets() {
       <StyledHeading>Markets</StyledHeading>
       <PageWrapper>
         <LightCard style={{ marginTop: '20px' }}>
-          <AutoColumn gap="1.5rem" justify="center">
+          <AutoColumn gap="1rem" justify="center">
             <RowBetween>
-              <TYPE.white>Top Pools</TYPE.white>
+              <TYPE.white style={{ fontSize: '2rem' }}>Top Pools</TYPE.white>
+            </RowBetween>
+            <RowBetween style={{ padding: '0rem 3rem' }}>
+              <TYPE.white width="20%">Pair</TYPE.white>
+              <TYPE.white width="13%">Liquidity</TYPE.white>
+              <TYPE.white width="13%">24h volume</TYPE.white>
+              <TYPE.white width="13%">APY</TYPE.white>
+              <TYPE.white width="13%">LP Staking</TYPE.white>
               <SearchInput
                 type="text"
                 id="token-search-input"
@@ -166,31 +128,22 @@ export default function Markets() {
                 ref={inputRef as RefObject<HTMLInputElement>}
                 onChange={handleInput}
                 onKeyDown={handleEnter}
-                width="1rem"
-                style={{ fontSize: '.9rem', width: isMobile ? '57%' : '194px' }}
+                style={{ fontSize: '.9rem', width: isMobile ? '57%' : '25%' }}
               />
             </RowBetween>
-            <AutoRow style={{ padding: '0rem 3rem' }}>
-              <TYPE.white width="30%">Pair</TYPE.white>
-              <TYPE.white width="15%">Liquidity</TYPE.white>
-              <TYPE.white width="15%">24h volume</TYPE.white>
-              <TYPE.white width="15%">APY</TYPE.white>
-              <TYPE.white width="15%">LP Staking</TYPE.white>
-            </AutoRow>
             <Divider />
-            {allPairs &&
-              allPairs.length > 0 &&
-              allPairs.map((pair, index) => (
+            {marketList &&
+              marketList.length > 0 &&
+              marketList.map((market) => (
                 <>
                   <MarketCard
-                    key={pair.pairAddress}
-                    tokens={[pair.token0, pair.token1]}
-                    dailyVolume={pair.dailyVolume}
-                    liquidity={pair.liquidity}
-                    pairAddress={pair.pairAddress}
+                    key={market.pair.liquidityToken.address}
+                    pair={market.pair}
+                    liquidity={market.usdAmount}
                     stakingAddress={
-                      stakingRewardInfos.find((info) => tokenPairsAreEqual(info.tokens, [pair.token0, pair.token1]))
-                        ?.stakingRewardAddress
+                      stakingRewardInfos.find((info) =>
+                        tokenPairsAreEqual(info.tokens, [market.pair.token0, market.pair.token1]),
+                      )?.stakingRewardAddress
                     }
                   />
                 </>
