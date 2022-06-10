@@ -76,7 +76,7 @@ MarketCardProps) {
           <TYPE.yellow>{dailyVolume ? `$ ${dailyVolume}` : 'Coming Soon'}</TYPE.yellow>
         </MobileHidden>
         <MobileHidden style={{ width: '13%' }}>
-          <TYPE.yellow>{apy ? `${apy} %` : '-'}</TYPE.yellow>
+          <TYPE.yellow>{apy ? `${apy} %` : 'Coming Soon'}</TYPE.yellow>
         </MobileHidden>
         <MobileHidden style={{ width: '13%' }}>
           <TYPE.yellow>{stakingAddress ? 'Active' : 'Inactive'}</TYPE.yellow>

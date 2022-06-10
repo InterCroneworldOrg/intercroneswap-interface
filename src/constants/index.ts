@@ -199,3 +199,4 @@ export const BETTER_TRADE_LINK_THRESHOLD = new Percent(JSBI.BigInt(75), JSBI.Big
 export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(JSBI.BigInt(50), BIPS_BASE);
 
 export const BACKEND_URL = 'https://apiv2.intercroneswap.com';
+// export const BACKEND_URL = 'http://localhost:8080';
