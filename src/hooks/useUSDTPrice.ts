@@ -9,7 +9,7 @@ import { useBestV2Trade } from './useBestV2Trade';
 
 // The amount is large enough to filter low liquidity pairs.
 export const STABLECOIN_AMOUNT_OUT: { [chainId: number]: TokenAmount } = {
-  [ChainId.MAINNET]: new TokenAmount(USDT, 10000),
+  [ChainId.MAINNET]: new TokenAmount(USDT, 100),
 };
 
 /**

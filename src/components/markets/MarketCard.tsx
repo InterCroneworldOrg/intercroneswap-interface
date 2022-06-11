@@ -11,6 +11,7 @@ import { useWeb3React } from '@web3-react/core';
 import { ButtonEmpty, ButtonPrimary } from '../Button';
 import { ChevronUp, ChevronDown } from 'react-feather';
 import { ResponsiveSizedTextMedium } from '../earn/styleds';
+import MarketDetails from './MarketDetails';
 
 export interface MarketCardProps {
   pair: Pair;
@@ -135,6 +136,7 @@ MarketCardProps) {
           )}
         </ButtonEmpty>
       </AutoRow>
+      {showMore && <MarketDetails pair={pair} />}
     </LightCard>
   );
 }
