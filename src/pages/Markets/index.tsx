@@ -18,6 +18,7 @@ import { useMarkets, MarketInfo } from '../../hooks/useMarkets';
 import { RouteComponentProps } from 'react-router-dom';
 import { Pagination } from 'react-bootstrap';
 import { ThemeContext } from 'styled-components';
+import { MarketHeader } from './styleds';
 
 const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): boolean => {
   if (!tokens2) {
@@ -132,7 +133,7 @@ export default function Markets({
                 <TYPE.white style={{ fontSize: '2rem' }}>Top Pools</TYPE.white>
               </RowBetween>
             )}
-            <RowBetween style={{ padding: '0rem 3rem' }}>
+            <MarketHeader>
               <TYPE.white width="20%">Pair</TYPE.white>
               <TYPE.white width="13%">Liquidity</TYPE.white>
               <TYPE.white width="13%">24h volume</TYPE.white>
@@ -148,7 +149,7 @@ export default function Markets({
                 onKeyDown={handleEnter}
                 style={{ fontSize: '.9rem', width: isMobile ? '57%' : '25%' }}
               />
-            </RowBetween>
+            </MarketHeader>
             <Divider />
             {marketList &&
               marketList.length > 0 &&
