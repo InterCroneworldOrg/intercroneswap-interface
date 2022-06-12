@@ -8,7 +8,6 @@ import { ButtonEmpty } from '../Button';
 import CurrencyLogo from '../CurrencyLogo';
 import { unwrappedToken } from '../../utils/wrappedCurrency';
 import { GreyCard } from '../Card';
-import { AutoColumn } from '../Column';
 import useCoinGeckoInfo from '../../hooks/useCoinGeckoInfo';
 import { currencyFormatter } from '../../utils';
 import useUSDTPrice from '../../hooks/useUSDTPrice';
@@ -61,10 +60,11 @@ export default function MarketDetails({ pair }: MarketDetailsParams) {
     <AutoColumnToRow padding="0 2rem">
       {!isMobile && <Divider />}
       <RowBetween>
-        <GreyCard style={{ width: '15%' }} alignItems="center" padding="0rem 2rem">
+        <GreyCard style={{ width: '15%' }} alignItems="center" padding="0rem 1rem">
           <ButtonEmpty
             selected={activeTokenAmount.token.equals(pair.token0)}
             onClick={() => setActiveTokenAmount(pair.reserve0)}
+            style={{ width: '100%' }}
           >
             <CurrencyLogo currency={currency0} style={{ marginRight: '.5rem' }} />
             <TYPE.white>{currency0?.symbol}</TYPE.white>
@@ -72,53 +72,62 @@ export default function MarketDetails({ pair }: MarketDetailsParams) {
           <ButtonEmpty
             selected={activeTokenAmount.token.equals(pair.token1)}
             onClick={() => setActiveTokenAmount(pair.reserve1)}
+            style={{ width: '100%' }}
           >
             <CurrencyLogo currency={currency1} style={{ marginRight: '.5rem' }} />
             <TYPE.white>{currency1?.symbol}</TYPE.white>
           </ButtonEmpty>
         </GreyCard>
-        <AutoRow style={{ width: '35%' }}>
-          <AutoColumn style={{ margin: '0 2rem' }}>
+        <AutoRow style={{ width: '40%' }}>
+          <RowBetween>
             <TYPE.white>Liquidity</TYPE.white>
-            <TYPE.white>Circulating Supply</TYPE.white>
-            <TYPE.white>Contract address</TYPE.white>
-            <TYPE.white>Market cap</TYPE.white>
-          </AutoColumn>
-          <AutoColumn style={{ textAlign: 'right' }}>
-            {/* <FormattedCurrencyAmount currencyAmount={activeTokenAmount} /> */}
             <TYPE.yellow>{activeTokenAmount.toSignificant(4)}</TYPE.yellow>
+          </RowBetween>
+          <RowBetween>
+            <TYPE.white>Circulating Supply</TYPE.white>
             <TYPE.yellow>{geckoInfo.circulatingSupply}</TYPE.yellow>
+          </RowBetween>
+          <RowBetween>
+            <TYPE.white>Contract address</TYPE.white>
             <TYPE.yellow>{truncatedAddress}</TYPE.yellow>
+          </RowBetween>
+          <RowBetween>
+            <TYPE.white>Market cap</TYPE.white>
             <TYPE.yellow>{currencyFormatter.format(Number(geckoInfo.marketCap))}</TYPE.yellow>
-          </AutoColumn>
+          </RowBetween>
         </AutoRow>
-        <AutoRow style={{ width: '35%' }}>
-          <AutoColumn style={{ margin: '0 2rem' }}>
+        <AutoRow style={{ width: '40%' }}>
+          <RowBetween>
             <TYPE.white>Market Cap Rank</TYPE.white>
+            <TYPE.yellow>{geckoInfo.marketCapRank ?? '-'}</TYPE.yellow>
+          </RowBetween>
+          <RowBetween>
             <TYPE.white>Trading Volume 24H</TYPE.white>
+            <TYPE.yellow>{currencyFormatter.format(geckoInfo.marketCapChange24h) ?? '-'}</TYPE.yellow>
+          </RowBetween>
+          <RowBetween>
             <TYPE.white>Price</TYPE.white>
+
+            <TYPE.yellow>
+              {`$ ${
+                activeTokenAmount.token === pair.token0 ? price0?.adjusted.toFixed(4) : price1?.adjusted.toFixed(4)
+              }`}
+            </TYPE.yellow>
+          </RowBetween>
+          <RowBetween style={{ textAlign: 'right' }}>
             <ExternalLink
               href={`https://www.coingecko.com/en/coins/${geckoInfo?.id}`}
               style={{ color: 'white', textDecorationLine: 'underline' }}
             >
               View on CoinGecko
             </ExternalLink>
-          </AutoColumn>
-          <AutoColumn style={{ textAlign: 'right' }}>
-            <TYPE.yellow>{geckoInfo.marketCapRank ?? '-'}</TYPE.yellow>
-            <TYPE.yellow>{currencyFormatter.format(geckoInfo.marketCapChange24h) ?? '-'}</TYPE.yellow>
-            <TYPE.yellow>
-              {`$ ${
-                activeTokenAmount.token === pair.token0 ? price0?.adjusted.toFixed(4) : price1?.adjusted.toFixed(4)
-              }`}
-            </TYPE.yellow>
             <ExternalLink
               href={`https://www.coingecko.com/en/coins/${geckoInfo?.id}`}
               style={{ color: 'white', textDecorationLine: 'underline' }}
             >
               View Chart
             </ExternalLink>
-          </AutoColumn>
+          </RowBetween>
         </AutoRow>
       </RowBetween>
     </AutoColumnToRow>
