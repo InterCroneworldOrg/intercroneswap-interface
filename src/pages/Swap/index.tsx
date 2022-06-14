@@ -6,6 +6,8 @@ import styled, { ThemeContext } from 'styled-components';
 import AddressInputPanel from '../../components/AddressInputPanel';
 import { ButtonError, ButtonPrimary, ButtonConfirmed } from '../../components/Button';
 import { GreyCard } from '../../components/Card';
+// Card,
+import Settings from '../../components/Settings';
 import Column, { AutoColumn } from '../../components/Column';
 import ConfirmSwapModal from '../../components/swap/ConfirmSwapModal';
 import CurrencyInputPanel from '../../components/CurrencyInputPanel';
@@ -42,6 +44,33 @@ import Loader from '../../components/Loader';
 import { ReactComponent as YellowArrowDown } from '../../assets/images/arrow-down-yellow.svg';
 import AdvancedSwapDetailsDropdown from '../../components/swap/AdvancedSwapDetailsDropdown';
 import { StyledHeading } from '../App';
+const AppBodyContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const AppAdvancedSetting = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h3 {
+    color: white;
+  }
+  .advs {
+    display: flex;
+    align-items: center;
+    p {
+      color: white;
+    }
+  }
+  @media (max-width: 768px) {
+    h3,
+    span {
+      font-size: 16px;
+    }
+  }
+`;
 const StyledArrowDown = styled(YellowArrowDown)``;
 
 export default function Swap() {
@@ -274,10 +303,19 @@ export default function Swap() {
       />
       <Container>
         <AppBody>
-          <RowBetween>
-            <TYPE.white>Exchange</TYPE.white>
-          </RowBetween>
-          <Divider />
+          <AppBodyContainer>
+            {/* <BelowAppbody></BelowAppbody> */}
+            {/* <BelowAppbody1></BelowAppbody1> */}
+          </AppBodyContainer>
+          <AppAdvancedSetting>
+            <h3>Exchange</h3>
+            <div className="advs">
+              <span>
+                <Settings />
+              </span>
+            </div>
+          </AppAdvancedSetting>
+          {/* <SwapPoolTabs active={'swap'} /> */}
           <Wrapper id="swap-page">
             <ConfirmSwapModal
               isOpen={showConfirm}

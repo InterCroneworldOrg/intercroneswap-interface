@@ -12,7 +12,7 @@ import { isMobile } from '../../theme';
 import downarrow from '../../assets/images/downarrow.png';
 import uparrow from '../../assets/images/uparrow.png';
 import { useCallback, useState } from 'react';
-import Settings from '../Settings';
+
 import { Box } from 'rebass';
 import Blockchains from '../Blockchains';
 
@@ -163,7 +163,7 @@ export default function Header() {
           <PriceCard />
           <Web3Status />
         </AccountElement>
-        <Settings />
+        {/* <Settings /> */}
       </HeaderLinks>
     );
   }, []);

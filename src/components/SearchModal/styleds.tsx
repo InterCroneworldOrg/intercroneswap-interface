@@ -53,7 +53,7 @@ export const SearchInput = styled.input`
   // border: 1px solid ${({ theme }) => theme.bg3};
   -webkit-appearance: none;
 
-  font-size: 3rem;
+  font-size: 16px;
 
   ::placeholder {
     color: ${({ theme }) => theme.text3};
