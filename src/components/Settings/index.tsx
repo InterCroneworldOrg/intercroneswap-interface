@@ -63,6 +63,11 @@ const StyledMenuButton = styled.button`
   padding: 0.15rem 0.5rem;
   border-radius: 0.5rem;
 
+  span {
+    color: white;
+    margin-right: 10px;
+  }
+
   :hover,
   :focus {
     cursor: pointer;
@@ -191,6 +196,7 @@ export default function SettingsTab() {
         </ModalContentWrapper>
       </Modal>
       <StyledMenuButton onClick={toggle} id="open-settings-dialog-button">
+        <span>Advanced Settings</span>
         <StyledMenuIcon />
         {expertMode ? (
           <EmojiWrapper>

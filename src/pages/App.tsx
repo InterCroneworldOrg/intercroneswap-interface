@@ -36,7 +36,7 @@ import Mint from './Mint';
 // import Home from './Home';
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects';
 import { RedirectToReferal } from './Stake/redirects';
-import ChessLarge from '../assets/images/chess-big-icon.png';
+
 import { isMobile } from '../theme';
 import Markets from './Markets';
 // import Vote from './Vote'
@@ -60,17 +60,6 @@ const FooterWrapper = styled.footer`
   padding: 30px 0 15px 0;
   justify-content: space-between;
   background: linear-gradient(180deg, rgba(28, 28, 28, 0) 0%, rgba(51, 51, 51, 0.4) 18.21%, #333333 38.13%);
-`;
-
-const ChessIcon = styled.div`
-  background: url(${ChessLarge});
-  height: 581px;
-  width: 294px;
-  overflow: hidden;
-  margin-left: 7rem;
-  margin-bottom: -15px;
-  border-radius: 0px;
-  opacity: 0.7;
 `;
 
 const BodyWrapper = styled.div`
@@ -118,6 +107,9 @@ export const StyledHeading = styled.h1`
   font-size:50px;
   line-height: 66px;
 `};
+  @media (max-width: 768px) {
+    font-size: 26px;
+  }
 `;
 
 // function TopLevelModals() {
@@ -192,11 +184,10 @@ export default function App() {
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
           </Web3ReactManager>
-          <Marginer />
+          {!isMobile && <Marginer />}
         </BodyWrapper>
         <FooterWrapper>
           <Footer />
-          {!isMobile && <ChessIcon />}
         </FooterWrapper>
       </AppWrapper>
     </Suspense>
