@@ -316,6 +316,11 @@ export default function Swap() {
             </div>
           </AppAdvancedSetting>
           {/* <SwapPoolTabs active={'swap'} /> */}
+
+          {/* <RowBetween>
+            <TYPE.white>Exchange</TYPE.white>
+          </RowBetween> */}
+          <Divider />
           <Wrapper id="swap-page">
             <ConfirmSwapModal
               isOpen={showConfirm}
