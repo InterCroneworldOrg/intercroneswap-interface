@@ -250,6 +250,10 @@ const Menu: React.FC<NavProps> = ({
                   <a href="/stake/" className={`${Style.link} nav-link`}>
                     🔥 Staking
                   </a>
+                  <a href="/markets/" className={`${Style.link} nav-link`}>
+                    🔥 Markets
+                  </a>
+                  
                   <a href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                     NFT
                   </a>

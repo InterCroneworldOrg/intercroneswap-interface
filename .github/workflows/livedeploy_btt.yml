@@ -50,6 +50,7 @@ jobs:
 
       - name: Cache node_modules
         uses: actions/cache@v2
+        continue-on-error: true
         with:
           path: |
             ${{ github.workspace }}/${{ github.ref_name }}/node_modules
