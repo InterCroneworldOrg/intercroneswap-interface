@@ -12,8 +12,8 @@ export function useMarkets(marketInfos: any[]): MarketInfo[] | null {
 
   return useMemo(() => {
     return marketInfos.map((marketInfo) => {
-      const tokenAInfo = marketInfo.Pair.TokenAmount0
-      const tokenBInfo = marketInfo.Pair.TokenAmount1
+      const tokenAInfo = marketInfo.pair.tokenAmount0
+      const tokenBInfo = marketInfo.pair.tokenAmount1
       const tokenA = new Token(
         tokenAInfo.chain_id,
         tokenAInfo.address,
