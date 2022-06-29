@@ -13,6 +13,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { ExternalLink } from '../../theme';
 import { isMobile } from 'react-device-detect';
+import { Link } from 'react-router-dom';
 
 const SocialIconWrapper = styled.div`
   margin: 25px auto;
@@ -48,8 +49,10 @@ const NFT: React.FC = () => {
           <img src={Anime} alt="" />
         </div>
         <div className="textandbtn">
-          <p>WELCOME TO INTERCRONE WORLD ABITRON</p>
-          <button>Mint now !</button>
+          <p>WELCOME TO INTERCRONE WORLD ARBISWAP</p>
+          <Link as to="/mint">
+            <button>Mint now !</button>
+          </Link>
         </div>
       </div>
       <Container>
@@ -102,10 +105,10 @@ const NFT: React.FC = () => {
           </Col>
           <Col md={6}>
             <Col md={12}>
-              <h3>I am ArbiTRON.</h3>
+              <h3>I am ArbiSwap.</h3>
               <p>I only make trades, when i make profits for you!</p>
               {isMobile && <img src={Anime} alt="" />}
-              <button>get ArbiTRON NOW</button>
+              <button>get ArbiSwap NOW</button>
             </Col>
           </Col>
         </Row>
@@ -128,7 +131,7 @@ const NFT: React.FC = () => {
               </Accordion.Item>
               <Accordion.Item eventKey="1">
                 <Accordion.Header onClick={() => toggleActive()} className={active ? 'active' : 'notactive'}>
-                  How much will it cost to mint an Arbitron?
+                  How much will it cost to mint an ArbiSwap?
                 </Accordion.Header>
                 <Accordion.Body>2000 TRX</Accordion.Body>
               </Accordion.Item>
