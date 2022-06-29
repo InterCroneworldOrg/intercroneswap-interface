@@ -50,7 +50,7 @@ const NFT: React.FC = () => {
         </div>
         <div className="textandbtn">
           <p>WELCOME TO INTERCRONE WORLD ARBISWAP</p>
-          <Link as to="/mint">
+          <Link to="/mint">
             <button>Mint now !</button>
           </Link>
         </div>
