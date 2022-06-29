@@ -54,6 +54,20 @@ export const AutoRow = styled(Row)<{ gap?: string; justify?: string }>`
   & > * {
     margin: ${({ gap }) => gap} !important;
   }
+
+  @media (max-width: 768px) {
+    a {
+      width: 33%;
+    }
+    a:nth-child(4) {
+      width: 50%;
+      text-align: center;
+    }
+    a:nth-child(5) {
+      width: 50%;
+      text-align: center;
+    }
+  }
 `;
 
 const HeaderLinks = styled(Row)`
