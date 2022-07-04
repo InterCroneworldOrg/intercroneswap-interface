@@ -33,6 +33,7 @@ import Swap from './Swap';
 import Sample from './Sample';
 import NFT from './NFT';
 import Mint from './Mint';
+import NotFound from './404';
 // import Home from './Home';
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects';
 import { RedirectToReferal } from './Stake/redirects';
@@ -146,6 +147,7 @@ export default function App() {
           {/* <TopLevelModals /> */}
           <Web3ReactManager>
             <Switch>
+              <Route exact strict path="/" component={Swap} />
               <Route exact strict path="/swap" component={Swap} />
               <Route exact strict path="/nft" component={NFT} />
               <Route exact strict path="/mint" component={Mint} />
@@ -181,7 +183,7 @@ export default function App() {
               {/* <Route exact strict path="/migrate/v" component={MigrateV} /> */}
               {/* <Route exact strict path="/migrate/v/:address" component={MigrateVExchange} /> */}
               {/* <Route exact strict path="/vote/:id" component={VotePage} /> */}
-              <Route component={RedirectPathToSwapOnly} />
+              <Route component={NotFound} />
             </Switch>
           </Web3ReactManager>
           {!isMobile && <Marginer />}
