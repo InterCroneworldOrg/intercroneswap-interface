@@ -14,7 +14,7 @@ import MintModal from './MintModal';
 
 const MINT: React.FC = () => {
   const mintInfos = useAbiBotMintInfo(['0x09D7BF82A90D5D4A5C5CB46C6D25989FC0373856']);
-  const [selectedBot, setSelectedBot] = useState<ArbiNFTInfo | undefined>(mintInfos[0]);
+  const [selectedBot, setSelectedBot] = useState<ArbiNFTInfo>(mintInfos[0]);
   const { onUserInput, onTxHashChange } = useAbiBotActionHandlers();
   const { typedValue } = useAbiBotState();
 
@@ -26,7 +26,7 @@ const MINT: React.FC = () => {
     onTxHashChange('');
   }, [showMint, selectedBot]);
 
-  console.log('mintInfos: ', mintInfos, selectedBot);
+  console.log('mintInfos: ', selectedBot);
   const increaseMintAmount = useCallback(() => {
     console.log('increasing mint amount');
 
@@ -52,9 +52,7 @@ const MINT: React.FC = () => {
               mintInfos.map((info, index) => (
                 <div key={index} className="imgparent">
                   <p>{info.maxMintAmount - info.totalSupply} Left</p>
-                  <button onClick={() => setSelectedBot(info)}>
-                    <img src={ApiTron} alt="" />
-                  </button>
+                  <img onClick={() => setSelectedBot(info)} src={ApiTron} alt="" />
                   <div>
                     <img className="arrow" src={Arrow} alt="" />
                     <p>earn ICR</p>
