@@ -17,13 +17,12 @@ import { GreyCard } from '../../components/Card';
 import { TruncatedText } from '../../components/swap/styleds';
 import { ETHER, JSBI } from '@intercroneswap/v2-sdk';
 import CurrencyLogo from '../../components/CurrencyLogo';
-import { ethAddress } from '@intercroneswap/java-tron-provider';
 import { TYPE } from '../../theme';
 
 export interface MintModalProps {
   isOpen: boolean;
   onDismiss: () => void;
-  mintInfo: ArbiNFTInfo | undefined;
+  mintInfo: ArbiNFTInfo;
 }
 
 export default function MintModal({ isOpen, onDismiss, mintInfo }: MintModalProps) {
@@ -31,53 +30,54 @@ export default function MintModal({ isOpen, onDismiss, mintInfo }: MintModalProp
   const { onTxHashChange, onAttemptingTxn } = useAbiBotActionHandlers();
   const theme = useContext(ThemeContext);
 
-  console.log(mintInfo, 'mintInfo');
-
   const mintState = useAbiBotState();
 
   const addTransaction = useTransactionAdder();
-  async function doMint() {
+
+  const doMint = useCallback(() => {
     if (!chainId || !library || !account) {
       return;
     }
 
-    const address = ethAddress.toTron(mintInfo?.mintAddress);
-    console.log(address, 'ethaddress');
+    const contract = getArbiMintContract(chainId, mintInfo.mintAddress, library, account);
+    console.log('contract', contract);
 
-    const arbiNFTContract = getArbiMintContract(chainId, address, library, account);
-
-    const estimate = arbiNFTContract.estimateGas.mint;
-    const method: (...args: any) => Promise<TransactionResponse> = arbiNFTContract.mint;
+    if (!mintState?.typedValue) {
+      return;
+    }
+    const estimate = contract.estimateGas.mint;
+    const method: (...args: any) => Promise<TransactionResponse> = contract.mint;
     const args: Array<string | string[] | number> = [mintState.typedValue];
 
     onAttemptingTxn(true);
-
-    await estimate(...args, {}).then(() => {
-      method(...args, {
-        ...{},
-        gasLimit: DEFAULT_FEE_LIMIT,
-      })
-        .then((response) => {
+    estimate(...args, {})
+      .then(() =>
+        method(...args, {
+          ...{},
+          gasLimit: DEFAULT_FEE_LIMIT,
+        }).then((response) => {
           onAttemptingTxn(false);
-          addTransaction(response, {
-            summary: `Minted ${mintState.typedValue}`,
-          });
 
-          ReactGA.event({
-            category: 'Abitrage Mint',
-            action: 'mint',
-            label: mintInfo?.mintAddress,
+          addTransaction(response, {
+            summary: `Mint ${mintState.typedValue} NFTs`,
           });
 
           onTxHashChange(response.hash);
-        })
-        .catch((err) => {
-          onAttemptingTxn(false);
-          if (err?.code !== 4001) console.error(err);
-        });
-    });
-  }
 
+          ReactGA.event({
+            category: 'Mint',
+            action: 'mint',
+            label: `Minted ${mintState.typedValue} Arbibot NFT Tokens`,
+          });
+        }),
+      )
+      .catch((err) => {
+        onAttemptingTxn(false);
+        if (err?.code !== 4001) {
+          console.error(err);
+        }
+      });
+  }, [account, mintInfo, isOpen, mintState.typedValue]);
   const [approval, approveCallback] = useApproveCallback(mintInfo?.cost, mintInfo?.mintAddress);
 
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
@@ -114,7 +114,7 @@ export default function MintModal({ isOpen, onDismiss, mintInfo }: MintModalProp
         )}
       </AutoColumn>
     );
-  }, [mintInfo]);
+  }, [mintInfo, mintState]);
 
   const modalHeader = useCallback(() => {
     return (
@@ -131,7 +131,7 @@ export default function MintModal({ isOpen, onDismiss, mintInfo }: MintModalProp
         <RowBetween style={{ background: theme.bg3, borderRadius: '6px' }}></RowBetween>
       </AutoColumn>
     );
-  }, [mintInfo]);
+  }, [mintInfo, mintState]);
 
   const confirmationContent = useCallback(() => {
     return (
@@ -142,7 +142,7 @@ export default function MintModal({ isOpen, onDismiss, mintInfo }: MintModalProp
         bottomContent={modalBottom}
       />
     );
-  }, []);
+  }, [mintInfo, mintState]);
 
   const pendingText = `Minting ${mintState.typedValue} arbiBot NFTs`;
 

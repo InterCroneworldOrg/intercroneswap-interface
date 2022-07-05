@@ -36,6 +36,8 @@ export default function HarvestModal({ isOpen, onDismiss, stakingAddress, balanc
     }
 
     const stakingContract = getStakingContract(chainId, stakingAddress, library, account);
+    console.log('stakingContract', stakingContract);
+
     const estimate = stakingContract.estimateGas.getReward;
     const method: (...args: any) => Promise<TransactionResponse> = stakingContract.getReward;
     onAttemptingTxn(true);
