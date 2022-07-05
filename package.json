@@ -10,6 +10,7 @@
     "@ethersproject/experimental": "^5.0.1",
     "@intercroneswap/token-lists": "^0.0.5",
     "@intercroneswap/v1-core": "^0.0.6",
+    "@intercroneswap/v2-abitragenft": "^0.0.1",
     "@intercroneswap/v2-periphery": "0.1.2-trx",
     "@intercroneswap/v2-sdk": "1.0.3-trx",
     "@intercroneswap/v2-staking": "^0.0.2",
