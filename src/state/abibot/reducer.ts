@@ -8,7 +8,7 @@ export interface AbiBotState {
 }
 
 const initialState: AbiBotState = {
-  typedValue: '',
+  typedValue: '1',
   txHash: '',
   attemptingTxn: false,
 };
