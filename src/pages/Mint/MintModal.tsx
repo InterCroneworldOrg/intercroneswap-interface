@@ -1,8 +1,6 @@
-import { useTransactionAdder } from '../../state/transactions/hooks';
+// import { useTransactionAdder } from '../../state/transactions/hooks';
 import { DEFAULT_FEE_LIMIT } from '../../tron-config';
 import ReactGA from 'react-ga';
-import { getArbiMintContract } from '../../utils';
-import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { useActiveWeb3React } from '../../hooks';
 import { ArbiNFTInfo, useAbiBotActionHandlers, useAbiBotState } from '../../state/abibot/hooks';
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback';
@@ -18,6 +16,8 @@ import { TruncatedText } from '../../components/swap/styleds';
 import { ETHER, JSBI } from '@intercroneswap/v2-sdk';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import { TYPE } from '../../theme';
+import { ethAddress } from '@intercroneswap/java-tron-provider';
+import { useTransactionAdder } from '../../state/transactions/hooks';
 
 export interface MintModalProps {
   isOpen: boolean;
@@ -27,56 +27,55 @@ export interface MintModalProps {
 
 export default function MintModal({ isOpen, onDismiss, mintInfo }: MintModalProps) {
   const { account, chainId, library } = useActiveWeb3React();
-  const { onTxHashChange, onAttemptingTxn } = useAbiBotActionHandlers();
+  const { onAttemptingTxn, onTxHashChange } = useAbiBotActionHandlers();
   const theme = useContext(ThemeContext);
 
   const mintState = useAbiBotState();
+  const tronweb = window?.tronWeb as any;
 
   const addTransaction = useTransactionAdder();
 
-  const doMint = useCallback(() => {
+  const doMint = useCallback(async () => {
     if (!chainId || !library || !account) {
       return;
     }
 
-    const contract = getArbiMintContract(chainId, mintInfo.mintAddress, library, account);
-    console.log('contract', contract);
-
     if (!mintState?.typedValue) {
       return;
     }
-    const estimate = contract.estimateGas.mint;
-    const method: (...args: any) => Promise<TransactionResponse> = contract.mint;
-    const args: Array<string | string[] | number> = [mintState.typedValue];
+    const amount = Number(mintState.typedValue);
 
-    onAttemptingTxn(true);
-    estimate(...args, {})
-      .then(() =>
-        method(...args, {
-          ...{},
-          gasLimit: DEFAULT_FEE_LIMIT,
-        }).then((response) => {
-          onAttemptingTxn(false);
-
-          addTransaction(response, {
-            summary: `Mint ${mintState.typedValue} NFTs`,
-          });
-
-          onTxHashChange(response.hash);
-
-          ReactGA.event({
-            category: 'Mint',
-            action: 'mint',
-            label: `Minted ${mintState.typedValue} Arbibot NFT Tokens`,
-          });
-        }),
-      )
-      .catch((err) => {
-        onAttemptingTxn(false);
-        if (err?.code !== 4001) {
-          console.error(err);
-        }
+    try {
+      onAttemptingTxn(true);
+      const contract = await tronweb.contract().at(ethAddress.toTron(mintInfo.mintAddress));
+      const res = await contract.mint(amount).send({
+        feeLimit: DEFAULT_FEE_LIMIT,
+        callValue: JSBI.toNumber(JSBI.multiply(mintInfo.cost.raw, JSBI.BigInt(amount))),
       });
+      console.log('res', res);
+
+      const transactionInfo: any = {
+        hash: `0x${res}`,
+      };
+
+      addTransaction(transactionInfo, {
+        summary: `Mint ${mintState.typedValue} NFTs`,
+      });
+
+      onTxHashChange(transactionInfo.hash);
+
+      ReactGA.event({
+        category: 'Mint',
+        action: 'mint',
+        label: `Minted ${mintState.typedValue} Arbibot NFT Tokens`,
+      });
+      onAttemptingTxn(false);
+    } catch (err: any) {
+      onAttemptingTxn(false);
+      if (err?.code !== 4001) {
+        console.error(err);
+      }
+    }
   }, [account, mintInfo, isOpen, mintState.typedValue]);
   const [approval, approveCallback] = useApproveCallback(mintInfo?.cost, mintInfo?.mintAddress);
 

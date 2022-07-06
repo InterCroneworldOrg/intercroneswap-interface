@@ -26,7 +26,6 @@ const MINT: React.FC = () => {
     onTxHashChange('');
   }, [showMint, selectedBot]);
 
-  console.log('mintInfos: ', selectedBot);
   const increaseMintAmount = useCallback(() => {
     console.log('increasing mint amount');
 
@@ -59,9 +58,6 @@ const MINT: React.FC = () => {
                   </div>
                 </div>
               ))}
-            <div className="imgparent">
-              <img src={ApiTron} alt="" />
-            </div>
             <div className="imgparent">
               <img src={ApiBTC} alt="" />
             </div>
