@@ -74,9 +74,9 @@ const Footer = () => {
               </Link>
             </li> */}
             <li>
-              <ExternalLink href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
+              <Link to="/nft" className={`${Style.link} nav-link`}>
                 NFT
-              </ExternalLink>
+              </Link>
             </li>
             <li>
               <Link to="/market" className={`${Style.link} nav-link`}>
