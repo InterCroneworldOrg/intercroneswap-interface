@@ -3,12 +3,10 @@ import { DEFAULT_FEE_LIMIT } from '../../tron-config';
 import ReactGA from 'react-ga';
 import { useActiveWeb3React } from '../../hooks';
 import { ArbiNFTInfo, useAbiBotActionHandlers, useAbiBotState } from '../../state/abibot/hooks';
-import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext } from 'react';
 import { AutoColumn } from '../../components/Column';
-import { ButtonConfirmed, ButtonPrimary } from '../../components/Button';
-import { AutoRow, RowBetween, RowFixed } from '../../components/Row';
-import { Loader } from 'react-feather';
+import { ButtonPrimary } from '../../components/Button';
+import { RowBetween, RowFixed } from '../../components/Row';
 import { ThemeContext } from 'styled-components';
 import TransactionConfirmationModal, { ConfirmationModalContent } from '../../components/TransactionConfirmationModal';
 import { GreyCard } from '../../components/Card';
@@ -77,40 +75,22 @@ export default function MintModal({ isOpen, onDismiss, mintInfo }: MintModalProp
       }
     }
   }, [account, mintInfo, isOpen, mintState.typedValue]);
-  const [approval, approveCallback] = useApproveCallback(mintInfo?.cost, mintInfo?.mintAddress);
+  // const [approval, approveCallback] = useApproveCallback(mintInfo?.cost, mintInfo?.mintAddress);
 
-  const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
+  // const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (approval === ApprovalState.PENDING) {
-      setApprovalSubmitted(true);
-    }
-  }, [approval, approvalSubmitted]);
+  // useEffect(() => {
+  //   if (approval === ApprovalState.PENDING) {
+  //     setApprovalSubmitted(true);
+  //   }
+  // }, [approval, approvalSubmitted]);
 
   const modalBottom = useCallback(() => {
     return (
       <AutoColumn justify="center">
-        {approval === ApprovalState.PENDING || approval === ApprovalState.NOT_APPROVED ? (
-          <ButtonConfirmed
-            onClick={approveCallback}
-            disabled={approval !== ApprovalState.NOT_APPROVED || approvalSubmitted}
-            width="48%"
-            altDisabledStyle={approval === ApprovalState.PENDING} // show solid button while waiting
-            confirmed={approval !== ApprovalState.PENDING && approval !== ApprovalState.NOT_APPROVED}
-          >
-            {approval === ApprovalState.PENDING ? (
-              <AutoRow gap="6px" justify="center">
-                Approving <Loader stroke="white" />
-              </AutoRow>
-            ) : (
-              'Approve'
-            )}
-          </ButtonConfirmed>
-        ) : (
-          <ButtonPrimary width="50%" onClick={doMint}>
-            Mint
-          </ButtonPrimary>
-        )}
+        <ButtonPrimary width="50%" onClick={doMint}>
+          Mint
+        </ButtonPrimary>
       </AutoColumn>
     );
   }, [mintInfo, mintState]);
