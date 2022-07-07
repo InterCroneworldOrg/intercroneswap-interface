@@ -8,7 +8,7 @@ import { useActiveWeb3React } from '../../hooks';
 import Web3Status from '../Web3Status';
 import EthLogo from '../../assets/images/eth-logo.png';
 import PriceCard from '../PriceCard';
-import { ExternalLink, isMobile } from '../../theme';
+import { isMobile } from '../../theme';
 import downarrow from '../../assets/images/downarrow.png';
 import uparrow from '../../assets/images/uparrow.png';
 import { useCallback, useState } from 'react';
@@ -149,9 +149,9 @@ export default function Header() {
         <Link to="/markets" className={`${Style.link} nav-link`}>
           🔥 Markets
         </Link>
-        <ExternalLink href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
+        <Link to="/nft" className={`${Style.link} nav-link`}>
           NFT
-        </ExternalLink>
+        </Link>
       </>
     );
   }, []);
