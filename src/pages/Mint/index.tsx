@@ -13,7 +13,7 @@ import MintModal from './MintModal';
 // };
 
 const MINT: React.FC = () => {
-  const mintInfos = useAbiBotMintInfo(['0x09D7BF82A90D5D4A5C5CB46C6D25989FC0373856']);
+  const mintInfos = useAbiBotMintInfo(['0xA44F3F89F70648B1467172BA3C0B0102BE95A62D']);
   const [selectedBot, setSelectedBot] = useState<ArbiNFTInfo>(mintInfos[0]);
   const { onUserInput, onTxHashChange } = useAbiBotActionHandlers();
   const { typedValue } = useAbiBotState();
