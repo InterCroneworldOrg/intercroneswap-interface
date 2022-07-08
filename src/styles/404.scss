@@ -70,7 +70,9 @@
         }
         .content{
             margin-top: 20px;
+            flex-direction: column-reverse;
             p{
+                margin-top: 25px;
                 font-size: 16px;
             line-height: unset;
             text-align: center;
@@ -90,10 +92,8 @@
             }
             .notfoundimg {
                 width: 100%;
-                position: absolute;
-                left: 50%;
-    transform: translate(-50%, -26%);
-    z-index: -1;
+                
+               
             }
         }
     }
