@@ -33,7 +33,7 @@ export default function AppBody({ children }: { children: React.ReactNode }) {
   return <BodyWrapper>{children}</BodyWrapper>;
 }
 export const Container = styled.div`
-  width: 100%;
+  width: 96%;
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
