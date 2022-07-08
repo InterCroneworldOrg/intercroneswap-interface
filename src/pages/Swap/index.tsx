@@ -70,6 +70,9 @@ const AppAdvancedSetting = styled.div`
       font-size: 16px;
     }
   }
+  @media (max-width: 350px) {
+    flex-direction: column;
+  }
 `;
 const StyledArrowDown = styled(YellowArrowDown)``;
 
