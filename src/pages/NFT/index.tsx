@@ -49,7 +49,7 @@ const NFT: React.FC = () => {
           <img src={Anime} alt="" />
         </div>
         <div className="textandbtn">
-          <p>WELCOME TO INTERCRONE WORLD ARBISWAP</p>
+          <p>WELCOME TO INTERCRONE WORLD ARBIDEX</p>
           <Link to="/mint">
             <button>Mint now !</button>
           </Link>
@@ -105,10 +105,12 @@ const NFT: React.FC = () => {
           </Col>
           <Col md={6}>
             <Col md={12}>
-              <h3>I am ArbiSwap.</h3>
+              <h3>I am ArbiDEX.</h3>
               <p>I only make trades, when i make profits for you!</p>
               {isMobile && <img src={Anime} alt="" />}
-              <button>get ArbiSwap NOW</button>
+              <Link to="/mint">
+                <button>get ArbiDEX NOW</button>
+              </Link>
             </Col>
           </Col>
         </Row>
@@ -131,7 +133,7 @@ const NFT: React.FC = () => {
               </Accordion.Item>
               <Accordion.Item eventKey="1">
                 <Accordion.Header onClick={() => toggleActive()} className={active ? 'active' : 'notactive'}>
-                  How much will it cost to mint an ArbiSwap?
+                  How much will it cost to mint an ArbiDEX?
                 </Accordion.Header>
                 <Accordion.Body>2000 TRX</Accordion.Body>
               </Accordion.Item>
@@ -154,7 +156,7 @@ const NFT: React.FC = () => {
                   Can I sell my NFT?
                 </Accordion.Header>
                 <Accordion.Body>
-                  Yes, we will list Abitron later on different NFT marktplaces. But if you sell your NFT you also sell
+                  Yes, we will list ArbiDEX later on different NFT marktplaces. But if you sell your NFT you also sell
                   the rights to get the Profit.
                 </Accordion.Body>
               </Accordion.Item>
