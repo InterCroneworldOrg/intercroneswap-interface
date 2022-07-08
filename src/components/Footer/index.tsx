@@ -57,7 +57,7 @@ const Footer = () => {
               </ExternalLink>
             </li>
             <li>
-              <ExternalLink href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://trx.intercroneswap.com/#/nft" className={`${Style.link} nav-link`}>
                 NFT
               </ExternalLink>
             </li>

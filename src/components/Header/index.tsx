@@ -87,7 +87,7 @@ export default function Header() {
               <ExternalLink href="https://trx.intercroneswap.com/#/stake" className={`${Style.link} nav-link`}>
                 🔥 Staking
               </ExternalLink>
-              <ExternalLink href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
+              <ExternalLink href="https://trx.intercroneswap.com/#/nft" className={`${Style.link} nav-link`}>
                 NFT
               </ExternalLink>
             </Nav>
