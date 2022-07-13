@@ -142,11 +142,15 @@ export default function Pool() {
 
   return (
     <>
-      <StyledHeading>Swap your tokens</StyledHeading>
+      <StyledHeading className="lptext">Liquidity Pool</StyledHeading>
+      <p className="lockedvalue hideindesktop">
+        Total Value Locked: <span className="lockval hideindesktop">{23}</span>
+      </p>
+
       <PageWrapper>
         <VoteCard>
           <CardNoise />
-          <CardSection>
+          <CardSection className="hideinmobile">
             <AutoColumn gap="md">
               <RowBetween>
                 <TYPE.white fontWeight={600}>Liquidity provider rewards</TYPE.white>
@@ -168,8 +172,8 @@ export default function Pool() {
 
           <CardNoise />
         </VoteCard>
-        <LightCard style={{ marginTop: '20px' }}>
-          <Card style={{ width: '100%', padding: '0', margin: '0 auto', maxWidth: '560px' }}>
+        <LightCard style={{ marginTop: '20px' }} id="lightcard">
+          <Card style={{ width: '100%', padding: '0', margin: '0 auto', maxWidth: '560px' }} className="hideinmobile">
             <SwapPoolTabs active={'pool'} />
           </Card>
           {!account ? (
@@ -180,7 +184,7 @@ export default function Pool() {
             </div>
           ) : (
             <AutoColumn>
-              <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between">
+              <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between" id="liqimp">
                 <StyledInternalLink to="/add/TRX" style={{ flexGrow: 1, width: 'auto' }}>
                   <Button>Add Liquidity</Button>
                 </StyledInternalLink>
@@ -188,15 +192,21 @@ export default function Pool() {
                   <Button>Import</Button>
                 </StyledInternalLink>
               </AutoRow>
-              <AutoRow justify="center" gap="1rem">
+              <AutoRow justify="center" gap="1rem" className="hideinmobile">
                 <TYPE.white fontSize="2rem">My total value locked</TYPE.white>
                 <TYPE.yellow fontSize="2rem">{23}</TYPE.yellow>
               </AutoRow>
+              <div className="hideindesktop" id="lpv">
+                <p>Your liquidity</p>
+                <p className="lockedvalue hideindesktop">
+                  Total Locked: <span className="lockval hideindesktop">{23}</span>
+                </p>
+              </div>
             </AutoColumn>
           )}
           <AutoColumn gap="lg" justify="center">
             <AutoColumn gap="lg" style={{ width: '100%' }}>
-              <div>
+              <div className="hideinmobile">
                 <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
                   <HideSmall>
                     <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
