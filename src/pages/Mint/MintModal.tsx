@@ -1,4 +1,3 @@
-// import { useTransactionAdder } from '../../state/transactions/hooks';
 import { DEFAULT_FEE_LIMIT } from '../../tron-config';
 import ReactGA from 'react-ga';
 import { useActiveWeb3React } from '../../hooks';
@@ -98,14 +97,29 @@ export default function MintModal({ isOpen, onDismiss, mintInfo }: MintModalProp
   const modalHeader = useCallback(() => {
     return (
       <AutoColumn gap="md">
-        <GreyCard style={{ padding: '15px' }}>
-          <RowFixed>
-            <TruncatedText>{mintInfo?.cost.multiply(JSBI.BigInt(mintState.typedValue)).toSignificant(4)}</TruncatedText>
-          </RowFixed>
-          <RowFixed>
-            <CurrencyLogo currency={ETHER} />
-            <TYPE.white>{ETHER.symbol}</TYPE.white>
-          </RowFixed>
+        <GreyCard style={{ padding: '15px', marginTop: '2rem' }}>
+          <RowBetween padding=".5rem">
+            <TYPE.white>Name</TYPE.white>
+            <TYPE.white>{mintInfo.name}</TYPE.white>
+          </RowBetween>
+          <RowBetween padding=".5rem">
+            <TYPE.white>Cost</TYPE.white>
+            <TruncatedText>{mintInfo?.cost.toSignificant(4)}</TruncatedText>
+          </RowBetween>
+          <RowBetween padding=".5rem">
+            <TYPE.white>Amount</TYPE.white>
+            <TruncatedText>{mintState.typedValue}</TruncatedText>
+          </RowBetween>
+          <RowBetween padding=".5rem">
+            <TYPE.white>Mint Price</TYPE.white>
+            <RowFixed>
+              <TruncatedText>
+                {mintInfo?.cost.multiply(JSBI.BigInt(mintState.typedValue)).toSignificant(4)}
+              </TruncatedText>
+              <CurrencyLogo currency={ETHER} style={{ paddingLeft: '3px' }} />
+              <TYPE.white>{ETHER.symbol}</TYPE.white>
+            </RowFixed>
+          </RowBetween>
         </GreyCard>
         <RowBetween style={{ background: theme.bg3, borderRadius: '6px' }}></RowBetween>
       </AutoColumn>
@@ -115,7 +129,7 @@ export default function MintModal({ isOpen, onDismiss, mintInfo }: MintModalProp
   const confirmationContent = useCallback(() => {
     return (
       <ConfirmationModalContent
-        title="ArbiDex Mint"
+        title="Mint"
         onDismiss={onDismiss}
         topContent={modalHeader}
         bottomContent={modalBottom}

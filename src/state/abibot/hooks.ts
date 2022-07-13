@@ -12,6 +12,7 @@ const AbiSwapICRInterface = new Interface(AbiSwapICR);
 
 export interface ArbiNFTInfo {
   cost: TokenAmount;
+  name: string;
   mintAddress: string;
   baseURI: string;
   maxMintAmount: number;
@@ -60,6 +61,8 @@ export function useAbiBotMintInfo(nftAddresses: string[]): ArbiNFTInfo[] {
 
   const costs = useMultipleContractSingleData(nftAddresses, AbiSwapICRInterface, 'cost', undefined, NEVER_RELOAD);
 
+  const names = useMultipleContractSingleData(nftAddresses, AbiSwapICRInterface, 'name', undefined, NEVER_RELOAD);
+
   const maxMintAmounts = useMultipleContractSingleData(
     nftAddresses,
     AbiSwapICRInterface,
@@ -78,13 +81,7 @@ export function useAbiBotMintInfo(nftAddresses: string[]): ArbiNFTInfo[] {
 
   const baseURIs = useMultipleContractSingleData(nftAddresses, AbiSwapICRInterface, 'baseURI', undefined, NEVER_RELOAD);
 
-  const totalSupplies = useMultipleContractSingleData(
-    nftAddresses,
-    AbiSwapICRInterface,
-    'totalSupply',
-    undefined,
-    NEVER_RELOAD,
-  );
+  const totalSupplies = useMultipleContractSingleData(nftAddresses, AbiSwapICRInterface, 'totalSupply', undefined);
 
   return useMemo(() => {
     if (!chainId) return [];
@@ -95,10 +92,13 @@ export function useAbiBotMintInfo(nftAddresses: string[]): ArbiNFTInfo[] {
       const maxMintPerTransactionState = maxMintPerTransactions[index];
       const totalSupplyState = totalSupplies[index];
       const baseURIState = baseURIs[index];
+      const nameState = names[index];
 
       if (
         costState &&
         !costState.loading &&
+        nameState &&
+        !nameState.loading &&
         maxMintAmountState &&
         !maxMintAmountState.loading &&
         maxMintPerTransactionState &&
@@ -110,6 +110,7 @@ export function useAbiBotMintInfo(nftAddresses: string[]): ArbiNFTInfo[] {
       ) {
         if (
           costState.error ||
+          nameState.error ||
           maxMintAmountState.error ||
           maxMintPerTransactionState.error ||
           totalSupplyState.error ||
@@ -123,6 +124,7 @@ export function useAbiBotMintInfo(nftAddresses: string[]): ArbiNFTInfo[] {
 
         memo.push({
           cost: ethTokenAmount,
+          name: nameState?.result?.[0],
           baseURI: baseURIState?.result?.[0],
           mintAddress: nftAddress,
           maxMintAmount: maxMintAmountState?.result?.[0]?.toNumber() ?? 0,
@@ -133,5 +135,5 @@ export function useAbiBotMintInfo(nftAddresses: string[]): ArbiNFTInfo[] {
 
       return memo;
     }, []);
-  }, [chainId, totalSupplies, maxMintAmounts, maxMintPerTransactions, costs, accountArg]);
+  }, [chainId, totalSupplies, maxMintAmounts, maxMintPerTransactions, costs, names, accountArg]);
 }
