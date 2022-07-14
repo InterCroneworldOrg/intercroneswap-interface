@@ -8,7 +8,10 @@ iframe{
     display: none;
 }
 .hideindesktop{
-    display: none !important;
+    display: none ;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
 }
 @media only screen and (max-width: 767px) {
     #open-settings-dialog-button{
