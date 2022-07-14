@@ -8,10 +8,6 @@ import { ArbiNFTInfo, useAbiBotActionHandlers, useAbiBotMintInfo, useAbiBotState
 import { useCallback, useState } from 'react';
 import MintModal from './MintModal';
 
-// const getImageFromBaseURI = (uri: string): string => {
-//   return `https://gateway.pinata.cloud/${uri}1.png`;
-// };
-
 const MINT: React.FC = () => {
   const mintInfos = useAbiBotMintInfo(['0xA44F3F89F70648B1467172BA3C0B0102BE95A62D']);
   const [selectedBot, setSelectedBot] = useState<ArbiNFTInfo>(mintInfos[0]);
@@ -54,7 +50,7 @@ const MINT: React.FC = () => {
                   <img onClick={() => setSelectedBot(info)} src={ApiTron} alt="" />
                   <div>
                     <img className="arrow" src={Arrow} alt="" />
-                    <p>earn ICR</p>
+                    <p>earn TRX</p>
                   </div>
                 </div>
               ))}
@@ -68,21 +64,27 @@ const MINT: React.FC = () => {
               <img src={ApiBTC} alt="" />
             </div>
           </div>
-          <div className="buymint">
-            <p>
-              Max : <span style={{ color: '#E90A0E' }}>{selectedBot?.maxMintPerTransaction}</span>
-            </p>
-            <div className="plusminus">
-              <button onClick={decreaseMintAmount}>-</button>
-              <input type="number" placeholder={typedValue} value={typedValue} />
-              <button onClick={increaseMintAmount}>+</button>
+          {selectedBot ? (
+            <div className="buymint">
+              <p>
+                Max : <span style={{ color: '#E90A0E' }}>{selectedBot?.maxMintPerTransaction}</span>
+              </p>
+              <div className="plusminus">
+                <button onClick={decreaseMintAmount}>-</button>
+                <input type="number" placeholder={typedValue} value={typedValue} />
+                <button onClick={increaseMintAmount}>+</button>
+              </div>
+              <div className="mintnft">
+                <input disabled={true} type="text" placeholder={selectedBot?.cost.toSignificant() ?? '-'} />
+                <button onClick={() => setShowMint(true)}>Mint NFT</button>
+              </div>
+              <p>Click on mint to Buy your NFT Token.</p>
             </div>
-            <div className="mintnft">
-              <input type="text" placeholder={selectedBot?.cost.toSignificant() ?? '-'} />
-              <button onClick={() => setShowMint(true)}>Mint NFT</button>
+          ) : (
+            <div className="buymint">
+              <p>Please select a Bot to Mint</p>
             </div>
-            <p>Click on mint to Buy your NFT Token.</p>
-          </div>
+          )}
         </div>
       </Container>
     </>
