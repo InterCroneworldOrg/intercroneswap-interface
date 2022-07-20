@@ -50,7 +50,7 @@ MarketCardProps) {
     >
       <AutoRow justify="space-between">
         <MobileCenteredCurrencyLink
-          href={getEtherscanLink(chainId ?? ChainId.MAINNET, pair.liquidityToken.address, 'contract')}
+          href={getEtherscanLink(chainId ?? ChainId.MAINNET, pair.liquidityToken.address, 'address')}
         >
           <CurrencyLogo currency={currency0} size="1.2rem" />
           &nbsp;
