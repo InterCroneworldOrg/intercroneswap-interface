@@ -9,6 +9,7 @@ export interface MarketInfo {
 export function useMarkets(marketInfos: any[]): MarketInfo[] | null {
   return useMemo(() => {
     return marketInfos.map((marketInfo) => {
+      const pairAddress = marketInfo.pair.liquidityToken.address;
       const tokenAInfo = marketInfo.pair.tokenAmount0;
       const tokenBInfo = marketInfo.pair.tokenAmount1;
       const tokenA = new Token(
@@ -28,7 +29,7 @@ export function useMarkets(marketInfos: any[]): MarketInfo[] | null {
 
       const tokenAmountA = new TokenAmount(tokenA, JSBI.BigInt(tokenAInfo.numerator));
       const tokenAmountB = new TokenAmount(tokenB, JSBI.BigInt(tokenBInfo.numerator));
-      const pair = new Pair(tokenAmountA, tokenAmountB);
+      const pair = new Pair(tokenAmountA, tokenAmountB, pairAddress);
       return { pair, usdAmount: marketInfo.usdAmount };
     });
   }, [marketInfos]);
