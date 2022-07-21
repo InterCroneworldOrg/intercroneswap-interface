@@ -1,15 +1,14 @@
 import '../../styles/mint.scss';
 import { Container } from 'react-bootstrap';
 import ApiBTC from '../../assets/images/ApiBTC.png';
-// import apiICR from '../../assets/images/apiICR2.png';
-import ApiTron from '../../assets/images/ApiTron.png';
 import Arrow from '../../assets/images/mintarrow.png';
 import { ArbiNFTInfo, useAbiBotActionHandlers, useAbiBotMintInfo, useAbiBotState } from '../../state/abibot/hooks';
 import { useCallback, useState } from 'react';
 import MintModal from './MintModal';
+import { mintData } from '../../constants/minting';
 
 const MINT: React.FC = () => {
-  const mintInfos = useAbiBotMintInfo(['0xA44F3F89F70648B1467172BA3C0B0102BE95A62D']);
+  const mintInfos = useAbiBotMintInfo(mintData);
   const [selectedBot, setSelectedBot] = useState<ArbiNFTInfo>(mintInfos[0]);
   const { onUserInput, onTxHashChange } = useAbiBotActionHandlers();
   const { typedValue } = useAbiBotState();
@@ -47,10 +46,10 @@ const MINT: React.FC = () => {
               mintInfos.map((info, index) => (
                 <div key={index} className="imgparent">
                   <p>{info.maxMintAmount - info.totalSupply} Left</p>
-                  <img onClick={() => setSelectedBot(info)} src={ApiTron} alt="" />
+                  <img onClick={() => setSelectedBot(info)} src={info.logo} alt="" />
                   <div>
                     <img className="arrow" src={Arrow} alt="" />
-                    <p>earn TRX</p>
+                    <p>earn {info.earnToken}</p>
                   </div>
                 </div>
               ))}
