@@ -7,6 +7,7 @@ import { setAttemptingTxn, setTxHash, typeInput } from './actions';
 import { abi as AbiSwapICR } from '@intercroneswap/v2-abitragenft/build/AbiSwapICR.json';
 import { Interface } from 'ethers/lib/utils';
 import { ChainId, TokenAmount, WETH } from '@intercroneswap/v2-sdk';
+import { MintContractData } from '@/pages/Mint/types';
 
 const AbiSwapICRInterface = new Interface(AbiSwapICR);
 
@@ -18,6 +19,8 @@ export interface ArbiNFTInfo {
   maxMintAmount: number;
   maxMintPerTransaction: number;
   totalSupply: number;
+  earnToken: string;
+  logo: string;
 }
 
 export function useAbiBotState(): AppState['abibot'] {
@@ -54,8 +57,9 @@ export function useAbiBotActionHandlers(): {
   };
 }
 
-export function useAbiBotMintInfo(nftAddresses: string[]): ArbiNFTInfo[] {
+export function useAbiBotMintInfo(nftInfos: MintContractData[]): ArbiNFTInfo[] {
   const { chainId, account } = useActiveWeb3React();
+  const nftAddresses = nftInfos.map((info) => info.address);
 
   const accountArg = useMemo(() => [account ?? undefined], [account]);
 
@@ -130,6 +134,8 @@ export function useAbiBotMintInfo(nftAddresses: string[]): ArbiNFTInfo[] {
           maxMintAmount: maxMintAmountState?.result?.[0]?.toNumber() ?? 0,
           maxMintPerTransaction: maxMintPerTransactionState?.result?.[0]?.toNumber() ?? 0,
           totalSupply: totalSupplyState?.result?.[0]?.toNumber() ?? 0,
+          earnToken: nftInfos[index].earnToken,
+          logo: nftInfos[index].logo,
         });
       }
 
