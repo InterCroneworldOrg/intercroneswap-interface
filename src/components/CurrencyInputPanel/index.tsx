@@ -26,7 +26,7 @@ const InputRow = styled.div<{ selected: boolean }>`
   align-items: center;
   flex-direction: column-reverse !important;
   justify-content: space-between;
-  /* padding: ${({ selected }) => (selected ? '0.75rem 0rem 0.75rem 0rem' : '0.75rem 0rem 0.75rem 0rem')}; */
+  padding: ${({ selected }) => (selected ? '0.75rem 0rem 0.75rem 0rem' : '0.75rem 0rem 0.75rem 0rem')};
 `;
 
 const CurrencySelect = styled.button<{ selected: boolean }>`
@@ -291,18 +291,20 @@ export default function CurrencyInputPanel({
                     fontWeight={500}
                     fontSize={24}
                     style={{ display: 'inline', cursor: 'pointer' }}
-                    className="balance"
                   >
                     {!hideBalance && !!currency && selectedCurrencyBalance
                       ? (customBalanceText ?? '') + selectedCurrencyBalance?.toSignificant(6)
                       : ' -'}
                   </TYPE.body>
                 )}
-                {/* <div className="balanceDigit">134.1340</div> */}
+                <div className="balanceDigit">134.1340</div>
               </div>
+
+              
             </RowBetween>
           </CurrencySelectContainer>
         </InputRow>
+        
       </Container>
       {!disableCurrencySelect && onCurrencySelect && (
         <CurrencySearchModal

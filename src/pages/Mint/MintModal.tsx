@@ -115,7 +115,7 @@ export default function MintModal({ isOpen, onDismiss, mintInfo }: MintModalProp
   const confirmationContent = useCallback(() => {
     return (
       <ConfirmationModalContent
-        title="Mint"
+        title="Abiswap Mint"
         onDismiss={onDismiss}
         topContent={modalHeader}
         bottomContent={modalBottom}
