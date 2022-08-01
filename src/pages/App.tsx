@@ -34,6 +34,7 @@ import Sample from './Sample';
 import NFT from './NFT';
 import Mint from './Mint';
 import NotFound from './404';
+import Dashboard from './Dashboard';
 // import Home from './Home';
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects';
 import { RedirectToReferal } from './Stake/redirects';
@@ -151,7 +152,7 @@ export default function App() {
               <Route exact strict path="/swap" component={Swap} />
               <Route exact strict path="/nft" component={NFT} />
               <Route exact strict path="/mint" component={Mint} />
-              <Route exact strict path="/dashboard" component={Sample} />
+              <Route exact strict path="/dashboard" component={Dashboard} />
               <Route exact strict path="/audit" component={Sample} />
               <Route exact strict path="/white-paper" component={Sample} />
               <Route exact strict path="/faq" component={Sample} />
