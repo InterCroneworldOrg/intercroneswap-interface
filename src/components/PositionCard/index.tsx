@@ -249,7 +249,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
   // const backgroundColor = useColor(pair?.token0);
 
   return (
-    <StyledPositionCard border={border} id="liquidcard">
+    <StyledPositionCard border={border}>
       {/* <CardNoise /> */}
       <AutoColumn gap="12px">
         <FixedHeightRow>
@@ -264,21 +264,21 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
               {!currency0 || !currency1 ? (
                 <Dots>Loading</Dots>
               ) : (
-                <RowFixed id="tokenwithimg">
+                <RowFixed>
                   <CurrencyLogo currency={currency0} />
                   &nbsp;
-                  <TYPE.white fontWeight={500} fontSize={20} className="lctext">
+                  <TYPE.white fontWeight={500} fontSize={20}>
                     {currency0.symbol}&nbsp;/
                   </TYPE.white>
                   &nbsp;
                   <CurrencyLogo currency={currency1} />
                   &nbsp;
-                  <TYPE.white fontWeight={500} fontSize={20} className="lctext">
+                  <TYPE.white fontWeight={500} fontSize={20}>
                     {currency1.symbol}
                   </TYPE.white>
                 </RowFixed>
               )}
-              <AmountWrapper className="lcamount">
+              <AmountWrapper>
                 {usdtValue?.toSignificant()}
                 <CurrencyLogo currency={USDT} />
               </AmountWrapper>
@@ -309,51 +309,27 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
 
         {showMore && (
           <AutoColumn gap="8px">
-            <MinimalAutoColumn justify="end" className="poolbtn">
-              <RowBetween>
-                <ButtonPrimary
-                  padding="8px"
-                  borderRadius="8px"
-                  as={Link}
-                  to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
-                  width="48%"
-                  style={{ color: '#000' }}
-                >
-                  Add
-                </ButtonPrimary>
-                <ButtonPrimary
-                  padding="8px"
-                  borderRadius="8px"
-                  as={Link}
-                  width="48%"
-                  style={{ color: '#000' }}
-                  to={`/remove/${currencyId(currency0)}/${currencyId(currency1)}`}
-                >
-                  Remove
-                </ButtonPrimary>
-              </RowBetween>
-            </MinimalAutoColumn>
-            <Divider style={{ color: '#898989' }} />
-            <StyledPoolInfoCard style={{ padding: '25px' }} className="poolcard">
+            <Divider />
+            <StyledPoolInfoCard style={{ padding: '25px' }}>
               <AutoColumn gap="md">
-                <AutoRow justify="space-between" gap="4px" className="poolcardtextbox">
-                  <AutoColumn justify="center" className="autocol">
+                <AutoRow justify="space-between" gap="4px">
+                  <AutoColumn justify="center">
                     <TYPE.white fontSize={16} fontWeight={500}>
                       Your pool tokens
                     </TYPE.white>
-                    <RowFixed style={{ width: '100%' }} className="rowfix">
+                    <RowFixed style={{ width: '100%' }}>
                       <TYPE.white fontSize={16} marginLeft={'6px'} textAlign={'left'} color={theme.primary3}>
                         {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'} /{' '}
                         {poolTokenPercentage ? poolTokenPercentage.toFixed(2) + '%' : '-'}
                       </TYPE.white>
                     </RowFixed>
                   </AutoColumn>
-                  <AutoColumn justify="center" className="autocol">
+                  <AutoColumn justify="center">
                     <TYPE.white fontSize={16} fontWeight={500}>
                       Pooled {currency0.symbol}
                     </TYPE.white>
                     {token0Deposited ? (
-                      <RowFixed className="rowfix">
+                      <RowFixed>
                         <TYPE.white fontSize={16} fontWeight={500} marginLeft={'6px'} color={theme.primary3}>
                           {token0Deposited?.toSignificant(6)}
                         </TYPE.white>
@@ -362,12 +338,12 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                       '-'
                     )}
                   </AutoColumn>
-                  <AutoColumn justify="center" className="autocol">
+                  <AutoColumn justify="center">
                     <TYPE.white fontSize={16} fontWeight={500}>
                       Pooled {currency1.symbol}
                     </TYPE.white>
                     {token1Deposited ? (
-                      <RowFixed className="rowfix">
+                      <RowFixed>
                         <TYPE.white fontSize={16} fontWeight={500} marginLeft={'6px'} color={theme.primary3}>
                           {token1Deposited?.toSignificant(6)}
                         </TYPE.white>
@@ -379,9 +355,8 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 </AutoRow>
               </AutoColumn>
             </StyledPoolInfoCard>
-            <Divider />
             <AutoRow justify="space-between">
-              <AutoColumn id="exteralink">
+              <AutoColumn>
                 {/* <ButtonSecondary padding="8px" borderRadius="8px"> */}
                 <ExternalLink
                   style={{ marginTop: '10px', width: '100%', textAlign: 'center', color: '#fff' }}
@@ -423,30 +398,31 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 </ExternalLink> */}
                 {/* </ButtonSecondary> */}
               </AutoColumn>
+              <MinimalAutoColumn justify="end">
+                <RowBetween>
+                  <ButtonPrimary
+                    padding="8px"
+                    borderRadius="8px"
+                    as={Link}
+                    to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
+                    width="48%"
+                    style={{ color: '#000' }}
+                  >
+                    Add
+                  </ButtonPrimary>
+                  <ButtonPrimary
+                    padding="8px"
+                    borderRadius="8px"
+                    as={Link}
+                    width="48%"
+                    style={{ color: '#000' }}
+                    to={`/remove/${currencyId(currency0)}/${currencyId(currency1)}`}
+                  >
+                    Remove
+                  </ButtonPrimary>
+                </RowBetween>
+              </MinimalAutoColumn>
             </AutoRow>
-            <Divider />
-            <AutoColumn gap="md" className="hideindesktop" id="liqprotext">
-              <RowBetween>
-                <TYPE.white className="yellowcolor" fontWeight={600}>
-                  Liquidity provider rewards
-                </TYPE.white>
-              </RowBetween>
-              <RowBetween>
-                <TYPE.white fontSize={14} className="yellowcolor">
-                  {`Liquidity providers earn a 0.2% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.`}
-                </TYPE.white>
-              </RowBetween>
-              <ExternalLink
-                className="yellowcolor"
-                style={{ color: 'white', textDecoration: 'underline' }}
-                target="_blank"
-                href="https://docs.intercroneswap.finance/faq/advantage-of-adding-liquidity"
-              >
-                <TYPE.white className="yellowcolor underline" fontSize={14}>
-                  Read more about providing liquidity
-                </TYPE.white>
-              </ExternalLink>
-            </AutoColumn>
           </AutoColumn>
         )}
       </AutoColumn>
