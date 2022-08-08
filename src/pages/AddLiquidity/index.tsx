@@ -40,6 +40,7 @@ import { PoolPriceBar } from './PoolPriceBar';
 import CurrencyLogo from '../../components/CurrencyLogo';
 
 import { DEFAULT_FEE_LIMIT } from '../../tron-config.js';
+import { StyledHeading } from '../App';
 
 export default function AddLiquidity({
   match: {
@@ -338,6 +339,7 @@ export default function AddLiquidity({
 
   return (
     <>
+      <StyledHeading>Liquidity Pool</StyledHeading>
       <Container>
         <AppBody>
           <AddRemoveTabs creating={isCreate} adding={true} />
