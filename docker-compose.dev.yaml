@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: iswap_interface_trx
+    image: iswap_interface_trx
+    build: 
+      context: .
+      target: development
+    volumes:
+      - ./src:/app/src
+      - /app/node_modules
+    ports:
+      - 3000:3000
