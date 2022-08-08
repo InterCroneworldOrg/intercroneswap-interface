@@ -142,7 +142,7 @@ export default function Pool() {
 
   return (
     <>
-      <StyledHeading>Swap your tokens</StyledHeading>
+      <StyledHeading>Liquidity Pool</StyledHeading>
       <PageWrapper>
         <VoteCard>
           <CardNoise />
