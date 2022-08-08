@@ -1,5 +1,5 @@
 import '../../styles/dashboard.scss';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import cra from '../../assets/images/apiICR.png';
 import crb from '../../assets/images/cr2.png';
 import crc from '../../assets/images/cr3.png';

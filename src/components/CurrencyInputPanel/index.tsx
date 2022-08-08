@@ -299,12 +299,9 @@ export default function CurrencyInputPanel({
                 )}
                 <div className="balanceDigit">134.1340</div>
               </div>
-
-              
             </RowBetween>
           </CurrencySelectContainer>
         </InputRow>
-        
       </Container>
       {!disableCurrencySelect && onCurrencySelect && (
         <CurrencySearchModal

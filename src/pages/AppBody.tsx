@@ -42,6 +42,9 @@ export const Container = styled.div`
   @media (max-width: 1140px) {
     max-width: 560px;
     column-gap: 0px;
-    grid-template-columns: 1fr;
+    width: 100%;
+    grid-template-columns: unset;
+    padding: 10px;
+    display: unset;
   }
 `;
