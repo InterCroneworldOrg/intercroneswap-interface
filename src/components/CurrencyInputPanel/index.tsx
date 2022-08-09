@@ -291,7 +291,6 @@ export default function CurrencyInputPanel({
                     fontWeight={500}
                     fontSize={24}
                     style={{ display: 'inline', cursor: 'pointer' }}
-                    className="balance"
                   >
                     {!hideBalance && !!currency && selectedCurrencyBalance
                       ? (customBalanceText ?? '') + selectedCurrencyBalance?.toSignificant(6)
