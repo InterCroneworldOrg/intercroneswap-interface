@@ -40,7 +40,6 @@
     }
     .hideindesktop{
         display: unset;
-        position: unset;
     }
     .lptext{
         padding-bottom: unset !important;
