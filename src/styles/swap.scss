@@ -1,205 +1,211 @@
 $small: 768px;
 
-.swapbtn {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  background: linear-gradient(90deg, #ffb807 8.49%, #ffea00 100%);
-  border-radius: 8px;
-  width: 100%;
-  padding: 10px 40px;
-  border: unset;
-  margin-right: 10px;
+.swapbtn{
+    display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 10px;
+background: linear-gradient(90deg, #FFB807 8.49%, #FFEA00 100%);
+border-radius: 8px;
+width: 100%;
+padding: 10px 40px;
+border: unset;
+margin-right: 10px;
 }
-.proswapbtn {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  background: #3b3b3b;
-  border-radius: 12px;
-  width: 100%;
-  padding: 10px 40px;
-  color: #ffffff;
-  border: unset;
-  font-size: 18px;
-  span {
-    font-size: 12px;
-  }
+.proswapbtn{
+    display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 10px;
+background: #3B3B3B;
+border-radius: 12px;
+width: 100%;
+padding: 10px 40px;
+color: #FFFFFF;
+border: unset;
+font-size: 18px;
+    span{
+        font-size: 12px;  
+    }
 }
-.swapandprobtn {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+.swapandprobtn{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
-#open-settings-dialog-button {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(180deg, #ffea00 0%, #ffb807 100%);
+#open-settings-dialog-button{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(180deg, #FFEA00 0%, #FFB807 100%);
 }
 
-.pricesetting {
-  background: #232323;
-  border-radius: 16px;
-  padding: 30px;
-  margin-bottom: 20px;
-  p {
+.pricesetting{
+    background: #232323;
+border-radius: 16px;
+padding: 30px;
+margin-bottom: 20px;
+p{
     margin-top: 10px;
     font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    color: #ffffff;
-    span {
-      color: #f3c914;
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+color: #FFFFFF;
+    span{
+        color: #F3C914
     }
-  }
-  h4 {
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 28px;
-    color: #ffffff;
-    border-bottom: 1px solid #424242;
-    padding-bottom: 15px;
-  }
+}
+    h4{
+        font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 28px;
+color: #FFFFFF;
+        border-bottom: 1px solid #424242;
+        padding-bottom: 15px;
+    }
 }
 
-.transactiondetails {
-  background: #232323;
-  border-radius: 16px;
-  padding: 30px;
-  .details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    &:nth-of-type(even) {
-      p {
-        &:nth-child(2) {
-          color: #fff;
+.transactiondetails{
+    background: #232323;
+    border-radius: 16px;
+    padding: 30px;
+    .details{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &:nth-of-type(even) {
+            p{
+                &:nth-child(2){
+                    color: #fff;
+                } 
+            }
         }
-      }
+        p{
+            font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+color: #FFFFFF;
+&:nth-child(2) {
+   
+    color:  #F3C914;
+}
+        }
     }
-    p {
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 24px;
-      color: #ffffff;
-      &:nth-child(2) {
-        color: #f3c914;
-      }
-    }
-  }
 }
 
-.transactsetting {
-  background: #232323;
-  border-radius: 16px;
-  padding: 30px;
-  margin-bottom: 20px;
-  h3 {
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 30px;
-    text-transform: capitalize;
-    color: #ffffff;
-  }
-  h5 {
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    /* identical to box height, or 150% */
+.transactsetting{
+    background: #232323;
+border-radius: 16px;
+padding: 30px;
+margin-bottom: 20px;
+    h3{
+        font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 20px;
+line-height: 30px;
+text-transform: capitalize;
+color: #FFFFFF;
+    }
+    h5{
+        font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
 
-    color: #ffffff;
-  }
-  .tbtns {
-    display: flex;
+
+color: #FFFFFF;
+    }
+    .tbtns{
+        display: flex;
     justify-content: space-between;
-    button {
-      background: rgba(196, 196, 196, 0.15);
-      border-radius: 12px;
-      padding: 10px 30px;
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 400;
-      font-size: 18px;
-      line-height: 30px;
-      text-transform: capitalize;
-      color: #ffffff;
-      border: none;
+    button{
+        background: rgba(196, 196, 196, 0.15);
+border-radius: 12px;
+padding: 10px 30px;
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 18px;
+line-height: 30px;
+text-transform: capitalize;
+color: #FFFFFF;
+border: none;
     }
-  }
-  input {
-    width: 120px;
-    background: rgba(196, 196, 196, 0.15);
-    border-radius: 12px;
-    padding: 10px 30px;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 30px;
-    text-transform: capitalize;
-    color: #ffffff;
-    border: none;
-    outline: none;
-  }
-  .minutes {
-    display: flex;
+    
+    }
+    input{
+        width: 120px;
+        background: rgba(196, 196, 196, 0.15);
+        border-radius: 12px;
+        padding: 10px 30px;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 30px;
+        text-transform: capitalize;
+        color: #FFFFFF;
+        border: none;
+        outline: none;
+    }
+    .minutes{
+        display: flex;
     align-items: center;
-
-    h6 {
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 24px;
-      color: #ffffff;
-      margin-left: 20px;
+    
+    h6{
+        font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+color: #FFFFFF;
+margin-left: 20px;
     }
-  }
+    }
+
 }
 
 @media screen and (max-width: $small) {
-  .swapbtn {
-    padding: 0px 10px;
-    font-size: 14px;
-  }
-  .proswapbtn {
-    padding: 0px 10px;
-    font-size: 14px;
-    span {
-      font-size: 12px !important;
-    }
-  }
-  .transactsetting {
-    .tbtns {
-      button {
-        padding: 5px 15px;
+    .swapbtn{
+        padding: 0px 10px;
         font-size: 14px;
-      }
     }
-    input {
-      padding: 5px 15px;
-      font-size: 14px;
-      width: 90px;
-    }
-    .minutes {
-      h6 {
+    .proswapbtn{
+        padding: 0px 10px;
         font-size: 14px;
-        margin-left: 10px;
-      }
+        span{
+            font-size: 12px !important;
+        }
+    }
+    .transactsetting{
+        .tbtns{
+            button{
+                padding: 5px 15px;
+                font-size: 14px;
+            }
+            
+        }
+        input{
+            padding: 5px 15px;
+            font-size: 14px;
+            width: 90px;
+            
+        }
+        .minutes{
+            h6{
+                font-size: 14px;
+                margin-left: 10px;
+            }
+        }
     }
   }
-}
