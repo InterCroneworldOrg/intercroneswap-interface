@@ -394,7 +394,7 @@ export default function Swap() {
                 </>
               ) : null}
             </AutoColumn>
-            <BottomGrouping className="submtBtn">
+            <BottomGrouping>
               <div style={{ maxWidth: '350px', margin: '0 auto' }}>
                 {!account ? (
                   <ButtonPrimary onClick={toggleWalletModal}>Connect Wallet</ButtonPrimary>

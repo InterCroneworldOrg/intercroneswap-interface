@@ -195,7 +195,7 @@ export default function CurrencyInputPanel({
   }, [setModalOpen]);
 
   return (
-    <InputPanel id={id} className="tokenMain">
+    <InputPanel id={id}>
       <Container hideInput={hideInput}>
         {/* {!hideInput && (
           <LabelRow>
@@ -234,7 +234,7 @@ export default function CurrencyInputPanel({
               )} */}
             </InputWrapper>
           )}
-          <CurrencySelectContainer className="tokenBg">
+          <CurrencySelectContainer>
             <RowBetween>
               <AutoRow gap="3px">
                 <CurrencySelect
@@ -297,7 +297,6 @@ export default function CurrencyInputPanel({
                       : ' -'}
                   </TYPE.body>
                 )}
-                {/* <div className="balanceDigit">134.1340</div> */}
               </div>
             </RowBetween>
           </CurrencySelectContainer>
