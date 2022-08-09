@@ -196,6 +196,7 @@ export default function SettingsTab() {
         </ModalContentWrapper>
       </Modal>
       <StyledMenuButton onClick={toggle} id="open-settings-dialog-button">
+        <span>Advanced Settings</span>
         <StyledMenuIcon />
         {expertMode ? (
           <EmojiWrapper>

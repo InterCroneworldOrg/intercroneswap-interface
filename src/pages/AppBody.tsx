@@ -33,7 +33,7 @@ export default function AppBody({ children }: { children: React.ReactNode }) {
   return <BodyWrapper>{children}</BodyWrapper>;
 }
 export const Container = styled.div`
-  width: 96%;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
@@ -42,9 +42,6 @@ export const Container = styled.div`
   @media (max-width: 1140px) {
     max-width: 560px;
     column-gap: 0px;
-    width: 100%;
-    grid-template-columns: unset;
-    padding: 10px;
-    display: unset;
+    grid-template-columns: 1fr;
   }
 `;
