@@ -6,7 +6,6 @@ import styled, { ThemeContext } from 'styled-components';
 import AddressInputPanel from '../../components/AddressInputPanel';
 import { ButtonError, ButtonPrimary, ButtonConfirmed } from '../../components/Button';
 import { GreyCard } from '../../components/Card';
-import '../../styles/swap.scss';
 // Card,
 import Settings from '../../components/Settings';
 import Column, { AutoColumn } from '../../components/Column';
@@ -43,7 +42,7 @@ import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import AppBody, { Container } from '../AppBody';
 import Loader from '../../components/Loader';
 import { ReactComponent as YellowArrowDown } from '../../assets/images/arrow-down-yellow.svg';
-// import AdvancedSwapDetailsDropdown from '../../components/swap/AdvancedSwapDetailsDropdown';
+import AdvancedSwapDetailsDropdown from '../../components/swap/AdvancedSwapDetailsDropdown';
 import { StyledHeading } from '../App';
 const AppBodyContainer = styled.div`
   display: flex;
@@ -312,12 +311,7 @@ export default function Swap() {
             {/* <BelowAppbody1></BelowAppbody1> */}
           </AppBodyContainer>
           <AppAdvancedSetting>
-            <div className="swapandprobtn">
-              <button className="swapbtn">Swap</button>
-              <button className="proswapbtn">
-                Professional <span>(coming soon)</span>
-              </button>
-            </div>
+            <h3>Exchange</h3>
             <div className="advs">
               <span>
                 <Settings />
@@ -505,51 +499,9 @@ export default function Swap() {
           </Wrapper>
         </AppBody>
         <div>
-          {/* <AdvancedSwapDetailsDropdown trade={trade} /> */}
-          <div className="transactsetting">
-            <h3>Transaction Settings</h3>
-            <h5>Slippage tolerance</h5>
-            <div className="tbtns">
-              <button>0.1%</button>
-              <button>0.5%</button>
-              <button>1%</button>
-              <input type="text" value="" placeholder="0.50%" />
-            </div>
-            <br />
-            <h5>Transaction deadline</h5>
-            <div className="minutes">
-              <input type="text" value="" placeholder="3" />
-              <h6>minutes</h6>
-            </div>
-          </div>
-          <div className="pricesetting">
-            <h4>Price</h4>
-            <p>
-              0 <span>TRX</span> per <span>SAFEMONEY</span>
-            </p>
-            <p>
-              104540.04504 <span>SAFEMONEY</span> per <span>TRX</span>
-            </p>
-          </div>
-          <div className="transactiondetails">
-            <div className="details">
-              <p>Minimum received</p>
-              <p>0 TRX</p>
-            </div>
-            <div className="details">
-              <p>Price Impace</p>
-              <p>0.01%</p>
-            </div>
-            <div className="details">
-              <p>Liquidity Provider Fee</p>
-              <p>0 SAFEMONEY</p>
-            </div>
-            <div className="details">
-              <p>Slippage tolerance</p>
-              <p>0.1%</p>
-            </div>
-          </div>
+          <AdvancedSwapDetailsDropdown trade={trade} />
         </div>
+        
       </Container>
     </>
   );

@@ -11,7 +11,7 @@ iframe{
 @media only screen and (max-width: 767px) {
     #open-settings-dialog-button{
         padding: 3px 15px;
-        height: 35px;
+        height: 41px;
     }
     #swap-page .open-currency-select-button{
         width: auto;
