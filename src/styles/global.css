@@ -7,9 +7,7 @@ hr:not([size]) {
 iframe{
     display: none;
 }
-.hideindesktop{
-    display: none !important;
-}
+
 @media only screen and (max-width: 767px) {
     #open-settings-dialog-button{
         padding: 3px 15px;
@@ -60,7 +58,6 @@ iframe{
         height: 48px;
         font-weight: 600;
     }
-    
 }
 
 
