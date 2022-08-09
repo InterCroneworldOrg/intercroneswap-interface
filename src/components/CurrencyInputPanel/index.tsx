@@ -26,7 +26,7 @@ const InputRow = styled.div<{ selected: boolean }>`
   align-items: center;
   flex-direction: column-reverse !important;
   justify-content: space-between;
-  /* padding: ${({ selected }) => (selected ? '0.75rem 0rem 0.75rem 0rem' : '0.75rem 0rem 0.75rem 0rem')}; */
+  padding: ${({ selected }) => (selected ? '0.75rem 0rem 0.75rem 0rem' : '0.75rem 0rem 0.75rem 0rem')};
 `;
 
 const CurrencySelect = styled.button<{ selected: boolean }>`
