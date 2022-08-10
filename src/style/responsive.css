@@ -32,6 +32,7 @@
     }
     div#socialiconparent{
         margin-bottom: unset;
+        justify-content: center;
     }
     div#poolfooter{
         flex-direction: column;
