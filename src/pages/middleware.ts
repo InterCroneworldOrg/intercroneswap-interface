@@ -21,8 +21,8 @@ export async function middleware(req: NextRequest) {
     BLOCK_COUNTRIES.some((c) => c === country) || BLOCK_REGIONS.some((r) => r === `${country}-${region}`)
 
   if (shouldBlock) {
-    return new Response('Unavailable for legal reasons', { status: 451 })
+    return NextResponse.json('Unavailable for legal reasons', { status: 451 })
   }
 
-  return res
+  return res.ok
 }

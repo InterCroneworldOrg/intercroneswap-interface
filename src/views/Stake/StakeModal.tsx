@@ -3,20 +3,19 @@ import { useCallback, useContext, useState } from 'react'
 import { ThemeContext } from 'styled-components'
 import { Text, Button } from '@pancakeswap/uikit'
 import { AutoColumn } from 'components/Layout/Column'
-import NumericalInput from '../../components/NumericalInput'
 import { AutoRow, RowBetween } from 'components/Layout/Row'
+import { useWeb3React } from '@web3-react/core'
+import tryParseAmount from 'utils/tryParseAmount'
+import NumericalInput from '../../components/NumericalInput'
 import TransactionConfirmationModal, { ConfirmationModalContent } from '../../components/TransactionConfirmationModal'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
-import { useWeb3React } from '@web3-react/core'
 import { StakingInfo, useStakeActionHandlers, useStakeState } from '../../state/stake/hooks'
-import { getStakingContract } from '../../utils'
+import { getStakingContract, calculateGasMargin } from '../../utils'
 // import { TransactionResponse } from '@ethersproject/providers';
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { Tabs } from '../../components/NavigationTabs'
 import { MaxButton } from './styleds'
-import tryParseAmount from 'utils/tryParseAmount'
 import { useGasPrice } from '../../state/user/hooks'
-import { calculateGasMargin } from '../../utils'
 import { StakeTabs } from './StakeTabs'
 
 interface StakeModalProps {
@@ -109,10 +108,7 @@ export default function StakeModal({
     }
     const estimate = stakingContract.estimateGas.stake
     const method = stakingContract.stake
-    const args: Array<string | string[] | number> = [
-      stakeAmount?.raw.toString(),
-      referalAddress ? referalAddress : account,
-    ]
+    const args: Array<string | string[] | number> = [stakeAmount?.raw.toString(), referalAddress || account]
     setAttemptingTxn(true)
     await estimate(...args, {})
       .then((estimatedGasLimit) =>

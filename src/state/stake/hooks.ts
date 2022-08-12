@@ -1,19 +1,20 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import { CurrencyAmount, JSBI, Pair, Token, TokenAmount } from '@intercroneswap/v2-sdk'
 import { abi as ISwapV2StakingRewards } from '@intercroneswap/v2-staking/build/StakingRewards.json'
 import { Interface } from 'ethers/lib/utils'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import tokens, { getTokenByAddress } from 'config/constants/tokens'
-import { AppDispatch, AppState } from '..'
 import { useWeb3React } from '@web3-react/core'
+import tryParseAmount from 'utils/tryParseAmount'
+import { AppDispatch, AppState } from '..'
 import { useStakingContract } from '../../hooks/useContract'
 import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp'
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks'
-import tryParseAmount from 'utils/tryParseAmount'
 import { typeInput } from './actions'
 import { StakingRewardsInfo } from './constants'
 
-var ZERO = /*#__PURE__*/ JSBI.BigInt(0)
+const ZERO = /* #__PURE__ */ JSBI.BigInt(0)
 
 const { icr: ICR } = tokens
 
@@ -196,7 +197,7 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
         }
 
         // get the LP token
-        const tokens = info[index].tokens
+        const { tokens } = info[index]
         const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'))
 
         // check for account, if no account set to 0

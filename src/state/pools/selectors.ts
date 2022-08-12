@@ -61,7 +61,7 @@ export const poolsWithVaultSelector = createSelector(
       apr: getAprData(ifoPoolVault, ifoPool.fees.performanceFeeAsDecimal).apr,
       rawApr: cakePool.apr,
     }
-    return { pools: pools, userDataLoaded }
+    return { pools, userDataLoaded }
   },
 )
 

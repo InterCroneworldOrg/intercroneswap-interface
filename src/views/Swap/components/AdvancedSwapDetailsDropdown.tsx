@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 import useLastTruthy from 'hooks/useLast'
-import { AdvancedSwapDetails, AdvancedSwapDetailsProps } from './AdvancedSwapDetails'
 import { Text } from '@pancakeswap/uikit'
+import { AdvancedSwapDetails, AdvancedSwapDetailsProps } from './AdvancedSwapDetails'
 import { AdvancedPriceDetails } from './AdvancedPriceDetails'
-
 
 const AdvancedDetailsFooter = styled.div<{ show: boolean }>`
   margin-top: ${({ show }) => (show ? '16px' : 0)};
@@ -33,6 +32,5 @@ export default function AdvancedSwapDetailsDropdown({ trade, ...rest }: Advanced
         <AdvancedSwapDetails {...rest} trade={trade ?? lastTrade ?? undefined} />
       </AdvancedDetailsFooter>
     </div>
-    
   )
 }

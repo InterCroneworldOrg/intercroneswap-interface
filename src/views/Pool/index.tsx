@@ -155,7 +155,8 @@ export default function Pool() {
             </RowBetween>
             <RowBetween>
               <Text fontSize="14px">
-                {`Liquidity providers earn a 0.2% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.`}
+                Liquidity providers earn a 0.2% fee on all trades proportional to their share of the pool. Fees are
+                added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.
               </Text>
             </RowBetween>
             <ExternalLink style={{ color: 'white', textDecoration: 'underline' }} target="_blank" href="">
@@ -170,13 +171,13 @@ export default function Pool() {
         {/* <AppHeader title={t('Your Liquidity')} subtitle={t('Remove liquidity to receive tokens back')} /> */}
         <Body>
           <AutoColumn gap="7px" style={{ padding: '0 16px' }}>
-            <SwapPoolTabs active={'pool'} />
+            <SwapPoolTabs active="pool" />
           </AutoColumn>
           {renderBody()}
         </Body>
         <CardFooter id="poolfooter" style={{ textAlign: 'center', display: 'flex', justifyContent: 'space-between' }}>
           <Link href="/add" passHref>
-            <Button id="join-pool-button" width="48%" >
+            <Button id="join-pool-button" width="48%">
               {t('Add Liquidity')}
             </Button>
           </Link>

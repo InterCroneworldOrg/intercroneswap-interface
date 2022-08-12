@@ -1,18 +1,11 @@
-import { Divider } from '../../theme'
+/* eslint-disable array-callback-return */
 import { RefObject, useCallback, useRef, useState, KeyboardEvent, useMemo, useContext, useEffect } from 'react'
-import { PageWrapper, StyledHeading } from '../Stake/styleds'
-import { LightCard } from '../../components/Card'
 import { Text } from '@pancakeswap/uikit'
-import { SearchInput } from '../../components/SearchModal/styleds'
-import MarketCard from '../../components/markets/MarketCard'
 import { ChainId, JSBI, Token } from '@intercroneswap/v2-sdk'
-import { StakingRewardsInfo, REWARDS_DURATION_DAYS_180, REWARDS_DURATION_DAYS } from '../../state/stake/constants'
 import { AutoColumn } from 'components/Layout/Column'
 import { getTokensFromDefaults } from 'config/constants/tokens'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { RowBetween, AutoRow } from '../../../packages/uikit/src/styles/header.styles'
-import { breakpointMap } from '../../../packages/uikit/src/theme/base'
 import useInterval from 'hooks/useInterval'
 import { BACKEND_URL } from 'config'
 import Page from 'views/Page'
@@ -20,6 +13,14 @@ import { MarketInfo, useMarkets } from 'hooks/useMarkets'
 import { ThemeContext } from 'styled-components'
 import { useRouter } from 'next/router'
 import { Pagination } from 'react-bootstrap'
+import { breakpointMap } from '../../../packages/uikit/src/theme/base'
+import { RowBetween, AutoRow } from '../../../packages/uikit/src/styles/header.styles'
+import { StakingRewardsInfo, REWARDS_DURATION_DAYS_180, REWARDS_DURATION_DAYS } from '../../state/stake/constants'
+import MarketCard from '../../components/markets/MarketCard'
+import { SearchInput } from '../../components/SearchModal/styleds'
+import { LightCard } from '../../components/Card'
+import { PageWrapper, StyledHeading } from '../Stake/styleds'
+import { Divider } from '../../theme'
 import { MarketHeader } from './styleds'
 
 const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): boolean => {
@@ -177,9 +178,9 @@ export default function Markets() {
       </PageWrapper>
       {pagingInfo && (
         <Pagination color={theme.colors.primary} style={{ background: theme.colors.background, marginTop: '2rem' }}>
-          <Pagination.First style={{ background: theme.colors.background }} href={`/markets/1`} />
+          <Pagination.First style={{ background: theme.colors.background }} href="/markets/1" />
           {pagingInfo.page > 1 && <Pagination.Prev href={`/markets/${pagingInfo.page - 1}`} />}
-          {pagingInfo.page > 2 && <Pagination.Item href={`/markets/1`}>1</Pagination.Item>}
+          {pagingInfo.page > 2 && <Pagination.Item href="/markets/1">1</Pagination.Item>}
           {pagingInfo.page > 3 && <Pagination.Ellipsis />}
           {Array.from({ length: 3 }, (_, i) => i + pagingInfo.page - 1).map((val) => {
             if (val <= pagingInfo.maxPages && val > 0) {

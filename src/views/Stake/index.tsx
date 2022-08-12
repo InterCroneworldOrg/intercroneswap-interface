@@ -1,3 +1,8 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable array-callback-return */
+/* eslint-disable lodash/import-scope */
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { JSBI, TokenAmount } from '@intercroneswap/v2-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
@@ -6,13 +11,14 @@ import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, use
 import { isAddress } from 'utils'
 import { Text, Button, useModal } from '@pancakeswap/uikit'
 import styled, { ThemeContext } from 'styled-components'
-import { LightGreyCard, LightCard } from '../../components/Card'
 import { AutoColumn } from 'components/Layout/Column'
 import { CurrencyLogo, DoubleCurrencyLogo } from 'components/Logo'
 import tokens, { getTokensFromDefaults } from 'config/constants/tokens'
+import { AutoRow, RowBetween } from 'components/Layout/Row'
+import { Form } from 'react-bootstrap'
+import { LightGreyCard, LightCard } from '../../components/Card'
 import PoolCard from '../../components/earn/PoolCard'
 import { ResponsiveSizedTextMedium } from '../../components/earn/styleds'
-import { AutoRow, RowBetween } from 'components/Layout/Row'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import { Dots } from '../../components/swap/styleds'
 import Page from '../Page'
@@ -22,7 +28,6 @@ import StakeModal from './StakeModal'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds'
 import { REWARDS_DURATION_DAYS, REWARDS_DURATION_DAYS_180, StakingRewardsInfo } from '../../state/stake/constants'
-import { Form } from 'react-bootstrap'
 import { breakpointMap } from '../../../packages/uikit/src/theme/base'
 
 const ZERO = JSBI.BigInt(0)
@@ -66,7 +71,7 @@ export default function Stake() {
   }, [chainId, stakingInfosRaw])
 
   const referalArr = router.query.referal || []
-  let referal = undefined
+  let referal
   if (referalArr.length == 1) {
     referal = referalArr[0]
     if (!isAddress(referal)) router.push('/stake')
@@ -290,7 +295,7 @@ export default function Stake() {
   return (
     <Page>
       <StyledHeading>LP Staking</StyledHeading>
-      <TitleRow style={{ marginTop: '1rem', textAlign: 'center' }} padding={'0'}>
+      <TitleRow style={{ marginTop: '1rem', textAlign: 'center' }} padding="0">
         <Text width="100%" style={{ marginTop: '0.5rem', justifySelf: 'center', color: theme.colors.text }}>
           Stake Liquidity Pool (LP) tokens to earn
         </Text>
@@ -304,7 +309,7 @@ export default function Stake() {
               style={{ zIndex: '2', background: theme.colors.background, border: `1px solid ${theme.colors.primary}` }}
             >
               <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
-              <CurrencyLogo currency={toggleToken ? ICR : BUSD} size={'28px'} style={{ marginLeft: '1rem' }} />
+              <CurrencyLogo currency={toggleToken ? ICR : BUSD} size="28px" style={{ marginLeft: '1rem' }} />
             </Button>
           ) : (
             <div />
@@ -327,7 +332,7 @@ export default function Stake() {
               <ConnectWalletButton width="100%" maxWidth={300} />
             </div>
           ) : (
-            <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between" />
+            <AutoRow gap="20px" style={{ margin: 0 }} justify="space-between" />
           )}
           <AutoColumn gap="1rem" justify="center">
             <AutoColumn gap="1rem" style={{ width: '100%' }}>
@@ -338,7 +343,7 @@ export default function Stake() {
                     label="Active"
                     id="active-staking"
                     onChange={onSwitchAction}
-                    defaultChecked={true}
+                    defaultChecked
                     style={{ color: theme.colors.text }}
                   />
                   <Form.Switch
@@ -386,7 +391,7 @@ export default function Stake() {
                       }}
                     >
                       <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
-                      <CurrencyLogo currency={toggleToken ? BUSD : ICR} size={'28px'} style={{ marginLeft: '1rem' }} />
+                      <CurrencyLogo currency={toggleToken ? BUSD : ICR} size="28px" style={{ marginLeft: '1rem' }} />
                     </Button>
                   </AutoRow>
                 )}
@@ -416,7 +421,7 @@ export default function Stake() {
                         label="Active"
                         id="active-staking"
                         onChange={onSwitchAction}
-                        defaultChecked={true}
+                        defaultChecked
                         style={{ color: theme.colors.text }}
                       />
                       <Form.Switch
@@ -448,10 +453,10 @@ export default function Stake() {
                     onChange={bindSortSelect}
                     value={sortOption}
                   >
-                    <option value={'latest'}>Latest</option>
-                    <option value={'liquidity'}>Liquidity</option>
-                    <option value={'earned'}>Earned</option>
-                    <option value={'apy'}>APY</option>
+                    <option value="latest">Latest</option>
+                    <option value="liquidity">Liquidity</option>
+                    <option value="earned">Earned</option>
+                    <option value="apy">APY</option>
                   </Form.Select>
                 </AutoRow>
               </RowBetween>
@@ -477,7 +482,7 @@ export default function Stake() {
                       handleStake={handleStake}
                       handleHarvest={handleHarvest}
                       toggleToken={toggleToken}
-                    ></PoolCard>
+                    />
                   ))}
                 </>
               ) : (

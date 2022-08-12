@@ -448,7 +448,7 @@ export default function Swap() {
                   <Wrapper id="swap-page" style={{ minHeight: '600px' }}>
                     <AutoColumn gap="sm">
                       <AutoColumn gap="7px" style={{ padding: '0 16px' }}>
-                        <SwapPoolTabs active={'swap'} />
+                        <SwapPoolTabs active="swap" />
                       </AutoColumn>
                       <CurrencyInputPanel
                         label={

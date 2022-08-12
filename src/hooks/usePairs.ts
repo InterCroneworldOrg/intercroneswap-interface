@@ -1,14 +1,15 @@
+/* eslint-disable lodash/import-scope */
 import { Token, TokenAmount, Pair, Currency, JSBI, ChainId } from '@intercroneswap/v2-sdk'
 import { useMemo } from 'react'
 import IPancakePairABI from 'config/abi/IPancakePair.json'
 import { Interface } from '@ethersproject/abi'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
+import { time } from 'console'
+import { chain } from 'lodash'
 import { useMultipleContractSingleData } from '../state/multicall/hooks'
 import { wrappedCurrency } from '../utils/wrappedCurrency'
 import useInterval from './useInterval'
-import { time } from 'console'
-import { chain } from 'lodash'
 
 const PAIR_INTERFACE = new Interface(IPancakePairABI)
 

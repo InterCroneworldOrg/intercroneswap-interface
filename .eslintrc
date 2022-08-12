@@ -9,6 +9,12 @@
   "rules": {
     "import/no-unresolved": 0,
     "no-console": ["warn", { "allow": ["info", "warn", "error", "debug"] }],
+    "no-unused-vars": 0,
+    "@typescript-eslint/no-unused-vars": 0,
+    "no-return-assign": "off",
+    "no-unused-expressions": "off",
+    "no-shadow": "off",
+"@typescript-eslint/no-shadow": ["error"],
     "no-plusplus": 0,
     "prefer-destructuring": ["warn", { "object": true, "array": false }],
     "no-underscore-dangle": 0,

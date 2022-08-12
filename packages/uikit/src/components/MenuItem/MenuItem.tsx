@@ -12,7 +12,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   ...props
 }) => {
   const { linkComponent } = useContext(MenuContext);
-  const itemLinkProps: unknown = href
+  const itemLinkProps: Object = href
     ? {
         as: linkComponent,
         href,

@@ -2154,20 +2154,20 @@ export const serializeTokens = () => {
 }
 
 export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
-  ['ICR']: unserializedTokens.icr,
-  ['BTC']: unserializedTokens.btcb,
-  ['BUSD']: unserializedTokens.busd,
-  ['USDT']: unserializedTokens.usdt,
-  ['USDD']: unserializedTokens.usdd,
-  ['BTT']: unserializedTokens.btt,
-  ['ETH']: unserializedTokens.eth,
-  ['CAKE']: unserializedTokens.cake,
-  ['DOT']: unserializedTokens.dot,
-  ['BSW']: unserializedTokens.bsw,
-  ['TRX']: unserializedTokens.trx,
-  ['FTM']: unserializedTokens.ftm,
-  ['AVAX']: unserializedTokens.avax,
-  ['ADA']: unserializedTokens.ada,
+  ICR: unserializedTokens.icr,
+  BTC: unserializedTokens.btcb,
+  BUSD: unserializedTokens.busd,
+  USDT: unserializedTokens.usdt,
+  USDD: unserializedTokens.usdd,
+  BTT: unserializedTokens.btt,
+  ETH: unserializedTokens.eth,
+  CAKE: unserializedTokens.cake,
+  DOT: unserializedTokens.dot,
+  BSW: unserializedTokens.bsw,
+  TRX: unserializedTokens.trx,
+  FTM: unserializedTokens.ftm,
+  AVAX: unserializedTokens.avax,
+  ADA: unserializedTokens.ada,
 }
 
 const tokenArray: Token[] = [
