@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { Colors } from "../../theme";
 import { baseColors, darkColors, lightColors } from "../../theme/colors";
 import { Flex, Box } from "../Box";
@@ -18,7 +19,6 @@ import { FooterProps } from "./types";
 import BscLogo from "../../assets/images/bsclogo.png";
 import BttLogo from "../../assets/images/bttlogo.png";
 import TrxLogo from "../../assets/images/trxlogo.png";
-import Image from "next/image";
 
 const getPropsForBlockchain = (
   name: string
@@ -117,7 +117,7 @@ const MenuItem: React.FC<FooterProps> = ({
             flexDirection={["column", null, "row"]}
             justifyContent="space-between"
           >
-            <Flex order={[2, null, 1]} alignItems="center">
+            <Flex order={[2, null, 1]} alignItems="center" className="footprice">
               <Box mr="20px">
                 <CakePrice cakePriceUsd={cakePriceUsd} />
               </Box>

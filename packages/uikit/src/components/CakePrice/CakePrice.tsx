@@ -1,10 +1,11 @@
+// @ts-nocheck
 import React from "react";
 import styled from "styled-components";
+import Image from "next/image";
 import Text from "../Text/Text";
 import Skeleton from "../Skeleton/Skeleton";
 import { Colors } from "../../theme";
 import Logo from "../../assets/images/chessicon.png";
-import Image from "next/image";
 import { Row } from "../../styles/header.styles";
 
 export interface Props {
@@ -28,8 +29,8 @@ const PriceLink = styled.a`
 
 const CakePrice: React.FC<Props> = ({ cakePriceUsd, color = "primary", showSkeleton = true }) => {
   return cakePriceUsd ? (
-    <Row width="14rem" justify="flex-end">
-      <PriceLink href={`/swap?outputCurrency=0x4f60Ad2c684296458b12053c0EF402e162971e00`} target="_blank">
+    <Row width="14rem" justify="flex-end" className="footprice">
+      <PriceLink href="/swap?outputCurrency=0x4f60Ad2c684296458b12053c0EF402e162971e00" target="_blank">
         <Image src={Logo} alt="logo" width={30} height={30} style={{ marginRight: "4px" }} />
         <Text color={color}>{`$${cakePriceUsd} USD`}</Text>
       </PriceLink>

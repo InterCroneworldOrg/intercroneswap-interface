@@ -1,7 +1,13 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+// @ts-nocheck
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import throttle from "lodash/throttle";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 // import BottomNav from "../../components/BottomNav";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import Image from "next/image";
 import { Box } from "../../components/Box";
 import Flex from "../../components/Box/Flex";
 import Footer from "../../components/Footer";
@@ -13,10 +19,8 @@ import { MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_M
 import { NavProps } from "./types";
 // import LangSelector from "../../components/LangSelector/LangSelector";
 import { MenuContext } from "./context";
-import { Navbar, Container, Nav } from "react-bootstrap";
 import Style from "../../styles/header.module.css";
 import { HeaderLinks, AccountElement } from "../../styles/header.styles";
-import Image from "next/image";
 import Logo from "../../assets/images/ISwap.svg";
 import BscLogo from "../../assets/images/bsclogo.png";
 import BttLogo from "../../assets/images/bttlogo.png";
@@ -142,7 +146,7 @@ const Menu: React.FC<NavProps> = ({
   const { name, src, color } = getLogoPropsFromChainID(chainId);
   const headerLogo = useCallback(() => {
     return (
-      <div className={"tokenname"} style={{ color }}>
+      <div className="tokenname" style={{ color }}>
         <span>{name}</span>
         <span style={{ width: "30px", marginLeft: "7px" }}>
           <Image src={src} alt="logo" width="26" height="25" />
@@ -199,6 +203,8 @@ const Menu: React.FC<NavProps> = ({
         <header id="mainheader">
           <Navbar
             expand="lg"
+            className={toggle ? "yestoggle" : "notoggle"}
+            onToggle={changeHamIcon}
             style={{ width: "100%", background: "linear-gradient(180deg, #3B3B3B 0%, rgba(59, 59, 59, 0) 100%)" }}
           >
             <Container fluid>
@@ -248,10 +254,10 @@ const Menu: React.FC<NavProps> = ({
                     Liquidity
                   </a>
                   <a href="/stake/" className={`${Style.link} nav-link`}>
-                    🔥 Staking
+                    <span className="hideinmobile">🔥</span> Staking
                   </a>
                   <a href="/markets/" className={`${Style.link} nav-link`}>
-                    🔥 Markets
+                    <span className="hideinmobile">🔥</span> Markets
                   </a>
                   <a href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                     NFT

@@ -8,7 +8,7 @@
     }
 
     #tknhead {
-        font-size: 40px;
+        font-size: 26px;
         line-height: 50px;
     }
 
@@ -63,6 +63,40 @@
     }
 
     div#styledfooterflex>ul {
-        width: 50%;
+        width: 40%;
+        margin: 18px;
+    }
+
+    #mainheader .navbar-light .navbar-nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: unset;
+        margin-bottom: 20px;
+    }
+
+    #mainheader .navbar-light .navbar-nav .nav-link {
+        font-size: 13px;
+        padding: 5px 8px;
+    }
+
+    .hideinmobile {
+        display: none;
+    }
+
+    #conntbtn {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #conntbtn div {
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    .footprice {
+        justify-content: center;
+        margin-top: 20px;
     }
 }
