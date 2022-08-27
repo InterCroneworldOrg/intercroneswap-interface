@@ -40,6 +40,7 @@ import { RedirectToReferal } from './Stake/redirects';
 
 import { isMobile } from '../theme';
 import Markets from './Markets';
+import { Management } from './NFT/management';
 // import Vote from './Vote'
 // import VotePage from './Vote/VotePage'
 
@@ -150,6 +151,7 @@ export default function App() {
               <Route exact strict path="/" component={Swap} />
               <Route exact strict path="/swap" component={Swap} />
               <Route exact strict path="/nft" component={NFT} />
+              <Route exact strict path="/nft/management" component={Management} />
               <Route exact strict path="/mint" component={Mint} />
               <Route exact strict path="/dashboard" component={Sample} />
               <Route exact strict path="/audit" component={Sample} />
