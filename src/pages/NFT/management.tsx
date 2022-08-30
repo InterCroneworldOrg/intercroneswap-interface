@@ -13,6 +13,7 @@ import { unwrappedToken, wrappedCurrency } from '../../utils/wrappedCurrency';
 import { ICR } from '../../constants/tokens';
 import { AutoRow } from '../../components/Row';
 import CurrencyLogo from '../../components/CurrencyLogo';
+import { BACKEND_URL } from '../../constants';
 
 interface PayoutReport {
   holder_address: string;
@@ -34,7 +35,7 @@ export const Management: React.FC = () => {
       token: currency.symbol,
       amount: paymentAmount,
     };
-    const response = await fetch(`http://localhost:8080/abitrage/payoutreport?chainId=${chainId}`, {
+    const response = await fetch(`${BACKEND_URL}/abitrage/payoutreport?chainId=${chainId}`, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify(jsonData),
