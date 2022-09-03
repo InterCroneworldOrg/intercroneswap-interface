@@ -200,7 +200,7 @@ export function useSwapCallback(
           contract,
           parameters: { methodName, args, value },
           // gasEstimate
-        } = swapCalls[0];
+        } = swapCalls[swapCalls.length - 1];
         // console.log(swapCalls[0], 'swapccalls');
 
         return contract[methodName](...args, {
