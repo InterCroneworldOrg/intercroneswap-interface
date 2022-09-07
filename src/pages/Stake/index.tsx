@@ -26,7 +26,7 @@ import HarvestModal from './HarvestModal';
 import StakeModal from './StakeModal';
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds';
 import CurrencyLogo from '../../components/CurrencyLogo';
-import { Form } from 'react-bootstrap';
+import { Form, Pagination } from 'react-bootstrap';
 
 let stakingInfosRaw: {
   [chainId: number]: {
@@ -45,9 +45,11 @@ export default function Stake({
   },
 }: RouteComponentProps<{ referal?: string }>) {
   const { t } = useTranslation();
+  const MAX_STAKE_PER_PAGE = 6;
   const theme = useContext(ThemeContext);
   const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
   const { account, chainId } = useActiveWeb3React();
+  const [pagingInfo, setPagingInfo] = useState<any>({});
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];
     stakingInfosRaw && chainId && stakingInfosRaw[chainId]
@@ -65,6 +67,11 @@ export default function Stake({
           });
         })
       : undefined;
+
+    setPagingInfo({
+      page: 1,
+      maxPages: Math.floor(tmpinfos.length / MAX_STAKE_PER_PAGE),
+    });
     return tmpinfos;
   }, [chainId, stakingInfosRaw]);
 
@@ -94,10 +101,31 @@ export default function Stake({
 
   const onStakedOnlyAction = () => {
     setStakedOnly(!isStakedOnly);
+    if (isActive) {
+      setPagingInfo({
+        maxPages: !isStakedOnly
+          ? Math.floor(stakedOnlyPools.length / MAX_STAKE_PER_PAGE)
+          : Math.floor(activePools.length / MAX_STAKE_PER_PAGE),
+        page: 1,
+      });
+    } else {
+      setPagingInfo({
+        maxPages: !isStakedOnly
+          ? Math.floor(stakedInactivePools.length / MAX_STAKE_PER_PAGE)
+          : Math.floor(inactivePools.length / MAX_STAKE_PER_PAGE),
+        page: 1,
+      });
+    }
   };
 
   const onSwitchAction = () => {
     setActive(!isActive);
+    setPagingInfo({
+      maxPages: !isActive
+        ? Math.floor(activePools.length / MAX_STAKE_PER_PAGE)
+        : Math.floor(inactivePools.length / MAX_STAKE_PER_PAGE),
+      page: 1,
+    });
   };
 
   const handleHarvest = (address: string) => {
@@ -195,9 +223,10 @@ export default function Stake({
 
   const stakingList = useCallback(
     (poolsToDisplay: StakingInfo[]): StakingInfo[] => {
+      let tmpList: StakingInfo[] = poolsToDisplay;
       if (searchQuery) {
         if (!toggleSearch) {
-          return poolsToDisplay.filter((info: StakingInfo) => {
+          tmpList = poolsToDisplay.filter((info: StakingInfo) => {
             return (
               info.tokens[0].symbol?.toLowerCase().includes(searchQuery) ||
               info.tokens[0].name?.toLowerCase().includes(searchQuery) ||
@@ -205,15 +234,16 @@ export default function Stake({
               info.tokens[1].name?.toLowerCase().includes(searchQuery)
             );
           });
+        } else {
+          tmpList = poolsToDisplay.filter((info: StakingInfo) => {
+            return (
+              info.earnedAmount.token.symbol?.toLowerCase().includes(searchQuery) ||
+              info.earnedAmount.token.name?.toLowerCase().includes(searchQuery)
+            );
+          });
         }
-        return poolsToDisplay.filter((info: StakingInfo) => {
-          return (
-            info.earnedAmount.token.symbol?.toLowerCase().includes(searchQuery) ||
-            info.earnedAmount.token.name?.toLowerCase().includes(searchQuery)
-          );
-        });
       }
-      return poolsToDisplay;
+      return tmpList;
     },
     [searchQuery],
   );
@@ -240,7 +270,51 @@ export default function Stake({
       chosenPools = isStakedOnly ? stakingList(stakedInactivePools) : stakingList(inactivePools);
     }
     return sortPools(chosenPools);
-  }, [sortOption, stakingInfos, searchQuery, isActive, isStakedOnly]);
+  }, [sortOption, stakingInfos, searchQuery, isActive, isStakedOnly, pagingInfo]);
+
+  const pagination = useCallback(() => {
+    const maxPages = Math.floor(chosenPoolsMemoized.length / MAX_STAKE_PER_PAGE);
+    return (
+      <Pagination color={theme.text1} style={{ background: theme.bg1, marginTop: '2rem' }}>
+        <Pagination.First style={{ background: theme.bg1 }} onClick={() => setPagingInfo({ ...pagingInfo, page: 1 })} />
+        {pagingInfo.page > 1 && (
+          <Pagination.Prev onClick={() => setPagingInfo({ ...pagingInfo, page: pagingInfo.page - 1 })} />
+        )}
+        {pagingInfo.page > 2 && (
+          <Pagination.Item onClick={() => setPagingInfo({ ...pagingInfo, page: 1 })}>1</Pagination.Item>
+        )}
+        {pagingInfo.page > 3 && <Pagination.Ellipsis />}
+        {Array.from({ length: 3 }, (_, i) => i + pagingInfo.page - 1).map((val) => {
+          if (val <= maxPages && val > 0) {
+            return (
+              <Pagination.Item
+                key={val}
+                active={pagingInfo.page === val}
+                disabled={pagingInfo.page === val}
+                onClick={() => setPagingInfo({ ...pagingInfo, page: val })}
+              >
+                {val}
+              </Pagination.Item>
+            );
+          }
+          return undefined;
+        })}
+        {pagingInfo.page < maxPages - 2 && <Pagination.Ellipsis />}
+        {pagingInfo.page < maxPages - 1 && (
+          <Pagination.Item onClick={() => setPagingInfo({ ...pagingInfo, page: maxPages })}>{maxPages}</Pagination.Item>
+        )}
+        {pagingInfo.page !== maxPages && (
+          <Pagination.Next onClick={() => setPagingInfo({ ...pagingInfo, page: pagingInfo.page + 1 })} />
+        )}
+        <Pagination.Last onClick={() => setPagingInfo({ ...pagingInfo, page: maxPages })} />
+      </Pagination>
+    );
+  }, [chosenPoolsMemoized]);
+
+  const chosenPoolsPage: StakingInfo[] = useMemo(
+    () => chosenPoolsMemoized.slice((pagingInfo.page - 1) * MAX_STAKE_PER_PAGE, pagingInfo.page * MAX_STAKE_PER_PAGE),
+    [chosenPoolsMemoized, pagingInfo],
+  );
 
   return (
     <>
@@ -313,7 +387,7 @@ export default function Stake({
                     label="Staked only"
                     id="staked-only"
                     onChange={onStakedOnlyAction}
-                    defaultChecked={false}
+                    defaultChecked={isStakedOnly}
                     style={{ color: theme.text1 }}
                   />
                 </RowBetween>
@@ -412,9 +486,9 @@ export default function Stake({
                     <Dots>Loading</Dots>
                   </TYPE.body>
                 </GreyCard>
-              ) : chosenPoolsMemoized?.length > 0 ? (
+              ) : chosenPoolsPage?.length > 0 ? (
                 <>
-                  {chosenPoolsMemoized.map((stakingInfo) => (
+                  {chosenPoolsPage.map((stakingInfo) => (
                     <PoolCard
                       key={stakingInfo.stakingRewardAddress}
                       stakingInfo={stakingInfo}
@@ -436,6 +510,7 @@ export default function Stake({
           </AutoColumn>
         </LightCard>
       </PageWrapper>
+      {pagingInfo && pagingInfo.maxPages > 1 && pagination()}
     </>
   );
 }
