@@ -82,11 +82,8 @@ export default function Stake({
   const [showReferal, setShowReferal] = useState<boolean>(false);
   const [showHarvest, setShowHarvest] = useState<boolean>(false);
   const [isActive, setActive] = useState<boolean>(true);
-  const [isComingSoon, setComingSoon] = useState<boolean>(false);
   const [isStakedOnly, setStakedOnly] = useState<boolean>(false);
   const { onUserInput, onTxHashChange } = useStakeActionHandlers();
-
-  const comingSoonStaking = stakingInfos.filter((info) => info.active && !info.periodFinish);
 
   const toggleWalletModal = useWalletModalToggle();
 
@@ -97,10 +94,6 @@ export default function Stake({
 
   const onStakedOnlyAction = () => {
     setStakedOnly(!isStakedOnly);
-  };
-
-  const onComingSoonAction = () => {
-    setComingSoon(!isComingSoon);
   };
 
   const onSwitchAction = () => {
@@ -246,11 +239,8 @@ export default function Stake({
     if (!isActive) {
       chosenPools = isStakedOnly ? stakingList(stakedInactivePools) : stakingList(inactivePools);
     }
-    if (isComingSoon) {
-      chosenPools = comingSoonStaking;
-    }
     return sortPools(chosenPools);
-  }, [sortOption, stakingInfos, searchQuery, isActive, isStakedOnly, isComingSoon]);
+  }, [sortOption, stakingInfos, searchQuery, isActive, isStakedOnly]);
 
   return (
     <>
@@ -311,31 +301,22 @@ export default function Stake({
             <AutoColumn gap="1rem" style={{ width: '100%' }}>
               {uplineComponent()}
               {isMobile ? (
-                <AutoColumn justify="center">
+                <RowBetween>
                   <Form.Switch
-                    label="Coming Soon"
-                    id="comingsoon-staking"
-                    onChange={onComingSoonAction}
+                    label="Active"
+                    id="active-staking"
+                    onChange={onSwitchAction}
+                    defaultChecked={true}
+                    style={{ color: theme.text1 }}
+                  />
+                  <Form.Switch
+                    label="Staked only"
+                    id="staked-only"
+                    onChange={onStakedOnlyAction}
                     defaultChecked={false}
                     style={{ color: theme.text1 }}
                   />
-                  <RowBetween>
-                    <Form.Switch
-                      label="Active"
-                      id="active-staking"
-                      onChange={onSwitchAction}
-                      defaultChecked={true}
-                      style={{ color: theme.text1 }}
-                    />
-                    <Form.Switch
-                      label="Staked only"
-                      id="staked-only"
-                      onChange={onStakedOnlyAction}
-                      defaultChecked={false}
-                      style={{ color: theme.text1 }}
-                    />
-                  </RowBetween>
-                </AutoColumn>
+                </RowBetween>
               ) : undefined}
               <RowBetween style={{ marginBottom: isMobile ? '-1rem' : '-1.5rem' }}>
                 <AutoRow gap=".3rem" width={isMobile ? '40%' : '14%'}>
@@ -383,13 +364,6 @@ export default function Stake({
                 <AutoRow gap="2rem" justify="flex-end">
                   {!isMobile ? (
                     <>
-                      <Form.Switch
-                        label="Coming Soon"
-                        id="comingsoon-staking"
-                        onChange={onComingSoonAction}
-                        defaultChecked={false}
-                        style={{ color: theme.text1 }}
-                      />
                       <Form.Switch
                         label="Active"
                         id="active-staking"
