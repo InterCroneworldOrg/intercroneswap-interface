@@ -3,6 +3,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 
 import { injected } from '../connectors';
 import { REWARDS_DURATION_DAYS_180 } from '../state/stake/constants';
+import { BTC, BTT, ETH, ICR, JM, MEOX, USDC, USDD, USDJ, USDT, WIN } from './tokens';
 
 export const ROUTER_ADDRESSES: { [chainId: number]: string } = {
   [ChainId.MAINNET]: '0x8e1d1d9b31a603b14a58b822b075050ddced7e94',
@@ -52,7 +53,7 @@ const WETH_ONLY: ChainTokenList = {
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET]],
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], ICR, USDT, USDC, USDJ, USDD, BTC, ETH, BTT, MEOX, JM, WIN],
 };
 
 /**
