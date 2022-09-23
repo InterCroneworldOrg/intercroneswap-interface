@@ -96,6 +96,14 @@
       "chainId": 56,
       "decimals": 18,
       "logoURI": "https://bscscan.com/token/images/avax_32.png"
+    },
+    {
+      "name": "MX Token",
+      "symbol": "MX",
+      "address": "0x9F882567A62a5560d147d64871776EeA72Df41D3",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "https://etherscan.io/token/images/mexc_32.png"
     }
   ],
   "logoURI": "https://coin.top/production/upload/logo/TKqvrVG7a2zJvQ3VysLoiz9ijuMNDehwy7.png",
