@@ -1,19 +1,23 @@
-import { useMemo } from 'react'
-import styled from 'styled-components'
-import { Text, Flex, CardBody, CardFooter, Button, AddIcon, LinkExternal } from '@pancakeswap/uikit'
+import { useContext, useEffect, useMemo, useState } from 'react'
+import styled, { ThemeContext } from 'styled-components'
+import { Text, CardBody, CardFooter, Button, LinkExternal, useMatchBreakpoints } from '@pancakeswap/uikit'
 import Link from 'next/link'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { BACKEND_URL } from 'config'
+import { ChainId } from '@intercroneswap/v2-sdk'
+import useInterval from 'hooks/useInterval'
+import { currencyFormatter } from 'utils'
 import FullPositionCard from '../../components/PositionCard'
 import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
 import { usePairs, PairState } from '../../hooks/usePairs'
 import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks'
 import Dots from '../../components/Loader/Dots'
-import { AppHeader, AppBody, PoolAppBody } from '../../components/App'
+import { PoolAppBody } from '../../components/App'
 import Page from '../Page'
 import { SwapPoolTabs } from '../Swap/components/SwapPoolTabs'
-import Column, { AutoColumn } from '../../components/Layout/Column'
-import { RowBetween } from '../../components/Layout/Row'
+import { AutoColumn } from '../../components/Layout/Column'
+import { AutoRow, RowBetween } from '../../components/Layout/Row'
 
 const Body = styled(CardBody)`
   background-color: ${({ theme }) => theme.colors.normalCard};
@@ -27,16 +31,81 @@ const ExternalLink = styled(LinkExternal)`
   }
 `
 
+const StyledHeading = styled.h1`
+  font-family: Jost;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 56px;
+  line-height: 72px;
+  text-align: center;
+  width: 100%;
+  color: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.primary};
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`
+
+const CardSection = styled(AutoColumn)<{ disabled?: boolean }>`
+  padding: 1rem;
+  z-index: 1;
+  opacity: ${({ disabled }) => disabled && '0.4'};
+`
+
+const CardNoise = styled.span`
+  background: url('/noise.png');
+  background-size: cover;
+  mix-blend-mode: overlay;
+  border-radius: 12px;
+  width: 100%;
+  height: 100%;
+  opacity: 0.15;
+  position: absolute;
+  top: 0;
+  left: 0;
+  user-select: none;
+`
+
+const DataCard = styled(AutoColumn)<{ disabled?: boolean }>`
+  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ff007a 0%, #2172e5 100%);
+  border-radius: 12px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+`
+
+const VoteCard = styled(DataCard)`
+  max-width: 840px;
+  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #f3c914 0%, #151515 100%);
+  overflow: hidden;
+`
+
 export default function Pool() {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
+  const { isMobile } = useMatchBreakpoints()
+  const theme = useContext(ThemeContext)
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
+  const [totalValueLocked, setTotalValueLocked] = useState('')
   const tokenPairsWithLiquidityTokens = useMemo(
     () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
     [trackedTokenPairs],
   )
+
+  const fetchData = async () => {
+    const response = await (
+      await fetch(`${BACKEND_URL}/markets/totalLocked?chainId=${chainId && ChainId.MAINNET}`)
+    ).json()
+    setTotalValueLocked(response.data.usdAmount)
+  }
+  useInterval(() => {
+    fetchData()
+  }, 1000 * 30)
+  useEffect(() => {
+    fetchData()
+  }, [totalValueLocked])
+
   const liquidityTokens = useMemo(
     () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
     [tokenPairsWithLiquidityTokens],
@@ -95,57 +164,15 @@ export default function Pool() {
     )
   }
 
-  const StyledHeading = styled.h1`
-    font-family: Jost;
-    font-style: normal;
-    font-weight: 900;
-    font-size: 56px;
-    line-height: 72px;
-    text-align: center;
-    width: 100%;
-    color: ${({ theme }) => theme.colors.primary};
-    background: ${({ theme }) => theme.colors.primary};
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  `
-
-  const CardSection = styled(AutoColumn)<{ disabled?: boolean }>`
-    padding: 1rem;
-    z-index: 1;
-    opacity: ${({ disabled }) => disabled && '0.4'};
-  `
-
-  const CardNoise = styled.span`
-    background: url('/noise.png');
-    background-size: cover;
-    mix-blend-mode: overlay;
-    border-radius: 12px;
-    width: 100%;
-    height: 100%;
-    opacity: 0.15;
-    position: absolute;
-    top: 0;
-    left: 0;
-    user-select: none;
-  `
-
-  const DataCard = styled(AutoColumn)<{ disabled?: boolean }>`
-    background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ff007a 0%, #2172e5 100%);
-    border-radius: 12px;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-  `
-
-  const VoteCard = styled(DataCard)`
-    max-width: 840px;
-    background: radial-gradient(76.02% 75.41% at 1.84% 0%, #f3c914 0%, #151515 100%);
-    overflow: hidden;
-  `
-
   return (
     <Page>
       <StyledHeading style={{ marginBottom: 35 }}>Swap your Tokens</StyledHeading>
+      <AutoRow justify="center" gap="1rem" style={{ marginBottom: isMobile ? '.5rem' : '2rem' }}>
+        <Text fontSize="1.3rem">Total value locked</Text>
+        <Text color={theme.colors.primary} fontSize="1.3rem">
+          {currencyFormatter.format(Number(totalValueLocked))}
+        </Text>
+      </AutoRow>
       <VoteCard>
         <CardNoise />
         <CardSection>
@@ -155,7 +182,8 @@ export default function Pool() {
             </RowBetween>
             <RowBetween>
               <Text fontSize="14px">
-                {`Liquidity providers earn a 0.2% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.`}
+                {`Liquidity providers earn a 0.2% fee on all trades proportional to their share of the pool. Fees are
+                added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.`}
               </Text>
             </RowBetween>
             <ExternalLink style={{ color: 'white', textDecoration: 'underline' }} target="_blank" href="">
@@ -170,13 +198,13 @@ export default function Pool() {
         {/* <AppHeader title={t('Your Liquidity')} subtitle={t('Remove liquidity to receive tokens back')} /> */}
         <Body>
           <AutoColumn gap="7px" style={{ padding: '0 16px' }}>
-            <SwapPoolTabs active={'pool'} />
+            <SwapPoolTabs active="pool" />
           </AutoColumn>
           {renderBody()}
         </Body>
         <CardFooter id="poolfooter" style={{ textAlign: 'center', display: 'flex', justifyContent: 'space-between' }}>
           <Link href="/add" passHref>
-            <Button id="join-pool-button" width="48%" >
+            <Button id="join-pool-button" width="48%">
               {t('Add Liquidity')}
             </Button>
           </Link>
