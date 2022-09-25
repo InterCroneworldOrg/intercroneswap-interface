@@ -31,11 +31,11 @@ import { Form, Pagination } from 'react-bootstrap';
 let stakingInfosRaw: {
   [chainId: number]: {
     [version: string]: {
-      [tokens: string]: string;
+      [address: string]: string;
     };
   };
 } = {};
-fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
+fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses_new.json')
   .then((response) => response.json())
   .then((data) => (stakingInfosRaw = data));
 
@@ -55,11 +55,11 @@ export default function Stake({
     stakingInfosRaw && chainId && stakingInfosRaw[chainId]
       ? Object.keys(stakingInfosRaw[chainId]).map((version) => {
           const vals = stakingInfosRaw[chainId][version];
-          Object.keys(vals).map((tokens) => {
-            const tokensFromDefault = getTokensFromDefaults(tokens);
+          Object.keys(vals).map((stakingRewardAddress) => {
+            const tokensFromDefault = getTokensFromDefaults(vals[stakingRewardAddress]);
             if (tokensFromDefault) {
               tmpinfos.push({
-                stakingRewardAddress: vals[tokens],
+                stakingRewardAddress,
                 tokens: tokensFromDefault,
                 rewardsDays: version !== 'v0' ? REWARDS_DURATION_DAYS_180 : REWARDS_DURATION_DAYS,
               });
@@ -72,6 +72,8 @@ export default function Stake({
       page: 1,
       maxPages: Math.floor(tmpinfos.length / MAX_STAKE_PER_PAGE),
     });
+    console.log(tmpinfos);
+
     return tmpinfos;
   }, [chainId, stakingInfosRaw]);
 
