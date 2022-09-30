@@ -1,5 +1,5 @@
 {
-  "name": "Iswap Default List BTT",
+  "name": "Iswap Default List FTM",
   "tokens": [
     {
       "name": "InterCrone",
@@ -63,7 +63,7 @@
       "address": "0x185a4091027E2dB459a2433F85f894dC3013aeB5",
       "chainId": 199,
       "decimals": 18,
-      "logoURI": "https://bttcscan.com/token/images/binancebnb_32.png"
+      "logoURI": "https://Fantom Explorer.com/token/images/binancebnb_32.png"
     },
     {
       "name": "MATIC",
@@ -71,7 +71,7 @@
       "address": "0x39A2ec2E3570aA234e49ffEC96F0684a352e3E0E",
       "chainId": 199,
       "decimals": 18,
-      "logoURI": "https://bttcscan.com/token/images/polygonbtt_32.png"
+      "logoURI": "https://Fantom Explorer.com/token/images/polygonbtt_32.png"
     },
     {
       "name": "Tron",

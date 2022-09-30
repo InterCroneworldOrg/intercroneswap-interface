@@ -1,19 +1,19 @@
 import { useTranslation } from 'contexts/Localization'
 import { Text, Link, LinkExternal } from '@pancakeswap/uikit'
 
-const BTTWarning = () => {
+const FTMWarning = () => {
   const { t } = useTranslation()
 
   return (
     <>
       <Text>
         {t(
-          'Please note that this is the old BTT token, which has been swapped to the new BTT tokens in the following ratio:',
+          'Please note that this is the old FTM token, which has been swapped to the new FTM tokens in the following ratio:',
         )}
       </Text>
-      <Text>1 BTT (OLD) = 1,000 BTT (NEW)</Text>
+      <Text>1 FTM (OLD) = 1,000 FTM (NEW)</Text>
       <Text mb="8px">
-        {t('Trade the new BTT token')}{' '}
+        {t('Trade the new FTM token')}{' '}
         <Link
           style={{ display: 'inline' }}
           href="https://pancakeswap.finance/swap?outputCurrency=0x352Cb5E19b12FC216548a2677bD0fce83BaE434B"
@@ -28,4 +28,4 @@ const BTTWarning = () => {
   )
 }
 
-export default BTTWarning
+export default FTMWarning

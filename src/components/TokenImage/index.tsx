@@ -13,7 +13,7 @@ interface TokenPairImageProps extends Omit<UIKitTokenPairImageProps, 'primarySrc
 }
 
 const getImageUrlFromToken = (token: Token) => {
-  const address = token.symbol === 'BTT' ? tokens.wbtt.address : token.address
+  const address = token.symbol === 'FTM' ? tokens.wftm.address : token.address
   return `/images/tokens/${address}.svg`
 }
 

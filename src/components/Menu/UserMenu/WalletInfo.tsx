@@ -43,7 +43,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowBnbBalance, onDismiss }) 
         )}
       </Flex> */}
       <Button variant="secondary" width="100%" marginBottom={10}>
-        <LinkExternal href={getBscScanLink(account, 'address')}>{t('View on BttcScan')}</LinkExternal>
+        <LinkExternal href={getBscScanLink(account, 'address')}>{t('View on Fantom Explorer')}</LinkExternal>
       </Button>
       <Button variant="secondary" width="100%" onClick={handleLogout}>
         {t('Disconnect Wallet')}

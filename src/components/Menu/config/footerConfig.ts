@@ -74,6 +74,11 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
         href: 'https://btt.intercroneswap.com/',
         withLogo: true,
       },
+      {
+        label: t('FTM'),
+        href: 'https://ftm.intercroneswap.com/',
+        withLogo: true,
+      },
     ],
   },
   {

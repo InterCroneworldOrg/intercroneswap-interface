@@ -6,7 +6,7 @@ import { multiplyPriceByAmount } from 'utils/prices'
 import { wrappedCurrency } from '../utils/wrappedCurrency'
 import { PairState, usePairs } from './usePairs'
 
-const { wbtt: WBNB, usdt_t, usdt_b } = tokens
+const { wftm: WBNB, usdt_t, usdt_b } = tokens
 
 /**
  * Returns the price in BUSD of the input currency
@@ -155,6 +155,6 @@ export const useBUSDCakeAmount = (amount: number): number | undefined => {
 }
 
 export const useBNBBusdPrice = (): Price | undefined => {
-  const bnbBusdPrice = useBUSDPrice(tokens.wbtt)
+  const bnbBusdPrice = useBUSDPrice(tokens.wftm)
   return bnbBusdPrice
 }

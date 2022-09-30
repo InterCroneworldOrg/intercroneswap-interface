@@ -15,7 +15,7 @@ type ChainTokenList = {
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.MAINNET]: [
-    mainnetTokens.wbtt,
+    mainnetTokens.wftm,
     mainnetTokens.icr_t,
     mainnetTokens.icr_b,
     mainnetTokens.usdt_t,
@@ -53,13 +53,13 @@ export const SUGGESTED_BASES: ChainTokenList = {
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
-  [ChainId.MAINNET]: [mainnetTokens.wbtt, mainnetTokens.usdt_t],
+  [ChainId.MAINNET]: [mainnetTokens.wftm, mainnetTokens.usdt_t],
   [ChainId.TESTNET]: [testnetTokens.wbnb, testnetTokens.icr, testnetTokens.busd],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
   [ChainId.MAINNET]: [
-    [mainnetTokens.icr_t, mainnetTokens.wbtt],
+    [mainnetTokens.icr_t, mainnetTokens.wftm],
     [mainnetTokens.usdt_t, mainnetTokens.icr_t],
   ],
 }

@@ -10,7 +10,7 @@ export interface StakingRewardsInfo {
   rewardsDays: number
 }
 
-const { icr_t: ICR, usdt_t: BUSD, wbtt: WBNB } = tokens
+const { icr_t: ICR, usdt_t: BUSD, wftm: WBNB } = tokens
 
 export const STAKING_REWARDS_INFO: {
   [chainId: number]: StakingRewardsInfo[]
@@ -62,7 +62,7 @@ export const STAKING_REWARDS_INFO: {
 //       rewardsDays: REWARDS_DURATION_DAYS_180,
 //     },
 //     {
-//       tokens: [ICR, BTT],
+//       tokens: [ICR, FTM],
 //       stakingRewardAddress: '',
 //       rewardsDays: REWARDS_DURATION_DAYS_180,
 //     },
@@ -93,7 +93,7 @@ export const STAKING_REWARDS_INFO: {
 //       rewardsDays: REWARDS_DURATION_DAYS_180,
 //     },
 //     {
-//       tokens: [WETH[ChainId.MAINNET] as Token, BTT],
+//       tokens: [WETH[ChainId.MAINNET] as Token, FTM],
 //       stakingRewardAddress: '',
 //       rewardsDays: REWARDS_DURATION_DAYS_180,
 //     },
@@ -134,7 +134,7 @@ export const STAKING_REWARDS_INFO: {
 //       rewardsDays: REWARDS_DURATION_DAYS_180,
 //     },
 //     {
-//       tokens: [USDT, BTT],
+//       tokens: [USDT, FTM],
 //       stakingRewardAddress: '',
 //       rewardsDays: REWARDS_DURATION_DAYS_180,
 //     },

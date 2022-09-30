@@ -23,16 +23,16 @@ export function getTokensFromDefaults(symbols: string): [Token, Token] | undefin
 
 export function getTokenFromDefaults(symbol: string): Token | undefined {
   const chainId = CHAIN_ID
-  return symbol === 'BTT' ? WETH[parseInt(chainId, 10)] : DefaultTokensMap[symbol]
+  return symbol === 'FTM' ? WETH[parseInt(chainId, 10)] : DefaultTokensMap[symbol]
 }
 
 export const mainnetTokens = defineTokens({
-  wbtt: new Token(
+  wftm: new Token(
     MAINNET,
     '0x23181F21DEa5936e24163FFABa4Ea3B316B57f3C',
     18,
-    'WBTT',
-    'Wrapped BTT',
+    'WFTM',
+    'Wrapped FTM',
     'https://www.bittorrent.com',
   ),
   icr_t: new Token(
