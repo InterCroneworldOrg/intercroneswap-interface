@@ -4,7 +4,7 @@ import { mainnetTokens, testnetTokens } from './tokens'
 
 export const ROUTER_ADDRESS = {
   [ChainId.MAINNET]: '0xe8b5cf1324f0933fabbe940e30330ce34160eefb',
-  [ChainId.TESTNET]: '0xebbFC2bdd29935E57C411e1Ae3822f4Bf4E56c22',
+  [ChainId.TESTNET]: '0x25078Aa3439E4F4cadef81373bd2105cf0e814C8',
 }
 
 // a list of tokens by chain
@@ -25,7 +25,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     mainnetTokens.tron,
     mainnetTokens.eth,
   ],
-  [ChainId.TESTNET]: [testnetTokens.wbnb, testnetTokens.icr, testnetTokens.busd],
+  [ChainId.TESTNET]: [testnetTokens.wftm, testnetTokens.icr, testnetTokens.busd],
 }
 
 /**
@@ -48,13 +48,13 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.MAINNET]: [mainnetTokens.usdt_t, mainnetTokens.icr_t, mainnetTokens.btc_b],
-  [ChainId.TESTNET]: [testnetTokens.wbnb, testnetTokens.icr, testnetTokens.busd],
+  [ChainId.TESTNET]: [testnetTokens.wftm, testnetTokens.icr, testnetTokens.busd],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.MAINNET]: [mainnetTokens.wftm, mainnetTokens.usdt_t],
-  [ChainId.TESTNET]: [testnetTokens.wbnb, testnetTokens.icr, testnetTokens.busd],
+  [ChainId.TESTNET]: [testnetTokens.wftm, testnetTokens.icr, testnetTokens.busd],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {

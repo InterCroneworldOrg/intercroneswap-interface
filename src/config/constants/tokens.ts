@@ -106,45 +106,22 @@ export const mainnetTokens = defineTokens({
 } as const)
 
 export const testnetTokens = defineTokens({
-  wbnb: new Token(
+  wftm: new Token(
     TESTNET,
-    '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
+    '0x1957d5e8496628D755A4b2151bcA03ecC379bdD6',
     18,
-    'WBNB',
-    'Wrapped BNB',
-    'https://www.binance.com/',
+    'WFTM',
+    'Wrapped Fantom',
+    'https://www.fantom.foundation/',
   ),
-  cake: new Token(
-    TESTNET,
-    '0xa35062141Fa33BCA92Ce69FeD37D0E8908868AAe',
-    18,
-    'CAKE',
-    'PancakeSwap Token',
-    'https://pancakeswap.finance/',
-  ),
+  usdt: new Token(TESTNET, '0xAd280B60cA089625E9d38612710301852f879050', 18, 'USDT', 'Tether', ''),
   busd: new Token(
     TESTNET,
-    '0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee',
+    '0xBe502C0f8C267e3C024B7B5fc8484BC3ec489DAE',
     18,
     'BUSD',
     'Binance USD',
     'https://www.paxos.com/busd/',
-  ),
-  syrup: new Token(
-    TESTNET,
-    '0xfE1e507CeB712BDe086f3579d2c03248b2dB77f9',
-    18,
-    'SYRUP',
-    'SyrupBar Token',
-    'https://pancakeswap.finance/',
-  ),
-  bake: new Token(
-    TESTNET,
-    '0xE02dF9e3e622DeBdD69fb838bB799E3F168902c5',
-    18,
-    'BAKE',
-    'Bakeryswap Token',
-    'https://www.bakeryswap.org/',
   ),
   icr: new Token(TESTNET, '0xb518912759D86409e747fad19Dbad9FE681761C3', 18, 'ICR', 'Intercroneswap Token', ''),
 } as const)
