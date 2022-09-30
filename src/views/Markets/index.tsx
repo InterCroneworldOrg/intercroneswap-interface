@@ -21,6 +21,7 @@ import { ThemeContext } from 'styled-components'
 import { useRouter } from 'next/router'
 import { Pagination } from 'react-bootstrap'
 import { MarketHeader } from './styleds'
+import { TotalValueLocked } from 'components/TotalValueLocked'
 
 const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): boolean => {
   if (!tokens2) {
@@ -132,6 +133,7 @@ export default function Markets() {
   return (
     <Page>
       <StyledHeading>Markets</StyledHeading>
+      <TotalValueLocked />
       <PageWrapper justify="center" style={{ marginTop: 30 }}>
         <LightCard style={{ margin: '5rem 0' }}>
           <AutoColumn gap="1rem" justify="space-between">
