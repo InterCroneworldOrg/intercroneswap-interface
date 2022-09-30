@@ -1,13 +1,9 @@
-import { useContext, useEffect, useMemo, useState } from 'react'
-import styled, { ThemeContext } from 'styled-components'
-import { Text, CardBody, CardFooter, Button, LinkExternal, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { useMemo } from 'react'
+import styled from 'styled-components'
+import { Text, CardBody, CardFooter, Button, LinkExternal } from '@pancakeswap/uikit'
 import Link from 'next/link'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { BACKEND_URL } from 'config'
-import { ChainId } from '@intercroneswap/v2-sdk'
-import useInterval from 'hooks/useInterval'
-import { currencyFormatter } from 'utils'
 import FullPositionCard from '../../components/PositionCard'
 import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
 import { usePairs, PairState } from '../../hooks/usePairs'
@@ -17,7 +13,8 @@ import { PoolAppBody } from '../../components/App'
 import Page from '../Page'
 import { SwapPoolTabs } from '../Swap/components/SwapPoolTabs'
 import { AutoColumn } from '../../components/Layout/Column'
-import { AutoRow, RowBetween } from '../../components/Layout/Row'
+import { RowBetween } from '../../components/Layout/Row'
+import { TotalValueLocked } from 'components/TotalValueLocked'
 
 const Body = styled(CardBody)`
   background-color: ${({ theme }) => theme.colors.normalCard};
@@ -80,31 +77,15 @@ const VoteCard = styled(DataCard)`
 `
 
 export default function Pool() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const { t } = useTranslation()
-  const { isMobile } = useMatchBreakpoints()
-  const theme = useContext(ThemeContext)
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
-  const [totalValueLocked, setTotalValueLocked] = useState('')
   const tokenPairsWithLiquidityTokens = useMemo(
     () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
     [trackedTokenPairs],
   )
-
-  const fetchData = async () => {
-    const response = await (
-      await fetch(`${BACKEND_URL}/markets/totalLocked?chainId=${chainId && ChainId.MAINNET}`)
-    ).json()
-    setTotalValueLocked(response.data.usdAmount)
-  }
-  useInterval(() => {
-    fetchData()
-  }, 1000 * 30)
-  useEffect(() => {
-    fetchData()
-  }, [totalValueLocked])
 
   const liquidityTokens = useMemo(
     () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
@@ -167,12 +148,7 @@ export default function Pool() {
   return (
     <Page>
       <StyledHeading style={{ marginBottom: 35 }}>Swap your Tokens</StyledHeading>
-      <AutoRow justify="center" gap="1rem" style={{ marginBottom: isMobile ? '.5rem' : '2rem' }}>
-        <Text fontSize="1.3rem">Total value locked</Text>
-        <Text color={theme.colors.primary} fontSize="1.3rem">
-          {currencyFormatter.format(Number(totalValueLocked))}
-        </Text>
-      </AutoRow>
+      <TotalValueLocked />
       <VoteCard>
         <CardNoise />
         <CardSection>
