@@ -128,11 +128,13 @@ export const useCorrectBUSDPrice = (currency?: Currency): Price | undefined => {
 }
 
 export const useCakeBusdPrice = (): Price | undefined => {
+  return undefined
   const cakeBusdPrice = useBUSDPrice(tokens.cake)
   return cakeBusdPrice
 }
 
 export const useIcrBusdPrice = (): Price | undefined => {
+  return undefined
   return useBUSDPrice(tokens.icr_t)
 }
 

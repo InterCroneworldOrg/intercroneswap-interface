@@ -10,8 +10,8 @@ BigNumber.config({
 export const BSC_BLOCK_TIME = 3
 
 export const BASE_BSC_SCAN_URLS = {
-  [ChainId.MAINNET]: 'https://Fantom Explorer.com',
-  [ChainId.TESTNET]: 'https://testnet.Fantom Explorer.com',
+  [ChainId.MAINNET]: 'https://ftmscan.com',
+  [ChainId.TESTNET]: 'https://testnet.ftmscan.com',
 }
 
 // CAKE_PER_BLOCK details

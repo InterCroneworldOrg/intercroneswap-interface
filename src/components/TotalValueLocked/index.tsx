@@ -18,7 +18,7 @@ export const TotalValueLocked: React.FC<any> = (...props) => {
     const response = await (
       await fetch(`${BACKEND_URL}/markets/totalLocked?chainId=${chainId && ChainId.MAINNET}`)
     ).json()
-    setTotalValueLocked(response.data.usdAmount)
+    setTotalValueLocked(response?.data?.usdAmount)
   }
   useInterval(() => {
     fetchData()

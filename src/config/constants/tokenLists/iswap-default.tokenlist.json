@@ -2,100 +2,20 @@
   "name": "Iswap Default List FTM",
   "tokens": [
     {
-      "name": "InterCrone",
-      "symbol": "ICR_t",
-      "address": "0x096C64d79A85C8FD2E963c4aBD9373301D2cf801",
-      "chainId": 199,
+      "name": "two",
+      "symbol": "two",
+      "address": "0xA72546dDbd75Fb4f0176EdbA30cc42c31c27b452",
+      "chainId": 4002,
       "decimals": 8,
       "logoURI": "https://coin.top/production/upload/logo/TKqvrVG7a2zJvQ3VysLoiz9ijuMNDehwy7.png"
     },
     {
-      "name": "InterCrone",
-      "symbol": "ICR_b",
-      "address": "0x252CD063341a1A47933086b93f85417C09C54aec",
-      "chainId": 199,
+      "name": "one",
+      "symbol": "one",
+      "address": "0xebbFC2bdd29935E57C411e1Ae3822f4Bf4E56c22",
+      "chainId": 4002,
       "decimals": 8,
       "logoURI": "https://coin.top/production/upload/logo/TKqvrVG7a2zJvQ3VysLoiz9ijuMNDehwy7.png"
-    },
-    {
-      "name": "Bitcoin",
-      "symbol": "BTC_b",
-      "address": "0x1A7019909B10cdD2D8B0034293AD729f1C1F604e",
-      "chainId": 199,
-      "decimals": 18,
-      "logoURI": "https://coin.top/production/logo/TN3W4H6rK2ce4vX9YnFQHwKENnHjoxb3m9.png"
-    },
-    {
-      "name": "Tether",
-      "symbol": "USDT_t",
-      "address": "0xdB28719F7f938507dBfe4f0eAe55668903D34a15",
-      "chainId": 199,
-      "decimals": 6,
-      "logoURI": "https://coin.top/production/logo/usdtlogo.png"
-    },
-    {
-      "name": "Tether",
-      "symbol": "USDT_b",
-      "address": "0x9B5F27f6ea9bBD753ce3793a07CbA3C74644330d",
-      "chainId": 199,
-      "decimals": 18,
-      "logoURI": "https://coin.top/production/logo/usdtlogo.png"
-    },
-    {
-      "name": "Ethereum",
-      "symbol": "ETH",
-      "address": "0x1249C65AfB11D179FFB3CE7D4eEDd1D9b98AD006",
-      "chainId": 199,
-      "decimals": 18,
-      "logoURI": "https://coin.top/production/logo/THb4CqiFdwNHsWsQCs4JhzwjMWys4aqCbF.png"
-    },
-    {
-      "name": "PancakeSwap",
-      "symbol": "CAKE_b",
-      "address": "0x2Eb6d639621Da30f61458D160338cd90547aDe9f",
-      "chainId": 199,
-      "decimals": 18,
-      "logoURI": "https://bscscan.com/token/images/pancake_32.png?=v1"
-    },
-    {
-      "name": "BNB",
-      "symbol": "BNB",
-      "address": "0x185a4091027E2dB459a2433F85f894dC3013aeB5",
-      "chainId": 199,
-      "decimals": 18,
-      "logoURI": "https://Fantom Explorer.com/token/images/binancebnb_32.png"
-    },
-    {
-      "name": "MATIC",
-      "symbol": "MATIC_e",
-      "address": "0x39A2ec2E3570aA234e49ffEC96F0684a352e3E0E",
-      "chainId": 199,
-      "decimals": 18,
-      "logoURI": "https://Fantom Explorer.com/token/images/polygonbtt_32.png"
-    },
-    {
-      "name": "Tron",
-      "symbol": "TRX",
-      "address": "0xEdf53026aeA60f8F75FcA25f8830b7e2d6200662",
-      "chainId": 199,
-      "decimals": 6,
-      "logoURI": "https://bscscan.com/token/images/tron_32.png"
-    },
-    {
-      "name": "XRP",
-      "symbol": "XRP_b",
-      "address": "0xF5DbB4e26C1946DFd5aD8cf2e1Cbda3510721bB8",
-      "chainId": 56,
-      "decimals": 18,
-      "logoURI": "https://bscscan.com/token/images/ftm_32.png?=v2"
-    },
-    {
-      "name": "Avalance",
-      "symbol": "AVAX_b",
-      "address": "0x4CC2FC7373B491db83bE3feB5db622e0773420cf",
-      "chainId": 199,
-      "decimals": 18,
-      "logoURI": "https://bscscan.com/token/images/avax_32.png"
     }
   ],
   "logoURI": "https://coin.top/production/upload/logo/TKqvrVG7a2zJvQ3VysLoiz9ijuMNDehwy7.png",
