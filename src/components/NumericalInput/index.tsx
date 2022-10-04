@@ -101,7 +101,7 @@ export const Input = React.memo(function InnerInput({
       title="Token Amount"
       autoComplete="off"
       autoCorrect="off"
-      type="number"
+      type="text"
       step="0.1"
       // text-specific options
       pattern="^[0-9]*[.,]?[0-9]*$"
