@@ -3,7 +3,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 
 import { injected } from '../connectors';
 import { REWARDS_DURATION_DAYS_180 } from '../state/stake/constants';
-import { BTC, BTT, ETH, ICR, JM, MEOX, USDC, USDD, USDJ, USDT, WIN } from './tokens';
+import { BTC, BTT, ETH, ICR, JM, MEOX, PLZ, USDC, USDD, USDJ, USDT, WIN } from './tokens';
 
 export const ROUTER_ADDRESSES: { [chainId: number]: string } = {
   [ChainId.MAINNET]: '0x8e1d1d9b31a603b14a58b822b075050ddced7e94',
@@ -203,3 +203,4 @@ export const BACKEND_URL = 'https://api.intercroneswap.com';
 // export const BACKEND_URL = 'http://localhost:8080';
 
 export const EARNING_CONTRACT = '0x01c49a17c2470ae3bd85412811f3dfeadde174a0';
+export const ACTUAL_LAUCH_TOKEN: Token = PLZ;

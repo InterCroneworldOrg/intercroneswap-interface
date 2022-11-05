@@ -1,88 +1,64 @@
-import { CurrencyAmount, JSBI, Token, Trade } from '@intercroneswap/v2-sdk';
+import { Trade, CurrencyAmount, Token, JSBI } from '@intercroneswap/v2-sdk';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { ArrowDown } from 'react-feather';
-import ReactGA from 'react-ga';
-import styled, { ThemeContext } from 'styled-components';
+import Rocket from '../../assets/svg/rocket.svg';
+import PlaentzLogo from '../../assets/svg/plaentz_logo.svg';
+import { ArrowDown, Loader } from 'react-feather';
+import { ThemeContext } from 'styled-components';
 import AddressInputPanel from '../../components/AddressInputPanel';
-import { ButtonError, ButtonPrimary, ButtonConfirmed } from '../../components/Button';
+import Twitter from '../../assets/svg/Twitter_white.svg';
+import Telegram from '../../assets/svg/Telegram_white.svg';
+import Facebook from '../../assets/svg/Facebook_white.svg';
+import Instagram from '../../assets/svg/Instagram_white.svg';
+import Youtube from '../../assets/svg/Youtube_white.svg';
+import { ButtonPrimary, ButtonConfirmed, ButtonError } from '../../components/Button';
 import { GreyCard } from '../../components/Card';
-import Settings from '../../components/Settings';
 import Column, { AutoColumn } from '../../components/Column';
-import ConfirmSwapModal from '../../components/swap/ConfirmSwapModal';
 import CurrencyInputPanel from '../../components/CurrencyInputPanel';
+import ReactGA from 'react-ga';
+import ProgressSteps from '../../components/ProgressSteps';
 import { AutoRow, RowBetween } from '../../components/Row';
+import AdvancedSwapDetailsDropdown from '../../components/swap/AdvancedSwapDetailsDropdown';
 import BetterTradeLink, { DefaultVersionLink } from '../../components/swap/BetterTradeLink';
 import confirmPriceImpactWithoutFee from '../../components/swap/confirmPriceImpactWithoutFee';
-import { ArrowWrapper, BottomGrouping, SwapCallbackError, Wrapper } from '../../components/swap/styleds';
+import ConfirmSwapModal from '../../components/swap/ConfirmSwapModal';
+import { ArrowWrapper, BottomGrouping, SwapCallbackError } from '../../components/swap/styleds';
 import TokenWarningModal from '../../components/TokenWarningModal';
-import ProgressSteps from '../../components/ProgressSteps';
-
-import { BETTER_TRADE_LINK_THRESHOLD } from '../../constants';
 import { getTradeVersion, isTradeBetter } from '../../data/V';
 import { useActiveWeb3React } from '../../hooks';
-import { useCurrency } from '../../hooks/Tokens';
-import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback';
-import useENSAddress from '../../hooks/useENSAddress';
+import { useApproveCallbackFromTrade, ApprovalState } from '../../hooks/useApproveCallback';
+import '../../styles/swap.scss';
 import { useSwapCallback } from '../../hooks/useSwapCallback';
 import useToggledVersion, { DEFAULT_VERSION, Version } from '../../hooks/useToggledVersion';
 import useWrapCallback, { WrapType } from '../../hooks/useWrapCallback';
-import { useWalletModalToggle } from '../../state/application/hooks';
 import { Field } from '../../state/swap/actions';
 import {
-  useDefaultsFromURLSearch,
+  useSwapState,
   useDerivedSwapInfo,
   useSwapActionHandlers,
-  useSwapState,
+  useDefaultsForLaunchPad,
 } from '../../state/swap/hooks';
-import { useExpertModeManager, useUserSlippageTolerance } from '../../state/user/hooks';
-import { Divider, LinkStyledButton, TYPE } from '../../theme';
+import { Divider, ExternalLink, LinkStyledButton, TYPE } from '../../theme';
 import { maxAmountSpend } from '../../utils/maxAmountSpend';
 import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices';
-import AppBody, { Container } from '../AppBody';
-import Loader from '../../components/Loader';
-import { ReactComponent as YellowArrowDown } from '../../assets/images/arrow-down-yellow.svg';
-import AdvancedSwapDetailsDropdown from '../../components/swap/AdvancedSwapDetailsDropdown';
 import { StyledHeading } from '../App';
-const AppBodyContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+import AppBody, { Container } from '../AppBody';
+import { Wrapper } from '../Pool/styleds';
+import { BETTER_TRADE_LINK_THRESHOLD } from '../../constants';
+import { useCurrency } from '../../hooks/Tokens';
+import useENSAddress from '../../hooks/useENSAddress';
+import { useWalletModalToggle } from '../../state/application/hooks';
+import { useExpertModeManager, useUserSlippageTolerance } from '../../state/user/hooks';
+import { MenuItem, SocialIconWrapper } from '../../components/Footer';
 
-const AppAdvancedSetting = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  h3 {
-    color: white;
-  }
-  .advs {
-    display: flex;
-    align-items: center;
-    p {
-      color: white;
-    }
-  }
-  @media (max-width: 768px) {
-    h3,
-    span {
-      font-size: 16px;
-    }
-  }
-  @media (max-width: 350px) {
-    flex-direction: column;
-  }
-`;
-export const StyledArrowDown = styled(YellowArrowDown)``;
-
-export default function Swap() {
-  const loadedUrlParams = useDefaultsFromURLSearch();
+export default function LaunchPad() {
+  const loadedUrlParams = useDefaultsForLaunchPad();
 
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [
     useCurrency(loadedUrlParams?.inputCurrencyId),
     useCurrency(loadedUrlParams?.outputCurrencyId),
   ];
+
   const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false);
   const urlLoadedTokens: Token[] = useMemo(
     () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c instanceof Token) ?? [],
@@ -147,7 +123,7 @@ export default function Swap() {
         [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
       };
   // onSwitchTokens
-  const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers();
+  const { onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers();
   const isValid = !swapInputError;
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT;
 
@@ -297,7 +273,9 @@ export default function Swap() {
 
   return (
     <>
-      <StyledHeading>Swap your tokens</StyledHeading>
+      <StyledHeading>
+        InterCrone Launchpad<img className="rocketimg" style={{ padding: '2rem' }} src={Rocket}></img>
+      </StyledHeading>
       <TokenWarningModal
         isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
         tokens={urlLoadedTokens}
@@ -305,23 +283,6 @@ export default function Swap() {
       />
       <Container>
         <AppBody>
-          <AppBodyContainer>
-            {/* <BelowAppbody></BelowAppbody> */}
-            {/* <BelowAppbody1></BelowAppbody1> */}
-          </AppBodyContainer>
-          <AppAdvancedSetting>
-            <h3>Exchange</h3>
-            <div className="advs">
-              <span>
-                <Settings />
-              </span>
-            </div>
-          </AppAdvancedSetting>
-          {/* <SwapPoolTabs active={'swap'} /> */}
-
-          {/* <RowBetween>
-            <TYPE.white>Exchange</TYPE.white>
-          </RowBetween> */}
           <Divider />
           <Wrapper id="swap-page">
             <ConfirmSwapModal
@@ -343,6 +304,7 @@ export default function Swap() {
                 // label={independentField === Field.OUTPUT && !showWrap && trade ? 'From (estimated)' : 'From'}
                 value={formattedAmounts[Field.INPUT]}
                 showMaxButton={!atMaxAmountInput}
+                disableCurrencySelect={true}
                 currency={currencies[Field.INPUT]}
                 onUserInput={handleTypeInput}
                 onMax={handleMaxInput}
@@ -350,27 +312,12 @@ export default function Swap() {
                 otherCurrency={currencies[Field.OUTPUT]}
                 id="swap-currency-input"
               />
-              <AutoColumn justify="space-between">
-                <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 0rem' }}>
-                  <ArrowWrapper clickable>
-                    <StyledArrowDown
-                      onClick={() => {
-                        setApprovalSubmitted(false); // reset 2 step UI for approvals
-                        onSwitchTokens();
-                      }}
-                    />
-                  </ArrowWrapper>
-                  {recipient === null && !showWrap && isExpertMode ? (
-                    <LinkStyledButton id="add-recipient-button" onClick={() => onChangeRecipient('')}>
-                      + Add a send (optional)
-                    </LinkStyledButton>
-                  ) : null}
-                </AutoRow>
-              </AutoColumn>
+              <AutoColumn style={{ height: '3rem' }} />
               <CurrencyInputPanel
                 value={formattedAmounts[Field.OUTPUT]}
                 onUserInput={handleTypeOutput}
                 label=""
+                disableCurrencySelect={true}
                 // label={independentField === Field.INPUT && !showWrap && trade ? 'To (estimated)' : 'To'}
                 showMaxButton={false}
                 currency={currencies[Field.OUTPUT]}
@@ -497,10 +444,58 @@ export default function Swap() {
             </BottomGrouping>
           </Wrapper>
         </AppBody>
+        <AutoRow justify="start">
+          <AppBody>
+            <AutoColumn gap=".5rem">
+              <img src={PlaentzLogo} />
+              <Divider />
+              <TYPE.white>
+                PLZ is the official Token that powers the PLÅNTZ ecosystem. Pay your PLÅNTZ NFT or use it for products
+                in their onlineshop.
+              </TYPE.white>
+              <ExternalLink href="https://plaentz.com">https://plaentz.com</ExternalLink>
+            </AutoColumn>
+          </AppBody>
+          <AppBody>
+            <AutoColumn gap="2rem">
+              <TYPE.white>
+                In launchpad the slippage is set higher to help not lose TRX due to failed transactions.
+              </TYPE.white>
+              <TYPE.white>
+                The launch of PLÅNTZ (PLZ) will be an important step for PLÅNTZ ecosystem to flourish and give their
+                community and NFT holders passive income through staking rewards. If you hold a PLÅNTZ Token you will be
+                able to stake it for a period of time and receive PLZ when you unstake it.{' '}
+              </TYPE.white>
+              <TYPE.white>
+                PLZ will be their governance token for our future projects in Gamefi, NFT marketplace and Metaverse.
+              </TYPE.white>
+            </AutoColumn>
+          </AppBody>
+        </AutoRow>
         <div>
           <AdvancedSwapDetailsDropdown trade={trade} />
         </div>
       </Container>
+      <AutoColumn justify="center">
+        <TYPE.white>Follow plaentz on social media</TYPE.white>
+        <SocialIconWrapper>
+          <MenuItem id="link" href="https://twitter.com/plaentz">
+            <img src={Twitter} alt="" />
+          </MenuItem>
+          <MenuItem id="link" href="https://www.instagram.com/plaentz_com/">
+            <img src={Instagram} alt="" />
+          </MenuItem>
+          <MenuItem id="link" href="https://www.facebook.com/plaentz/">
+            <img src={Facebook} alt="" />
+          </MenuItem>
+          <MenuItem id="link" href="https://t.me/+2K4XHVj5ln0zODk8">
+            <img src={Telegram} alt="" />
+          </MenuItem>
+          <MenuItem id="link" href="https://www.youtube.com/channel/UCFhk0JazFaU5iR2TmJ46Rdw">
+            <img src={Youtube} alt="" />
+          </MenuItem>
+        </SocialIconWrapper>
+      </AutoColumn>
     </>
   );
 }

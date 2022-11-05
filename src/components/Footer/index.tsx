@@ -36,14 +36,14 @@ const FootContent = styled.div`
     width: 100%;
   }
 `;
-const SocialIconWrapper = styled.div`
+export const SocialIconWrapper = styled.div`
   display: flex;
   justify-content: center;
   a {
     padding: 15px;
   }
 `;
-const MenuItem = styled(ExternalLink)`
+export const MenuItem = styled(ExternalLink)`
   flex: 1;
   color: black;
 
