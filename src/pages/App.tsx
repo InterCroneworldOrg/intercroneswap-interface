@@ -2,15 +2,11 @@ import { Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter';
-// import AddressClaimModal from '../components/claim/AddressClaimModal'
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-// import Polling from '../components/Header/Polling'
 import URLWarning from '../components/Header/URLWarning';
 import Popups from '../components/Popups';
 import Web3ReactManager from '../components/Web3ReactManager';
-// import { ApplicationModal } from '../state/application/actions'
-// import { useModalOpen, useToggleModal } from '../state/application/hooks'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader';
 import AddLiquidity from './AddLiquidity';
 import {
@@ -19,11 +15,6 @@ import {
   RedirectToAddLiquidity,
 } from './AddLiquidity/redirects';
 import { VoteComingSoon } from './Vote/vote';
-// import Earn from './Earn'
-// import Manage from './Earn/Manage'
-// import MigrateV from './MigrateV'
-// import MigrateVExchange from './MigrateV/MigrateVExchange'
-// import RemoveVExchange from './MigrateV/RemoveVExchange'
 import Pool from './Pool';
 import Stake from './Stake';
 import PoolFinder from './PoolFinder';
@@ -34,7 +25,6 @@ import Sample from './Sample';
 import NFT from './NFT';
 import Mint from './Mint';
 import NotFound from './404';
-// import Home from './Home';
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects';
 import { RedirectToReferal } from './Stake/redirects';
 
@@ -42,8 +32,7 @@ import { isMobile } from '../theme';
 import Markets from './Markets';
 import { Management } from './NFT/management';
 import { AbitrageBots } from './Abitrage';
-// import Vote from './Vote'
-// import VotePage from './Vote/VotePage'
+import LaunchPad from './LaunchPad';
 
 const AppWrapper = styled.div`
   display: flex;
@@ -115,12 +104,6 @@ export const StyledHeading = styled.h1`
   }
 `;
 
-// function TopLevelModals() {
-//   const open = useModalOpen(ApplicationModal.ADDRESS_CLAIM)
-//   const toggle = useToggleModal(ApplicationModal.ADDRESS_CLAIM)
-//   return <AddressClaimModal isOpen={open} onDismiss={toggle} />
-// }
-
 export default function App() {
   return (
     <Suspense fallback={null}>
@@ -132,25 +115,12 @@ export default function App() {
           <Header />
         </HeaderWrapper>
         <BodyWrapper>
-          {/* <YellowStar></YellowStar>
-          <CGreen></CGreen>
-          <BrownStar></BrownStar>
-          <HexaGon></HexaGon>
-          <BlueCircle></BlueCircle>
-          <CGreenSimpleDiv></CGreenSimpleDiv>
-          <DarkGreenStar></DarkGreenStar>
-          <BlueStar></BlueStar>
-          <LeftLine></LeftLine>
-          <LeftLine1></LeftLine1>
-          <RightLine></RightLine>
-          <RightLine1></RightLine1> */}
           <Popups />
-          {/* <Polling /> */}
-          {/* <TopLevelModals /> */}
           <Web3ReactManager>
             <Switch>
               <Route exact strict path="/" component={Swap} />
               <Route exact strict path="/swap" component={Swap} />
+              <Route exact strict path="/launchPad" component={LaunchPad} />
               <Route exact strict path="/nft" component={NFT} />
               <Route exact strict path="/nft/management" component={Management} />
               <Route exact strict path="/abitrage" component={AbitrageBots} />
@@ -162,8 +132,6 @@ export default function App() {
               <Route exact strict path="/roadmap" component={Sample} />
               <Route exact strict path="/travel-guide" component={Sample} />
 
-              {/* <Route exact strict path="/" component={Home} /> */}
-              {/* <Route exact strict path="/claim" component={OpenClaimAddressModalAndRedirectToSwap} /> */}
               <Route exact strict path="/swap/:outputCurrency" component={RedirectToSwap} />
               <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
               <Route exact strict path="/find" component={PoolFinder} />
@@ -172,7 +140,6 @@ export default function App() {
               <Route exact strict path="/stake/:referal" component={RedirectToReferal} />
               <Route exact strict path="/markets" component={Markets} />
               <Route exact strict path="/markets/:page" component={Markets} />
-              {/* <Route exact strict path="/vote" component={Vote} /> */}
               <Route exact strict path="/votepage" component={VoteComingSoon} />
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
               <Route exact path="/add" component={AddLiquidity} />
@@ -181,12 +148,8 @@ export default function App() {
               <Route exact path="/create" component={AddLiquidity} />
               <Route exact path="/create/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
               <Route exact path="/create/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
-              {/* <Route exact strict path="/remove/v/:address" component={RemoveVExchange} /> */}
               <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
               <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
-              {/* <Route exact strict path="/migrate/v" component={MigrateV} /> */}
-              {/* <Route exact strict path="/migrate/v/:address" component={MigrateVExchange} /> */}
-              {/* <Route exact strict path="/vote/:id" component={VotePage} /> */}
               <Route component={NotFound} />
             </Switch>
           </Web3ReactManager>

@@ -27,83 +27,12 @@ const TopSection = styled(AutoColumn)`
   width: 100%;
 `;
 
-// const Proposal = styled(Button)`
-//   padding: 0.75rem 1rem;
-//   width: 100%;
-//   margin-top: 1rem;
-//   border-radius: 12px;
-//   display: grid;
-//   grid-template-columns: 48px 1fr 120px;
-//   align-items: center;
-//   text-align: left;
-//   outline: none;
-//   cursor: pointer;
-//   color: ${({ theme }) => theme.text1};
-//   text-decoration: none;
-//   background-color: ${({ theme }) => theme.bg1};
-//   &:focus {
-//     background-color: ${({ theme }) => darken(0.05, theme.bg1)};
-//   }
-//   &:hover {
-//     background-color: ${({ theme }) => darken(0.05, theme.bg1)};
-//   }
-// `
-
-// const ProposalNumber = styled.span`
-//   opacity: 0.6;
-// `
-
-// const ProposalTitle = styled.span`
-//   font-weight: 600;
-// `
-
 const VoteCard = styled(DataCard)`
   background: radial-gradient(76.02% 75.41% at 1.84% 0%, #27ae60 0%, #000000 100%);
   overflow: hidden;
 `;
 
-// const WrapSmall = styled(RowBetween)`
-//   ${({ theme }) => theme.mediaWidth.upToSmall`
-//     flex-wrap: wrap;
-
-//   `};
-// `
-
-// const TextButton = styled(TYPE.main)`
-//   color: ${({ theme }) => theme.primary3};
-//   :hover {
-//     cursor: pointer;
-//     text-decoration: underline;
-//   }
-// `
-
-// const AddressButton = styled.div`
-//   border: 1px solid ${({ theme }) => theme.bg3};
-//   padding: 2px 4px;
-//   border-radius: 8px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `
-
-// const StyledExternalLink = styled(ExternalLink)`
-//   color: ${({ theme }) => theme.text1};
-// `
-
-// const EmptyProposals = styled.div`
-//   border: 1px solid ${({ theme }) => theme.text4};
-//   padding: 16px 12px;
-//   border-radius: 12px;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-// `
-
 export default function Vote() {
-  // const { account, chainId } = useActiveWeb3React()
-
-  // toggle for showing delegation modal
   const showDelegateModal = useModalOpen(ApplicationModal.DELEGATE);
   const toggelDelegateModal = useToggleDelegateModal();
 

@@ -144,7 +144,10 @@ export default function Header() {
           Liquidity
         </Link>
         <Link to="/stake" className={`${Style.link} nav-link`}>
-          🔥 Staking
+          Staking
+        </Link>
+        <Link to="/launchPad" className={`${Style.link} nav-link`}>
+          🔥 LaunchPad
         </Link>
         <Link to="/abitrage" className={`${Style.link} nav-link`}>
           🤖 Abitrage
