@@ -39,6 +39,17 @@ fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/sta
   .then((response) => response.json())
   .then((data) => (stakingInfosRaw = data));
 
+let inAktivStakingInfosRaw: {
+  [chainId: number]: {
+    [version: string]: {
+      [address: string]: string;
+    };
+  };
+} = {};
+fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses_new_inaktiv.json')
+  .then((response) => response.json())
+  .then((data) => (inAktivStakingInfosRaw = data));
+
 export default function Stake({
   match: {
     params: { referal },
@@ -50,23 +61,43 @@ export default function Stake({
   const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
   const { account, chainId } = useActiveWeb3React();
   const [pagingInfo, setPagingInfo] = useState<any>({});
+  const [isActive, setActive] = useState<boolean>(true);
+
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];
-    stakingInfosRaw && chainId && stakingInfosRaw[chainId]
-      ? Object.keys(stakingInfosRaw[chainId]).map((version) => {
-          const vals = stakingInfosRaw[chainId][version];
-          Object.keys(vals).map((stakingRewardAddress) => {
-            const tokensFromDefault = getTokensFromDefaults(vals[stakingRewardAddress]);
-            if (tokensFromDefault) {
-              tmpinfos.push({
-                stakingRewardAddress,
-                tokens: tokensFromDefault,
-                rewardsDays: version !== 'v0' ? REWARDS_DURATION_DAYS_180 : REWARDS_DURATION_DAYS,
-              });
-            }
-          });
-        })
-      : undefined;
+    if (isActive) {
+      stakingInfosRaw && chainId && stakingInfosRaw[chainId]
+        ? Object.keys(stakingInfosRaw[chainId]).map((version) => {
+            const vals = stakingInfosRaw[chainId][version];
+            Object.keys(vals).map((stakingRewardAddress) => {
+              const tokensFromDefault = getTokensFromDefaults(vals[stakingRewardAddress]);
+              if (tokensFromDefault) {
+                tmpinfos.push({
+                  stakingRewardAddress,
+                  tokens: tokensFromDefault,
+                  rewardsDays: version !== 'v0' ? REWARDS_DURATION_DAYS_180 : REWARDS_DURATION_DAYS,
+                });
+              }
+            });
+          })
+        : undefined;
+    } else {
+      inAktivStakingInfosRaw && chainId && inAktivStakingInfosRaw[chainId]
+        ? Object.keys(inAktivStakingInfosRaw[chainId]).map((version) => {
+            const vals = inAktivStakingInfosRaw[chainId][version];
+            Object.keys(vals).map((stakingRewardAddress) => {
+              const tokensFromDefault = getTokensFromDefaults(vals[stakingRewardAddress]);
+              if (tokensFromDefault) {
+                tmpinfos.push({
+                  stakingRewardAddress,
+                  tokens: tokensFromDefault,
+                  rewardsDays: version !== 'v0' ? REWARDS_DURATION_DAYS_180 : REWARDS_DURATION_DAYS,
+                });
+              }
+            });
+          })
+        : undefined;
+    }
 
     setPagingInfo({
       page: 1,
@@ -75,9 +106,22 @@ export default function Stake({
     console.log(tmpinfos);
 
     return tmpinfos;
-  }, [chainId, stakingInfosRaw]);
+  }, [chainId, stakingInfosRaw, isActive]);
 
-  const stakingInfos = useStakingInfo(stakingRewardInfos);
+  const currentStakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
+    if (stakingRewardInfos !== null && stakingRewardInfos.length >= 0) {
+      return stakingRewardInfos.slice(
+        (pagingInfo.page - 1) * MAX_STAKE_PER_PAGE,
+        Math.min(pagingInfo.page * MAX_STAKE_PER_PAGE, stakingRewardInfos.length),
+      );
+    }
+    return [];
+  }, [stakingRewardInfos, pagingInfo]);
+
+  console.log('currentSelectedRewards', currentStakingRewardInfos);
+
+  const stakingInfos = useStakingInfo(currentStakingRewardInfos);
+  console.log('StakeInfos: ', stakingInfos);
 
   const [stakeAddress, setStakeAddress] = useState<string>('');
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
@@ -90,7 +134,6 @@ export default function Stake({
   const [showStake, setShowStake] = useState<boolean>(false);
   const [showReferal, setShowReferal] = useState<boolean>(false);
   const [showHarvest, setShowHarvest] = useState<boolean>(false);
-  const [isActive, setActive] = useState<boolean>(true);
   const [isStakedOnly, setStakedOnly] = useState<boolean>(false);
   const { onUserInput, onTxHashChange } = useStakeActionHandlers();
 
