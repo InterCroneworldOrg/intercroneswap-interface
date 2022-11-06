@@ -19,6 +19,7 @@ import BscLogo from "../../assets/images/bsclogo.png";
 import BttLogo from "../../assets/images/bttlogo.png";
 import TrxLogo from "../../assets/images/trxlogo.png";
 import Image from "next/image";
+import { socials } from "./config";
 
 const getPropsForBlockchain = (
   name: string
@@ -129,7 +130,7 @@ const MenuItem: React.FC<FooterProps> = ({
               justifyContent="flex-end"
               alignItems="center"
             >
-              <StyledSocialLinks order={[2]} pb={["0px", null, "0px"]} mb={["0", null, "0px"]} />
+              <StyledSocialLinks socials={socials} order={[2]} pb={["0px", null, "0px"]} mb={["0", null, "0px"]} />
             </Flex>
           </StyledToolsContainer>
         </Flex>

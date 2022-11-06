@@ -247,8 +247,11 @@ const Menu: React.FC<NavProps> = ({
                   <a href="/liquidity/" className={`${Style.link} nav-link`}>
                     Liquidity
                   </a>
+                  <a href="/launchpad/" className={`${Style.link} nav-link`}>
+                    🔥 Launchpad
+                  </a>
                   <a href="/stake/" className={`${Style.link} nav-link`}>
-                    🔥 Staking
+                    Staking
                   </a>
                   <a href="/markets/" className={`${Style.link} nav-link`}>
                     🔥 Markets
