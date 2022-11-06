@@ -38,6 +38,7 @@ import { derivedPairByDataIdSelector, pairByDataIdSelector } from './selectors'
 import { DEFAULT_INPUT_CURRENCY, DEFAULT_OUTPUT_CURRENCY } from './constants'
 import fetchDerivedPriceData from './fetch/fetchDerivedPriceData'
 import { pairHasEnoughLiquidity } from './fetch/utils'
+import { ACTUAL_LAUCH_TOKEN } from 'config/constants'
 
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>((state) => state.swap)
@@ -310,6 +311,34 @@ export function useDefaultsFromURLSearch():
   }, [dispatch, chainId, query])
 
   return result
+}
+
+export function useDefaultsForLaunchPad():
+  | { inputCurrencyId: string | undefined; outputCurrencyId: string | undefined }
+  | undefined {
+  const { chainId } = useActiveWeb3React();
+  const dispatch = useDispatch<AppDispatch>();
+  const [result, setResult] = useState<
+    { inputCurrencyId: string | undefined; outputCurrencyId: string | undefined } | undefined
+  >();
+  useEffect(() => {
+    if (!chainId) return;
+
+    dispatch(
+      replaceSwapState({
+        typedValue: '',
+        field: Field.INPUT,
+        inputCurrencyId: 'BNB',
+        outputCurrencyId: ACTUAL_LAUCH_TOKEN.address,
+        recipient: null,
+      }),
+    );
+
+    setResult({ inputCurrencyId: 'BNB', outputCurrencyId: ACTUAL_LAUCH_TOKEN.address });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, chainId]);
+
+  return result;
 }
 
 type useFetchPairPricesParams = {
