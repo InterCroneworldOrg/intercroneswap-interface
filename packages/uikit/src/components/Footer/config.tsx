@@ -104,6 +104,34 @@ export const socials: SocialIconType[] = [
   },
 ];
 
+export const launchSocials: SocialIconType[] = [
+  {
+    label: "Twitter",
+    icon: TwitterIcon,
+    href: "https://twitter.com/plaentz",
+  },
+  {
+    label: "Instagram",
+    icon: InstagramIcon,
+    href: "https://www.instagram.com/plaentz_com",
+  },
+  {
+    label: "Facebook",
+    icon: RedditIcon,
+    href: "https://www.facebook.com/plaentz",
+  },
+  {
+    label: "Telegram",
+    icon: TelegramIcon,
+    href: "https://t.me/+2K4XHVj5ln0zODk8",
+  },
+  {
+    label: "Youtube",
+    icon: MediumIcon,
+    href: "https://www.youtube.com/channel/UCFhk0JazFaU5iR2TmJ46Rdw",
+  },
+];
+
 export const langs: Language[] = [...Array(20)].map((_, i) => ({
   code: `en${i}`,
   language: `English${i}`,
