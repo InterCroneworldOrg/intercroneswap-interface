@@ -104,7 +104,7 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
                 pairToFilterBy.involvesToken(stakingRewardInfo.tokens[1]),
           ) ?? []
         : [],
-    [chainId, pairToFilterBy],
+    [chainId, pairToFilterBy, stakingRewardsInfos],
   );
 
   const accountArg = useMemo(() => [account ?? undefined], [account]);

@@ -28,10 +28,18 @@ interface PoolCardProps {
   address: string;
   handleStake: (address: string, lpSupply?: TokenAmount, stakingInfo?: StakingInfo) => void;
   handleHarvest: (address: string) => void;
+  handleExit: (address: string) => void;
   toggleToken: boolean;
 }
 
-export default function PoolCard({ stakingInfo, address, toggleToken, handleStake, handleHarvest }: PoolCardProps) {
+export default function PoolCard({
+  stakingInfo,
+  address,
+  toggleToken,
+  handleStake,
+  handleHarvest,
+  handleExit,
+}: PoolCardProps) {
   const theme = useContext(ThemeContext);
   const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
   const { account } = useActiveWeb3React();
@@ -165,29 +173,51 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
           )}
         </AutoRowToColumn>
         <ButtonAutoRow gap=".5rem" justify="flex-end">
-          <ButtonPrimary
-            padding="8px"
-            borderRadius="8px"
-            width={isMobile ? '43%' : '40%'}
-            height={45}
-            style={{ color: '#000' }}
-            onClick={() => handleHarvest(address)}
-            disabled={stakingInfo.earnedAmount?.equalTo(ZERO)}
-          >
-            <AutoColumn>
-              <ResponsiveSizedTextMedium fontWeight="400" style={{ color: theme.text5 }}>
-                Harvest
-              </ResponsiveSizedTextMedium>
-              <ResponsiveSizedTextNormal fontWeight="400" style={{ color: theme.text5 }}>
-                {stakingInfo.earnedAmount?.toSignificant(4)}
-              </ResponsiveSizedTextNormal>
-            </AutoColumn>
-          </ButtonPrimary>
+          {!stakingInfo.active ? (
+            <ButtonPrimary
+              padding="8px"
+              borderRadius="8px"
+              width={isMobile ? '43%' : '40%'}
+              height={45}
+              style={{ color: '#000' }}
+              onClick={() => handleExit(address)}
+              disabled={stakingInfo.earnedAmount?.equalTo(ZERO)}
+            >
+              <AutoColumn>
+                <ResponsiveSizedTextMedium fontWeight="400" style={{ color: theme.text5 }}>
+                  Exit
+                </ResponsiveSizedTextMedium>
+                <ResponsiveSizedTextNormal fontWeight="400" style={{ color: theme.text5 }}>
+                  {stakingInfo.earnedAmount?.toSignificant(4)}
+                </ResponsiveSizedTextNormal>
+              </AutoColumn>
+            </ButtonPrimary>
+          ) : (
+            <ButtonPrimary
+              padding="8px"
+              borderRadius="8px"
+              width={isMobile ? '43%' : '40%'}
+              height={45}
+              style={{ color: '#000' }}
+              onClick={() => handleHarvest(address)}
+              disabled={stakingInfo.earnedAmount?.equalTo(ZERO)}
+            >
+              <AutoColumn>
+                <ResponsiveSizedTextMedium fontWeight="400" style={{ color: theme.text5 }}>
+                  Harvest
+                </ResponsiveSizedTextMedium>
+                <ResponsiveSizedTextNormal fontWeight="400" style={{ color: theme.text5 }}>
+                  {stakingInfo.earnedAmount?.toSignificant(4)}
+                </ResponsiveSizedTextNormal>
+              </AutoColumn>
+            </ButtonPrimary>
+          )}
           {LPSupply?.greaterThan(ZERO) || stakingInfo.stakedAmount?.greaterThan(ZERO) ? (
             <ButtonPrimary
               padding="8px"
               borderRadius="8px"
               width={isMobile ? '43%' : '40%'}
+              disabled={!stakingInfo.active}
               height={45}
               style={{ color: '#000' }}
               onClick={() => handleStake(address, LPSupply, stakingInfo)}

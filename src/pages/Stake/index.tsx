@@ -27,6 +27,7 @@ import StakeModal from './StakeModal';
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import { Form, Pagination } from 'react-bootstrap';
+import ExitModal from './ExitModal';
 
 let stakingInfosRaw: {
   [chainId: number]: {
@@ -103,10 +104,9 @@ export default function Stake({
       page: 1,
       maxPages: Math.floor(tmpinfos.length / MAX_STAKE_PER_PAGE),
     });
-    console.log(tmpinfos);
 
     return tmpinfos;
-  }, [chainId, stakingInfosRaw, isActive]);
+  }, [chainId, stakingInfosRaw, inAktivStakingInfosRaw, isActive]);
 
   const currentStakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     if (stakingRewardInfos !== null && stakingRewardInfos.length >= 0) {
@@ -116,13 +116,13 @@ export default function Stake({
       );
     }
     return [];
-  }, [stakingRewardInfos, pagingInfo]);
+  }, [chainId, isActive, stakingRewardInfos, pagingInfo]);
 
-  console.log('currentSelectedRewards', currentStakingRewardInfos);
+  console.log(currentStakingRewardInfos);
 
   const stakingInfos = useStakingInfo(currentStakingRewardInfos);
-  console.log('StakeInfos: ', stakingInfos);
 
+  console.log(stakingInfos);
   const [stakeAddress, setStakeAddress] = useState<string>('');
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
@@ -134,6 +134,7 @@ export default function Stake({
   const [showStake, setShowStake] = useState<boolean>(false);
   const [showReferal, setShowReferal] = useState<boolean>(false);
   const [showHarvest, setShowHarvest] = useState<boolean>(false);
+  const [showExit, setShowExit] = useState<boolean>(false);
   const [isStakedOnly, setStakedOnly] = useState<boolean>(false);
   const { onUserInput, onTxHashChange } = useStakeActionHandlers();
 
@@ -173,6 +174,11 @@ export default function Stake({
     });
   };
 
+  const handleExit = (address: string) => {
+    setStakeAddress(address);
+    setShowExit(true);
+  };
+
   const handleHarvest = (address: string) => {
     setStakeAddress(address);
     setShowHarvest(true);
@@ -183,6 +189,12 @@ export default function Stake({
     setShowHarvest(false);
     onTxHashChange('');
   }, [stakeAddress, showHarvest]);
+
+  const handleDismissExit = useCallback(() => {
+    setStakeAddress('');
+    setShowExit(false);
+    onTxHashChange('');
+  }, [stakeAddress, showExit]);
   const inputRef = useRef<HTMLInputElement>();
 
   const handleStake = (address: string, pairSupply?: TokenAmount, stakingInfo?: StakingInfo) => {
@@ -315,10 +327,10 @@ export default function Stake({
       chosenPools = isStakedOnly ? stakingList(stakedInactivePools) : stakingList(inactivePools);
     }
     return sortPools(chosenPools);
-  }, [sortOption, stakingInfos, searchQuery, isActive, isStakedOnly, pagingInfo]);
+  }, [sortOption, stakingInfos, searchQuery, isActive, isStakedOnly, pagingInfo, currentStakingRewardInfos]);
 
   const pagination = useCallback(() => {
-    const maxPages = Math.floor(chosenPoolsMemoized.length / MAX_STAKE_PER_PAGE);
+    const maxPages = Math.floor(stakingRewardInfos.length / MAX_STAKE_PER_PAGE);
     return (
       <Pagination color={theme.text1} style={{ background: theme.bg1, marginTop: '2rem' }}>
         <Pagination.First style={{ background: theme.bg1 }} onClick={() => setPagingInfo({ ...pagingInfo, page: 1 })} />
@@ -354,12 +366,7 @@ export default function Stake({
         <Pagination.Last onClick={() => setPagingInfo({ ...pagingInfo, page: maxPages })} />
       </Pagination>
     );
-  }, [chosenPoolsMemoized]);
-
-  const chosenPoolsPage: StakingInfo[] = useMemo(
-    () => chosenPoolsMemoized.slice((pagingInfo.page - 1) * MAX_STAKE_PER_PAGE, pagingInfo.page * MAX_STAKE_PER_PAGE),
-    [chosenPoolsMemoized, pagingInfo],
-  );
+  }, [chosenPoolsMemoized, stakingRewardInfos]);
 
   return (
     <>
@@ -383,6 +390,12 @@ export default function Stake({
           stakingAddress={stakeAddress}
           stakingInfo={stakeInfo}
           onDismiss={handleDismissHarvest}
+        />
+        <ExitModal
+          isOpen={showExit}
+          stakingAddress={stakeAddress}
+          stakingInfo={stakeInfo}
+          onDismiss={handleDismissExit}
         />
         <RowBetween marginTop="1rem">
           {isMobile ? (
@@ -531,15 +544,16 @@ export default function Stake({
                     <Dots>Loading</Dots>
                   </TYPE.body>
                 </GreyCard>
-              ) : chosenPoolsPage?.length > 0 ? (
+              ) : chosenPoolsMemoized?.length > 0 ? (
                 <>
-                  {chosenPoolsPage.map((stakingInfo) => (
+                  {chosenPoolsMemoized.map((stakingInfo) => (
                     <PoolCard
                       key={stakingInfo.stakingRewardAddress}
                       stakingInfo={stakingInfo}
                       address={stakingInfo.stakingRewardAddress}
                       handleStake={handleStake}
                       handleHarvest={handleHarvest}
+                      handleExit={handleExit}
                       toggleToken={toggleToken}
                     ></PoolCard>
                   ))}
