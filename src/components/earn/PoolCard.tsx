@@ -128,7 +128,9 @@ export default function PoolCard({
           </AutoRow>
         </AutoRowToColumn>
         <AutoRowToColumn gap="2px">
-          <ResponsiveSizedTextMedium fontWeight="1.3rem">Ends on</ResponsiveSizedTextMedium>
+          <ResponsiveSizedTextMedium fontWeight="1.3rem">
+            {stakingInfo.active ? 'Ends on' : 'Ended on'}
+          </ResponsiveSizedTextMedium>
           <ResponsiveSizedTextNormal fontWeight="0.6rem" color={theme.primary3}>
             {stakingInfo.periodFinish?.toLocaleDateString() || 'Coming soon'}
           </ResponsiveSizedTextNormal>

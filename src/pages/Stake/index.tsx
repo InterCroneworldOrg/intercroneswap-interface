@@ -105,7 +105,7 @@ export default function Stake({
       maxPages: Math.floor(tmpinfos.length / MAX_STAKE_PER_PAGE),
     });
 
-    return tmpinfos;
+    return tmpinfos.reverse();
   }, [chainId, stakingInfosRaw, inAktivStakingInfosRaw, isActive]);
 
   const currentStakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
