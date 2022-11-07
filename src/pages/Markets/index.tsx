@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { StyledHeading } from '../App';
 import { PageWrapper } from '../Stake/styleds';
 import { LightCard } from '../../components/Card';
-import { RowBetween } from '../../components/Row';
+import { AutoRow, RowBetween } from '../../components/Row';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import MarketCard from '../../components/markets/MarketCard';
 import { ChainId, Token } from '@intercroneswap/v2-sdk';
@@ -19,6 +19,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Pagination } from 'react-bootstrap';
 import { ThemeContext } from 'styled-components';
 import { MarketHeader } from './styleds';
+import { currencyFormatter } from '../../utils';
 
 const tokenPairsAreEqual = (tokens1: [Token, Token], tokens2?: [Token, Token]): boolean => {
   if (!tokens2) {
@@ -51,6 +52,19 @@ export default function Markets({
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
 
+  const [totalValueLocked, setTotalValueLocked] = useState('');
+  const fetchTotalValueLocked = async () => {
+    const response = await (
+      await fetch(`${BACKEND_URL}/markets/totalLocked?chainId=${chainId && ChainId.MAINNET}`)
+    ).json();
+    setTotalValueLocked(response.data.usdAmount);
+  };
+  useInterval(() => {
+    fetchTotalValueLocked();
+  }, 1000 * 30);
+  useEffect(() => {
+    fetchTotalValueLocked();
+  }, [totalValueLocked]);
   const isMobile = window.innerWidth <= MEDIA_WIDTHS.upToMedium;
   const { chainId } = useActiveWeb3React();
   const inputRef = useRef<HTMLInputElement>();
@@ -125,6 +139,10 @@ export default function Markets({
   return (
     <>
       <StyledHeading>Markets</StyledHeading>
+      <AutoRow justify="center" gap="1rem" style={{ marginBottom: isMobile ? '.5rem' : '2rem' }}>
+        <TYPE.white fontSize="1.3rem">Total value locked</TYPE.white>
+        <TYPE.yellow fontSize="1.3rem">{currencyFormatter.format(Number(totalValueLocked))}</TYPE.yellow>
+      </AutoRow>
       <PageWrapper>
         <LightCard style={{ marginTop: '20px' }}>
           <AutoColumn gap="1rem" justify="center">
