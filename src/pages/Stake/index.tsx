@@ -314,7 +314,7 @@ export default function Stake({
         case 'earned':
           return orderBy(infos, (info) => (info.earnedAmount ? Number(info.earnedAmount.numerator) : 0), 'desc');
         case 'latest':
-          return orderBy(infos, (info) => (info.periodFinish?.getTime() ? info.periodFinish.getTime() : 0), 'desc');
+          return orderBy(infos, (info) => (info.periodFinish ? info.periodFinish.getTime() : Number.MAX_VALUE), 'desc');
         default:
           return infos;
       }
