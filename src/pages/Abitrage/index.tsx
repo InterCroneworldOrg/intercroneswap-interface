@@ -6,13 +6,17 @@ import { useCallback, useEffect, useState } from 'react';
 import { StyledHeading } from '../App';
 import { PageWrapper } from '../Stake/styleds';
 import { TYPE } from '../../theme';
-import { ETHER, Token, WETH } from '@intercroneswap/v2-sdk';
+import { ETHER, Token, TokenAmount, WETH } from '@intercroneswap/v2-sdk';
 import CurrencyInputPanel from '../../components/CurrencyInputPanel';
-import Input from '../../components/NumericalInput';
+import Input, { StyledInput } from '../../components/NumericalInput';
 import { ButtonPrimary } from '../../components/Button';
 import { unwrappedToken, wrappedCurrency } from '../../utils/wrappedCurrency';
 import { AbitrageDetail } from '../../components/Abitrage/BotDetail';
 import { BACKEND_URL } from '../../constants';
+import { ethAddress } from '@intercroneswap/java-tron-provider';
+import useInterval from '../../hooks/useInterval';
+import { getTokenFromDefaults, ICR } from '../../constants/tokens';
+import CurrencyLogo from '../../components/CurrencyLogo';
 
 export interface EarningData {
   token_address: string;
@@ -24,6 +28,11 @@ export interface EarningConfig {
   token: Token;
   freq_seconds: number;
   active: boolean;
+}
+
+export interface QueueData {
+  token: Token;
+  profit: TokenAmount;
 }
 
 const configToRequest = (config: EarningConfig): EarningData => {
@@ -38,14 +47,63 @@ export const AbitrageBots: React.FC = () => {
   const { chainId } = useActiveWeb3React();
 
   const [bots, setBots] = useState<EarningData[]>([]);
+  const [currentWallet, setCurrentWallet] = useState('');
+  const [tronPk, setTronPk] = useState('');
+  const [walletInfo, setWalletInfo] = useState<any>(undefined);
+  const [queue, setQueue] = useState<QueueData[]>([]);
   const [selectedConfig, setSelectedConfig] = useState<EarningConfig>({
     token: wrappedCurrency(ETHER, chainId) ?? WETH[chainId ?? 11111],
     freq_seconds: 0,
     active: true,
   });
 
+  const getCurrentWallet = async () => {
+    const response = await fetch(`${BACKEND_URL}/abitrage/earning/currentwallet?chainId=${chainId}`, {
+      method: 'GET',
+      mode: 'cors',
+    });
+    if (response.status == 200) {
+      const json = await response.json();
+      setCurrentWallet(json.data);
+    }
+  };
+
+  const getWalletInfo = async () => {
+    const response = await fetch(`${BACKEND_URL}/abitrage/earning/walletinfo?chainId=${chainId}`, {
+      method: 'GET',
+      mode: 'cors',
+    });
+    if (response.status == 200) {
+      const json = await response.json();
+      setWalletInfo(json.data);
+    }
+  };
+
+  const getLastQueue = async () => {
+    const response = await fetch(`${BACKEND_URL}/abitrage/earning/lastqueue?chainId=${chainId}`, {
+      method: 'GET',
+      mode: 'cors',
+    });
+    if (response.status == 200) {
+      const json = await response.json();
+      const q: QueueData[] = json.data.map((data: any) => {
+        return {
+          token: getTokenFromDefaults(data.token),
+          profit: new TokenAmount(ICR, data.response.profit),
+        };
+      });
+      setQueue(q);
+    }
+  };
+
+  useInterval(() => {
+    getWalletInfo();
+    getLastQueue();
+  }, 30 * 1000);
+
   useEffect(() => {
     getAllBots();
+    getCurrentWallet();
   }, []);
 
   const createBot = async (config: EarningConfig) => {
@@ -97,6 +155,20 @@ export const AbitrageBots: React.FC = () => {
     }
   };
 
+  const updatePk = async () => {
+    const response = await fetch(`${BACKEND_URL}/abitrage/earning/setwallet?chainId=${chainId}`, {
+      method: 'PUT',
+      mode: 'cors',
+      body: JSON.stringify({
+        private_key: tronPk,
+      }),
+    });
+    if (response.status == 200) {
+      await getCurrentWallet();
+      setTronPk('');
+    }
+  };
+
   const getAllBots = async () => {
     const response = await fetch(`${BACKEND_URL}/abitrage/earning/getall?chainId=${chainId}`, {
       mode: 'cors',
@@ -120,6 +192,62 @@ export const AbitrageBots: React.FC = () => {
       <PageWrapper gap="24px">
         <LightCard>
           <AutoColumn gap="24px">
+            <GreyCard>
+              <StyledHeading>Info</StyledHeading>
+              <AutoRow justify="space-between">
+                <TYPE.yellow>Wallet info</TYPE.yellow>
+                <TYPE.yellow>{ethAddress.toTron(currentWallet)}</TYPE.yellow>
+                <AutoColumn>
+                  <AutoRow justify="space-between">
+                    <TYPE.white>BW :</TYPE.white>
+                    <TYPE.yellow>{walletInfo?.Resources?.Bandwidth}</TYPE.yellow>
+                  </AutoRow>
+                  <AutoRow justify="space-between">
+                    <TYPE.white>Energy :</TYPE.white>
+                    <TYPE.yellow>{walletInfo?.Resources?.Energy}</TYPE.yellow>
+                  </AutoRow>
+                  <AutoRow justify="space-between">
+                    <TYPE.white>Max poss trades :</TYPE.white>
+                    <TYPE.yellow>{walletInfo?.MaxPossibleTrades}</TYPE.yellow>
+                  </AutoRow>
+                </AutoColumn>
+              </AutoRow>
+              <AutoRow>
+                <TYPE.white>Change wallet</TYPE.white>
+                <StyledInput
+                  type="text"
+                  inputMode="text"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
+                  pattern="*."
+                  placeholder="Tron Primary Key"
+                  onChange={(event) => setTronPk(event.target.value)}
+                  value={tronPk}
+                />
+                <ButtonPrimary onClick={updatePk}>Change PK</ButtonPrimary>
+              </AutoRow>
+              <TYPE.darkGray>Queue Info</TYPE.darkGray>
+              <AutoRow justify="space-evenly">
+                <TYPE.white>Traded token</TYPE.white>
+                <TYPE.white>Profit</TYPE.white>
+              </AutoRow>
+              {queue.map((item, index) => {
+                return (
+                  <GreyCard key={index}>
+                    <AutoRow justify="space-evenly" gap="1rem">
+                      <CurrencyLogo currency={unwrappedToken(item.token)} />
+                      <AutoColumn justify="center">
+                        <CurrencyLogo currency={unwrappedToken(ICR)} />
+                        <TYPE.white>{item.profit.toSignificant()}</TYPE.white>
+                      </AutoColumn>
+                    </AutoRow>
+                  </GreyCard>
+                );
+              })}
+              <AutoRow></AutoRow>
+            </GreyCard>
             <GreyCard>
               <StyledHeading>Create bot</StyledHeading>
               <AutoColumn justify="center">

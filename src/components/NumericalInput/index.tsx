@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { escapeRegExp } from '../../utils';
 import React from 'react';
-const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: string }>`
+
+export const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: string }>`
   color: ${({ error, theme }) => (error ? theme.red1 : theme.text1)};
   width: 100%;
   // max-width: 195px;
