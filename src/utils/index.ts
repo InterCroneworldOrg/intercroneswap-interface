@@ -6,6 +6,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { abi as IntercroneswapV1Router02ABI } from '@intercroneswap/v2-periphery/build/IIswapV1Router02.json';
 import { abi as ISwapV2StakingABI } from '@intercroneswap/v2-staking/build/IStakingRewards.json';
 import { abi as ISwapV2ArbiABI } from '@intercroneswap/v2-abitragenft/build/AbiSwapICR.json';
+import { abi as ISwapEarningABI } from '../hooks/Earning.json';
 import { ROUTER_ADDRESS } from '../constants';
 import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@intercroneswap/v2-sdk';
 import { TokenAddressMap } from '../state/lists/hooks';
@@ -115,6 +116,10 @@ export function getRouterContract(_: number, library: any, account?: string): Co
 
 export function getStakingContract(_: number, address: string, library: any, account?: string): Contract {
   return getContract(address, ISwapV2StakingABI, library, account);
+}
+
+export function getEarningContract(_: number, address: string, library: any, account?: string): Contract {
+  return getContract(address, ISwapEarningABI, library, account);
 }
 
 export function getArbiMintContract(_: number, address: string, library: any, account?: string): Contract {

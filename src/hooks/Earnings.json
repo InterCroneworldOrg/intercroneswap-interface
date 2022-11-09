@@ -1,0 +1,90 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "name": "_iRouterAddress", "type": "address" },
+        { "name": "_sRouterAddress", "type": "address" },
+        { "name": "_WTRX", "type": "address" },
+        { "name": "_ICR", "type": "address" }
+      ],
+      "stateMutability": "Nonpayable",
+      "type": "Constructor"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "previousOwner", "type": "address" },
+        { "indexed": true, "name": "newOwner", "type": "address" }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "Event"
+    },
+    { "outputs": [{ "type": "address" }], "name": "ICR", "stateMutability": "View", "type": "Function" },
+    { "outputs": [{ "type": "address" }], "name": "WTRX", "stateMutability": "View", "type": "Function" },
+    {
+      "outputs": [
+        { "name": "profit", "type": "uint256" },
+        { "name": "routerAddress0", "type": "address" },
+        { "name": "routerAddress1", "type": "address" },
+        { "name": "path0", "type": "address[]" },
+        { "name": "path1", "type": "address[]" }
+      ],
+      "inputs": [{ "name": "token", "type": "address" }],
+      "name": "earning",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    { "outputs": [{ "type": "uint256" }], "name": "earningAmount", "stateMutability": "View", "type": "Function" },
+    { "outputs": [{ "type": "uint256" }], "name": "gasCost", "stateMutability": "View", "type": "Function" },
+    {
+      "outputs": [{ "type": "uint256" }],
+      "inputs": [
+        { "name": "routerAddress0", "type": "address" },
+        { "name": "routerAddress1", "type": "address" },
+        { "name": "path0", "type": "address[]" },
+        { "name": "path1", "type": "address[]" },
+        { "name": "amountIn", "type": "uint256" }
+      ],
+      "name": "getAmountOut",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    { "outputs": [{ "type": "address" }], "name": "iRouterAddress", "stateMutability": "View", "type": "Function" },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "token", "type": "address" }],
+      "name": "isProfitable",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "token", "type": "address" }],
+      "name": "makeEarning",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    { "outputs": [{ "type": "address" }], "name": "owner", "stateMutability": "View", "type": "Function" },
+    { "name": "renounceOwnership", "stateMutability": "Nonpayable", "type": "Function" },
+    { "outputs": [{ "type": "address" }], "name": "sRotuerAddress", "stateMutability": "View", "type": "Function" },
+    {
+      "inputs": [{ "name": "_gas", "type": "uint256" }],
+      "name": "setGasCost",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "newOwner", "type": "address" }],
+      "name": "transferOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "inputs": [
+        { "name": "token", "type": "address" },
+        { "name": "amount", "type": "uint256" }
+      ],
+      "name": "withdraw",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    }
+  ]
+}

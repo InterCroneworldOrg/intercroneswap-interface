@@ -106,6 +106,7 @@ export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['KLV']: KLV,
   ['DOGE']: Doge,
   ['TURU']: TURU,
+  ['turu']: TURU,
   ['BBT']: BBT,
   ['COME']: COME,
   ['SM']: SM,

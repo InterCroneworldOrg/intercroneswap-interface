@@ -17,6 +17,7 @@ import { ethAddress } from '@intercroneswap/java-tron-provider';
 import useInterval from '../../hooks/useInterval';
 import { getTokenFromDefaults, ICR } from '../../constants/tokens';
 import CurrencyLogo from '../../components/CurrencyLogo';
+import EarnModal from '../../components/Abitrage/EarnModal';
 
 export interface EarningData {
   token_address: string;
@@ -51,11 +52,23 @@ export const AbitrageBots: React.FC = () => {
   const [tronPk, setTronPk] = useState('');
   const [walletInfo, setWalletInfo] = useState<any>(undefined);
   const [queue, setQueue] = useState<QueueData[]>([]);
+  const [showEarning, setShowEarning] = useState(false);
+  const [selectedToken, setSelectedToken] = useState<Token | undefined>(undefined);
   const [selectedConfig, setSelectedConfig] = useState<EarningConfig>({
     token: wrappedCurrency(ETHER, chainId) ?? WETH[chainId ?? 11111],
     freq_seconds: 0,
     active: true,
   });
+
+  const handleEarning = (token: Token) => {
+    setShowEarning(true);
+    setSelectedToken(token);
+  };
+
+  const handleDismissEarning = useCallback(() => {
+    setShowEarning(false);
+    setSelectedToken(undefined);
+  }, [selectedToken, showEarning]);
 
   const getCurrentWallet = async () => {
     const response = await fetch(`${BACKEND_URL}/abitrage/earning/currentwallet?chainId=${chainId}`, {
@@ -99,7 +112,7 @@ export const AbitrageBots: React.FC = () => {
   useInterval(() => {
     getWalletInfo();
     getLastQueue();
-  }, 30 * 1000);
+  }, 10 * 1000);
 
   useEffect(() => {
     getAllBots();
@@ -190,6 +203,7 @@ export const AbitrageBots: React.FC = () => {
     <>
       <StyledHeading>Abitrage Bots</StyledHeading>
       <PageWrapper gap="24px">
+        <EarnModal isOpen={showEarning} onDismiss={handleDismissEarning} token={selectedToken} />
         <LightCard>
           <AutoColumn gap="24px">
             <GreyCard>
@@ -242,6 +256,7 @@ export const AbitrageBots: React.FC = () => {
                         <CurrencyLogo currency={unwrappedToken(ICR)} />
                         <TYPE.white>{item.profit.toSignificant()}</TYPE.white>
                       </AutoColumn>
+                      <ButtonPrimary onClick={() => handleEarning(item.token)}>Earn</ButtonPrimary>
                     </AutoRow>
                   </GreyCard>
                 );
