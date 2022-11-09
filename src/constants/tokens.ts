@@ -94,7 +94,7 @@ export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['NFT']: NFT,
   ['SUN']: SUN,
   ['WBTT']: WBTT,
-  ['LTC']: HT,
+  ['LTC']: LTC,
   ['KLV']: KLV,
   ['DOGE']: Doge,
   ['TURU']: TURU,
