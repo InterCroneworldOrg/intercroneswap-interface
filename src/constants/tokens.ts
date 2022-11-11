@@ -34,7 +34,13 @@ export const WIN = new Token(ChainId.MAINNET, '0x74472E7D35395A6B5ADD427EECB7F4B
 export const LIVE = new Token(ChainId.MAINNET, '0xD829659F0F7661F29F12F07A5BE33C13B6C9DD59', 6, 'LIVE ', 'TRONbetLive');
 export const DICE = new Token(ChainId.MAINNET, '0x6CE0632A762689A207B9CCE915E93AA9596816CA', 6, 'DICE ', 'TRONbetDice');
 export const SM = new Token(ChainId.MAINNET, '0xAAB8C5F22E5E489A5824D8653F9BA68EB85FDE04', 8, 'SM ', 'SafeMoney');
-export const SST = new Token(ChainId.MAINNET, '0x0EFAC3802727C5F873B887E8119FE895B5156577', 8, 'SST ', 'SocialSwapToken');
+export const SST = new Token(
+  ChainId.MAINNET,
+  '0x0EFAC3802727C5F873B887E8119FE895B5156577',
+  8,
+  'SST ',
+  'SocialSwapToken'
+);
 export const EightEightEight = new Token(
   ChainId.MAINNET,
   '0x7818637395075A1AAA82927801DAB4117B99FC3F',
