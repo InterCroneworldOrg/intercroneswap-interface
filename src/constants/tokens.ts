@@ -39,7 +39,7 @@ export const SST = new Token(
   '0x0EFAC3802727C5F873B887E8119FE895B5156577',
   8,
   'SST ',
-  'SocialSwapToken'
+  'SocialSwapToken',
 );
 export const EightEightEight = new Token(
   ChainId.MAINNET,
