@@ -90,6 +90,14 @@
       "logoURI": "https://bscscan.com/token/images/ftm_32.png?=v2"
     },
     {
+      "name": "Plaentz Token",
+      "symbol": "PLZ",
+      "address": "0xb69016AFdED339c99829AC1340b050E04C08E722",
+      "chainId": 56,
+      "decimals": 8,
+      "logoURI": "https://static.tronscan.org/production/upload/logo/new/TYK71t3eD1pTxpkDp7gbqXM5DYfaVdfKjV.png?t=1668077389818"
+    },
+    {
       "name": "Avalance",
       "symbol": "AVAX",
       "address": "0x1CE0c2827e2eF14D5C4f29a091d735A204794041",
