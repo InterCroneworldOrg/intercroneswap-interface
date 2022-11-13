@@ -57,7 +57,7 @@ export const SafeMoney = new Token(
 );
 export const JM = new Token(
   ChainId.MAINNET,
-  '0xBC3BDCCEEB47790E2099C76A116A1920375329E7',
+  '0xd3d54671fca80648a5886f990fd40117f94d247f',
   8,
   'JM ',
   'J U S T M O N E Y',
