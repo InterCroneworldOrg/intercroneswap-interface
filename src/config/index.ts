@@ -36,4 +36,4 @@ export const IPFS_GATEWAY = 'https://ipfs.io/ipfs'
 // In reality its 10000 because of fast refresh, a bit less here to cover for possible long request times
 export const PANCAKE_BUNNIES_UPDATE_FREQUENCY = 8000
 
-export const BACKEND_URL = 'https://apiv2.intercroneswap.com'
+export const BACKEND_URL = 'https://api.intercroneswap.com'
