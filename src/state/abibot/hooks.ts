@@ -2,14 +2,20 @@ import { useActiveWeb3React } from '../../hooks';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, AppState } from '..';
-import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks';
+import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../multicall/hooks';
 import { setAttemptingTxn, setTxHash, typeInput } from './actions';
 import { abi as AbiSwapICR } from '@intercroneswap/v2-abitragenft/build/AbiSwapICR.json';
 import { Interface } from 'ethers/lib/utils';
 import { ChainId, TokenAmount, WETH } from '@intercroneswap/v2-sdk';
 import { MintContractData } from '../../pages/Mint/types';
+import { getEarningContract } from '../../utils';
+import { EARNING_CONTRACT } from '../../constants';
 
 const AbiSwapICRInterface = new Interface(AbiSwapICR);
+
+export interface EarningInfo {
+  isOwner: boolean;
+}
 
 export interface ArbiNFTInfo {
   cost: TokenAmount;
@@ -55,6 +61,28 @@ export function useAbiBotActionHandlers(): {
     onAttemptingTxn,
     onTxHashChange,
   };
+}
+
+export function useEarningInfo(): EarningInfo {
+  const { chainId, account, library } = useActiveWeb3React();
+
+  const contract = getEarningContract(chainId ?? 11111, EARNING_CONTRACT, library, account ?? undefined);
+  const callState = useSingleCallResult(contract, 'owner');
+
+  return useMemo(() => {
+    if (!chainId || !account) return { isOwner: false };
+
+    if (callState && !callState.loading) {
+      if (callState.error) {
+        console.error('Failed to load earning data');
+        return { isOwner: false };
+      }
+      const owner = callState.result?.[0];
+      return { isOwner: owner === account };
+    }
+
+    return { isOwner: false };
+  }, [account, chainId, callState]);
 }
 
 export function useAbiBotMintInfo(nftInfos: MintContractData[]): ArbiNFTInfo[] {

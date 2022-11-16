@@ -5,7 +5,7 @@ import { useActiveWeb3React } from '../../hooks';
 import { useCallback, useEffect, useState } from 'react';
 import { StyledHeading } from '../App';
 import { PageWrapper } from '../Stake/styleds';
-import { TYPE } from '../../theme';
+import { Divider, isMobile, TYPE } from '../../theme';
 import { ETHER, Token, TokenAmount, WETH } from '@intercroneswap/v2-sdk';
 import CurrencyInputPanel from '../../components/CurrencyInputPanel';
 import Input, { StyledInput } from '../../components/NumericalInput';
@@ -18,6 +18,7 @@ import useInterval from '../../hooks/useInterval';
 import { getTokenFromDefaults, ICR, USDT } from '../../constants/tokens';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import EarnModal from '../../components/Abitrage/EarnModal';
+import { useEarningInfo } from '../../state/abibot/hooks';
 
 export interface EarningData {
   token_address: string;
@@ -54,6 +55,7 @@ export const AbitrageBots: React.FC = () => {
   const [queue, setQueue] = useState<QueueData[]>([]);
   const [showEarning, setShowEarning] = useState(false);
   const [selectedToken, setSelectedToken] = useState<Token | undefined>(undefined);
+  const { isOwner } = useEarningInfo();
   const [selectedConfig, setSelectedConfig] = useState<EarningConfig>({
     token: wrappedCurrency(ETHER, chainId) ?? WETH[chainId ?? 11111],
     freq_seconds: 0,
@@ -141,15 +143,113 @@ export const AbitrageBots: React.FC = () => {
     }
   };
 
+  const CreateBots = useCallback(() => {
+    return isOwner ? (
+      <GreyCard>
+        <StyledHeading>Create bot</StyledHeading>
+        <AutoColumn justify="center">
+          <CurrencyInputPanel
+            hideInput={true}
+            hideBalance={true}
+            value=""
+            onUserInput={() => {
+              console.log('disabled');
+            }}
+            onCurrencySelect={(c) => {
+              setSelectedConfig({
+                ...selectedConfig,
+                token: wrappedCurrency(c, chainId ?? 11111) ?? WETH[11111],
+              });
+            }}
+            showMaxButton={false}
+            currency={unwrappedToken(selectedConfig.token)}
+            id="nft-payout-token"
+            showCommonBases
+          />
+          <AutoRow justify="space-around">
+            <TYPE.white>Frequency Seconds</TYPE.white>
+            <Input
+              style={{ width: '25%' }}
+              className="recipient-address-input"
+              type="number"
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
+              placeholder="Frequency Seconds"
+              error={false}
+              onUserInput={(value) =>
+                setSelectedConfig({
+                  ...selectedConfig,
+                  freq_seconds: Number(value),
+                })
+              }
+              value={selectedConfig?.freq_seconds}
+            />
+          </AutoRow>
+          <ButtonPrimary onClick={() => createBot(selectedConfig)}>Create Bot</ButtonPrimary>
+        </AutoColumn>
+      </GreyCard>
+    ) : undefined;
+  }, [isOwner]);
+
+  const WalletInfo = useCallback(() => {
+    return isOwner ? (
+      <GreyCard>
+        <StyledHeading>Info</StyledHeading>
+        <AutoRow justify="space-between">
+          <TYPE.yellow>Wallet info</TYPE.yellow>
+          <TYPE.yellow>{ethAddress.toTron(currentWallet)}</TYPE.yellow>
+          <AutoColumn>
+            <AutoRow justify="space-between">
+              <TYPE.white>BW :</TYPE.white>
+              <TYPE.yellow>{walletInfo?.Resources?.Bandwidth}</TYPE.yellow>
+            </AutoRow>
+            <AutoRow justify="space-between">
+              <TYPE.white>Energy :</TYPE.white>
+              <TYPE.yellow>{walletInfo?.Resources?.Energy}</TYPE.yellow>
+            </AutoRow>
+            <AutoRow justify="space-between">
+              <TYPE.white>Max poss trades :</TYPE.white>
+              <TYPE.yellow>{walletInfo?.MaxPossibleTrades}</TYPE.yellow>
+            </AutoRow>
+          </AutoColumn>
+        </AutoRow>
+        <AutoRow>
+          <TYPE.white>Change wallet</TYPE.white>
+          <StyledInput
+            type="text"
+            inputMode="text"
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+            pattern="*."
+            placeholder="Tron Primary Key"
+            onChange={(event) => setTronPk(event.target.value)}
+            value={tronPk}
+          />
+          <ButtonPrimary onClick={updatePk}>Change PK</ButtonPrimary>
+        </AutoRow>
+      </GreyCard>
+    ) : undefined;
+  }, [isOwner]);
+
   const DetailsView = useCallback(() => {
-    return (
+    return isOwner ? (
       <>
+        <AutoRow justify="space-around">
+          <TYPE.white>Token</TYPE.white>
+          <TYPE.white>Frequency</TYPE.white>
+          <TYPE.white>Active</TYPE.white>
+          <TYPE.white>Activate</TYPE.white>
+        </AutoRow>
         {bots.map((bot, index) => (
           <AbitrageDetail key={index} bot={bot} updateBot={updateBot} deleteBot={deleteBot} />
         ))}
       </>
-    );
-  }, [bots]);
+    ) : undefined;
+  }, [bots, isOwner]);
 
   const updateBot = async (config: EarningData) => {
     const response = await fetch(`${BACKEND_URL}/abitrage/earning/update?chainId=${chainId}`, {
@@ -201,129 +301,69 @@ export const AbitrageBots: React.FC = () => {
 
   return (
     <>
-      <StyledHeading>Abitrage Bots</StyledHeading>
+      <StyledHeading>Open Abitrage Slots</StyledHeading>
+      <TYPE.white padding={30}>
+        We are out of energy! But that does not keep us away from searching for arbitrages! Hit the button and grab your
+        profits!
+      </TYPE.white>
       <PageWrapper gap="24px">
         <EarnModal isOpen={showEarning} onDismiss={handleDismissEarning} token={selectedToken} />
         <LightCard>
           <AutoColumn gap="24px">
-            <GreyCard>
-              <StyledHeading>Info</StyledHeading>
-              <AutoRow justify="space-between">
-                <TYPE.yellow>Wallet info</TYPE.yellow>
-                <TYPE.yellow>{ethAddress.toTron(currentWallet)}</TYPE.yellow>
+            <AutoRow justify="space-evenly" style={{ paddingRight: '8rem' }}>
+              <TYPE.white>Name</TYPE.white>
+              <TYPE.white>Exchange</TYPE.white>
+              <TYPE.white>Profit</TYPE.white>
+            </AutoRow>
+            <Divider />
+            <GreyCard key={1234234}>
+              <AutoRow justify="space-between" gap="1rem">
+                <TYPE.white>1</TYPE.white>
                 <AutoColumn>
-                  <AutoRow justify="space-between">
-                    <TYPE.white>BW :</TYPE.white>
-                    <TYPE.yellow>{walletInfo?.Resources?.Bandwidth}</TYPE.yellow>
-                  </AutoRow>
-                  <AutoRow justify="space-between">
-                    <TYPE.white>Energy :</TYPE.white>
-                    <TYPE.yellow>{walletInfo?.Resources?.Energy}</TYPE.yellow>
-                  </AutoRow>
-                  <AutoRow justify="space-between">
-                    <TYPE.white>Max poss trades :</TYPE.white>
-                    <TYPE.yellow>{walletInfo?.MaxPossibleTrades}</TYPE.yellow>
+                  <AutoRow justify={isMobile ? 'center' : undefined}>
+                    <CurrencyLogo currency={unwrappedToken(ICR)} size="1.2rem" />
+                    &nbsp;
+                    <TYPE.white fontWeight={500} fontSize="1rem">
+                      {ICR.symbol}&nbsp;/
+                    </TYPE.white>
+                    &nbsp;
+                    <CurrencyLogo currency={unwrappedToken(USDT)} size="1.2rem" />
+                    &nbsp;
+                    <TYPE.white fontWeight={500} fontSize="1rem">
+                      {USDT.symbol}
+                    </TYPE.white>
                   </AutoRow>
                 </AutoColumn>
-              </AutoRow>
-              <AutoRow>
-                <TYPE.white>Change wallet</TYPE.white>
-                <StyledInput
-                  type="text"
-                  inputMode="text"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  autoCapitalize="off"
-                  spellCheck="false"
-                  pattern="*."
-                  placeholder="Tron Primary Key"
-                  onChange={(event) => setTronPk(event.target.value)}
-                  value={tronPk}
-                />
-                <ButtonPrimary onClick={updatePk}>Change PK</ButtonPrimary>
-              </AutoRow>
-              <TYPE.darkGray>Queue Info</TYPE.darkGray>
-              <AutoRow justify="space-evenly">
-                <TYPE.white>Traded token</TYPE.white>
-                <TYPE.white>Profit</TYPE.white>
-              </AutoRow>
-              <GreyCard key={1234234}>
-                <AutoRow justify="space-evenly" gap="1rem">
-                  <CurrencyLogo currency={unwrappedToken(USDT)} />
-                  <AutoColumn justify="center">
-                    <CurrencyLogo currency={unwrappedToken(ICR)} />
+                <TYPE.white>Sunswap</TYPE.white>
+                <AutoColumn justify="center">
+                  <AutoRow>
                     <TYPE.white>{2}</TYPE.white>
-                  </AutoColumn>
-                  <ButtonPrimary onClick={() => handleEarning(USDT)}>Earn</ButtonPrimary>
-                </AutoRow>
-              </GreyCard>
-              {queue.map((item, index) => {
-                return (
-                  <GreyCard key={index}>
-                    <AutoRow justify="space-evenly" gap="1rem">
-                      <CurrencyLogo currency={unwrappedToken(item.token)} />
-                      <AutoColumn justify="center">
-                        <CurrencyLogo currency={unwrappedToken(ICR)} />
-                        <TYPE.white>{item.profit.toSignificant()}</TYPE.white>
-                      </AutoColumn>
-                      <ButtonPrimary onClick={() => handleEarning(item.token)}>Earn</ButtonPrimary>
-                    </AutoRow>
-                  </GreyCard>
-                );
-              })}
-              <AutoRow></AutoRow>
+                    <CurrencyLogo currency={unwrappedToken(ICR)} />
+                  </AutoRow>
+                </AutoColumn>
+                <ButtonPrimary onClick={() => handleEarning(USDT)} width="10rem" style={{ margin: 0 }}>
+                  Take Profit
+                </ButtonPrimary>
+              </AutoRow>
             </GreyCard>
-            <GreyCard>
-              <StyledHeading>Create bot</StyledHeading>
-              <AutoColumn justify="center">
-                <CurrencyInputPanel
-                  hideInput={true}
-                  hideBalance={true}
-                  value=""
-                  onUserInput={() => {
-                    console.log('disabled');
-                  }}
-                  onCurrencySelect={(c) => {
-                    setSelectedConfig({
-                      ...selectedConfig,
-                      token: wrappedCurrency(c, chainId ?? 11111) ?? WETH[11111],
-                    });
-                  }}
-                  showMaxButton={false}
-                  currency={unwrappedToken(selectedConfig.token)}
-                  id="nft-payout-token"
-                  showCommonBases
-                />
-                <AutoRow justify="space-around">
-                  <TYPE.white>Frequency Seconds</TYPE.white>
-                  <Input
-                    style={{ width: '25%' }}
-                    className="recipient-address-input"
-                    type="number"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck="false"
-                    placeholder="Frequency Seconds"
-                    error={false}
-                    onUserInput={(value) =>
-                      setSelectedConfig({
-                        ...selectedConfig,
-                        freq_seconds: Number(value),
-                      })
-                    }
-                    value={selectedConfig?.freq_seconds}
-                  />
-                </AutoRow>
-                <ButtonPrimary onClick={() => createBot(selectedConfig)}>Create Bot</ButtonPrimary>
-              </AutoColumn>
-            </GreyCard>
-            <AutoRow justify="space-around">
-              <TYPE.white>Token</TYPE.white>
-              <TYPE.white>Frequency</TYPE.white>
-              <TYPE.white>Active</TYPE.white>
-              <TYPE.white>Activate</TYPE.white>
-            </AutoRow>
+            {queue.map((item, index) => {
+              return (
+                <GreyCard key={index}>
+                  <AutoRow justify="space-evenly" gap="1rem">
+                    <CurrencyLogo currency={unwrappedToken(item.token)} />
+                    <AutoColumn justify="center">
+                      <CurrencyLogo currency={unwrappedToken(ICR)} />
+                      <TYPE.white>{item.profit.toSignificant()}</TYPE.white>
+                    </AutoColumn>
+                    <ButtonPrimary onClick={() => handleEarning(item.token)}>Take Profit</ButtonPrimary>
+                  </AutoRow>
+                </GreyCard>
+              );
+            })}
+          </AutoColumn>
+          <AutoColumn gap="24px">
+            {WalletInfo()}
+            {CreateBots()}
             {DetailsView()}
           </AutoColumn>
         </LightCard>
