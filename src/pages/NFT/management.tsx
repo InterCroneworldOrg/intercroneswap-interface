@@ -16,6 +16,7 @@ import CurrencyLogo from '../../components/CurrencyLogo';
 import { BACKEND_URL } from '../../constants';
 import { Form } from 'react-bootstrap';
 import { ThemeContext } from 'styled-components';
+import { useEarningInfo } from '../../state/abibot/hooks';
 
 interface PayoutReport {
   holder_address: string;
@@ -34,6 +35,7 @@ export const Management: React.FC = () => {
   const [currency, setCurrency] = useState<Currency>(ETHER);
   const [payoutReport, setPayoutReport] = useState<PayoutReport[]>([]);
   const [dryRun, setDryRun] = useState(true);
+  const { isOwner } = useEarningInfo();
 
   const triggerPayment = async () => {
     const jsonData = {
@@ -91,7 +93,7 @@ export const Management: React.FC = () => {
     setPayoutReport(reports);
   };
 
-  return (
+  return isOwner ? (
     <>
       <StyledHeading>Abitron payouts</StyledHeading>
       <PageWrapper gap="24">
@@ -169,6 +171,10 @@ export const Management: React.FC = () => {
           </AutoColumn>
         </LightCard>
       </PageWrapper>
+    </>
+  ) : (
+    <>
+      <StyledHeading>No permission to access site</StyledHeading>
     </>
   );
 };
