@@ -15,7 +15,7 @@ import { AbitrageDetail } from '../../components/Abitrage/BotDetail';
 import { BACKEND_URL } from '../../constants';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import useInterval from '../../hooks/useInterval';
-import { getTokenFromDefaults, ICR } from '../../constants/tokens';
+import { getTokenFromDefaults, ICR, USDT } from '../../constants/tokens';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import EarnModal from '../../components/Abitrage/EarnModal';
 
@@ -247,6 +247,16 @@ export const AbitrageBots: React.FC = () => {
                 <TYPE.white>Traded token</TYPE.white>
                 <TYPE.white>Profit</TYPE.white>
               </AutoRow>
+              <GreyCard key={1234234}>
+                <AutoRow justify="space-evenly" gap="1rem">
+                  <CurrencyLogo currency={unwrappedToken(USDT)} />
+                  <AutoColumn justify="center">
+                    <CurrencyLogo currency={unwrappedToken(ICR)} />
+                    <TYPE.white>{2}</TYPE.white>
+                  </AutoColumn>
+                  <ButtonPrimary onClick={() => handleEarning(USDT)}>Earn</ButtonPrimary>
+                </AutoRow>
+              </GreyCard>
               {queue.map((item, index) => {
                 return (
                   <GreyCard key={index}>

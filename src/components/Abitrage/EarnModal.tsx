@@ -12,6 +12,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks';
 import { TYPE } from '../../theme';
 import { DEFAULT_FEE_LIMIT } from '../../tron-config';
 import { getEarningContract } from '../../utils';
+import { EARNING_CONTRACT } from '../../constants';
 
 interface EarnModalProps {
   isOpen: boolean;
@@ -32,7 +33,7 @@ export default function EarnModal({ isOpen, onDismiss, token }: EarnModalProps) 
       return;
     }
 
-    const earningContract = getEarningContract(chainId, '0x01C49A17C2470AE3BD85412811F3DFEADDE174A0', library, account);
+    const earningContract = getEarningContract(chainId, EARNING_CONTRACT, library, account);
     console.log(earningContract);
 
     const estimate = earningContract.estimateGas.makeEarning;
