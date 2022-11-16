@@ -191,7 +191,7 @@ export const AbitrageBots: React.FC = () => {
         </AutoColumn>
       </GreyCard>
     ) : undefined;
-  }, [isOwner]);
+  }, [isOwner, selectedToken, selectedConfig]);
 
   const WalletInfo = useCallback(() => {
     return isOwner ? (
