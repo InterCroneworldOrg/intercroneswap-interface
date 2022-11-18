@@ -34,7 +34,6 @@ export default function EarnModal({ isOpen, onDismiss, token }: EarnModalProps) 
     }
 
     const earningContract = getEarningContract(chainId, EARNING_CONTRACT, library, account);
-    console.log(earningContract);
 
     const estimate = earningContract.estimateGas.makeEarning;
     const method: (...args: any) => Promise<TransactionResponse> = earningContract.makeEarning;
@@ -95,7 +94,7 @@ export default function EarnModal({ isOpen, onDismiss, token }: EarnModalProps) 
         bottomContent={modalBottom}
       />
     );
-  }, [token]);
+  }, [token, stakeState]);
 
   return (
     <TransactionConfirmationModal

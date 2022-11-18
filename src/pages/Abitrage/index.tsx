@@ -114,7 +114,7 @@ export const AbitrageBots: React.FC = () => {
   useInterval(() => {
     getWalletInfo();
     getLastQueue();
-  }, 10 * 1000);
+  }, 5000);
 
   useEffect(() => {
     getAllBots();
