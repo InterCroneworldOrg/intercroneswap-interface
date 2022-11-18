@@ -19,6 +19,7 @@ import { getTokenFromDefaults, ICR } from '../../constants/tokens';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import EarnModal from '../../components/Abitrage/EarnModal';
 import { useEarningInfo } from '../../state/abibot/hooks';
+import '../../styles/abitrage.scss';
 
 export interface EarningData {
   token_address: string;
@@ -302,6 +303,7 @@ export const AbitrageBots: React.FC = () => {
   return (
     <>
       <StyledHeading>Open Abitrage Slots</StyledHeading>
+      <TYPE.white className="robot">🤖</TYPE.white>
       <TYPE.white padding={30}>
         We are out of energy! But that does not keep us away from searching for arbitrages! Hit the button and grab your
         profits!
