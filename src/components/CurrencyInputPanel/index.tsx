@@ -280,26 +280,26 @@ export default function CurrencyInputPanel({
                   </>
                 )}
               </AutoRow>
-              <div>
-                <TYPE.body color={theme.primary3} textAlign={'right'} fontWeight={500} fontSize={14}>
-                  Balance
-                </TYPE.body>
-                {account && (
-                  <TYPE.body
-                    onClick={onMax}
-                    color={theme.text1}
-                    fontWeight={500}
-                    fontSize={24}
-                    style={{ display: 'inline', cursor: 'pointer' }}
-                    className="balance"
-                  >
-                    {!hideBalance && !!currency && selectedCurrencyBalance
-                      ? (customBalanceText ?? '') + selectedCurrencyBalance?.toSignificant(6)
-                      : ' -'}
+              {!hideBalance && (
+                <div>
+                  <TYPE.body color={theme.primary3} textAlign={'right'} fontWeight={500} fontSize={14}>
+                    Balance
                   </TYPE.body>
-                )}
-                {/* <div className="balanceDigit">134.1340</div> */}
-              </div>
+                  {account && (
+                    <TYPE.body
+                      onClick={onMax}
+                      color={theme.text1}
+                      fontWeight={500}
+                      fontSize={24}
+                      style={{ display: 'inline', cursor: 'pointer' }}
+                    >
+                      {!hideBalance && !!currency && selectedCurrencyBalance
+                        ? (customBalanceText ?? '') + selectedCurrencyBalance?.toSignificant(6)
+                        : ' -'}
+                    </TYPE.body>
+                  )}
+                </div>
+              )}
             </RowBetween>
           </CurrencySelectContainer>
         </InputRow>

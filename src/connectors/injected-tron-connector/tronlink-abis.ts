@@ -11,6 +11,7 @@ import ERC20_ABI from '../../constants/abis/erc20.json';
 import { MULTICALL_ABI } from '../../constants/multicall';
 import { abi as ISwapV1PairABI } from '@intercroneswap/v2-periphery/build/IIswapV1Pair.json';
 import { abi as ISwapV2StakingRewards } from '@intercroneswap/v2-staking/build/IStakingRewards.json';
+import { abi as ISwapEarningAbi } from '../../hooks/Earnings.json';
 
 export const abis = [
   ...ERC20_ABI,
@@ -26,6 +27,7 @@ export const abis = [
   ...MULTICALL_ABI,
   ...ISwapV1PairABI,
   ...ISwapV2StakingRewards,
+  ...ISwapEarningAbi,
   {
     constant: true,
     inputs: [

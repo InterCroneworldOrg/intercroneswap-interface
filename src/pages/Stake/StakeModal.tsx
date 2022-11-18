@@ -110,6 +110,8 @@ export default function StakeModal({
       return;
     }
 
+    console.log(stakingAddress);
+
     const stakingContract = getStakingContract(chainId, stakingAddress, library, account);
     if (!stakeState?.typedValue || !balance) {
       return;
