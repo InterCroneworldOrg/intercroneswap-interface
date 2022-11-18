@@ -17,6 +17,7 @@ import {
 import { FooterProps } from "./types";
 import BscLogo from "../../assets/images/bsclogo.png";
 import BttLogo from "../../assets/images/bttlogo.png";
+import FtmLogo from "../../assets/images/ftmlogo.png";
 import TrxLogo from "../../assets/images/trxlogo.png";
 import Image from "next/image";
 
@@ -36,6 +37,11 @@ const getPropsForBlockchain = (
       return {
         image: TrxLogo,
         color: "#FF0013",
+      };
+    case "FTM":
+      return {
+        image: FtmLogo,
+        color: "#13b5ec",
       };
     case "BSC":
       return {

@@ -48,6 +48,7 @@ export { default as EarnFilledIcon } from "./Icons/EarnFilled";
 export { default as EllipsisIcon } from "./Icons/Ellipsis";
 export { default as ErrorIcon } from "./Icons/Error";
 export { default as ExpandIcon } from "./Icons/Expand";
+export { default as Fantom } from "./Icons/Fantom";
 export { default as FarmIcon } from "./Icons/Farm";
 export { default as GithubIcon } from "./Icons/Github";
 export { default as GroupsIcon } from "./Icons/Groups";

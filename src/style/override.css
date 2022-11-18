@@ -27,7 +27,7 @@ div#basic-nav-dropdowns {
     position: absolute;
     left: 0;
     width: 210px;
-    height: 250px;
+    height: 340px;
     z-index: 99999999;
     background: linear-gradient(180deg, #3B3B3B 0%, #1D1D1D 100%);
     padding: 10px;

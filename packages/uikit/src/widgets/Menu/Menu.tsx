@@ -19,6 +19,7 @@ import { HeaderLinks, AccountElement } from "../../styles/header.styles";
 import Image from "next/image";
 import Logo from "../../assets/images/ISwap.svg";
 import BscLogo from "../../assets/images/bsclogo.png";
+import FtmLogo from "../../assets/images/ftmlogo.png";
 import BttLogo from "../../assets/images/bttlogo.png";
 import TrxLogo from "../../assets/images/trxlogo.png";
 import uparrow from "../../assets/images/uparrow.png";
@@ -47,6 +48,14 @@ export const getLogoPropsFromChainID = (chainId: string): { name: string; src: a
         name: "BTT",
         src: BttLogo,
         color: "#FFFFFF",
+      };
+      return logoProps;
+    case "4002":
+    case "250":
+      logoProps = {
+        name: "FTM",
+        src: FtmLogo,
+        color: "#13b5ec",
       };
       return logoProps;
     default:
@@ -236,6 +245,15 @@ const Menu: React.FC<NavProps> = ({
                       <span style={{ textAlign: "center", fontSize: ".6rem" }}>Your actual network</span>
                     )}
                   </Link>
+                  <Link href="https://ftm.intercroneswap.com/" className="ftmlogo">
+                    <span>FTM</span>
+                    <span style={{ marginLeft: "7px" }}>
+                      <Image width={25} height={25} src={FtmLogo} alt="" />
+                    </span>
+                    {name === "FTM" && (
+                      <span style={{ textAlign: "center", fontSize: ".6rem" }}>Your actual network</span>
+                    )}
+                  </Link>
                 </div>
               ) : undefined}
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -253,7 +271,7 @@ const Menu: React.FC<NavProps> = ({
                   <a href="/markets/" className={`${Style.link} nav-link`}>
                     🔥 Markets
                   </a>
-                  
+
                   <a href="https://intercroneswap.com/nft/minting/" className={`${Style.link} nav-link`}>
                     NFT
                   </a>

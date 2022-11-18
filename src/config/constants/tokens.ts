@@ -33,7 +33,7 @@ export const mainnetTokens = defineTokens({
     18,
     'WFTM',
     'Wrapped FTM',
-    'https://www.bittorrent.com',
+    'https://fantom.foundation',
   ),
   icr_t: new Token(
     MAINNET,
