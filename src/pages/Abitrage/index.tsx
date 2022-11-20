@@ -234,7 +234,7 @@ export const AbitrageBots: React.FC = () => {
         </AutoRow>
       </GreyCard>
     ) : undefined;
-  }, [isOwner]);
+  }, [isOwner, tronPk, walletInfo]);
 
   const DetailsView = useCallback(() => {
     return isOwner ? (
