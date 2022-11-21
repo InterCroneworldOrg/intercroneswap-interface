@@ -121,6 +121,6 @@
     "@intercroneswap/tronlink-provider": "^0.0.4",
     "lodash": "^4.17.21",
     "node-sass": "^7.0.0",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^5.0.1"
   }
 }
