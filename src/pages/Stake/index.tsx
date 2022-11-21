@@ -100,9 +100,10 @@ export default function Stake({
         : undefined;
     }
 
+    console.log(tmpinfos.length);
     setPagingInfo({
       page: 1,
-      maxPages: Math.floor(tmpinfos.length / MAX_STAKE_PER_PAGE),
+      maxPages: Math.floor(tmpinfos.length / MAX_STAKE_PER_PAGE) + 1,
     });
 
     return tmpinfos.reverse();
@@ -118,11 +119,8 @@ export default function Stake({
     return [];
   }, [chainId, isActive, stakingRewardInfos, pagingInfo]);
 
-  console.log(currentStakingRewardInfos);
-
   const stakingInfos = useStakingInfo(currentStakingRewardInfos);
 
-  console.log(stakingInfos);
   const [stakeAddress, setStakeAddress] = useState<string>('');
   const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
@@ -150,15 +148,15 @@ export default function Stake({
     if (isActive) {
       setPagingInfo({
         maxPages: !isStakedOnly
-          ? Math.floor(stakedOnlyPools.length / MAX_STAKE_PER_PAGE)
-          : Math.floor(activePools.length / MAX_STAKE_PER_PAGE),
+          ? Math.floor(stakedOnlyPools.length / MAX_STAKE_PER_PAGE) + 1
+          : Math.floor(activePools.length / MAX_STAKE_PER_PAGE) + 1,
         page: 1,
       });
     } else {
       setPagingInfo({
         maxPages: !isStakedOnly
-          ? Math.floor(stakedInactivePools.length / MAX_STAKE_PER_PAGE)
-          : Math.floor(inactivePools.length / MAX_STAKE_PER_PAGE),
+          ? Math.floor(stakedInactivePools.length / MAX_STAKE_PER_PAGE) + 1
+          : Math.floor(inactivePools.length / MAX_STAKE_PER_PAGE) + 1,
         page: 1,
       });
     }
@@ -168,8 +166,8 @@ export default function Stake({
     setActive(!isActive);
     setPagingInfo({
       maxPages: !isActive
-        ? Math.floor(activePools.length / MAX_STAKE_PER_PAGE)
-        : Math.floor(inactivePools.length / MAX_STAKE_PER_PAGE),
+        ? Math.floor(activePools.length / MAX_STAKE_PER_PAGE) + 1
+        : Math.floor(inactivePools.length / MAX_STAKE_PER_PAGE) + 1,
       page: 1,
     });
   };
@@ -330,7 +328,7 @@ export default function Stake({
   }, [sortOption, stakingInfos, searchQuery, isActive, isStakedOnly, pagingInfo, currentStakingRewardInfos]);
 
   const pagination = useCallback(() => {
-    const maxPages = Math.floor(stakingRewardInfos.length / MAX_STAKE_PER_PAGE);
+    const maxPages = Math.floor(stakingRewardInfos.length / MAX_STAKE_PER_PAGE) + 1;
     return (
       <Pagination color={theme.text1} style={{ background: theme.bg1, marginTop: '2rem' }}>
         <Pagination.First style={{ background: theme.bg1 }} onClick={() => setPagingInfo({ ...pagingInfo, page: 1 })} />
@@ -366,7 +364,7 @@ export default function Stake({
         <Pagination.Last onClick={() => setPagingInfo({ ...pagingInfo, page: maxPages })} />
       </Pagination>
     );
-  }, [chosenPoolsMemoized, stakingRewardInfos]);
+  }, [chosenPoolsMemoized, stakingRewardInfos, pagingInfo]);
 
   return (
     <>
