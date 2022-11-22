@@ -20,6 +20,7 @@ import CurrencyLogo from '../../components/CurrencyLogo';
 import EarnModal from '../../components/Abitrage/EarnModal';
 import { useEarningInfo } from '../../state/abibot/hooks';
 import '../../styles/abitrage.scss';
+import { useStakeActionHandlers } from '../../state/stake/hooks';
 
 export interface EarningData {
   token_address: string;
@@ -57,6 +58,7 @@ export const AbitrageBots: React.FC = () => {
   const [showEarning, setShowEarning] = useState(false);
   const [selectedToken, setSelectedToken] = useState<Token | undefined>(undefined);
   const { isOwner } = useEarningInfo();
+  const { onTxHashChange } = useStakeActionHandlers();
   const [selectedConfig, setSelectedConfig] = useState<EarningConfig>({
     token: wrappedCurrency(ETHER, chainId) ?? WETH[chainId ?? 11111],
     freq_seconds: 0,
@@ -71,7 +73,8 @@ export const AbitrageBots: React.FC = () => {
   const handleDismissEarning = useCallback(() => {
     setShowEarning(false);
     setSelectedToken(undefined);
-  }, [selectedToken, showEarning]);
+    onTxHashChange('');
+  }, [selectedToken, showEarning, onTxHashChange]);
 
   const getCurrentWallet = async () => {
     const response = await fetch(`${BACKEND_URL}/abitrage/earning/currentwallet?chainId=${chainId}`, {
