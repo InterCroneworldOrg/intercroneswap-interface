@@ -16,7 +16,7 @@ import { ResponsiveSizedTextMedium } from '../../components/earn/styleds';
 import { AutoRow, RowBetween } from '../../components/Row';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import { Dots } from '../../components/swap/styleds';
-import { USDT, getTokensFromDefaults, ICR } from '../../constants/tokens';
+import { USDT, getTokensFromDefaults, ICR, fetchTokens } from '../../constants/tokens';
 import { useActiveWeb3React } from '../../hooks';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks';
@@ -28,6 +28,7 @@ import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import { Form, Pagination } from 'react-bootstrap';
 import ExitModal from './ExitModal';
+import useInterval from '../../hooks/useInterval';
 
 let stakingInfosRaw: {
   [chainId: number]: {
@@ -63,6 +64,10 @@ export default function Stake({
   const { account, chainId } = useActiveWeb3React();
   const [pagingInfo, setPagingInfo] = useState<any>({});
   const [isActive, setActive] = useState<boolean>(true);
+
+  useInterval(() => {
+    fetchTokens();
+  }, 60000);
 
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];

@@ -1,4 +1,5 @@
 import { ChainId, Token, WETH } from '@intercroneswap/v2-sdk';
+import { BACKEND_URL } from '.';
 
 export function getTokensFromDefaults(symbols: string): [Token, Token] | undefined {
   const symbolsSplit = symbols.split('-');
@@ -10,8 +11,30 @@ export function getTokensFromDefaults(symbols: string): [Token, Token] | undefin
   return token0 && token1 ? [token0, token1] : undefined;
 }
 
+export let tokensFromApi: Token[] = [];
+
+export const fetchTokens = async () => {
+  const response = await fetch(`${BACKEND_URL}/tokens/all?chainId=11111`, {
+    method: 'GET',
+    mode: 'cors',
+  });
+  if (response.status == 200) {
+    const json = await response.json();
+    if (json.data?.length > tokensFromApi.length) {
+      tokensFromApi = json.data?.map((data: any) => {
+        const token = new Token(data.chain_id, data.address, data.decimals, data.symbol, data.name);
+        return token;
+      });
+    }
+  }
+};
+
 export function getTokenFromDefaults(symbol: string): Token | undefined {
-  return symbol === 'TRX' ? WETH[ChainId.MAINNET] : DefaultTokensMap[symbol];
+  let token: Token | undefined = symbol === 'TRX' ? WETH[ChainId.MAINNET] : DefaultTokensMap[symbol];
+  if (!token && tokensFromApi.length > 0) {
+    token = tokensFromApi.find((token) => token.symbol === symbol);
+  }
+  return token;
 }
 
 export const PLZ = new Token(ChainId.MAINNET, '0xF51616FA89A8D63DA1BE20D8EA2C1D0A383FACEF', 8, 'PLZ', 'Plaentz');

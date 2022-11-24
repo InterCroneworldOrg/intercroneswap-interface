@@ -15,7 +15,7 @@ import { AbitrageDetail } from '../../components/Abitrage/BotDetail';
 import { BACKEND_URL } from '../../constants';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import useInterval from '../../hooks/useInterval';
-import { getTokenFromDefaults, ICR } from '../../constants/tokens';
+import { fetchTokens, getTokenFromDefaults, ICR } from '../../constants/tokens';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import EarnModal from '../../components/Abitrage/EarnModal';
 import { useEarningInfo } from '../../state/abibot/hooks';
@@ -76,6 +76,10 @@ export const AbitrageBots: React.FC = () => {
     onTxHashChange('');
   }, [selectedToken, showEarning, onTxHashChange]);
 
+  useInterval(() => {
+    fetchTokens();
+  }, 60000);
+
   const getCurrentWallet = async () => {
     const response = await fetch(`${BACKEND_URL}/abitrage/earning/currentwallet?chainId=${chainId}`, {
       method: 'GET',
@@ -105,6 +109,9 @@ export const AbitrageBots: React.FC = () => {
     });
     if (response.status == 200) {
       const json = await response.json();
+      if (!json.data) {
+        return;
+      }
       const q: QueueData[] = json.data.map((data: any) => {
         return {
           token: getTokenFromDefaults(data.token),
