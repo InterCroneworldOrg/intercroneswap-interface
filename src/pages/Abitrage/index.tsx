@@ -15,7 +15,7 @@ import { AbitrageDetail } from '../../components/Abitrage/BotDetail';
 import { BACKEND_URL } from '../../constants';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import useInterval from '../../hooks/useInterval';
-import { fetchTokens, getTokenFromDefaults, ICR } from '../../constants/tokens';
+import { fetchTokens, getTokenFromDefaults, ICR, tokensFromApi } from '../../constants/tokens';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import EarnModal from '../../components/Abitrage/EarnModal';
 import { useEarningInfo } from '../../state/abibot/hooks';
@@ -329,40 +329,41 @@ export const AbitrageBots: React.FC = () => {
               <TYPE.white>Profit</TYPE.white>
             </AutoRow>
             <Divider />
-            {queue.map((item, index) => {
-              return (
-                <GreyCard key={index}>
-                  <AutoRow justify="space-between" gap="1rem">
-                    <TYPE.white>{index}</TYPE.white>
-                    <AutoColumn>
-                      <AutoRow justify={isMobile ? 'center' : undefined}>
-                        <CurrencyLogo currency={unwrappedToken(ICR)} size="1.2rem" />
-                        &nbsp;
-                        <TYPE.white fontWeight={500} fontSize="1rem">
-                          {ICR.symbol}&nbsp;/
-                        </TYPE.white>
-                        &nbsp;
-                        <CurrencyLogo currency={unwrappedToken(item.token)} size="1.2rem" />
-                        &nbsp;
-                        <TYPE.white fontWeight={500} fontSize="1rem">
-                          {item.token.symbol}
-                        </TYPE.white>
-                      </AutoRow>
-                    </AutoColumn>
-                    <TYPE.white>Sunswap</TYPE.white>
-                    <AutoColumn justify="center">
-                      <AutoRow>
-                        <TYPE.white>{item.profit.toSignificant()}</TYPE.white>
-                        <CurrencyLogo currency={unwrappedToken(ICR)} />
-                      </AutoRow>
-                    </AutoColumn>
-                    <ButtonPrimary onClick={() => handleEarning(item.token)} width="10rem" style={{ margin: 0 }}>
-                      Take Profit
-                    </ButtonPrimary>
-                  </AutoRow>
-                </GreyCard>
-              );
-            })}
+            {tokensFromApi.length > 0 &&
+              queue.map((item, index) => {
+                return (
+                  <GreyCard key={index}>
+                    <AutoRow justify="space-between" gap="1rem">
+                      <TYPE.white>{index}</TYPE.white>
+                      <AutoColumn>
+                        <AutoRow justify={isMobile ? 'center' : undefined}>
+                          <CurrencyLogo currency={unwrappedToken(ICR)} size="1.2rem" />
+                          &nbsp;
+                          <TYPE.white fontWeight={500} fontSize="1rem">
+                            {ICR.symbol}&nbsp;/
+                          </TYPE.white>
+                          &nbsp;
+                          <CurrencyLogo currency={unwrappedToken(item.token)} size="1.2rem" />
+                          &nbsp;
+                          <TYPE.white fontWeight={500} fontSize="1rem">
+                            {item.token.symbol}
+                          </TYPE.white>
+                        </AutoRow>
+                      </AutoColumn>
+                      <TYPE.white>Sunswap</TYPE.white>
+                      <AutoColumn justify="center">
+                        <AutoRow>
+                          <TYPE.white>{item.profit.toSignificant()}</TYPE.white>
+                          <CurrencyLogo currency={unwrappedToken(ICR)} />
+                        </AutoRow>
+                      </AutoColumn>
+                      <ButtonPrimary onClick={() => handleEarning(item.token)} width="10rem" style={{ margin: 0 }}>
+                        Take Profit
+                      </ButtonPrimary>
+                    </AutoRow>
+                  </GreyCard>
+                );
+              })}
           </AutoColumn>
           <AutoColumn gap="24px">
             {WalletInfo()}
