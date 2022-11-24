@@ -29,6 +29,8 @@ export const fetchTokens = async () => {
   }
 };
 
+fetchTokens();
+
 export function getTokenFromDefaults(symbol: string): Token | undefined {
   let token: Token | undefined = symbol === 'TRX' ? WETH[ChainId.MAINNET] : DefaultTokensMap[symbol];
   if (!token && tokensFromApi.length > 0) {
