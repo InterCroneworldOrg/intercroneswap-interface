@@ -129,6 +129,7 @@ export const AbitrageBots: React.FC = () => {
 
   useEffect(() => {
     getAllBots();
+    fetchTokens();
     getCurrentWallet();
   }, []);
 

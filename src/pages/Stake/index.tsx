@@ -2,7 +2,7 @@ import { REWARDS_DURATION_DAYS, REWARDS_DURATION_DAYS_180, StakingRewardsInfo } 
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import { JSBI, TokenAmount, ZERO } from '@intercroneswap/v2-sdk';
 import { orderBy } from 'lodash';
-import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, useState } from 'react';
+import { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { ThemeContext } from 'styled-components';
@@ -68,6 +68,10 @@ export default function Stake({
   useInterval(() => {
     fetchTokens();
   }, 60000);
+
+  useEffect(() => {
+    fetchTokens();
+  }, []);
 
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];
