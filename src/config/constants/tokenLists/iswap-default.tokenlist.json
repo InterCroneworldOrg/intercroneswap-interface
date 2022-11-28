@@ -90,6 +90,14 @@
       "logoURI": "https://bscscan.com/token/images/ftm_32.png?=v2"
     },
     {
+      "name": "JustMoney",
+      "symbol": "JM",
+      "address": "0x388D819724dD6d71760A38F00dc01D310d879771",
+      "chainId": 199,
+      "decimals": 8,
+      "logoURI": "https://static.tronscan.org/production/upload/logo/TVHH59uHVpHzLDMFFpUgCx2dNAQqCzPhcR.png"
+    },
+    {
       "name": "Avalance",
       "symbol": "AVAX_b",
       "address": "0x4CC2FC7373B491db83bE3feB5db622e0773420cf",
