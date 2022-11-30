@@ -1,6 +1,5 @@
 import styled from 'styled-components'
-import { Box, Flex } from '@pancakeswap/uikit'
-// import Footer from 'components/Menu/Footer'
+import { Flex } from '@pancakeswap/uikit'
 import { PageMeta } from 'components/Layout/Page'
 import { EXCHANGE_DOCS_URLS } from 'config/constants'
 
@@ -50,11 +49,9 @@ const Page: React.FC<
     <>
       <PageMeta />
       <StyledPage $removePadding={removePadding} $noMinHeight={noMinHeight} {...props} id="styledpage">
+        <div style={{ height: '10rem' }} />
         {children}
         <Flex flexGrow={1} />
-        {/* <Box display={['block', null, null, hideFooterOnDesktop ? 'none' : 'block']} width="100%">
-          <Footer helpUrl={helpUrl} />
-        </Box> */}
       </StyledPage>
     </>
   )
