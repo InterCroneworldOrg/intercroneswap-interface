@@ -118,4 +118,4 @@ export const EXCHANGE_DOCS_URLS = 'https://docs.pancakeswap.finance/products/pan
 export const LIMIT_ORDERS_DOCS_URL = 'https://docs.pancakeswap.finance/products/pancakeswap-exchange/limit-orders'
 
 export const ACTUAL_LAUCH_TOKEN: Token = mainnetTokens.plz
-export const LAUNCH_START_TIME: Date = new Date(1669915800000)
+export const LAUNCH_START_TIME: Date = new Date(1669914000000)
