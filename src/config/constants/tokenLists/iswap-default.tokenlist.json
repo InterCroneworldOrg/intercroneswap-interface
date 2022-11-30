@@ -104,6 +104,30 @@
       "chainId": 199,
       "decimals": 18,
       "logoURI": "https://bscscan.com/token/images/avax_32.png"
+    },
+    {
+      "name": "Kyber Network Crystal v2",
+      "symbol": "KNC_b",
+      "address": "0x18fA72e0EE4C580a129b0CE5bD0694d716C7443E",
+      "chainId": 199,
+      "decimals": 18,
+      "logoURI": "https://bttcscan.com/token/images/kybernetworkcrystal_32.png"
+    },
+    {
+      "name": "Decentralized USD",
+      "symbol": "USDD_t",
+      "address": "0x17F235FD5974318E4E2a5e37919a209f7c37A6d1",
+      "chainId": 199,
+      "decimals": 18,
+      "logoURI": "https://bttcscan.com/token/images/usdd-tron_32.png"
+    },
+    {
+      "name": "Elk Token",
+      "symbol": "ELK",
+      "address": "0xeEeEEb57642040bE42185f49C52F7E9B38f8eeeE",
+      "chainId": 199,
+      "decimals": 18,
+      "logoURI": "https://bscscan.com/token/images/elkfinance_32.png"
     }
   ],
   "logoURI": "https://coin.top/production/upload/logo/TKqvrVG7a2zJvQ3VysLoiz9ijuMNDehwy7.png",
