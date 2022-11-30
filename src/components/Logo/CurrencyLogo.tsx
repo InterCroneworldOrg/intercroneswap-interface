@@ -36,7 +36,7 @@ export default function CurrencyLogo({
     return []
   }, [currency, uriLocations])
 
-  if (currency === ETHER) {
+  if (currency === ETHER || currency.symbol === 'WBTT') {
     return <BinanceIcon width={size} style={style} />
   }
 
