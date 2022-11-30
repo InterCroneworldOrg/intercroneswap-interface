@@ -47,7 +47,7 @@ import { BETTER_TRADE_LINK_THRESHOLD } from '../../constants';
 import { useCurrency } from '../../hooks/Tokens';
 import useENSAddress from '../../hooks/useENSAddress';
 import { useWalletModalToggle } from '../../state/application/hooks';
-import { useExpertModeManager, useUserSlippageTolerance } from '../../state/user/hooks';
+import { useExpertModeManager } from '../../state/user/hooks';
 import { MenuItem, SocialIconWrapper } from '../../components/Footer';
 
 export default function LaunchPad() {
@@ -79,7 +79,7 @@ export default function LaunchPad() {
   const [isExpertMode] = useExpertModeManager();
 
   // get custom setting values for user
-  const [allowedSlippage] = useUserSlippageTolerance();
+  const allowedSlippage = 2000;
 
   // swap state
   const { independentField, typedValue, recipient } = useSwapState();
