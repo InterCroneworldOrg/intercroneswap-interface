@@ -19,11 +19,12 @@ import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
 import Footer from 'components/Menu/Footer'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'contexts/Localization'
-import { EXCHANGE_DOCS_URLS } from 'config/constants'
+import { EXCHANGE_DOCS_URLS, LAUNCH_START_TIME } from 'config/constants'
 import SwapWarningTokens from 'config/constants/swapWarningTokens'
 import { StyledSocialLinks } from '@pancakeswap/uikit/src/components/Footer/styles'
 import { launchSocials } from '@pancakeswap/uikit/src/components/Footer/config'
 import { Divider } from 'theme'
+import { LaunchCountDown } from 'components/earn/Countdown'
 import useRefreshBlockNumberID from '../Swap/hooks/useRefreshBlockNumber'
 import AddressInputPanel from '../Swap/components/AddressInputPanel'
 import { GreyCard } from '../../components/Card'
@@ -361,6 +362,7 @@ export default function LaunchPad() {
 
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
+      <LaunchCountDown exactStart={LAUNCH_START_TIME} />
       <StyledHeading id="tknhead">
         InterCrone Launchpad <Rocket />
       </StyledHeading>

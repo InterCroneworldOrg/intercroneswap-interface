@@ -1,29 +1,23 @@
 import throttle from "lodash/throttle";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-// import BottomNav from "../../components/BottomNav";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import Image from "next/image";
 import { Box } from "../../components/Box";
-import Flex from "../../components/Box/Flex";
 import Footer from "../../components/Footer";
-import MenuItems from "../../components/MenuItems/MenuItems";
-import { SubMenuItems } from "../../components/SubMenuItems";
 import { useMatchBreakpoints } from "../../hooks";
-// import Logo from "./components/Logo";
 import { MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
 import { NavProps } from "./types";
-// import LangSelector from "../../components/LangSelector/LangSelector";
 import { MenuContext } from "./context";
-import { Navbar, Container, Nav } from "react-bootstrap";
 import Style from "../../styles/header.module.css";
 import { HeaderLinks, AccountElement } from "../../styles/header.styles";
-import Image from "next/image";
 import Logo from "../../assets/images/ISwap.svg";
 import BscLogo from "../../assets/images/bsclogo.png";
 import BttLogo from "../../assets/images/bttlogo.png";
 import TrxLogo from "../../assets/images/trxlogo.png";
 import uparrow from "../../assets/images/uparrow.png";
 import downarrow from "../../assets/images/downarrow.png";
-import { Link, LinkExternal } from "../../components/Link";
+import { Link } from "../../components/Link";
 import { CakePrice } from "../../components/CakePrice";
 
 export const getLogoPropsFromChainID = (chainId: string): { name: string; src: any; color: string } => {
@@ -142,11 +136,11 @@ const Menu: React.FC<NavProps> = ({
   const { name, src, color } = getLogoPropsFromChainID(chainId);
   const headerLogo = useCallback(() => {
     return (
-      <div className={"tokenname"} style={{ color }}>
+      <div className="tokenname" style={{ color }}>
         <span>{name}</span>
         <span style={{ width: "30px", marginLeft: "7px" }}>
           <Image src={src} alt="logo" width="26" height="25" />
-          <span onClick={changeDropMenu}>
+          <span role="button" tabIndex={0} onClick={changeDropMenu} onKeyUp={changeDropMenu}>
             <Image className={Style.droparrow} width={16} src={dropshow ? uparrow : downarrow} alt="" />
           </span>
         </span>
@@ -196,7 +190,14 @@ const Menu: React.FC<NavProps> = ({
   return (
     <MenuContext.Provider value={{ linkComponent }}>
       <Wrapper>
-        <header id="mainheader">
+        <header
+          id="mainheader"
+          style={{
+            zIndex: 200,
+            position: "fixed",
+            backdropFilter: "blur(2px)",
+          }}
+        >
           <Navbar
             expand="lg"
             style={{ width: "100%", background: "linear-gradient(180deg, #3B3B3B 0%, rgba(59, 59, 59, 0) 100%)" }}
