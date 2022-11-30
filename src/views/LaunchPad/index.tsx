@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { CurrencyAmount, JSBI, Token, Trade } from '@intercroneswap/v2-sdk'
 import Rocket from '@pancakeswap/uikit/src/components/Svg/Icons/Rocket'
 import PlaentzLogo from '@pancakeswap/uikit/src/components/Svg/Icons/PlaentzLogo'
@@ -10,7 +10,6 @@ import {
   Box,
   useModal,
   Flex,
-  IconButton,
   BottomDrawer,
   useMatchBreakpoints,
   LinkExternal,
@@ -22,6 +21,9 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'contexts/Localization'
 import { EXCHANGE_DOCS_URLS } from 'config/constants'
 import SwapWarningTokens from 'config/constants/swapWarningTokens'
+import { StyledSocialLinks } from '@pancakeswap/uikit/src/components/Footer/styles'
+import { launchSocials } from '@pancakeswap/uikit/src/components/Footer/config'
+import { Divider } from 'theme'
 import useRefreshBlockNumberID from '../Swap/hooks/useRefreshBlockNumber'
 import AddressInputPanel from '../Swap/components/AddressInputPanel'
 import { GreyCard } from '../../components/Card'
@@ -32,10 +34,9 @@ import { AutoRow, RowBetween } from '../../components/Layout/Row'
 import AdvancedSwapDetailsDropdown from '../Swap/components/AdvancedSwapDetailsDropdown'
 import confirmPriceImpactWithoutFee from '../Swap/components/confirmPriceImpactWithoutFee'
 import { ArrowWrapper, SwapCallbackError, Wrapper } from '../Swap/components/styleds'
-import TradePrice from '../Swap/components/TradePrice'
 import ImportTokenWarningModal from '../Swap/components/ImportTokenWarningModal'
 import ProgressSteps from '../Swap/components/ProgressSteps'
-import { AppBody, BodyWrapper } from '../../components/App'
+import { AppBody } from '../../components/App'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
 
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
@@ -45,19 +46,13 @@ import { useSwapCallback } from '../../hooks/useSwapCallback'
 import useWrapCallback, { WrapType } from '../../hooks/useWrapCallback'
 import { Field } from '../../state/swap/actions'
 import {
-  useDefaultsFromURLSearch,
   useDerivedSwapInfo,
   useSwapActionHandlers,
   useSwapState,
   useSingleTokenSwapInfo,
   useDefaultsForLaunchPad,
 } from '../../state/swap/hooks'
-import {
-  useExpertModeManager,
-  useUserSlippageTolerance,
-  useUserSingleHopOnly,
-  useExchangeChartManager,
-} from '../../state/user/hooks'
+import { useExpertModeManager, useUserSingleHopOnly, useExchangeChartManager } from '../../state/user/hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import CircleLoader from '../../components/Loader/CircleLoader'
@@ -65,38 +60,7 @@ import Page from '../Page'
 import SwapWarningModal from '../Swap/components/SwapWarningModal'
 import PriceChartContainer from '../Swap/components/Chart/PriceChartContainer'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from '../Swap/styles'
-import CurrencyInputHeader from '../Swap/components/CurrencyInputHeader'
-import { SwapPoolTabs } from '../Swap/components/SwapPoolTabs'
-import StyledArrowDown from '../Swap/arrow-down-yellow'
-import { Divider } from 'theme'
-import { StyledSocialLinks } from '@pancakeswap/uikit/src/components/Footer/styles'
-import { launchSocials, socials } from '@pancakeswap/uikit/src/components/Footer/config'
 
-const Label = styled(Text)`
-  font-size: 12px;
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.secondary};
-`
-
-const SwitchIconButton = styled(IconButton)`
-  box-shadow: inset 0px -2px 0px rgba(0, 0, 0, 0.1);
-  .icon-up-down {
-    display: none;
-  }
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.primary};
-    .icon-down {
-      display: none;
-      fill: white;
-    }
-    .icon-up-down {
-      display: block;
-      fill: white;
-    }
-  }
-`
-
-// TODO: adjust swap design here
 export default function LaunchPad() {
   const router = useRouter()
   const loadedUrlParams = useDefaultsForLaunchPad()
@@ -105,7 +69,7 @@ export default function LaunchPad() {
   const [isChartExpanded, setIsChartExpanded] = useState(false)
   const [userChartPreference, setUserChartPreference] = useExchangeChartManager(isMobile)
   const [isChartDisplayed, setIsChartDisplayed] = useState(userChartPreference)
-  const { refreshBlockNumber, isLoading } = useRefreshBlockNumberID()
+  const { refreshBlockNumber } = useRefreshBlockNumberID()
 
   useEffect(() => {
     setUserChartPreference(isChartDisplayed)
@@ -135,7 +99,7 @@ export default function LaunchPad() {
   const [isExpertMode] = useExpertModeManager()
 
   // get custom setting values for user
-  const [allowedSlippage] = useUserSlippageTolerance()
+  const allowedSlippage = 2000
 
   // swap state & price data
   const {
@@ -183,7 +147,7 @@ export default function LaunchPad() {
         [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
       }
 
-  const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
+  const { onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
   const isValid = !swapInputError
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
 
@@ -270,9 +234,6 @@ export default function LaunchPad() {
         })
       })
   }, [priceImpactWithoutFee, swapCallback, tradeToConfirm, t])
-
-  // errors
-  const [showInverted, setShowInverted] = useState<boolean>(false)
 
   // warnings on slippage
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
@@ -384,12 +345,6 @@ export default function LaunchPad() {
 
   const hasAmount = Boolean(parsedAmount)
 
-  const onRefreshPrice = useCallback(() => {
-    if (hasAmount) {
-      refreshBlockNumber()
-    }
-  }, [hasAmount, refreshBlockNumber])
-
   const StyledHeading = styled.h1`
     font-family: Jost;
     font-style: normal;
@@ -448,7 +403,7 @@ export default function LaunchPad() {
                         }
                         value={formattedAmounts[Field.INPUT]}
                         showMaxButton={!atMaxAmountInput}
-                        disableCurrencySelect={true}
+                        disableCurrencySelect
                         currency={currencies[Field.INPUT]}
                         onUserInput={handleTypeInput}
                         onMax={handleMaxInput}
@@ -462,7 +417,7 @@ export default function LaunchPad() {
                         onUserInput={handleTypeOutput}
                         label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}
                         showMaxButton={false}
-                        disableCurrencySelect={true}
+                        disableCurrencySelect
                         currency={currencies[Field.OUTPUT]}
                         onCurrencySelect={handleOutputSelect}
                         otherCurrency={currencies[Field.INPUT]}
