@@ -115,6 +115,7 @@ export default function App() {
           <Header />
         </HeaderWrapper>
         <BodyWrapper>
+          <div style={{ height: '8rem' }} />
           <Popups />
           <Web3ReactManager>
             <Switch>

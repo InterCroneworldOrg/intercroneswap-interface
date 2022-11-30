@@ -182,8 +182,9 @@ export default function Header() {
     <header
       id="mainheader"
       style={{
-        position: 'fixed',
         zIndex: 200,
+        position: 'fixed',
+        backdropFilter: 'blur(2px)',
       }}
     >
       <Navbar
