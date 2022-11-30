@@ -13,7 +13,7 @@ import burn from './burn/reducer';
 import stake from './stake/reducer';
 import multicall from './multicall/reducer';
 
-const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists'];
+const PERSISTED_KEYS: string[] = ['user', 'transactions'];
 
 const store = configureStore({
   reducer: {
