@@ -204,3 +204,4 @@ export const BACKEND_URL = 'https://api.intercroneswap.com';
 
 export const EARNING_CONTRACT = '0x01c49a17c2470ae3bd85412811f3dfeadde174a0';
 export const ACTUAL_LAUCH_TOKEN: Token = PLZ;
+export const LAUNCH_START_TIME: Date = new Date(1669915800000);

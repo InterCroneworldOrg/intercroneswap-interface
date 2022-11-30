@@ -179,7 +179,13 @@ export default function Header() {
   // const [isDark] = useDarkModeManager()
 
   return (
-    <header id="mainheader">
+    <header
+      id="mainheader"
+      style={{
+        position: 'fixed',
+        zIndex: 200,
+      }}
+    >
       <Navbar
         expand="lg"
         className={toggle ? 'yestoggle' : 'notoggle'}
