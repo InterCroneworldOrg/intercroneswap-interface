@@ -551,32 +551,39 @@ export default function LaunchPad() {
               </Box>
             )}
           </Flex>
-          <AutoRow justify="start">
-            <AppBody>
-              <AutoColumn gap=".5rem" style={{ padding: '2rem' }}>
-                <PlaentzLogo />
-                <Divider />
-                <Text>
-                  PLZ is the official Token that powers the PLÅNTZ ecosystem. Pay your PLÅNTZ NFT or use it for products
-                  in their onlineshop.
-                </Text>
-                <LinkExternal href="https://plaentz.com">https://plaentz.com</LinkExternal>
-              </AutoColumn>
-            </AppBody>
-            <AppBody>
-              <AutoColumn gap="2rem" style={{ padding: '2rem' }}>
-                <Text>In launchpad the slippage is set higher to help not lose TRX due to failed transactions.</Text>
-                <Text>
-                  The launch of PLÅNTZ (PLZ) will be an important step for PLÅNTZ ecosystem to flourish and give their
-                  community and NFT holders passive income through staking rewards. If you hold a PLÅNTZ Token you will
-                  be able to stake it for a period of time and receive PLZ when you unstake it.{' '}
-                </Text>
-                <Text>
-                  PLZ will be their governance token for our future projects in Gamefi, NFT marketplace and Metaverse.
-                </Text>
-              </AutoColumn>
-            </AppBody>
-          </AutoRow>
+          <StyledSwapContainer $isChartExpanded={isChartExpanded}>
+            <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>
+              <AutoRow justify="space-between">
+                <AppBody>
+                  <AutoColumn gap=".5rem" style={{ padding: '2rem' }}>
+                    <PlaentzLogo />
+                    <Divider />
+                    <Text>
+                      PLZ is the official Token that powers the PLÅNTZ ecosystem. Pay your PLÅNTZ NFT or use it for
+                      products in their onlineshop.
+                    </Text>
+                    <LinkExternal href="https://plaentz.com">https://plaentz.com</LinkExternal>
+                  </AutoColumn>
+                </AppBody>
+                <AppBody>
+                  <AutoColumn gap="2rem" style={{ padding: '2rem' }}>
+                    <Text>
+                      In launchpad the slippage is set higher to help not lose TRX due to failed transactions.
+                    </Text>
+                    <Text>
+                      The launch of PLÅNTZ (PLZ) will be an important step for PLÅNTZ ecosystem to flourish and give
+                      their community and NFT holders passive income through staking rewards. If you hold a PLÅNTZ Token
+                      you will be able to stake it for a period of time and receive PLZ when you unstake it.{' '}
+                    </Text>
+                    <Text>
+                      PLZ will be their governance token for our future projects in Gamefi, NFT marketplace and
+                      Metaverse.
+                    </Text>
+                  </AutoColumn>
+                </AppBody>
+              </AutoRow>
+            </StyledInputCurrencyWrapper>
+          </StyledSwapContainer>
           {!swapIsUnsupported ? (
             trade && <AdvancedSwapDetailsDropdown trade={trade} />
           ) : (
