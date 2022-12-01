@@ -43,13 +43,11 @@ import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import { StyledHeading } from '../App';
 import AppBody, { Container } from '../AppBody';
 import { Wrapper } from '../Pool/styleds';
-import { BETTER_TRADE_LINK_THRESHOLD, LAUNCH_START_TIME } from '../../constants';
 import { useCurrency } from '../../hooks/Tokens';
 import useENSAddress from '../../hooks/useENSAddress';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import { useExpertModeManager } from '../../state/user/hooks';
 import { MenuItem, SocialIconWrapper } from '../../components/Footer';
-import { LaunchCountDown } from '../../components/earn/Countdown';
 
 export default function LaunchPad() {
   const loadedUrlParams = useDefaultsForLaunchPad();
@@ -274,7 +272,6 @@ export default function LaunchPad() {
 
   return (
     <>
-      <LaunchCountDown exactStart={LAUNCH_START_TIME} />
       <StyledHeading>
         InterCrone Launchpad<img className="rocketimg" style={{ padding: '2rem' }} src={Rocket}></img>
       </StyledHeading>
