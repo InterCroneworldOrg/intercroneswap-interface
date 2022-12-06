@@ -112,6 +112,7 @@ export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['COME']: COME,
   ['SM']: SM,
   ['SST']: SST,
+  ['PLZ']: PLZ,
 };
 
 const tokens: Token[] = [
@@ -142,6 +143,7 @@ const tokens: Token[] = [
   BBT,
   COME,
   SM,
+  PLZ,
 ];
 
 export function getTokenByAddress(address: string): Token {
