@@ -75,6 +75,22 @@ export const mainnetTokens = defineTokens({
     'Tether',
     'www.intercroneswap.com',
   ),
+  usdd_t: new Token(
+    MAINNET,
+    '0x17F235FD5974318E4E2a5e37919a209f7c37A6d1',
+    18,
+    'USDD_t',
+    'Tether',
+    'www.intercroneswap.com',
+  ),
+  usdc_e: new Token(
+    MAINNET,
+    '0xae17940943ba9440540940db0f1877f101d39e8b',
+    6,
+    'USDC_e',
+    'USD Coin',
+    'https://www.centre.io/',
+  ),
   usdt_b: new Token(
     MAINNET,
     '0x9B5F27f6ea9bBD753ce3793a07CbA3C74644330d',
@@ -83,6 +99,7 @@ export const mainnetTokens = defineTokens({
     'Tether',
     'www.intercroneswap.com',
   ),
+  eth: new Token(MAINNET, '0x1249C65AfB11D179FFB3CE7D4eEDd1D9b98AD006', 18, 'Ethereum', 'ETH', 'https://ethereum.org/'),
   bnb: new Token(MAINNET, '0x185a4091027E2dB459a2433F85f894dC3013aeB5', 18, 'BNB', 'BNB', 'www.intercroneswap.com'),
   matic: new Token(
     MAINNET,
@@ -102,7 +119,6 @@ export const mainnetTokens = defineTokens({
     'AVAX_b',
     'www.intercroneswap.com',
   ),
-  eth: new Token(MAINNET, '0x1249C65AfB11D179FFB3CE7D4eEDd1D9b98AD006', 8, 'ETH', 'Ethereum', 'www.intercroneswap.com'),
 } as const)
 
 export const testnetTokens = defineTokens({
