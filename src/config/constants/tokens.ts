@@ -42,7 +42,7 @@ export const mainnetTokens = defineTokens({
   tron: new Token(MAINNET, '0xEdf53026aeA60f8F75FcA25f8830b7e2d6200662', 6, 'Tron', 'TRX', 'www.intercroneswap.com'),
   xrp: new Token(MAINNET, '0xF5DbB4e26C1946DFd5aD8cf2e1Cbda3510721bB8', 18, 'XRP', 'XRP_b', 'www.intercroneswap.com'),
   avax_b: new Token(MAINNET, '0x4CC2FC7373B491db83bE3feB5db622e0773420cf', 18, 'Avalance', 'AVAX_b', 'www.intercroneswap.com',),
-  jm: new Token(MAINNET, '0x4CC2FC7373B491db83bE3feB5db622e0773420cf', 8, 'JM', 'JustMoney', 'https://justmoney.io',),
+  jm: new Token(MAINNET, '0x388D819724dD6d71760A38F00dc01D310d879771', 8, 'JM', 'JustMoney', 'https://justmoney.io',),
 } as const)
 
 export const testnetTokens = defineTokens({
