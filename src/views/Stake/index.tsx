@@ -1,18 +1,20 @@
 import { JSBI, TokenAmount } from '@intercroneswap/v2-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
+// eslint-disable-next-line lodash/import-scope
 import { orderBy } from 'lodash'
 import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { isAddress } from 'utils'
 import { Text, Button, useModal } from '@pancakeswap/uikit'
 import styled, { ThemeContext } from 'styled-components'
-import { LightGreyCard, LightCard } from '../../components/Card'
 import { AutoColumn } from 'components/Layout/Column'
-import { CurrencyLogo, DoubleCurrencyLogo } from 'components/Logo'
 import tokens, { getTokensFromDefaults } from 'config/constants/tokens'
+import { CurrencyLogo } from 'components/Logo'
+import { AutoRow, RowBetween } from 'components/Layout/Row'
+import { Form } from 'react-bootstrap'
+import { LightGreyCard, LightCard } from '../../components/Card'
 import PoolCard from '../../components/earn/PoolCard'
 import { ResponsiveSizedTextMedium } from '../../components/earn/styleds'
-import { AutoRow, RowBetween } from 'components/Layout/Row'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import { Dots } from '../../components/swap/styleds'
 import Page from '../Page'
@@ -22,7 +24,6 @@ import StakeModal from './StakeModal'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds'
 import { REWARDS_DURATION_DAYS, REWARDS_DURATION_DAYS_180, StakingRewardsInfo } from '../../state/stake/constants'
-import { Form } from 'react-bootstrap'
 import { breakpointMap } from '../../../packages/uikit/src/theme/base'
 
 const ZERO = JSBI.BigInt(0)
@@ -35,9 +36,11 @@ let stakingInfosRaw: {
     }
   }
 } = {}
-fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
+fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses_new.json')
   .then((response) => response.json())
-  .then((data) => (stakingInfosRaw = data))
+  .then((data) => {
+    stakingInfosRaw = data
+  })
 
 export default function Stake() {
   const router = useRouter()
@@ -49,11 +52,11 @@ export default function Stake() {
     stakingInfosRaw && chainId && stakingInfosRaw[chainId]
       ? Object.keys(stakingInfosRaw[chainId]).map((version) => {
           const vals = stakingInfosRaw[chainId][version]
-          Object.keys(vals).map((tokens) => {
-            const tokensFromDefault = getTokensFromDefaults(tokens)
+          Object.keys(vals).map((stakingRewardAddress) => {
+            const tokensFromDefault = getTokensFromDefaults(vals[stakingRewardAddress])
             if (tokensFromDefault) {
               tmpinfos.push({
-                stakingRewardAddress: vals[tokens],
+                stakingRewardAddress,
                 tokens: tokensFromDefault,
                 rewardsDays: version !== 'v0' ? REWARDS_DURATION_DAYS_180 : REWARDS_DURATION_DAYS,
                 legacy: version === 'v1',
@@ -63,10 +66,10 @@ export default function Stake() {
         })
       : undefined
     return tmpinfos
-  }, [chainId, stakingInfosRaw])
+  }, [chainId])
 
   const referalArr = router.query.referal || []
-  let referal = undefined
+  let referal
   if (referalArr.length == 1) {
     referal = referalArr[0]
     if (!isAddress(referal)) router.push('/stake')
@@ -126,15 +129,12 @@ export default function Stake() {
     setStakeInfo(undefined)
     setLPBalance(undefined)
     onUserInput('')
-  }, [stakeAddress])
+  }, [onUserInput])
 
-  const handleInput = useCallback(
-    (event) => {
-      const input = event.target.value
-      setSearchQuery(input.toLowerCase())
-    },
-    [searchQuery],
-  )
+  const handleInput = useCallback((event) => {
+    const input = event.target.value
+    setSearchQuery(input.toLowerCase())
+  }, [])
 
   const handleEnter = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -184,7 +184,7 @@ export default function Stake() {
         <WordBreakDiv>{`${window.location.origin}/stake/${account}`}</WordBreakDiv>
       </AutoColumn>
     ) : undefined
-  }, [uplinkAddress, showReferal])
+  }, [account, showReferal, theme.colors.background, referal, confirmUpline])
 
   const activePools = stakingInfos.filter((info) => info.active)
   const inactivePools = stakingInfos.filter((info) => !info.active)
@@ -217,7 +217,7 @@ export default function Stake() {
       }
       return poolsToDisplay
     },
-    [searchQuery, isLegacy],
+    [searchQuery, toggleSearch],
   )
 
   const chosenPoolsMemoized = useMemo(() => {
@@ -247,10 +247,20 @@ export default function Stake() {
     if (!isLegacy) {
       chosenPools = chosenPools.filter((info) => !info.legacy)
     }
-    console.log(chosenPools, isLegacy, 'chosenPools')
 
     return sortPools(chosenPools)
-  }, [sortOption, stakingInfos, searchQuery, isActive, isStakedOnly, isLegacy])
+  }, [
+    stakingList,
+    stakingInfos,
+    isActive,
+    isLegacy,
+    sortOption,
+    isStakedOnly,
+    stakedOnlyPools,
+    activePools,
+    stakedInactivePools,
+    inactivePools,
+  ])
 
   const StyledHeading = styled.h1`
     text-transform: uppercase;

@@ -53,7 +53,7 @@ export const fetchPoolsBlockLimits = async () => {
 
 const poolsBalanceOf = poolsConfig.map((poolConfig) => {
   return {
-    address: poolConfig.stakingToken.address,
+    address: poolConfig.stakingToken?.address,
     name: 'balanceOf',
     params: [getAddress(poolConfig.contractAddress)],
   }

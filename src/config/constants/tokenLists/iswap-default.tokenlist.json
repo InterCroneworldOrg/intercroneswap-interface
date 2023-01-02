@@ -50,6 +50,14 @@
       "logoURI": "https://bscscan.com/token/images/pancake_32.png?=v1"
     },
     {
+      "name": "JustMoney",
+      "symbol": "JM",
+      "address": "0x388D819724dD6d71760A38F00dc01D310d879771",
+      "chainId": 56,
+      "decimals": 8,
+      "logoURI": "https://bscscan.com/token/images/justmoney_32.png"
+    },
+    {
       "name": "Polkadot",
       "symbol": "DOT",
       "address": "0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402",
