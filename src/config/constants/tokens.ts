@@ -2207,6 +2207,7 @@ const tokenArray: Token[] = [
   unserializedTokens.bsw,
   unserializedTokens.trx,
   unserializedTokens.ftm,
+  unserializedTokens.plz,
   unserializedTokens.avax,
   unserializedTokens.btt,
   unserializedTokens.ada,
