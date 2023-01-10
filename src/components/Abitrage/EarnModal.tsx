@@ -18,9 +18,10 @@ interface EarnModalProps {
   isOpen: boolean;
   onDismiss: () => void;
   token: Token | undefined;
+  abitrageAddress: string | undefined;
 }
 
-export default function EarnModal({ isOpen, onDismiss, token }: EarnModalProps) {
+export default function EarnModal({ isOpen, onDismiss, token, abitrageAddress }: EarnModalProps) {
   const { account, chainId, library } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
 
@@ -33,7 +34,7 @@ export default function EarnModal({ isOpen, onDismiss, token }: EarnModalProps) 
       return;
     }
 
-    const earningContract = getEarningContract(chainId, EARNING_CONTRACT, library, account);
+    const earningContract = getEarningContract(chainId, abitrageAddress || EARNING_CONTRACT, library, account);
 
     const estimate = earningContract.estimateGas.makeEarning;
     const method: (...args: any) => Promise<TransactionResponse> = earningContract.makeEarning;

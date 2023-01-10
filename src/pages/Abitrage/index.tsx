@@ -12,7 +12,7 @@ import Input, { StyledInput } from '../../components/NumericalInput';
 import { ButtonPrimary } from '../../components/Button';
 import { unwrappedToken, wrappedCurrency } from '../../utils/wrappedCurrency';
 import { AbitrageDetail } from '../../components/Abitrage/BotDetail';
-import { BACKEND_URL } from '../../constants';
+import { BACKEND_URL, EARNING_CONTRACT } from '../../constants';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import useInterval from '../../hooks/useInterval';
 import { fetchTokens, getTokenFromDefaults, ICR, tokensFromApi } from '../../constants/tokens';
@@ -21,6 +21,7 @@ import EarnModal from '../../components/Abitrage/EarnModal';
 import { useEarningInfo } from '../../state/abibot/hooks';
 import '../../styles/abitrage.scss';
 import { useStakeActionHandlers } from '../../state/stake/hooks';
+import Form from 'react-bootstrap/esm/Form';
 
 export interface EarningData {
   token_address: string;
@@ -32,11 +33,16 @@ export interface EarningConfig {
   token: Token;
   freq_seconds: number;
   active: boolean;
+  abitrage_address: string;
+  abitrage_dex: string;
+  pk_use: boolean;
 }
 
 export interface QueueData {
   token: Token;
+  dex: string;
   profit: TokenAmount;
+  abitrageAddress: string;
 }
 
 const configToRequest = (config: EarningConfig): EarningData => {
@@ -57,22 +63,28 @@ export const AbitrageBots: React.FC = () => {
   const [queue, setQueue] = useState<QueueData[]>([]);
   const [showEarning, setShowEarning] = useState(false);
   const [selectedToken, setSelectedToken] = useState<Token | undefined>(undefined);
+  const [selectedAbitrageAddress, setSelectedAbitrage] = useState<string | undefined>(undefined);
   const { isOwner } = useEarningInfo();
   const { onTxHashChange } = useStakeActionHandlers();
   const [selectedConfig, setSelectedConfig] = useState<EarningConfig>({
     token: wrappedCurrency(ETHER, chainId) ?? WETH[chainId ?? 11111],
     freq_seconds: 0,
     active: true,
+    abitrage_address: EARNING_CONTRACT,
+    abitrage_dex: 'SunSwap',
+    pk_use: false,
   });
 
-  const handleEarning = (token: Token) => {
+  const handleEarning = (token: Token, abitrageAddress: string) => {
     setShowEarning(true);
     setSelectedToken(token);
+    setSelectedAbitrage(abitrageAddress);
   };
 
   const handleDismissEarning = useCallback(() => {
     setShowEarning(false);
     setSelectedToken(undefined);
+    setSelectedAbitrage(undefined);
     onTxHashChange('');
   }, [selectedToken, showEarning, onTxHashChange]);
 
@@ -116,6 +128,8 @@ export const AbitrageBots: React.FC = () => {
         return {
           token: getTokenFromDefaults(data.token),
           profit: new TokenAmount(ICR, data.response.profit),
+          dex: data.abitrage_dex,
+          abitrageAddress: data.abitrage_address,
         };
       });
       setQueue(q);
@@ -197,6 +211,42 @@ export const AbitrageBots: React.FC = () => {
                 })
               }
               value={selectedConfig?.freq_seconds}
+            />
+          </AutoRow>
+          <AutoRow justify="space-around">
+            <TYPE.white>Abitrage Address</TYPE.white>
+            <Input
+              style={{ width: '25%' }}
+              className="recipient-address-input"
+              type="text"
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
+              placeholder="Abitrage Address"
+              error={false}
+              onUserInput={(value) =>
+                setSelectedConfig({
+                  ...selectedConfig,
+                  abitrage_address: value,
+                })
+              }
+              value={selectedConfig?.abitrage_address}
+            />
+          </AutoRow>
+          <AutoRow justify="space-around">
+            <TYPE.white>PK Use</TYPE.white>
+            <Form.Switch
+              label="PK USE"
+              id="Use Pk"
+              onChange={() => {
+                setSelectedConfig({
+                  ...selectedConfig,
+                  pk_use: !selectedConfig.pk_use,
+                });
+              }}
+              defaultChecked={true}
+              style={{ color: 'white' }}
             />
           </AutoRow>
           <ButtonPrimary onClick={() => createBot(selectedConfig)}>Create Bot</ButtonPrimary>
@@ -320,7 +370,12 @@ export const AbitrageBots: React.FC = () => {
         profits!
       </TYPE.white>
       <PageWrapper gap="24px">
-        <EarnModal isOpen={showEarning} onDismiss={handleDismissEarning} token={selectedToken} />
+        <EarnModal
+          isOpen={showEarning}
+          onDismiss={handleDismissEarning}
+          token={selectedToken}
+          abitrageAddress={selectedAbitrageAddress}
+        />
         <LightCard>
           <AutoColumn gap="24px">
             <AutoRow justify="space-evenly" style={{ paddingRight: '8rem' }}>
@@ -330,7 +385,7 @@ export const AbitrageBots: React.FC = () => {
             </AutoRow>
             <Divider />
             {tokensFromApi.length > 0 &&
-              queue.map((item, index) => {
+              queue.map((item: QueueData, index) => {
                 return (
                   <GreyCard key={index}>
                     <AutoRow justify="space-between" gap="1rem">
@@ -350,14 +405,18 @@ export const AbitrageBots: React.FC = () => {
                           </TYPE.white>
                         </AutoRow>
                       </AutoColumn>
-                      <TYPE.white>Sunswap</TYPE.white>
+                      <TYPE.white>item.dex</TYPE.white>
                       <AutoColumn justify="center">
                         <AutoRow>
                           <TYPE.white>{item.profit.toSignificant()}</TYPE.white>
                           <CurrencyLogo currency={unwrappedToken(ICR)} />
                         </AutoRow>
                       </AutoColumn>
-                      <ButtonPrimary onClick={() => handleEarning(item.token)} width="10rem" style={{ margin: 0 }}>
+                      <ButtonPrimary
+                        onClick={() => handleEarning(item.token, item.abitrageAddress)}
+                        width="10rem"
+                        style={{ margin: 0 }}
+                      >
                         Take Profit
                       </ButtonPrimary>
                     </AutoRow>
