@@ -15,7 +15,7 @@ import { AbitrageDetail } from '../../components/Abitrage/BotDetail';
 import { BACKEND_URL, EARNING_CONTRACT } from '../../constants';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import useInterval from '../../hooks/useInterval';
-import { fetchTokens, getTokenFromDefaults, ICR, tokensFromApi } from '../../constants/tokens';
+import { fetchTokens, getTokenFromDefaults, tokensFromApi } from '../../constants/tokens';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import EarnModal from '../../components/Abitrage/EarnModal';
 import { useEarningInfo } from '../../state/abibot/hooks';
@@ -43,6 +43,7 @@ export interface QueueData {
   dex: string;
   profit: TokenAmount;
   abitrageAddress: string;
+  tradedToken: Token;
 }
 
 const configToRequest = (config: EarningConfig): EarningData => {
@@ -125,11 +126,16 @@ export const AbitrageBots: React.FC = () => {
         return;
       }
       const q: QueueData[] = json.data.map((data: any) => {
+        const tradedToken = getTokenFromDefaults(data.traded_token);
+        if (!tradedToken) {
+          return;
+        }
         return {
           token: getTokenFromDefaults(data.token),
-          profit: new TokenAmount(ICR, data.response.profit),
+          profit: new TokenAmount(tradedToken, data.response.profit),
           dex: data.abitrage_dex,
           abitrageAddress: data.abitrage_address,
+          tradedToken,
         };
       });
       setQueue(q);
@@ -392,10 +398,10 @@ export const AbitrageBots: React.FC = () => {
                       <TYPE.white>{index}</TYPE.white>
                       <AutoColumn>
                         <AutoRow justify={isMobile ? 'center' : undefined}>
-                          <CurrencyLogo currency={unwrappedToken(ICR)} size="1.2rem" />
+                          <CurrencyLogo currency={unwrappedToken(item.tradedToken)} size="1.2rem" />
                           &nbsp;
                           <TYPE.white fontWeight={500} fontSize="1rem">
-                            {ICR.symbol}&nbsp;/
+                            {item.tradedToken.symbol}&nbsp;/
                           </TYPE.white>
                           &nbsp;
                           <CurrencyLogo currency={unwrappedToken(item.token)} size="1.2rem" />
@@ -405,11 +411,11 @@ export const AbitrageBots: React.FC = () => {
                           </TYPE.white>
                         </AutoRow>
                       </AutoColumn>
-                      <TYPE.white>item.dex</TYPE.white>
+                      <TYPE.white>{item.dex}</TYPE.white>
                       <AutoColumn justify="center">
                         <AutoRow>
                           <TYPE.white>{item.profit.toSignificant()}</TYPE.white>
-                          <CurrencyLogo currency={unwrappedToken(ICR)} />
+                          <CurrencyLogo currency={unwrappedToken(item.tradedToken)} />
                         </AutoRow>
                       </AutoColumn>
                       <ButtonPrimary
