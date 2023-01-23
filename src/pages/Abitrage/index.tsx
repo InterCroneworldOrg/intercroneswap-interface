@@ -15,7 +15,7 @@ import { AbitrageDetail } from '../../components/Abitrage/BotDetail';
 import { BACKEND_URL, EARNING_CONTRACT } from '../../constants';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import useInterval from '../../hooks/useInterval';
-import { fetchTokens, getTokenFromDefaults, tokensFromApi } from '../../constants/tokens';
+import { fetchTokens, getTokenFromDefaults, getTokensFromDefaults, tokensFromApi } from '../../constants/tokens';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import EarnModal from '../../components/Abitrage/EarnModal';
 import { useEarningInfo } from '../../state/abibot/hooks';
@@ -39,11 +39,12 @@ export interface EarningConfig {
 }
 
 export interface QueueData {
-  token: Token;
+  token: Token | string;
+  tokenAddress: string;
   dex: string;
   profit: TokenAmount;
   abitrageAddress: string;
-  tradedToken: Token;
+  tradedToken: Token | string;
 }
 
 const configToRequest = (config: EarningConfig): EarningData => {
@@ -63,7 +64,7 @@ export const AbitrageBots: React.FC = () => {
   const [walletInfo, setWalletInfo] = useState<any>(undefined);
   const [queue, setQueue] = useState<QueueData[]>([]);
   const [showEarning, setShowEarning] = useState(false);
-  const [selectedToken, setSelectedToken] = useState<Token | undefined>(undefined);
+  const [selectedToken, setSelectedToken] = useState<Token | string | undefined>(undefined);
   const [selectedAbitrageAddress, setSelectedAbitrage] = useState<string | undefined>(undefined);
   const { isOwner } = useEarningInfo();
   const { onTxHashChange } = useStakeActionHandlers();
@@ -76,9 +77,9 @@ export const AbitrageBots: React.FC = () => {
     pk_use: false,
   });
 
-  const handleEarning = (token: Token, abitrageAddress: string) => {
+  const handleEarning = (tokenOrAddress: Token | string, abitrageAddress: string) => {
     setShowEarning(true);
-    setSelectedToken(token);
+    setSelectedToken(tokenOrAddress);
     setSelectedAbitrage(abitrageAddress);
   };
 
@@ -126,18 +127,23 @@ export const AbitrageBots: React.FC = () => {
         return;
       }
       const q: QueueData[] = json.data.map((data: any) => {
+        const token = getTokensFromDefaults(data.token);
         const tradedToken = getTokenFromDefaults(data.traded_token);
         if (!tradedToken) {
           return;
         }
         return {
-          token: getTokenFromDefaults(data.token),
+          token: token ?? data.token,
+          tokenAddress: data.token_address,
           profit: new TokenAmount(tradedToken, data.response.profit),
           dex: data.abitrage_dex,
           abitrageAddress: data.abitrage_address,
-          tradedToken,
+          tradedToken: tradedToken ?? data.traded_token,
         };
       });
+
+      console.log(q);
+
       setQueue(q);
     }
   };
@@ -398,16 +404,22 @@ export const AbitrageBots: React.FC = () => {
                       <TYPE.white>{index}</TYPE.white>
                       <AutoColumn>
                         <AutoRow justify={isMobile ? 'center' : undefined}>
-                          <CurrencyLogo currency={unwrappedToken(item.tradedToken)} size="1.2rem" />
+                          <CurrencyLogo
+                            currency={item.tradedToken instanceof Token ? unwrappedToken(item.tradedToken) : undefined}
+                            size="1.2rem"
+                          />
                           &nbsp;
                           <TYPE.white fontWeight={500} fontSize="1rem">
-                            {item.tradedToken.symbol}&nbsp;/
+                            {item.tradedToken instanceof Token ? item.tradedToken.symbol : item.tradedToken}&nbsp;/
                           </TYPE.white>
                           &nbsp;
-                          <CurrencyLogo currency={unwrappedToken(item.token)} size="1.2rem" />
+                          <CurrencyLogo
+                            currency={item.token instanceof Token ? unwrappedToken(item.token) : undefined}
+                            size="1.2rem"
+                          />
                           &nbsp;
                           <TYPE.white fontWeight={500} fontSize="1rem">
-                            {item.token.symbol}
+                            {item.token instanceof Token ? item.token?.symbol : item.token}
                           </TYPE.white>
                         </AutoRow>
                       </AutoColumn>
@@ -415,11 +427,19 @@ export const AbitrageBots: React.FC = () => {
                       <AutoColumn justify="center">
                         <AutoRow>
                           <TYPE.white>{item.profit.toSignificant()}</TYPE.white>
-                          <CurrencyLogo currency={unwrappedToken(item.tradedToken)} />
+                          <CurrencyLogo
+                            currency={item.tradedToken instanceof Token ? unwrappedToken(item.tradedToken) : undefined}
+                            size="1.2rem"
+                          />
                         </AutoRow>
                       </AutoColumn>
                       <ButtonPrimary
-                        onClick={() => handleEarning(item.token, item.abitrageAddress)}
+                        onClick={() =>
+                          handleEarning(
+                            item.token instanceof Token ? item.token : item.tokenAddress,
+                            item.abitrageAddress,
+                          )
+                        }
                         width="10rem"
                         style={{ margin: 0 }}
                       >
