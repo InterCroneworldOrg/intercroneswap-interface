@@ -17,7 +17,7 @@ import { EARNING_CONTRACT } from '../../constants';
 interface EarnModalProps {
   isOpen: boolean;
   onDismiss: () => void;
-  token: Token | undefined;
+  token: Token | string | undefined;
   abitrageAddress: string | undefined;
 }
 
@@ -36,9 +36,10 @@ export default function EarnModal({ isOpen, onDismiss, token, abitrageAddress }:
 
     const earningContract = getEarningContract(chainId, abitrageAddress || EARNING_CONTRACT, library, account);
 
+    const tokenAddress = token instanceof Token ? token?.address : token;
     const estimate = earningContract.estimateGas.makeEarning;
     const method: (...args: any) => Promise<TransactionResponse> = earningContract.makeEarning;
-    const args: Array<string | string[] | number> = [token?.address ?? ''];
+    const args: Array<string | string[] | number> = [tokenAddress ?? ''];
 
     onAttemptingTxn(true);
     await estimate(...args, {})
@@ -49,7 +50,7 @@ export default function EarnModal({ isOpen, onDismiss, token, abitrageAddress }:
         }).then((response) => {
           onAttemptingTxn(false);
           addTransaction(response, {
-            summary: `Make earning on: ${token?.symbol}`,
+            summary: `Make earning on: ${token}`,
           });
           onTxHashChange(response.hash);
         }),
@@ -78,7 +79,7 @@ export default function EarnModal({ isOpen, onDismiss, token, abitrageAddress }:
         <RowBetween>
           <TYPE.white fontWeight={500}>Earning</TYPE.white>
           <TYPE.white fontWeight={500} color={theme.primary3}>
-            {token?.symbol}
+            {token instanceof Token ? token?.symbol : token}
           </TYPE.white>
         </RowBetween>
       </AutoColumn>
