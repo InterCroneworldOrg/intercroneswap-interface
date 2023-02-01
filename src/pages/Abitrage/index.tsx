@@ -15,7 +15,7 @@ import { AbitrageDetail } from '../../components/Abitrage/BotDetail';
 import { BACKEND_URL, EARNING_CONTRACT } from '../../constants';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
 import useInterval from '../../hooks/useInterval';
-import { fetchTokens, getTokenFromDefaults, getTokensFromDefaults, tokensFromApi } from '../../constants/tokens';
+import { fetchTokens, getTokenFromDefaults, tokensFromApi } from '../../constants/tokens';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import EarnModal from '../../components/Abitrage/EarnModal';
 import { useEarningInfo } from '../../state/abibot/hooks';
@@ -127,7 +127,7 @@ export const AbitrageBots: React.FC = () => {
         return;
       }
       const q: QueueData[] = json.data.map((data: any) => {
-        const token = getTokensFromDefaults(data.token);
+        const token = getTokenFromDefaults(data.token);
         const tradedToken = getTokenFromDefaults(data.traded_token);
         if (!tradedToken) {
           return;
@@ -398,7 +398,7 @@ export const AbitrageBots: React.FC = () => {
             <Divider />
             {tokensFromApi.length > 0 &&
               queue.map((item: QueueData, index) => {
-                return (
+                return item ? (
                   <GreyCard key={index}>
                     <AutoRow justify="space-between" gap="1rem">
                       <TYPE.white>{index}</TYPE.white>
@@ -447,7 +447,7 @@ export const AbitrageBots: React.FC = () => {
                       </ButtonPrimary>
                     </AutoRow>
                   </GreyCard>
-                );
+                ) : null;
               })}
           </AutoColumn>
           <AutoColumn gap="24px">
