@@ -23,7 +23,7 @@
       }
     ],
     // Start temporary rules
-    // These rules are here just to keep the lint error to 0 during the migration to the new rule set
+    // Yes These rules are here just to keep the lint error to 0 during the migration to the new rule set
     // They need to be removed and fixed as soon as possible
     "@typescript-eslint/ban-ts-comment": [1, { "ts-ignore": false, "ts-nocheck": false }],
     "@typescript-eslint/no-use-before-define": 0,
