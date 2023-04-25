@@ -565,8 +565,8 @@ export default function LaunchPad() {
                 <Text>In launchpad the slippage is set higher to help not lose BTT due to failed transactions.</Text>
                 <Text>
                   PEPMAN (PMAN ) is the first BitTorrent chain meme token and its superpower comes out of the blackhole
-                  liquidity. 80% of the total supply will be used in a 8 lp-fairlaunch what provide a constant arbitrage
-                  volume and generate passive income and a growing liquidity.
+                  liquidity. 80% of the total supply will be used in a 8 Lp. fairlaunch which provide a constant
+                  arbitrage volume and generate passive income and a growing liquidity.
                 </Text>
               </AutoColumn>
             </AppBody>
@@ -587,7 +587,7 @@ export default function LaunchPad() {
         mt="3rem"
         mb="3rem"
       >
-        <Text p="2rem">Follow plaentz on social media</Text>
+        <Text p="2rem">Follow PepMan on social media</Text>
         <StyledSocialLinks socials={launchSocials} order={[2]} pb={['0px', null, '0px']} mb={['0', null, '0px']} />
       </Flex>
       {/* <AutoColumn justify="center">
