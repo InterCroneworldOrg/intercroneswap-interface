@@ -138,6 +138,14 @@
       "logoURI": "https://bttcscan.com/token/images/ustx_32.png"
     },
     {
+      "name": "PEPMAN",
+      "symbol": "PMAN",
+      "address": "0xe1da8A0A7E91903a4F41Cc6d388db5CA4917e784",
+      "chainId": 199,
+      "decimals": 8,
+      "logoURI": "https://www.pepman.vip/wp-content/uploads/2023/04/PepMan32.png"
+    },
+    {
       "name": "JustMoney",
       "symbol": "JM",
       "address": "0x388D819724dD6d71760A38F00dc01D310d879771",

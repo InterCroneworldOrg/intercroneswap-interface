@@ -12,6 +12,7 @@ import { computeSlippageAdjustedAmounts } from 'utils/prices'
 import getLpAddress from 'utils/getLpAddress'
 import { getTokenAddress } from 'views/Swap/components/Chart/utils'
 import tryParseAmount from 'utils/tryParseAmount'
+import { ACTUAL_LAUCH_TOKEN } from 'config/constants'
 import { AppDispatch, AppState } from '../index'
 import { useCurrencyBalances } from '../wallet/hooks'
 import {
@@ -38,7 +39,6 @@ import { derivedPairByDataIdSelector, pairByDataIdSelector } from './selectors'
 import { DEFAULT_INPUT_CURRENCY, DEFAULT_OUTPUT_CURRENCY } from './constants'
 import fetchDerivedPriceData from './fetch/fetchDerivedPriceData'
 import { pairHasEnoughLiquidity } from './fetch/utils'
-import { ACTUAL_LAUCH_TOKEN } from 'config/constants'
 
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>((state) => state.swap)
@@ -316,13 +316,13 @@ export function useDefaultsFromURLSearch():
 export function useDefaultsForLaunchPad():
   | { inputCurrencyId: string | undefined; outputCurrencyId: string | undefined }
   | undefined {
-  const { chainId } = useActiveWeb3React();
-  const dispatch = useDispatch<AppDispatch>();
+  const { chainId } = useActiveWeb3React()
+  const dispatch = useDispatch<AppDispatch>()
   const [result, setResult] = useState<
     { inputCurrencyId: string | undefined; outputCurrencyId: string | undefined } | undefined
-  >();
+  >()
   useEffect(() => {
-    if (!chainId) return;
+    if (!chainId) return
 
     dispatch(
       replaceSwapState({
@@ -332,13 +332,13 @@ export function useDefaultsForLaunchPad():
         outputCurrencyId: ACTUAL_LAUCH_TOKEN.address,
         recipient: null,
       }),
-    );
+    )
 
-    setResult({ inputCurrencyId: 'BNB', outputCurrencyId: ACTUAL_LAUCH_TOKEN.address });
+    setResult({ inputCurrencyId: 'BNB', outputCurrencyId: ACTUAL_LAUCH_TOKEN.address })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, chainId]);
+  }, [dispatch, chainId])
 
-  return result;
+  return result
 }
 
 type useFetchPairPricesParams = {
