@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { CurrencyAmount, JSBI, Token, Trade } from '@intercroneswap/v2-sdk'
 import Rocket from '@pancakeswap/uikit/src/components/Svg/Icons/Rocket'
-import PlaentzLogo from '@pancakeswap/uikit/src/components/Svg/Icons/PlaentzLogo'
 import {
   Button,
   Text,
@@ -61,6 +60,7 @@ import Page from '../Page'
 import SwapWarningModal from '../Swap/components/SwapWarningModal'
 import PriceChartContainer from '../Swap/components/Chart/PriceChartContainer'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from '../Swap/styles'
+import { Image } from 'react-bootstrap'
 
 export default function LaunchPad() {
   const router = useRouter()
@@ -405,7 +405,7 @@ export default function LaunchPad() {
                         }
                         value={formattedAmounts[Field.INPUT]}
                         showMaxButton={!atMaxAmountInput}
-                        disableCurrencySelect
+                        // disableCurrencySelect
                         currency={currencies[Field.INPUT]}
                         onUserInput={handleTypeInput}
                         onMax={handleMaxInput}
@@ -554,25 +554,19 @@ export default function LaunchPad() {
           <AutoRow justify="start">
             <AppBody>
               <AutoColumn gap=".5rem" style={{ padding: '2rem' }}>
-                <PlaentzLogo />
+                <Image src="https://www.pepman.vip/wp-content/uploads/2023/04/PepMan350x100.png" />
                 <Divider />
-                <Text>
-                  PLZ is the official Token that powers the PLÅNTZ ecosystem. Pay your PLÅNTZ NFT or use it for products
-                  in their onlineshop.
-                </Text>
-                <LinkExternal href="https://plaentz.com">https://plaentz.com</LinkExternal>
+                <Text>PepMan is the first BitTorrent Chain Meme Token for the people, by the people.</Text>
+                <LinkExternal href="https://pepman.vip">https://pepman.vip</LinkExternal>
               </AutoColumn>
             </AppBody>
             <AppBody>
               <AutoColumn gap="2rem" style={{ padding: '2rem' }}>
-                <Text>In launchpad the slippage is set higher to help not lose TRX due to failed transactions.</Text>
+                <Text>In launchpad the slippage is set higher to help not lose BTT due to failed transactions.</Text>
                 <Text>
-                  The launch of PLÅNTZ (PLZ) will be an important step for PLÅNTZ ecosystem to flourish and give their
-                  community and NFT holders passive income through staking rewards. If you hold a PLÅNTZ Token you will
-                  be able to stake it for a period of time and receive PLZ when you unstake it.{' '}
-                </Text>
-                <Text>
-                  PLZ will be their governance token for our future projects in Gamefi, NFT marketplace and Metaverse.
+                  PEPMAN (PMAN ) is the first BitTorrent chain meme token and its superpower comes out of the blackhole
+                  liquidity. 80% of the total supply will be used in a 8 lp-fairlaunch what provide a constant arbitrage
+                  volume and generate passive income and a growing liquidity.
                 </Text>
               </AutoColumn>
             </AppBody>
