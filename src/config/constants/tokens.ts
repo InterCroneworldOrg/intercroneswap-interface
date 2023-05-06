@@ -23,7 +23,8 @@ export function getTokensFromDefaults(symbols: string): [Token, Token] | undefin
 
 export function getTokenFromDefaults(symbol: string): Token | undefined {
   const chainId = CHAIN_ID
-  return symbol === 'BTT' ? WETH[parseInt(chainId, 10)] : DefaultTokensMap[symbol]
+
+  return symbol === 'BTT' ? WETH[parseInt(chainId, 10)] : DefaultTokensMap.get(symbol)
 }
 
 export const mainnetTokens = defineTokens({
@@ -214,23 +215,30 @@ export const serializeTokens = () => {
   return serializedTokens
 }
 
-export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
-  ICRT: unserializedTokens.icr_t,
-  ICRB: unserializedTokens.icr_b,
-  BTCB: unserializedTokens.btc_b,
-  ETH: unserializedTokens.eth,
-  USDTT: unserializedTokens.usdt_t,
-  USDTB: unserializedTokens.usdt_b,
-  USDDT: unserializedTokens.usdd_t,
-  USDCE: unserializedTokens.usdc_e,
-  CAKE: unserializedTokens.cake,
-  BNB: unserializedTokens.bnb,
-  TRX: unserializedTokens.tron,
-  XRP: unserializedTokens.xrp,
-  JM: unserializedTokens.jm,
-  PMAN: unserializedTokens.pman,
-}
+// export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
+//   ICRT: unserializedTokens.icr_t,
+//   ICRB: unserializedTokens.icr_b,
+//   BTCB: unserializedTokens.btc_b,
+//   WBTCE: unserializedTokens.btc_e,
+//   ETH: unserializedTokens.eth,
+//   USDTT: unserializedTokens.usdt_t,
+//   USDTB: unserializedTokens.usdt_b,
+//   USDDT: unserializedTokens.usdd_t,
+//   USDCE: unserializedTokens.usdc_e,
+//   CAKE: unserializedTokens.cake,
+//   BNB: unserializedTokens.bnb,
+//   TRX: unserializedTokens.tron,
+//   XRP: unserializedTokens.xrp,
+//   JM: unserializedTokens.jm,
+//   PMAN: unserializedTokens.pman,
+// }
 
+export const DefaultTokensMap: Map<string, Token> = new Map(
+  Object.values(unserializedTokens).map((token) => {
+    const symbol = token.symbol?.replaceAll('_', '').toUpperCase()
+    return [symbol, token]
+  }),
+)
 const tokenArray: Token[] = Object.values(mainnetTokens)
 // [
 //   unserializedTokens.icr_t,
