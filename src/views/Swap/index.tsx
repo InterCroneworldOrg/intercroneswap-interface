@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { CurrencyAmount, JSBI, Token, Trade } from '@intercroneswap/v2-sdk'
 import {
   Button,
@@ -11,8 +11,7 @@ import {
   IconButton,
   BottomDrawer,
   useMatchBreakpoints,
-  ArrowUpDownIcon,
-  Skeleton,
+  CogIcon,
 } from '@pancakeswap/uikit'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
@@ -31,7 +30,6 @@ import { AutoRow, RowBetween } from '../../components/Layout/Row'
 import AdvancedSwapDetailsDropdown from './components/AdvancedSwapDetailsDropdown'
 import confirmPriceImpactWithoutFee from './components/confirmPriceImpactWithoutFee'
 import { ArrowWrapper, SwapCallbackError, Wrapper } from './components/styleds'
-import TradePrice from './components/TradePrice'
 import ImportTokenWarningModal from './components/ImportTokenWarningModal'
 import ProgressSteps from './components/ProgressSteps'
 import { AppBody } from '../../components/App'
@@ -63,9 +61,9 @@ import Page from '../Page'
 import SwapWarningModal from './components/SwapWarningModal'
 import PriceChartContainer from './components/Chart/PriceChartContainer'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
-import CurrencyInputHeader from './components/CurrencyInputHeader'
-import { SwapPoolTabs } from './components/SwapPoolTabs'
 import StyledArrowDown from './arrow-down-yellow'
+import SlippageTabs from 'components/Menu/GlobalSettings/TransactionSettings'
+import { ToggleButton } from 'react-bootstrap'
 
 const Label = styled(Text)`
   font-size: 12px;
@@ -269,6 +267,8 @@ export default function Swap() {
   // errors
   const [showInverted, setShowInverted] = useState<boolean>(false)
 
+  const [showSlippage, setShowSlippage] = useState<boolean>(false)
+
   // warnings on slippage
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
@@ -447,9 +447,19 @@ export default function Swap() {
                 /> */}
                   <Wrapper id="swap-page" style={{ minHeight: '600px' }}>
                     <AutoColumn gap="sm">
-                      <AutoColumn gap="7px" style={{ padding: '0 16px' }}>
-                        <SwapPoolTabs active={'swap'} />
-                      </AutoColumn>
+                      <AutoRow gap="7px" justify="space-between" style={{ padding: '0 16px' }}>
+                        {/* <SwapPoolTabs active={'swap'} /> */}
+                        <h3>Exchange</h3>
+                        <ToggleButton
+                          onClick={() => setShowSlippage(!showSlippage)}
+                          value="showSlippage"
+                          style={{ background: 'transparent', color: 'white', borderColor: 'white' }}
+                        >
+                          <span>Advanced Settings</span>
+                          <CogIcon />
+                        </ToggleButton>
+                        {showSlippage && <SlippageTabs />}
+                      </AutoRow>
                       <CurrencyInputPanel
                         label={
                           independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')

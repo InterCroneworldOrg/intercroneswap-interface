@@ -24,6 +24,7 @@ import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds'
 import { REWARDS_DURATION_DAYS, REWARDS_DURATION_DAYS_180, StakingRewardsInfo } from '../../state/stake/constants'
 import { Form } from 'react-bootstrap'
 import { breakpointMap } from '../../../packages/uikit/src/theme/base'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 const ZERO = JSBI.BigInt(0)
 const { icr_t: ICR, usdt_t: BUSD } = tokens
@@ -43,7 +44,8 @@ export default function Stake() {
   const router = useRouter()
   const theme = useContext(ThemeContext)
   const isMobile = window.innerWidth <= breakpointMap.md
-  const { account, chainId } = useWeb3React()
+  const { account, chainId } = useActiveWeb3React()
+
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = []
     stakingInfosRaw && chainId && stakingInfosRaw[chainId]
@@ -178,7 +180,7 @@ export default function Stake() {
         <WordBreakDiv>{`${window.location.origin}/stake/${account}`}</WordBreakDiv>
       </AutoColumn>
     ) : undefined
-  }, [uplinkAddress, showReferal])
+  }, [account, showReferal, referal, confirmUpline])
 
   const activePools = stakingInfos.filter((info) => info.active)
   const inactivePools = stakingInfos.filter((info) => !info.active)
