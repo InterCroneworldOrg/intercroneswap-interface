@@ -118,7 +118,7 @@ export const mainnetTokens = defineTokens({
     'https://ethereum.org/',
   ),
   bnb: new Token(MAINNET, '0x185a4091027E2dB459a2433F85f894dC3013aeB5', 18, 'BNB', 'BNB', 'https://www.binance.com/'),
-  tron: new Token(MAINNET, '0xEdf53026aeA60f8F75FcA25f8830b7e2d6200662', 6, 'Tron', 'TRX', 'www.intercroneswap.com'),
+  tron: new Token(MAINNET, '0xEdf53026aeA60f8F75FcA25f8830b7e2d6200662', 6, 'TRX', 'Tron', 'www.intercroneswap.com'),
   ustx: new Token(
     MAINNET,
     '0x6c8c028d3592b83d6a1d0f53635557fd8dd31545',
