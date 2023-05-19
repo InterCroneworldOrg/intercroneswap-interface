@@ -20,6 +20,8 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'contexts/Localization'
 import { EXCHANGE_DOCS_URLS } from 'config/constants'
 import SwapWarningTokens from 'config/constants/swapWarningTokens'
+import { ToggleButton } from 'react-bootstrap'
+import SlippageTabs from 'components/Menu/GlobalSettings/TransactionSettings'
 import useRefreshBlockNumberID from './hooks/useRefreshBlockNumber'
 import AddressInputPanel from './components/AddressInputPanel'
 import { GreyCard } from '../../components/Card'
@@ -62,8 +64,6 @@ import SwapWarningModal from './components/SwapWarningModal'
 import PriceChartContainer from './components/Chart/PriceChartContainer'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import StyledArrowDown from './arrow-down-yellow'
-import SlippageTabs from 'components/Menu/GlobalSettings/TransactionSettings'
-import { ToggleButton } from 'react-bootstrap'
 
 const Label = styled(Text)`
   font-size: 12px;

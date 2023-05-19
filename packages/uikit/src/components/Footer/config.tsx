@@ -1,6 +1,6 @@
 import { Language } from "../LangSelector/types";
 import { FooterLinkType, SocialIconType } from "./types";
-import { TwitterIcon, TelegramIcon, RedditIcon, InstagramIcon, GithubIcon, DiscordIcon, MediumIcon } from "../Svg";
+import { TwitterIcon, TelegramIcon, RedditIcon, InstagramIcon, MediumIcon, GeckoIcon } from "../Svg";
 
 export const footerLinks: FooterLinkType[] = [
   {
@@ -101,6 +101,11 @@ export const socials: SocialIconType[] = [
     label: "Youtube",
     icon: MediumIcon,
     href: "https://www.youtube.com/c/InterCroneWorld",
+  },
+  {
+    label: "Gecko",
+    icon: GeckoIcon,
+    href: "https://www.geckoterminal.com/bttc/intercroneswap-bittorent/pools",
   },
 ];
 

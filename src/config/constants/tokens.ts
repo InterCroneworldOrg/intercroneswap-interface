@@ -215,24 +215,6 @@ export const serializeTokens = () => {
   return serializedTokens
 }
 
-// export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
-//   ICRT: unserializedTokens.icr_t,
-//   ICRB: unserializedTokens.icr_b,
-//   BTCB: unserializedTokens.btc_b,
-//   WBTCE: unserializedTokens.btc_e,
-//   ETH: unserializedTokens.eth,
-//   USDTT: unserializedTokens.usdt_t,
-//   USDTB: unserializedTokens.usdt_b,
-//   USDDT: unserializedTokens.usdd_t,
-//   USDCE: unserializedTokens.usdc_e,
-//   CAKE: unserializedTokens.cake,
-//   BNB: unserializedTokens.bnb,
-//   TRX: unserializedTokens.tron,
-//   XRP: unserializedTokens.xrp,
-//   JM: unserializedTokens.jm,
-//   PMAN: unserializedTokens.pman,
-// }
-
 export const DefaultTokensMap: Map<string, Token> = new Map(
   Object.values(unserializedTokens).map((token) => {
     const symbol = token.symbol?.replaceAll('_', '').toUpperCase()
@@ -240,21 +222,6 @@ export const DefaultTokensMap: Map<string, Token> = new Map(
   }),
 )
 const tokenArray: Token[] = Object.values(mainnetTokens)
-// [
-//   unserializedTokens.icr_t,
-//   unserializedTokens.icr_b,
-//   unserializedTokens.btc_b,
-//   unserializedTokens.eth,
-//   unserializedTokens.usdt_t,
-//   unserializedTokens.usdt_b,
-//   unserializedTokens.usdd_t,
-//   unserializedTokens.usdc_e,
-//   unserializedTokens.cake,
-//   unserializedTokens.bnb,
-//   unserializedTokens.tron,
-//   unserializedTokens.xrp,
-//   unserializedTokens.jm,
-// ]
 
 export function getTokenByAddress(address: string): Token {
   return tokenArray.find((token) => token.address.toLowerCase() === address.toLowerCase()) ?? unserializedTokens.icr_t
