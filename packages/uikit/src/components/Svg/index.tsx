@@ -32,6 +32,7 @@ export { default as ChevronDownIcon } from "./Icons/ChevronDown";
 export { default as ChevronLeftIcon } from "./Icons/ChevronLeft";
 export { default as ChevronRightIcon } from "./Icons/ChevronRight";
 export { default as ChevronUpIcon } from "./Icons/ChevronUp";
+export { default as ChtLogo} from "./Icons/CHTLogo"
 export { default as CircleOutlineIcon } from "./Icons/CircleOutline";
 export { default as CloseIcon } from "./Icons/Close";
 export { default as CogIcon } from "./Icons/Cog";
@@ -126,6 +127,7 @@ export { default as TestnetIcon } from "./Icons/Testnet";
 export { default as Ticket, default as TicketIcon } from "./Icons/Ticket";
 export { default as TicketFillIcon } from "./Icons/TicketFill";
 export { default as TicketRound } from "./Icons/TicketRound";
+export { default as TikTokIcon } from "./Icons/TikTok";
 export { default as TimerIcon } from "./Icons/Timer";
 export { default as TokenPocketIcon } from "./Icons/TokenPocket";
 export { default as TradeIcon } from "./Icons/Trade";

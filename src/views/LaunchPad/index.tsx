@@ -13,6 +13,7 @@ import {
   BottomDrawer,
   useMatchBreakpoints,
   LinkExternal,
+  ChtLogo,
 } from '@pancakeswap/uikit'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
@@ -405,7 +406,6 @@ export default function LaunchPad() {
                         }
                         value={formattedAmounts[Field.INPUT]}
                         showMaxButton={!atMaxAmountInput}
-                        disableCurrencySelect
                         currency={currencies[Field.INPUT]}
                         onUserInput={handleTypeInput}
                         onMax={handleMaxInput}
@@ -556,13 +556,13 @@ export default function LaunchPad() {
               <AutoRow justify="space-between">
                 <AppBody>
                   <AutoColumn gap=".5rem" style={{ padding: '2rem' }}>
-                    <PlaentzLogo />
+                    <ChtLogo />
                     <Divider />
                     <Text>
-                      PLZ is the official Token that powers the PLÅNTZ ecosystem. Pay your PLÅNTZ NFT or use it for
-                      products in their onlineshop.
+                      Welcome to CHT, become a part of the best community. CHT is not an ordinary meme token, but a
+                      token with benefits. Spotbot, Arbitrage, Trader, Liquidity pool staking.
                     </Text>
-                    <LinkExternal href="https://plaentz.com">https://plaentz.com</LinkExternal>
+                    <LinkExternal href="https://cryptohuntertrading.io">https://cryptohuntertrading.io</LinkExternal>
                   </AutoColumn>
                 </AppBody>
                 <AppBody>
@@ -571,13 +571,9 @@ export default function LaunchPad() {
                       In launchpad the slippage is set higher to help not lose TRX due to failed transactions.
                     </Text>
                     <Text>
-                      The launch of PLÅNTZ (PLZ) will be an important step for PLÅNTZ ecosystem to flourish and give
-                      their community and NFT holders passive income through staking rewards. If you hold a PLÅNTZ Token
-                      you will be able to stake it for a period of time and receive PLZ when you unstake it.{' '}
-                    </Text>
-                    <Text>
-                      PLZ will be their governance token for our future projects in Gamefi, NFT marketplace and
-                      Metaverse.
+                      Crypto Hunter Trading is a private funded Trading Community. Revenue generated from trading goes
+                      into additional liquidity pools. CHT is a perfect combination of CEX and DEX trading with a steady
+                      growing masterminded Crypto community.
                     </Text>
                   </AutoColumn>
                 </AppBody>
@@ -600,28 +596,9 @@ export default function LaunchPad() {
         mt="3rem"
         mb="3rem"
       >
-        <Text p="2rem">Follow plaentz on social media</Text>
+        <Text p="2rem">Follow CHT on social media</Text>
         <StyledSocialLinks socials={launchSocials} order={[2]} pb={['0px', null, '0px']} mb={['0', null, '0px']} />
       </Flex>
-      {/* <AutoColumn justify="center">
-        <SocialIconWrapper>
-          <MenuItem id="link" href="https://twitter.com/plaentz">
-            <img src={Twitter} alt="" />
-          </MenuItem>
-          <MenuItem id="link" href="https://www.instagram.com/plaentz_com/">
-            <img src={Instagram} alt="" />
-          </MenuItem>
-          <MenuItem id="link" href="https://www.facebook.com/plaentz/">
-            <img src={Facebook} alt="" />
-          </MenuItem>
-          <MenuItem id="link" href="https://t.me/+2K4XHVj5ln0zODk8">
-            <img src={Telegram} alt="" />
-          </MenuItem>
-          <MenuItem id="link" href="https://www.youtube.com/channel/UCFhk0JazFaU5iR2TmJ46Rdw">
-            <img src={Youtube} alt="" />
-          </MenuItem>
-        </SocialIconWrapper>
-      </AutoColumn> */}
     </Page>
   )
 }

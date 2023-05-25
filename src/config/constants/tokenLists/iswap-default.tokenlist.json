@@ -106,6 +106,14 @@
       "logoURI": "https://static.tronscan.org/production/upload/logo/new/TYK71t3eD1pTxpkDp7gbqXM5DYfaVdfKjV.png?t=1668077389818"
     },
     {
+      "name": "Crypto Hunter Trading",
+      "symbol": "CHT",
+      "address": "0x0E6c06A9e67216E7ACb1f5a55575Fc7d2aD5Bf1A",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "https://gateway.btfs.io/btfs/QmVan7NushVi7FkJxYnenCQM9hdNAhawKMXqsK3YK6kSPK?filename=chtlogo.png"
+    },
+    {
       "name": "Avalance",
       "symbol": "AVAX",
       "address": "0x1CE0c2827e2eF14D5C4f29a091d735A204794041",

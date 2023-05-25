@@ -1,6 +1,16 @@
 import { Language } from "../LangSelector/types";
 import { FooterLinkType, SocialIconType } from "./types";
-import { TwitterIcon, TelegramIcon, RedditIcon, InstagramIcon, GithubIcon, DiscordIcon, MediumIcon } from "../Svg";
+import {
+  TwitterIcon,
+  TelegramIcon,
+  RedditIcon,
+  InstagramIcon,
+  GithubIcon,
+  DiscordIcon,
+  MediumIcon,
+  SocialMenuIcon,
+  TikTokIcon,
+} from "../Svg";
 
 export const footerLinks: FooterLinkType[] = [
   {
@@ -108,28 +118,33 @@ export const launchSocials: SocialIconType[] = [
   {
     label: "Twitter",
     icon: TwitterIcon,
-    href: "https://twitter.com/plaentz",
+    href: "https://twitter.com/CHT_thereal",
   },
   {
-    label: "Instagram",
-    icon: InstagramIcon,
-    href: "https://www.instagram.com/plaentz_com",
+    label: "TikTok",
+    icon: TikTokIcon,
+    href: "https://www.tiktok.com/@cryptohuntertrading",
   },
-  {
-    label: "Facebook",
-    icon: RedditIcon,
-    href: "https://www.facebook.com/plaentz",
-  },
-  {
-    label: "Telegram",
-    icon: TelegramIcon,
-    href: "https://t.me/+2K4XHVj5ln0zODk8",
-  },
-  {
-    label: "Youtube",
-    icon: MediumIcon,
-    href: "https://www.youtube.com/channel/UCFhk0JazFaU5iR2TmJ46Rdw",
-  },
+  // {
+  //   label: "Instagram",
+  //   icon: InstagramIcon,
+  //   href: "https://www.instagram.com/plaentz_com",
+  // },
+  // {
+  //   label: "Facebook",
+  //   icon: RedditIcon,
+  //   href: "https://www.facebook.com/plaentz",
+  // },
+  // {
+  //   label: "Telegram",
+  //   icon: TelegramIcon,
+  //   href: "https://t.me/+2K4XHVj5ln0zODk8",
+  // },
+  // {
+  //   label: "Youtube",
+  //   icon: MediumIcon,
+  //   href: "https://www.youtube.com/channel/UCFhk0JazFaU5iR2TmJ46Rdw",
+  // },
 ];
 
 export const langs: Language[] = [...Array(20)].map((_, i) => ({
