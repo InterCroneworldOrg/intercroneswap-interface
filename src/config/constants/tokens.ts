@@ -23,7 +23,7 @@ export function getTokensFromDefaults(symbols: string): [Token, Token] | undefin
 
 export function getTokenFromDefaults(symbol: string): Token | undefined {
   const chainId = CHAIN_ID
-  return symbol === 'BNB' ? WETH[parseInt(chainId, 10)] : DefaultTokensMap[symbol]
+  return symbol === 'BNB' ? WETH[parseInt(chainId, 10)] : DefaultTokensMap.get(symbol)
 }
 
 export const mainnetTokens = defineTokens({
@@ -63,6 +63,14 @@ export const mainnetTokens = defineTokens({
   jm: new Token(MAINNET, '0x388D819724dD6d71760A38F00dc01D310d879771', 8, 'JM', 'JustMoney', 'https://justmoney.io/'),
   bnb: new Token(MAINNET, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'BNB', 'BNB', 'https://www.binance.com/'),
   usdd: new Token(MAINNET, '0xd17479997F34dd9156Deef8F95A52D81D265be9c', 18, 'USDD', 'USD', 'https://usdd.io/'),
+  cht: new Token(
+    MAINNET,
+    '0x0E6c06A9e67216E7ACb1f5a55575Fc7d2aD5Bf1A',
+    18,
+    'CHT',
+    'Crypto Hunter Trading',
+    'https://cryptohuntertrading.io/',
+  ),
   plz: new Token(MAINNET, '0xb69016AFdED339c99829AC1340b050E04C08E722', 8, 'PLZ', 'Plaentz'),
   cake: new Token(
     MAINNET,
@@ -2171,47 +2179,14 @@ export const serializeTokens = () => {
   return serializedTokens
 }
 
-export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
-  ICR: unserializedTokens.icr,
-  JM: unserializedTokens.jm,
-  TONCOIN: unserializedTokens.ton,
-  BABYDOGE: unserializedTokens.babydoge,
-  BTC: unserializedTokens.btcb,
-  BUSD: unserializedTokens.busd,
-  USDT: unserializedTokens.usdt,
-  USDD: unserializedTokens.usdd,
-  BTT: unserializedTokens.btt,
-  ETH: unserializedTokens.eth,
-  CAKE: unserializedTokens.cake,
-  DOT: unserializedTokens.dot,
-  BSW: unserializedTokens.bsw,
-  TRX: unserializedTokens.trx,
-  FTM: unserializedTokens.ftm,
-  AVAX: unserializedTokens.avax,
-  ADA: unserializedTokens.ada,
-  PLZ: unserializedTokens.plz,
-}
+export const DefaultTokensMap: Map<string, Token> = new Map(
+  Object.values(unserializedTokens).map((token) => {
+    const symbol = token.symbol?.replaceAll('_', '').toUpperCase()
+    return [symbol, token]
+  }),
+)
 
-const tokenArray: Token[] = [
-  unserializedTokens.icr,
-  unserializedTokens.jm,
-  unserializedTokens.ton,
-  unserializedTokens.babydoge,
-  unserializedTokens.btcb,
-  unserializedTokens.busd,
-  unserializedTokens.usdt,
-  unserializedTokens.usdd,
-  unserializedTokens.eth,
-  unserializedTokens.cake,
-  unserializedTokens.dot,
-  unserializedTokens.bsw,
-  unserializedTokens.trx,
-  unserializedTokens.ftm,
-  unserializedTokens.plz,
-  unserializedTokens.avax,
-  unserializedTokens.btt,
-  unserializedTokens.ada,
-]
+const tokenArray: Token[] = Object.values(mainnetTokens)
 
 export function getTokenByAddress(address: string): Token {
   return tokenArray.find((token) => token.address.toLowerCase() === address.toLowerCase()) ?? unserializedTokens.icr
