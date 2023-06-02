@@ -8,11 +8,11 @@ import getTokenLogoURL from './getTokenLogoURL'
 
 const NETWORK_CONFIG = {
   [ChainId.MAINNET]: {
-    name: 'BNB Smart Chain Mainnet',
+    name: 'BitTorrent Chain Mainnet',
     scanURL: BASE_BSC_SCAN_URLS[ChainId.MAINNET],
   },
   [ChainId.TESTNET]: {
-    name: 'BNB Smart Chain Testnet',
+    name: 'BitTorrent Chain Testnet',
     scanURL: BASE_BSC_SCAN_URLS[ChainId.TESTNET],
   },
 }
