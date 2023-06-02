@@ -8,11 +8,11 @@ import getTokenLogoURL from './getTokenLogoURL'
 
 const NETWORK_CONFIG = {
   [ChainId.MAINNET]: {
-    name: 'BitTorrent Chain Mainnet',
+    name: 'BTTC Chain Mainnet',
     scanURL: BASE_BSC_SCAN_URLS[ChainId.MAINNET],
   },
   [ChainId.TESTNET]: {
-    name: 'BitTorrent Chain Testnet',
+    name: 'BTTC Chain Testnet',
     scanURL: BASE_BSC_SCAN_URLS[ChainId.TESTNET],
   },
 }
