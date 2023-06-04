@@ -36,7 +36,7 @@ let stakingInfosRaw: {
     }
   }
 } = {}
-fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses.json')
+fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/staking-addresses_latest.json')
   .then((response) => response.json())
   .then((data) => (stakingInfosRaw = data))
 
@@ -51,13 +51,14 @@ export default function Stake() {
     stakingInfosRaw && chainId && stakingInfosRaw[chainId]
       ? Object.keys(stakingInfosRaw[chainId]).map((version) => {
           const vals = stakingInfosRaw[chainId][version]
-          Object.keys(vals).map((tokens) => {
-            const tokensFromDefault = getTokensFromDefaults(tokens)
-            if (tokensFromDefault) {
+          Object.keys(vals).map((stakingRewardAddress) => {
+            const tokens = getTokensFromDefaults(vals[stakingRewardAddress]['pair'])
+            const rewardsDays = vals[stakingRewardAddress]['days']
+            if (tokens) {
               tmpinfos.push({
-                stakingRewardAddress: vals[tokens],
-                tokens: tokensFromDefault,
-                rewardsDays: version !== 'v0' ? REWARDS_DURATION_DAYS_180 : REWARDS_DURATION_DAYS,
+                stakingRewardAddress,
+                tokens,
+                rewardsDays,
               })
             }
           })
