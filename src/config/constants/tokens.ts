@@ -137,6 +137,7 @@ export const mainnetTokens = defineTokens({
     'PEPMAN',
     'https://www.pepman.vip/#',
   ),
+  prun: new Token(MAINNET, '0x0445F72E4Dcade5e8F25266373F0f901890041bF', 18, "PRUN", "PEPERUN", '')
 } as const)
 
 export const testnetTokens = defineTokens({

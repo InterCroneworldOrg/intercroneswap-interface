@@ -66,8 +66,11 @@ export default function PoolCard({ stakingInfo, address, toggleToken, handleStak
   const USDPriceBackup = useCorrectBUSDPrice(token1)
 
   const earnedUSDPrice = useCorrectBUSDPrice(stakingInfo.earnedAmount.token)
-  const ratePerYear = stakingInfo.rewardForDuration.multiply(YEARLY_RATE)
-  const ratePerYearBUSD = ratePerYear && earnedUSDPrice?.quote(stakingInfo.rewardForDuration).multiply(YEARLY_RATE)
+
+  const ratePerYear = stakingInfo.rewardForDuration.multiply(YEARLY_RATE(stakingInfo.rewardDuration))
+  const ratePerYearBUSD =
+    ratePerYear &&
+    earnedUSDPrice?.quote(stakingInfo.rewardForDuration).multiply(YEARLY_RATE(stakingInfo.rewardDuration))
 
   // Check if the actual Token is ICR or WETH based
   const stakedInToken =
