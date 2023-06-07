@@ -113,12 +113,12 @@ export const launchSocials: SocialIconType[] = [
   {
     label: "Twitter",
     icon: TwitterIcon,
-    href: "https://twitter.com/PEPMAN_BTT",
+    href: "https://twitter.com/Peperun_Token",
   },
   {
     label: "Telegram",
     icon: TelegramIcon,
-    href: "https://t.me/PepMan_VIP_en",
+    href: "https://t.me/PepeRun_Token",
   },
 ];
 
