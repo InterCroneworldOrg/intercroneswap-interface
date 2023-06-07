@@ -553,20 +553,21 @@ export default function LaunchPad() {
           </Flex>
           <AutoRow justify="start">
             <AppBody>
-              <AutoColumn gap=".5rem" style={{ padding: '2rem' }}>
-                <Image src="https://www.pepman.vip/wp-content/uploads/2023/04/PepMan350x100.png" />
+              <AutoColumn gap=".5rem" style={{ padding: '2rem' }} justify="center">
+                <Image src="https://peperun.site/image8.png" style={{ height: 100 }} />
                 <Divider />
-                <Text>PepMan is the first BitTorrent Chain Meme Token for the people, by the people.</Text>
-                <LinkExternal href="https://pepman.vip">https://pepman.vip</LinkExternal>
+                <Text>Pepe Run is a revolutionary new meme token built on the BitTorrent chain.</Text>
+                <LinkExternal href="https://peperun.site">https://peperun.site</LinkExternal>
               </AutoColumn>
             </AppBody>
             <AppBody>
               <AutoColumn gap="2rem" style={{ padding: '2rem' }}>
                 <Text>In launchpad the slippage is set higher to help not lose BTT due to failed transactions.</Text>
                 <Text>
-                  PEPMAN (PMAN ) is the first BitTorrent chain meme token and its superpower comes out of the blackhole
-                  liquidity. 80% of the total supply will be used in a 8 Lp. fairlaunch which provide a constant
-                  arbitrage volume and generate passive income and a growing liquidity.
+                  With a strong focus on gaming and community, Pepe Run offers a unique and exciting investment
+                  opportunity for crypto enthusiasts around the world. Our project is designed to be both fun and
+                  profitable, allowing you to earn rewards while enjoying all the hilarious memes and games that Pepe is
+                  known for.
                 </Text>
               </AutoColumn>
             </AppBody>
@@ -587,7 +588,7 @@ export default function LaunchPad() {
         mt="3rem"
         mb="3rem"
       >
-        <Text p="2rem">Follow PepMan on social media</Text>
+        <Text p="2rem">Follow Peperun on social media</Text>
         <StyledSocialLinks socials={launchSocials} order={[2]} pb={['0px', null, '0px']} mb={['0', null, '0px']} />
       </Flex>
       {/* <AutoColumn justify="center">
