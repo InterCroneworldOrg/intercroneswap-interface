@@ -51,8 +51,14 @@ export default function Stake() {
     stakingInfosRaw && chainId && stakingInfosRaw[chainId]
       ? Object.keys(stakingInfosRaw[chainId]).map((version) => {
           const vals = stakingInfosRaw[chainId][version]
+          console.log('Version, ', version, vals)
+
           Object.keys(vals).map((stakingRewardAddress) => {
-            const tokens = getTokensFromDefaults(vals[stakingRewardAddress]['pair'])
+            const pair = vals[stakingRewardAddress]['pair']
+            if (!pair) {
+              return
+            }
+            const tokens = getTokensFromDefaults(pair)
             const rewardsDays = vals[stakingRewardAddress]['days']
             if (tokens) {
               tmpinfos.push({
@@ -181,7 +187,7 @@ export default function Stake() {
         <WordBreakDiv>{`${window.location.origin}/stake/${account}`}</WordBreakDiv>
       </AutoColumn>
     ) : undefined
-  }, [account, showReferal, referal, confirmUpline])
+  }, [account, showReferal, theme.colors.background, referal, confirmUpline])
 
   const activePools = stakingInfos.filter((info) => info.active)
   const inactivePools = stakingInfos.filter((info) => !info.active)
@@ -214,7 +220,7 @@ export default function Stake() {
       }
       return poolsToDisplay
     },
-    [searchQuery],
+    [searchQuery, toggleSearch],
   )
 
   const chosenPoolsMemoized = useMemo(() => {
