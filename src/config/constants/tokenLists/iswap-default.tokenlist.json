@@ -146,6 +146,14 @@
       "logoURI": "https://www.pepman.vip/wp-content/uploads/2023/04/PepMan32.png"
     },
     {
+      "name": "PEPERUN",
+      "symbol": "PRUN",
+      "address": "0x0445F72E4Dcade5e8F25266373F0f901890041bF",
+      "chainId": 199,
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/InterCroneworldOrg/logo/main/run.png"
+    },
+    {
       "name": "JustMoney",
       "symbol": "JM",
       "address": "0x388D819724dD6d71760A38F00dc01D310d879771",
