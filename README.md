@@ -7,7 +7,7 @@ An open source interface for ISwap -- a protocol for decentralized exchange of E
 - Interface: [TRX.Iswap](https://trx.intercroneswap.com)
 - Docs: [ISwap/docs/](https://docs.intercroneswap.finance)
 - Reddit: [/r/]()
-- Email: [office@intercroneswap.finance](mailto:office@intercroneswap.com)
+- Email: [office@intercroneswap.com](mailto:office@intercroneswap.com)
 
 ## Accessing the ISwap Interface
 
