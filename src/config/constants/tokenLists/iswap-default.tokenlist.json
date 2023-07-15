@@ -154,6 +154,22 @@
       "logoURI": "https://raw.githubusercontent.com/InterCroneworldOrg/logo/main/run.png"
     },
     {
+      "name": "OIL",
+      "symbol": "OIL",
+      "address": "0x83CebAAe144aB323b3505214Cc26101968e4D75d",
+      "chainId": 199,
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/InterCroneworldOrg/logo/main/oil100x100.png"
+    },
+    {
+      "name": "Shitcoin",
+      "symbol": "SHIT",
+      "address": "0x3df3E659A9157Df57DDd79118533e38DED129cD1",
+      "chainId": 199,
+      "decimals": 18,
+      "logoURI": "https://bttcscan.com/token/images/shitcoinshit_32.png"
+    },
+    {
       "name": "JustMoney",
       "symbol": "JM",
       "address": "0x388D819724dD6d71760A38F00dc01D310d879771",
