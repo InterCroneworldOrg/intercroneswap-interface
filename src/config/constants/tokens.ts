@@ -139,6 +139,7 @@ export const mainnetTokens = defineTokens({
   ),
   prun: new Token(MAINNET, '0x0445F72E4Dcade5e8F25266373F0f901890041bF', 18, "PRUN", "PEPERUN", ''),
   shit: new Token(MAINNET, '0x3df3E659A9157Df57DDd79118533e38DED129cD1', 18, "SHIT", "Shitcoin", 'https://shitcoin69.xyz/'),
+  py: new Token(MAINNET, '0x3df3E659A9157Df57DDd79118533e38DED129cD1', 18, "PY", "Purple Youth", 'https://purpleyouth.org/'),
   oil: new Token(MAINNET, '0x83CebAAe144aB323b3505214Cc26101968e4D75d', 8, "OIL", "OIL", '')
 } as const)
 
