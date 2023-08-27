@@ -170,6 +170,14 @@
       "logoURI": "https://bttcscan.com/token/images/shitcoinshit_32.png"
     },
     {
+      "name": "Purple Youth",
+      "symbol": "PY",
+      "address": "0xE8456D1105f38e394ea4b0f9B3AA61597c0B39c9",
+      "chainId": 199,
+      "decimals": 18,
+      "logoURI": "https://bttcscan.com/token/images/purpleyouth_32.png"
+    },
+    {
       "name": "JustMoney",
       "symbol": "JM",
       "address": "0x388D819724dD6d71760A38F00dc01D310d879771",
