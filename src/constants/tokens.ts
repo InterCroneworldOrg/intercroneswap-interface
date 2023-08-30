@@ -50,7 +50,7 @@ export const ETHOLD = new Token(
   '0x53908308F4AA220FB10D778B5D1B34489CD6EDFC',
   18,
   'ETHOLD',
-  'Ethereum'
+  'Ethereum',
 );
 export const ETH = new Token(ChainId.MAINNET, '0xA7A572F6D8B4CA291B9353CF26580ABED74F3E31', 18, 'ETH', 'Ethereum');
 export const USDJ = new Token(
