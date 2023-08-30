@@ -43,10 +43,10 @@ export const PLZ = new Token(ChainId.MAINNET, '0xF51616FA89A8D63DA1BE20D8EA2C1D0
 export const ICR = new Token(ChainId.MAINNET, '0x6c50dddaeca053249582d7f823bcc8299b3fb293', 8, 'ICR', 'Intercrone');
 export const USDT = new Token(ChainId.MAINNET, '0xA614F803B6FD780986A42C78EC9C7F77E6DED13C', 6, 'USDT', 'Tether');
 export const BTT = new Token(ChainId.MAINNET, '0x032017411F4663B317FE77C257D28D5CD1B26E3D', 18, 'BTT', 'BitTorrent');
-export const MEOX = new Token(ChainId.MAINNET, '0xA481DC6C5E0A964523E5059F930EE5BA6B4E479C', 18, 'MEOX ', 'Metronix');
-export const BTC = new Token(ChainId.MAINNET, '0x84716914C0FDF7110A44030D04D0C4923504D9CC', 8, 'BTC ', 'Bitcoin');
-export const ETH = new Token(ChainId.MAINNET, '0x53908308F4AA220FB10D778B5D1B34489CD6EDFC', 18, 'ETHOLD ', 'Ethereum');
-export const ETH = new Token(ChainId.MAINNET, '0xA7A572F6D8B4CA291B9353CF26580ABED74F3E31', 18, 'ETH ', 'Ethereum');
+export const MEOX = new Token(ChainId.MAINNET, '0xA481DC6C5E0A964523E5059F930EE5BA6B4E479C', 18, 'MEOX', 'Metronix');
+export const BTC = new Token(ChainId.MAINNET, '0x84716914C0FDF7110A44030D04D0C4923504D9CC', 8, 'BTC', 'Bitcoin');
+export const ETH = new Token(ChainId.MAINNET, '0x53908308F4AA220FB10D778B5D1B34489CD6EDFC', 18, 'ETHOLD', 'Ethereum');
+export const ETH = new Token(ChainId.MAINNET, '0xA7A572F6D8B4CA291B9353CF26580ABED74F3E31', 18, 'ETH', 'Ethereum');
 export const USDJ = new Token(
   ChainId.MAINNET,
   '0x834295921A488D9D42B4B3021ED1A3C39FB0F03E',
@@ -124,7 +124,6 @@ export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['turu']: TURU,
   ['BBT']: BBT,
   ['COME']: COME,
-  ['SM']: SM,
   ['SST']: SST,
   ['PLZ']: PLZ,
 };
