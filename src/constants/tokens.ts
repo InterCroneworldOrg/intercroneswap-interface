@@ -45,7 +45,8 @@ export const USDT = new Token(ChainId.MAINNET, '0xA614F803B6FD780986A42C78EC9C7F
 export const BTT = new Token(ChainId.MAINNET, '0x032017411F4663B317FE77C257D28D5CD1B26E3D', 18, 'BTT', 'BitTorrent');
 export const MEOX = new Token(ChainId.MAINNET, '0xA481DC6C5E0A964523E5059F930EE5BA6B4E479C', 18, 'MEOX ', 'Metronix');
 export const BTC = new Token(ChainId.MAINNET, '0x84716914C0FDF7110A44030D04D0C4923504D9CC', 8, 'BTC ', 'Bitcoin');
-export const ETH = new Token(ChainId.MAINNET, '0x53908308F4AA220FB10D778B5D1B34489CD6EDFC', 18, 'ETH ', 'Ethereum');
+export const ETH = new Token(ChainId.MAINNET, '0x53908308F4AA220FB10D778B5D1B34489CD6EDFC', 18, 'ETHOLD ', 'Ethereum');
+export const ETH = new Token(ChainId.MAINNET, '0xA7A572F6D8B4CA291B9353CF26580ABED74F3E31', 18, 'ETH ', 'Ethereum');
 export const USDJ = new Token(
   ChainId.MAINNET,
   '0x834295921A488D9D42B4B3021ED1A3C39FB0F03E',
@@ -57,9 +58,6 @@ export const TUSD = new Token(ChainId.MAINNET, '0xCEBDE71077B830B958C8DA17BCDDEE
 export const USDC = new Token(ChainId.MAINNET, '0x3487B63D30B5B2C87FB7FFA8BCFADE38EAAC1ABE', 6, 'USDC ', 'USD Coin');
 export const USDD = new Token(ChainId.MAINNET, '0x94F24E992CA04B49C6F2A2753076EF8938ED4DAA', 18, 'USDD ', 'USDD Coin');
 export const WIN = new Token(ChainId.MAINNET, '0x74472E7D35395A6B5ADD427EECB7F4B62AD2B071', 6, 'WIN ', 'WINK');
-export const LIVE = new Token(ChainId.MAINNET, '0xD829659F0F7661F29F12F07A5BE33C13B6C9DD59', 6, 'LIVE ', 'TRONbetLive');
-export const DICE = new Token(ChainId.MAINNET, '0x6CE0632A762689A207B9CCE915E93AA9596816CA', 6, 'DICE ', 'TRONbetDice');
-export const SM = new Token(ChainId.MAINNET, '0xAAB8C5F22E5E489A5824D8653F9BA68EB85FDE04', 8, 'SM ', 'SafeMoney');
 export const SST = new Token(
   ChainId.MAINNET,
   '0x0EFAC3802727C5F873B887E8119FE895B5156577',
@@ -73,13 +71,6 @@ export const EightEightEight = new Token(
   6,
   '888 ',
   '888Tron',
-);
-export const SafeMoney = new Token(
-  ChainId.MAINNET,
-  '0x8605CAE8C40545D2184D59550918185F44D9EA0D',
-  8,
-  'SafeMoney ',
-  'SafeMoney',
 );
 export const JM = new Token(
   ChainId.MAINNET,
@@ -111,6 +102,7 @@ export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['USDT']: USDT,
   ['USDD']: USDD,
   ['ETH']: ETH,
+  ['ETHOLD']: ETHOLD,
   ['BTT']: BTT,
   ['MEOX']: MEOX,
   ['BTC']: BTC,
@@ -118,10 +110,7 @@ export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['TUSD']: TUSD,
   ['USDC']: USDC,
   ['WIN']: WIN,
-  ['LIVE']: LIVE,
-  ['DICE']: DICE,
   ['888']: EightEightEight,
-  ['SAFEMONEY']: SafeMoney,
   ['JM']: JM,
   ['JST']: JST,
   ['NFT']: NFT,
@@ -144,6 +133,7 @@ const tokens: Token[] = [
   ICR,
   USDT,
   USDD,
+  ETHOLD,
   ETH,
   BTT,
   MEOX,
@@ -151,10 +141,7 @@ const tokens: Token[] = [
   TUSD,
   USDC,
   WIN,
-  LIVE,
-  DICE,
   EightEightEight,
-  SafeMoney,
   JM,
   JST,
   NFT,
@@ -167,7 +154,6 @@ const tokens: Token[] = [
   SST,
   BBT,
   COME,
-  SM,
   PLZ,
 ];
 
