@@ -34,5 +34,14 @@ jobs:
           cache-dependency-path: trx-interface/package-lock.json
       - run: cp .env.production .env
       - run: npm i
-      - run: CI=false npm run build
-      - run: rsync -av /root/actions-runner/_work/intercroneswap-interface/intercroneswap-interface/trx-interface/build/ /var/www/html/trx-interface/
+
+      - name: Modify java-tron-provider
+        run: |
+          echo "awk '/headers: \{/ {inside_headers=1} inside_headers && /'Content-Type': 'application\\/json'/ {print \"            'TRON-PRO-API-KEY': '\"${{ secrets.TRON_PRO_API_KEY }}\"',\"; inside_headers=0} 1' node_modules/@intercroneswap/java-tron-provider/src/methods/createContext.js > temp_file1 && mv temp_file1 node_modules/@intercroneswap/java-tron-provider/src/methods/createContext.js" | bash
+          echo "awk '/headers: \{/ {inside_headers=1} inside_headers && /'Content-Type': 'application\\/json'/ {print \"            'TRON-PRO-API-KEY': '\"${{ secrets.TRON_PRO_API_KEY }}\"',\"; inside_headers=0} 1' node_modules/@intercroneswap/java-tron-provider/commonjs/lib/methods/createContext.js > temp_file2 && mv temp_file2 node_modules/@intercroneswap/java-tron-provider/commonjs/lib/methods/createContext.js" | bash
+
+      - name: Build
+        run: CI=false npm run build
+
+      - name: Copying build files to root directory
+        run: rsync -av /root/actions-runner/_work/intercroneswap-interface/intercroneswap-interface/trx-interface/build/ /var/www/html/trx-interface/
