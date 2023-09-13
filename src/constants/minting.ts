@@ -5,7 +5,7 @@ import ApiTron from '../assets/images/ApiTron.png';
 export const mintData: MintContractData[] = [
   {
     address: '0xA44F3F89F70648B1467172BA3C0B0102BE95A62D',
-    earnToken: 'TRX',
+    earnToken: 'ICR',
     logo: ApiTron,
   },
   {
