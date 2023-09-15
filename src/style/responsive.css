@@ -6,7 +6,7 @@
         width: 100%;
     }
     #tknhead{
-        font-size: 40px;
+        font-size: 30px;
         line-height: 50px;
     }
     button#swapbutton{
@@ -19,7 +19,7 @@
         padding-bottom: unset;
     }
     div#styledpage{
-        padding: 30px 15px;
+        padding: 75px 15px;
     }
     div#styledfooter{
         padding: unset !important;

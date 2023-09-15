@@ -24,7 +24,7 @@ const StyledPage = styled.div<{ $removePadding: boolean; $noMinHeight }>`
   }
 
   ${({ theme }) => theme.mediaQueries.lg} {
-    padding: ${({ $removePadding }) => ($removePadding ? '0' : '32px')};
+    padding: ${({ $removePadding }) => ($removePadding ? '0' : '75px')};
     padding-bottom: 0;
     min-height: ${({ $noMinHeight }) => ($noMinHeight ? 'initial' : 'calc(100vh - 100px)')};
   }
@@ -49,7 +49,7 @@ const Page: React.FC<
     <>
       <PageMeta />
       <StyledPage $removePadding={removePadding} $noMinHeight={noMinHeight} {...props} id="styledpage">
-        <div style={{ height: '10rem' }} />
+        <div style={{ height: '100%' }} />
         {children}
         <Flex flexGrow={1} />
       </StyledPage>

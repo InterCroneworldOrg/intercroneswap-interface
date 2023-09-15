@@ -400,9 +400,9 @@ export default function Swap() {
   `
 
   return (
-    <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
+    <Page hideFooterOnDesktop={isChartExpanded}>
       <StyledHeading id="tknhead">Swap your tokens</StyledHeading>
-      <Flex width="100%" justifyContent="center" position="relative" style={{ paddingTop: 20 }}>
+      <Flex width="100%" justifyContent="center" position="relative" style={{ paddingTop: 70 }}>
         {/* {!isMobile && (
           <PriceChartContainer
             inputCurrencyId={inputCurrencyId}
@@ -432,7 +432,7 @@ export default function Swap() {
           isOpen={isChartDisplayed}
           setIsOpen={setIsChartDisplayed}
         />
-        <div style={{ width: '100%', display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr' }}>
+        <div style={{ width: '100%', display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr'}}>
           <Flex flexDirection="column">
             <StyledSwapContainer $isChartExpanded={isChartExpanded}>
               <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>
@@ -456,7 +456,6 @@ export default function Swap() {
                           style={{ background: 'transparent', color: 'white', borderColor: 'white' }}
                         >
                           <span>Advanced Settings</span>
-                          <CogIcon />
                         </ToggleButton>
                         {showSlippage && <SlippageTabs />}
                       </AutoRow>

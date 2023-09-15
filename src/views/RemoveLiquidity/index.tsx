@@ -448,7 +448,7 @@ export default function RemoveLiquidity() {
     <Page>
       <StyledHeading>Swap your tokens</StyledHeading>
       <div
-        style={{ width: '100%', display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr', marginTop: 20 }}
+        style={{ width: '100%', display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr', marginTop: 20 , paddingTop: 70}}
       >
         <div style={{ width: '100%', justifyContent: 'end', display: 'flex', padding: !isMobile ? '0px 40px' : '0px' }}>
           <AppBody>
