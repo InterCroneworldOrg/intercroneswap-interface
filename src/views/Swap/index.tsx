@@ -89,6 +89,33 @@ const SwitchIconButton = styled(IconButton)`
   }
 `
 
+const StyledMenuButton = styled.button`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  height: 35px;
+  background-color: ${({ theme }) => theme.colors.primary};
+
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.5rem;
+
+  span {
+    color: black;
+    margin-right: 10px;
+  }
+
+  :hover,
+  :focus {
+    cursor: pointer;
+    outline: none;
+    background-color: ${({ theme }) => theme.colors.textSubtle};
+  }
+`
+
 // TODO: adjust swap design here
 export default function Swap() {
   const router = useRouter()
@@ -402,7 +429,7 @@ export default function Swap() {
   return (
     <Page hideFooterOnDesktop={isChartExpanded}>
       <StyledHeading id="tknhead">Swap your tokens</StyledHeading>
-      <Flex width="100%" justifyContent="center" position="relative" style={{ paddingTop: 70 }}>
+      <Flex width="100%" justifyContent="center" position="relative" style={{ paddingTop: 20 }}>
         {/* {!isMobile && (
           <PriceChartContainer
             inputCurrencyId={inputCurrencyId}
@@ -449,14 +476,12 @@ export default function Swap() {
                     <AutoColumn gap="sm">
                       <AutoRow gap="7px" justify="space-between" style={{ padding: '0 16px' }}>
                         {/* <SwapPoolTabs active={'swap'} /> */}
-                        <h3>Exchange</h3>
-                        <ToggleButton
+                          <StyledMenuButton
                           onClick={() => setShowSlippage(!showSlippage)}
                           value="showSlippage"
-                          style={{ background: 'transparent', color: 'white', borderColor: 'white' }}
-                        >
+                            >
                           <span>Advanced Settings</span>
-                        </ToggleButton>
+                        </StyledMenuButton>
                         {showSlippage && <SlippageTabs />}
                       </AutoRow>
                       <CurrencyInputPanel
