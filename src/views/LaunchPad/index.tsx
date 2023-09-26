@@ -366,7 +366,7 @@ export default function LaunchPad() {
       <StyledHeading id="tknhead">
         InterCrone Launchpad <Rocket />
       </StyledHeading>
-      <Flex width="100%" justifyContent="center" position="relative" style={{ paddingTop: 20 }}>
+      <Flex width="100%" justifyContent="center" position="relative" style={{ paddingTop: 70 }}>
         <BottomDrawer
           content={
             <PriceChartContainer

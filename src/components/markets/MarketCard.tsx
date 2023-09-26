@@ -1,8 +1,7 @@
 import { ETHER, Pair, Percent, TokenAmount } from '@intercroneswap/v2-sdk'
 import { useContext, useState } from 'react'
-import styled, { ThemeContext } from 'styled-components'
+import { ThemeContext } from 'styled-components'
 import { Button, Text } from '@pancakeswap/uikit'
-import { useWeb3React } from '@web3-react/core'
 import { CurrencyLogo } from 'components/Logo'
 import { currencyFormatter, getBscScanLink } from 'utils'
 import { ArrowWrapper, ResponsiveSizedTextMedium } from 'components/earn/styleds'
@@ -21,8 +20,6 @@ export interface MarketCardProps {
   apy?: Percent
   stakingAddress?: string
 }
-
-const MobileHidden = styled(AutoRow)``
 
 export default function MarketCard({ pair, stakingAddress, liquidity }: MarketCardProps) {
   const theme = useContext(ThemeContext)

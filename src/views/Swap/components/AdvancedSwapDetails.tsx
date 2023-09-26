@@ -20,7 +20,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
     <AutoColumn gap="2px" style={{ padding: '0 16px' }}>
       <RowBetween>
         <RowFixed>
-          <Text fontSize="18px" color="white">
+          <Text fontSize="16px" color="white">
             {isExactIn ? t('Minimum received') : t('Maximum sold')}
           </Text>
           {/* <QuestionHelper
@@ -32,7 +32,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
           /> */}
         </RowFixed>
         <RowFixed>
-          <Text fontSize="18px" color={textColor}>
+          <Text fontSize="16px" color={textColor}>
             {isExactIn
               ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${trade.outputAmount.currency.symbol}` ??
                 '-'
@@ -42,7 +42,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
       </RowBetween>
       <RowBetween>
         <RowFixed>
-          <Text fontSize="18px" color="white">
+          <Text fontSize="16px" color="white">
             {t('Price Impact')}
           </Text>
           {/* <QuestionHelper
@@ -56,7 +56,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
 
       <RowBetween>
         <RowFixed>
-          <Text fontSize="18px" color="white">
+          <Text fontSize="16px" color="white">
             {t('Liquidity Provider Fee')}
           </Text>
           {/* <QuestionHelper
@@ -72,13 +72,13 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
             placement="top-start"
           /> */}
         </RowFixed>
-        <Text fontSize="18px" color={textColor}>
+        <Text fontSize="16px" color={textColor}>
           {realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol}` : '-'}
         </Text>
       </RowBetween>
       <RowBetween>
         <RowFixed>
-          <Text fontSize="18px" color="white">
+          <Text fontSize="16px" color="white">
             {t('Slippage tolerance')}
           </Text>
           {/* <QuestionHelper
@@ -94,7 +94,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
             placement="top-start"
           /> */}
         </RowFixed>
-        <Text fontSize="18px" color={textColor}>
+        <Text fontSize="16px" color={textColor}>
           {allowedSlippage / 100}%
         </Text>
       </RowBetween>

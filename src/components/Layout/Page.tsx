@@ -8,7 +8,7 @@ import Container from './Container'
 
 const StyledPage = styled(Container)`
   min-height: calc(100vh - 64px);
-  padding-top: 16px;
+  padding-top: 75px;
   padding-bottom: 16px;
 
   ${({ theme }) => theme.mediaQueries.sm} {
@@ -30,10 +30,11 @@ export const PageMeta: React.FC<{ symbol?: string }> = ({ symbol }) => {
 
   const pageMeta = getCustomMeta(pathname, t) || {}
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
-  let pageTitle = icrPriceUsdDisplay ? [title, icrPriceUsdDisplay].join(' - ') : title
+  let _pageTitle = icrPriceUsdDisplay ? [title, icrPriceUsdDisplay].join(' - ') : title;
   if (symbol) {
-    pageTitle = [symbol, title].join(' - ')
+    _pageTitle = [symbol, title].join(' - ');
   }
+  
 
   return (
     <Head>

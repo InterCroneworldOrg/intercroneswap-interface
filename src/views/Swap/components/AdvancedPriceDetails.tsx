@@ -30,10 +30,10 @@ export function AdvancedPriceDetails({ trade }: AdvancedSwapDetailsProps) {
     //     showInverted={showInverted}
     //     setShowInverted={setShowInverted}
     // />
-    <AutoColumn gap="2px" style={{ padding: '0 16px' }}>
+    <AutoColumn gap="2px" style={{ padding: '0 10px' }}>
       <RowBetween>
         <RowFixed>
-          <Text fontSize="20px" color="white">
+          <Text color="white">
             Price
           </Text>
         </RowFixed>
@@ -41,33 +41,33 @@ export function AdvancedPriceDetails({ trade }: AdvancedSwapDetailsProps) {
       <Divider />
       <RowBetween>
         <RowFixed>
-          <Text fontSize="20px" color="white" style={{paddingRight: 5}}>
+          <Text color="white" style={{paddingRight: 5}}>
             { unitPrice } 
           </Text>
-          <Text fontSize="20px" color={textColor} style={{paddingRight: 5}}>
+          <Text color={textColor} style={{paddingRight: 5}}>
             {price?.quoteCurrency?.symbol}
           </Text>
-          <Text fontSize="20px" color="white" style={{paddingRight: 5}}>
+          <Text color="white" style={{paddingRight: 5}}>
             per
           </Text>
-          <Text fontSize="20px" color={textColor} style={{paddingRight: 5}}>
+          <Text color={textColor} style={{paddingRight: 5}}>
             {price?.baseCurrency?.symbol}
           </Text>
         </RowFixed>
       </RowBetween>
       <RowBetween>
         <RowFixed>
-          <Text fontSize="20px" color="white" style={{paddingRight: 5}}>
+          <Text color="white" style={{paddingRight: 5}}>
             { reverseUnitPrice } 
           </Text>
           
-          <Text fontSize="20px" color={textColor} style={{paddingRight: 5}}>
+          <Text color={textColor} style={{paddingRight: 5}}>
             {price?.baseCurrency?.symbol}
           </Text>
-          <Text fontSize="20px" color="white" style={{paddingRight: 5}}>
+          <Text color="white" style={{paddingRight: 5}}>
             per
           </Text>
-          <Text fontSize="20px" color={textColor} style={{paddingRight: 5}}>
+          <Text color={textColor} style={{paddingRight: 5}}>
             {price?.quoteCurrency?.symbol}
           </Text>
         </RowFixed>

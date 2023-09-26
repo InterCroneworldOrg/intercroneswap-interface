@@ -299,7 +299,7 @@ export default function AddLiquidity() {
     <Page>
       <StyledHeading>Swap your tokens</StyledHeading>
       <div
-        style={{ width: '100%', display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr', marginTop: 20 }}
+        style={{ width: '100%', display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr', marginTop: 20, paddingTop: 70}}
       >
         <div style={{ width: '100%', justifyContent: 'end', display: 'flex', padding: !isMobile ? '0px 40px' : '0px' }}>
           <AppBody>
@@ -307,7 +307,7 @@ export default function AddLiquidity() {
               title={t('Add Liquidity')}
               subtitle={t('Add liquidity to receive LP tokens')}
               helper={t(
-                'Liquidity providers earn a 0.17% trading fee on all trades made for that token pair, proportional to their share of the liquidity pool.',
+                'Liquidity providers earn a 0.2% trading fee on all trades made for that token pair, proportional to their share of the liquidity pool.',
               )}
               backTo="/liquidity"
             />
