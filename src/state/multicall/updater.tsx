@@ -17,7 +17,7 @@ import {
 } from './actions';
 
 // chunk calls so we do not exceed the gas limit
-const CALL_CHUNK_SIZE = 50;
+const CALL_CHUNK_SIZE = 9;
 const BACKOFF_TIMEOUT = 3000;
 
 /**
