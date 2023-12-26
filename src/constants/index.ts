@@ -6,12 +6,12 @@ import { REWARDS_DURATION_DAYS_180 } from '../state/stake/constants';
 import { BTC, BTT, ETH, ICR, JM, MEOX, PLZ, USDC, USDD, USDJ, USDT, WIN } from './tokens';
 
 export const ROUTER_ADDRESSES: { [chainId: number]: string } = {
-  [ChainId.MAINNET]: '0x8e1d1d9b31a603b14a58b822b075050ddced7e94',
+  [ChainId.MAINNET]: '0x8E1D1D9B31A603B14A58B822B075050DDCED7E94',
   [ChainId.NILE]: '',
-  [ChainId.SHASTA]: '0x5f887c70df576b6ce9c3518a02e341f8bc1d0659',
+  [ChainId.SHASTA]: '0x5F887C70DF576B6CE9C3518A02E341F8BC1D0659',
 };
 export const REFERRAL_ADDRESSES: { [chainId: number]: string } = {
-  [ChainId.MAINNET]: '0xfe29c9e5a34ca3fd941ecd9b1f4933e59c52648d',
+  [ChainId.MAINNET]: '0x64EEBBC12268328526B39712A5A836D2548CBFFA',
   [ChainId.NILE]: '',
   [ChainId.SHASTA]: '',
 };
@@ -27,21 +27,21 @@ type ChainTokenList = {
 // Staking Yearly Rate
 export const YEARLY_RATE = JSBI.divide(JSBI.BigInt(365), JSBI.BigInt(REWARDS_DURATION_DAYS_180));
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
-export const AVERAGE_BLOCK_TIME_IN_SECS = 4;
+export const AVERAGE_BLOCK_TIME_IN_SECS = 3;
 export const PROPOSAL_LENGTH_IN_BLOCKS = 40_320;
 export const PROPOSAL_LENGTH_IN_SECS = AVERAGE_BLOCK_TIME_IN_SECS * PROPOSAL_LENGTH_IN_BLOCKS;
-export const GOVERNANCE_ADDRESS = '0x5e4be8Bc9637f0EAA1A755019e06A68ce081D58F';
+// export const GOVERNANCE_ADDRESS = '0x5e4be8Bc9637f0EAA1A755019e06A68ce081D58F';
 
-export const TIMELOCK_ADDRESS = '0x1a9C8182C09F50C8318d769245beA52c32BE35BC';
+// export const TIMELOCK_ADDRESS = '0x1a9C8182C09F50C8318d769245beA52c32BE35BC';
 
-export const COMMON_CONTRACT_NAMES: { [address: string]: string } = {
-  [GOVERNANCE_ADDRESS]: 'Governance',
-  [TIMELOCK_ADDRESS]: 'Timelock',
-};
+// export const COMMON_CONTRACT_NAMES: { [address: string]: string } = {
+//   [GOVERNANCE_ADDRESS]: 'Governance',
+//   [TIMELOCK_ADDRESS]: 'Timelock',
+// };
 
 // TODO: specify merkle distributor for mainnet
 export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {
-  [ChainId.MAINNET]: '0x090D4613473dEE047c3f2706764f49E0821D256e',
+  [ChainId.MAINNET]: '0x090D4613473DEE047C3F2706764F49E0821D256E',
 };
 
 const WETH_ONLY: ChainTokenList = {

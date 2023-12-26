@@ -40,7 +40,7 @@ export function getTokenFromDefaults(symbol: string): Token | undefined {
 }
 
 export const PLZ = new Token(ChainId.MAINNET, '0xF51616FA89A8D63DA1BE20D8EA2C1D0A383FACEF', 8, 'PLZ', 'Plaentz');
-export const ICR = new Token(ChainId.MAINNET, '0x6c50dddaeca053249582d7f823bcc8299b3fb293', 8, 'ICR', 'Intercrone');
+export const ICR = new Token(ChainId.MAINNET, '0x6C50DDDAECA053249582D7F823BCC8299B3FB293', 8, 'ICR', 'Intercrone');
 export const USDT = new Token(ChainId.MAINNET, '0xA614F803B6FD780986A42C78EC9C7F77E6DED13C', 6, 'USDT', 'Tether');
 export const BTT = new Token(ChainId.MAINNET, '0x032017411F4663B317FE77C257D28D5CD1B26E3D', 18, 'BTT', 'BitTorrent');
 export const MEOX = new Token(ChainId.MAINNET, '0xA481DC6C5E0A964523E5059F930EE5BA6B4E479C', 18, 'MEOX', 'Metronix');
@@ -71,16 +71,9 @@ export const SST = new Token(
   'SST ',
   'SocialSwapToken',
 );
-export const EightEightEight = new Token(
-  ChainId.MAINNET,
-  '0x7818637395075A1AAA82927801DAB4117B99FC3F',
-  6,
-  '888 ',
-  '888Tron',
-);
 export const JM = new Token(
   ChainId.MAINNET,
-  '0xd3d54671fca80648a5886f990fd40117f94d247f',
+  '0xD3D54671FCA80648A5886F990FD40117F94D247F',
   8,
   'JM ',
   'J U S T M O N E Y',
@@ -93,11 +86,11 @@ export const LTC = new Token(ChainId.MAINNET, '0xA54BD6077B2EB012D92D9563FF15D21
 export const HT = new Token(ChainId.MAINNET, '0x2C036253E0C053188C621B81B7CD40A99B828400', 18, 'HT ', 'HuobiToken');
 export const KLV = new Token(ChainId.MAINNET, '0xD8B8089856CED3038601CBEB1E3F765CABC12A41', 6, 'KLV ', 'Klever');
 export const Doge = new Token(ChainId.MAINNET, '0x53A58D995EF4937017A8AB47722186A12A27905E', 8, 'Doge ', 'Dogecoin');
-export const TURU = new Token(ChainId.MAINNET, '0x6471f94b57853c253273275fd695606aff44cd8f', 8, 'turu ', 'turu');
-export const BBT = new Token(ChainId.MAINNET, '0x4cd9f886fcfd6bbdb234954b817f47bd49b6667c', 8, 'BBT', 'BabyTuru');
+export const TURU = new Token(ChainId.MAINNET, '0x6471F94B57853C253273275FD695606AFF44CD8F', 8, 'turu ', 'turu');
+export const BBT = new Token(ChainId.MAINNET, '0x4CD9F886FCFD6BBDB234954B817F47BD49B6667C', 8, 'BBT', 'BabyTuru');
 export const COME = new Token(
   ChainId.MAINNET,
-  '0xea98a5047a37dd4b10f331adb17b55aafa682f19',
+  '0xEA98A5047A37DD4B10F331ADB17B55AAFA682F19',
   18,
   'COME',
   'CommunityEarth',
@@ -116,7 +109,6 @@ export const DefaultTokensMap: { [tokenSymbol: string]: Token } = {
   ['TUSD']: TUSD,
   ['USDC']: USDC,
   ['WIN']: WIN,
-  ['888']: EightEightEight,
   ['JM']: JM,
   ['JST']: JST,
   ['NFT']: NFT,
@@ -146,7 +138,6 @@ const tokens: Token[] = [
   TUSD,
   USDC,
   WIN,
-  EightEightEight,
   JM,
   JST,
   NFT,
