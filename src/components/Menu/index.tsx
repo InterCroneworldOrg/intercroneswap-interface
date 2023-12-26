@@ -42,7 +42,7 @@ const Menu = (props) => {
       }}
       bnbMenu={
         fetchStatus === FetchStatus.Fetched ? (
-          <Text style={{ marginRight: 10 }}>{formatBigNumber(balance, 6)} BNB</Text>
+          <Text style={{ marginRight: 10 }}>{formatBigNumber(balance, 6)} VC</Text>
         ) : (
           <></>
         )
@@ -62,7 +62,7 @@ const Menu = (props) => {
       footerLinks={footerLinks(t)}
       activeItem={activeMenuItem?.href}
       activeSubItem={activeSubMenuItem?.href}
-      buyCakeLabel={t('Buy CAKE')}
+      buyCakeLabel={t('Buy VC')}
       chainId={CHAIN_ID}
       {...props}
     />

@@ -30,8 +30,6 @@ import '../style/override.css'
 import '../style/responsive.css'
 import '../style/custom.scss'
 
-const EasterEgg = dynamic(() => import('components/EasterEgg'), { ssr: false })
-
 // This config is required for number formatting
 BigNumber.config({
   EXPONENTIAL_AT: 1000,
@@ -126,7 +124,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
           <Component {...pageProps} />
         </Layout>
       </Menu>
-      <EasterEgg iterations={2} />
       <ToastListener />
       <FixedSubgraphHealthIndicator />
     </ProductionErrorBoundary>

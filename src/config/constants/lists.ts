@@ -1,6 +1,6 @@
 const PANCAKE_EXTENDED = 'https://tokens.pancakeswap.finance/pancakeswap-extended.json'
 const PANCAKE_TOP100 = 'https://tokens.pancakeswap.finance/pancakeswap-top-100.json'
-const COINGECKO = 'https://tokens.pancakeswap.finance/coingecko.json'
+// const COINGECKO = 'https://tokens.pancakeswap.finance/coingecko.json'
 const ISWAP_DEFAULT_LIST =
   'https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/intercroneswap_default_bsc.json'
 
@@ -14,7 +14,7 @@ export const DEFAULT_LIST_OF_LISTS: string[] = [
   // COINGECKO,
   // PANCAKE_TOP100,
   // PANCAKE_EXTENDED,
-  //ISWAP_DEFAULT_LIST,
+  // ISWAP_DEFAULT_LIST,
   ...UNSUPPORTED_LIST_URLS, // need to load unsupported tokens as well
 ]
 

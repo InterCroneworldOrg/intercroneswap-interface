@@ -32,7 +32,7 @@ interface DetailsDropDownParams {
   totalStakedAmount: TokenAmount | undefined
 }
 
-const { usdt_t: BUSD } = tokens
+const { usdt: BUSD } = tokens
 
 export default function DetailsDropdown({
   stakingInfo,

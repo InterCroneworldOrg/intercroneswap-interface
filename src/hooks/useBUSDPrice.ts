@@ -6,7 +6,8 @@ import { multiplyPriceByAmount } from 'utils/prices'
 import { wrappedCurrency } from '../utils/wrappedCurrency'
 import { PairState, usePairs } from './usePairs'
 
-const { wbtt: WBNB, usdt_t, usdt_b } = tokens
+const { wvc: WBNB } = tokens
+const { usdt } = tokens
 
 /**
  * Returns the price in BUSD of the input currency
@@ -18,8 +19,8 @@ export default function useBUSDPrice(currency?: Currency): Price | undefined {
   const tokenPairs: [Currency | undefined, Currency | undefined][] = useMemo(
     () => [
       [chainId && wrapped && currencyEquals(WBNB, wrapped) ? undefined : currency, chainId ? WBNB : undefined],
-      [wrapped?.equals(usdt_t) ? undefined : wrapped, usdt_t],
-      [chainId ? WBNB : undefined, usdt_t],
+      [wrapped?.equals(usdt) ? undefined : wrapped, usdt],
+      [chainId ? WBNB : undefined, usdt],
     ],
     [chainId, currency, wrapped],
   )
@@ -33,13 +34,13 @@ export default function useBUSDPrice(currency?: Currency): Price | undefined {
     if (wrapped.equals(WBNB)) {
       if (busdPair) {
         const price = busdPair.priceOf(WBNB)
-        return new Price(currency, usdt_t, price.denominator, price.numerator)
+        return new Price(currency, usdt, price.denominator, price.numerator)
       }
       return undefined
     }
     // handle busd
-    if (wrapped.equals(usdt_t)) {
-      return new Price(usdt_t, usdt_t, '1', '1')
+    if (wrapped.equals(usdt)) {
+      return new Price(usdt, usdt, '1', '1')
     }
 
     const ethPairETHAmount = ethPair?.reserveOf(WBNB)
@@ -48,16 +49,16 @@ export default function useBUSDPrice(currency?: Currency): Price | undefined {
 
     // all other tokens
     // first try the busd pair
-    if (busdPairState === PairState.EXISTS && busdPair && busdPair.reserveOf(usdt_t).greaterThan(ethPairETHBUSDValue)) {
+    if (busdPairState === PairState.EXISTS && busdPair && busdPair.reserveOf(usdt).greaterThan(ethPairETHBUSDValue)) {
       const price = busdPair.priceOf(wrapped)
-      return new Price(currency, usdt_t, price.denominator, price.numerator)
+      return new Price(currency, usdt, price.denominator, price.numerator)
     }
     if (ethPairState === PairState.EXISTS && ethPair && busdEthPairState === PairState.EXISTS && busdEthPair) {
-      if (busdEthPair.reserveOf(usdt_t).greaterThan('0') && ethPair.reserveOf(WBNB).greaterThan('0')) {
-        const ethBusdPrice = busdEthPair.priceOf(usdt_t)
+      if (busdEthPair.reserveOf(usdt).greaterThan('0') && ethPair.reserveOf(WBNB).greaterThan('0')) {
+        const ethBusdPrice = busdEthPair.priceOf(usdt)
         const currencyEthPrice = ethPair.priceOf(WBNB)
         const busdPrice = ethBusdPrice.multiply(currencyEthPrice).invert()
-        return new Price(currency, usdt_t, busdPrice.denominator, busdPrice.numerator)
+        return new Price(currency, usdt, busdPrice.denominator, busdPrice.numerator)
       }
     }
 
@@ -75,8 +76,8 @@ export function useBUSDPriceB(currency?: Currency): Price | undefined {
   const tokenPairs: [Currency | undefined, Currency | undefined][] = useMemo(
     () => [
       [chainId && wrapped && currencyEquals(WBNB, wrapped) ? undefined : currency, chainId ? WBNB : undefined],
-      [wrapped?.equals(usdt_b) ? undefined : wrapped, usdt_b],
-      [chainId ? WBNB : undefined, usdt_b],
+      [wrapped?.equals(usdt) ? undefined : wrapped, usdt],
+      [chainId ? WBNB : undefined, usdt],
     ],
     [chainId, currency, wrapped],
   )
@@ -90,13 +91,13 @@ export function useBUSDPriceB(currency?: Currency): Price | undefined {
     if (wrapped.equals(WBNB)) {
       if (busdPair) {
         const price = busdPair.priceOf(WBNB)
-        return new Price(currency, usdt_b, price.denominator, price.numerator)
+        return new Price(currency, usdt, price.denominator, price.numerator)
       }
       return undefined
     }
     // handle busd
-    if (wrapped.equals(usdt_b)) {
-      return new Price(usdt_b, usdt_b, '1', '1')
+    if (wrapped.equals(usdt)) {
+      return new Price(usdt, usdt, '1', '1')
     }
 
     const ethPairETHAmount = ethPair?.reserveOf(WBNB)
@@ -105,16 +106,16 @@ export function useBUSDPriceB(currency?: Currency): Price | undefined {
 
     // all other tokens
     // first try the busd pair
-    if (busdPairState === PairState.EXISTS && busdPair && busdPair.reserveOf(usdt_b).greaterThan(ethPairETHBUSDValue)) {
+    if (busdPairState === PairState.EXISTS && busdPair && busdPair.reserveOf(usdt).greaterThan(ethPairETHBUSDValue)) {
       const price = busdPair.priceOf(wrapped)
-      return new Price(currency, usdt_b, price.denominator, price.numerator)
+      return new Price(currency, usdt, price.denominator, price.numerator)
     }
     if (ethPairState === PairState.EXISTS && ethPair && busdEthPairState === PairState.EXISTS && busdEthPair) {
-      if (busdEthPair.reserveOf(usdt_b).greaterThan('0') && ethPair.reserveOf(WBNB).greaterThan('0')) {
-        const ethBusdPrice = busdEthPair.priceOf(usdt_b)
+      if (busdEthPair.reserveOf(usdt).greaterThan('0') && ethPair.reserveOf(WBNB).greaterThan('0')) {
+        const ethBusdPrice = busdEthPair.priceOf(usdt)
         const currencyEthPrice = ethPair.priceOf(WBNB)
         const busdPrice = ethBusdPrice.multiply(currencyEthPrice).invert()
-        return new Price(currency, usdt_b, busdPrice.denominator, busdPrice.numerator)
+        return new Price(currency, usdt, busdPrice.denominator, busdPrice.numerator)
       }
     }
 
@@ -128,12 +129,12 @@ export const useCorrectBUSDPrice = (currency?: Currency): Price | undefined => {
 }
 
 export const useCakeBusdPrice = (): Price | undefined => {
-  const cakeBusdPrice = useBUSDPrice(tokens.cake)
+  const cakeBusdPrice = useBUSDPrice(tokens.wvc)
   return cakeBusdPrice
 }
 
 export const useIcrBusdPrice = (): Price | undefined => {
-  return useBUSDPrice(tokens.icr_t)
+  return useBUSDPrice(tokens.wvc)
 }
 
 export const useBUSDCurrencyAmount = (currency: Currency, amount: number): number | undefined => {
@@ -155,6 +156,6 @@ export const useBUSDCakeAmount = (amount: number): number | undefined => {
 }
 
 export const useBNBBusdPrice = (): Price | undefined => {
-  const bnbBusdPrice = useBUSDPrice(tokens.wbtt)
+  const bnbBusdPrice = useBUSDPrice(tokens.wvc)
   return bnbBusdPrice
 }

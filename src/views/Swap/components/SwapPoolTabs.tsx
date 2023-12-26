@@ -56,10 +56,10 @@ const StyledDisabledNavLink = styled.button`
   }
 `
 
-const ActiveText = styled.div`
-  font-weight: 500;
-  font-size: 20px;
-`
+// const ActiveText = styled.div`
+//   font-weight: 500;
+//   font-size: 20px;
+// `
 
 // const StyledTabLink = styled(StyledNavLink)<{ isActive: boolean }>`
 //   padding: 20px;

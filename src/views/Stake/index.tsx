@@ -1,14 +1,13 @@
 import { JSBI, TokenAmount } from '@intercroneswap/v2-sdk'
-import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
 import { orderBy } from 'lodash'
 import { KeyboardEvent, RefObject, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { isAddress } from 'utils'
 import { Text, Button, useModal } from '@pancakeswap/uikit'
 import styled, { ThemeContext } from 'styled-components'
-import { LightGreyCard, LightCard } from '../../components/Card'
 import { AutoColumn } from 'components/Layout/Column'
-import { CurrencyLogo, DoubleCurrencyLogo } from 'components/Logo'
+import { CurrencyLogo } from 'components/Logo'
+import { LightGreyCard, LightCard } from '../../components/Card'
 import tokens, { getTokensFromDefaults } from 'config/constants/tokens'
 import PoolCard from '../../components/earn/PoolCard'
 import { ResponsiveSizedTextMedium } from '../../components/earn/styleds'
@@ -21,13 +20,13 @@ import HarvestModal from './HarvestModal'
 import StakeModal from './StakeModal'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
 import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds'
-import { REWARDS_DURATION_DAYS, REWARDS_DURATION_DAYS_180, StakingRewardsInfo } from '../../state/stake/constants'
+import { StakingRewardsInfo } from '../../state/stake/constants'
 import { Form } from 'react-bootstrap'
 import { breakpointMap } from '../../../packages/uikit/src/theme/base'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 const ZERO = JSBI.BigInt(0)
-const { icr_t: ICR, usdt_t: BUSD } = tokens
+const { usdt: BUSD } = tokens
 
 let stakingInfosRaw: {
   [chainId: number]: {

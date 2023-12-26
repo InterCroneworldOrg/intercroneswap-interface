@@ -8,11 +8,11 @@ import getTokenLogoURL from './getTokenLogoURL'
 
 const NETWORK_CONFIG = {
   [ChainId.MAINNET]: {
-    name: 'BTTC Chain Mainnet',
+    name: 'VC Chain Mainnet',
     scanURL: BASE_BSC_SCAN_URLS[ChainId.MAINNET],
   },
   [ChainId.TESTNET]: {
-    name: 'BTTC Chain Testnet',
+    name: 'VC Chain Testnet',
     scanURL: BASE_BSC_SCAN_URLS[ChainId.TESTNET],
   },
 }
@@ -45,8 +45,8 @@ export const setupNetwork = async (externalProvider?: ExternalProvider) => {
                 chainId: `0x${chainId.toString(16)}`,
                 chainName: NETWORK_CONFIG[chainId].name,
                 nativeCurrency: {
-                  name: 'BNB',
-                  symbol: 'bnb',
+                  name: 'VC',
+                  symbol: 'vc',
                   decimals: 18,
                 },
                 rpcUrls: nodes,
@@ -63,7 +63,7 @@ export const setupNetwork = async (externalProvider?: ExternalProvider) => {
       return false
     }
   } else {
-    console.error("Can't setup the BSC network on metamask because window.ethereum is undefined")
+    console.error("Can't setup the VC network on metamask because window.ethereum is undefined")
     return false
   }
 }

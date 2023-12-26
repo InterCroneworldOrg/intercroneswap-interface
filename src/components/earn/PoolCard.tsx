@@ -30,7 +30,7 @@ import StyledChevronUp from '../Chevrons/ChevronUp'
 import StyledChevronDown from '../Chevrons/ChevronDown'
 import { breakpointMap } from '../../../packages/uikit/src/theme/base'
 
-const { usdt_t: BUSD } = tokens
+const { usdt: BUSD } = tokens
 
 const ZERO = JSBI.BigInt(0)
 

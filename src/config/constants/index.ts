@@ -3,7 +3,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { mainnetTokens, testnetTokens } from './tokens'
 
 export const ROUTER_ADDRESS = {
-  [ChainId.MAINNET]: '0xe8b5cf1324f0933fabbe940e30330ce34160eefb',
+  [ChainId.MAINNET]: '0x05Baa40a3A8C85C72d33C6DA0a16831eDC8E11d5',
   [ChainId.TESTNET]: '0xebbFC2bdd29935E57C411e1Ae3822f4Bf4E56c22',
 }
 
@@ -14,18 +14,8 @@ type ChainTokenList = {
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
-  [ChainId.MAINNET]: [
-    mainnetTokens.wbtt,
-    mainnetTokens.icr_t,
-    mainnetTokens.icr_b,
-    mainnetTokens.usdt_t,
-    mainnetTokens.usdt_b,
-    mainnetTokens.bnb,
-    mainnetTokens.btc_b,
-    mainnetTokens.tron,
-    mainnetTokens.eth,
-  ],
-  [ChainId.TESTNET]: [testnetTokens.wbnb, testnetTokens.icr, testnetTokens.busd],
+  [ChainId.MAINNET]: [mainnetTokens.wvc, mainnetTokens.usdt, mainnetTokens.btc, mainnetTokens.eth],
+  [ChainId.TESTNET]: [testnetTokens.wvc, testnetTokens.cht],
 }
 
 /**
@@ -47,20 +37,20 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
-  [ChainId.MAINNET]: [mainnetTokens.usdt_t, mainnetTokens.icr_t, mainnetTokens.btc_b],
-  [ChainId.TESTNET]: [testnetTokens.wbnb, testnetTokens.icr, testnetTokens.busd],
+  [ChainId.MAINNET]: [mainnetTokens.usdt, mainnetTokens.wvc, mainnetTokens.btc],
+  [ChainId.TESTNET]: [testnetTokens.wvc, testnetTokens.cht],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
-  [ChainId.MAINNET]: [mainnetTokens.wbtt, mainnetTokens.usdt_t],
-  [ChainId.TESTNET]: [testnetTokens.wbnb, testnetTokens.icr, testnetTokens.busd],
+  [ChainId.MAINNET]: [mainnetTokens.usdt, mainnetTokens.wvc, mainnetTokens.btc],
+  [ChainId.TESTNET]: [testnetTokens.wvc, testnetTokens.cht],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
   [ChainId.MAINNET]: [
-    [mainnetTokens.icr_t, mainnetTokens.wbtt],
-    [mainnetTokens.usdt_t, mainnetTokens.icr_t],
+    [mainnetTokens.wvc, mainnetTokens.btc],
+    [mainnetTokens.usdt, mainnetTokens.eth],
   ],
 }
 
@@ -101,10 +91,6 @@ export const BLOCKED_ADDRESSES: string[] = [
   '0x8576aCC5C05D6Ce88f4e49bf65BdF0C62F91353C',
 ]
 
-export { default as farmsConfig } from './farms'
-export { default as poolsConfig } from './pools'
-export { default as ifosConfig } from './ifo'
-
 export const FAST_INTERVAL = 10000
 export const SLOW_INTERVAL = 60000
 
@@ -117,5 +103,5 @@ export const GENERIC_GAS_LIMIT_ORDER_EXECUTION = BigNumber.from(500000)
 export const EXCHANGE_DOCS_URLS = 'https://docs.pancakeswap.finance/products/pancakeswap-exchange'
 export const LIMIT_ORDERS_DOCS_URL = 'https://docs.pancakeswap.finance/products/pancakeswap-exchange/limit-orders'
 
-export const ACTUAL_LAUCH_TOKEN: Token = mainnetTokens.prun
+export const ACTUAL_LAUCH_TOKEN: Token = mainnetTokens.eth
 export const LAUNCH_START_TIME: Date = new Date(1686240000000)
