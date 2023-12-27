@@ -6,7 +6,7 @@ export const StyledInput = styled.input<{ error?: boolean; fontSize?: string; al
   color: ${({ error, theme }) => (error ? theme.red1 : theme.text1)};
   width: 100%;
   // max-width: 195px;
-  height: 62px;
+  height: 50px;
   position: relative;
   font-weight: 500;
   outline: none;
@@ -18,7 +18,7 @@ export const StyledInput = styled.input<{ error?: boolean; fontSize?: string; al
   // background: #2B2626;
   box-shadow: inset 6px 10px 12px 197px rgba(255, 255, 255, 0.1);
   // filter: blur(0.4px);
-  font-size: ${({ fontSize }) => fontSize ?? '24px'};
+  font-size: ${({ fontSize }) => fontSize ?? '20px'};
   text-align: ${({ align }) => align && align};
   white-space: nowrap;
   overflow: hidden;

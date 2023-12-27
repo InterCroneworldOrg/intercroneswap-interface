@@ -209,7 +209,7 @@ export default function SettingsTab() {
       {open && (
         <MenuFlyout>
           <AutoColumn gap="md" style={{ padding: '1rem' }}>
-            <TYPE.white fontWeight={600} fontSize={14}>
+            <TYPE.white fontWeight={600} fontSize={12}>
               Transaction Settings
             </TYPE.white>
             <TransactionSettings
