@@ -10,14 +10,11 @@ import {
   getErc721CollectionContract,
 } from 'utils/contractHelpers'
 import { getMulticallAddress } from 'utils/addressHelpers'
-import { VaultKey } from 'state/types'
 import {
-  CakeVault,
   EnsPublicResolver,
   EnsRegistrar,
   Erc20,
   Erc20Bytes32,
-  IfoPool,
   Multicall,
   Weth,
   Cake,

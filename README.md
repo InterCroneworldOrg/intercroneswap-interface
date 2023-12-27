@@ -10,7 +10,8 @@ How to start
 </summary>
 
 ```sh
-yarn
+nvm use 16.02.2
+npm install
 ```
 
 start the development server
