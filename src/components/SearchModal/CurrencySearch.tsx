@@ -181,7 +181,7 @@ export function CurrencySearch({
 
       <div style={{ flex: '1' }}>
         <AutoSizer disableWidth>
-          {({ height }) => (
+          {({ height }: { height: number }) => (
             <CurrencyList
               height={height}
               showETH={showETH}
