@@ -24,19 +24,15 @@ interface tronWeb {
   };
   fullNode?: {
     chainType?: '';
-    host?: 'https://imba-exchange.co/lightnode';
+    host?: 'https://api.trongrid.io';
   };
 }
 interface Window {
-  // ethereum?: {
-  //   isMetaMask?: true
-  //   on?: (...args: any[]) => void
-  //   removeListener?: (...args: any[]) => void
-  // },
   ethereum?: Ethereum;
   tronWeb?: tronWeb;
-  web3?: {};
+  web3?: Record<string, unknown>; // or use 'unknown' depending on your intent
 }
+
 declare const __DEV__: boolean;
 declare module 'tronweb';
 declare module '@intercroneswap/java-tron-provider';
