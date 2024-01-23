@@ -17,7 +17,7 @@ import {
 } from './actions';
 
 // chunk calls so we do not exceed the gas limit
-const CALL_CHUNK_SIZE = 50;
+const CALL_CHUNK_SIZE = 10;
 
 /**
  * Fetches a chunk of calls, enforcing a minimum block number constraint

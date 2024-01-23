@@ -501,7 +501,6 @@ export default function Swap() {
         <div>
           <AdvancedSwapDetailsDropdown trade={trade} />
         </div>
-        
       </Container>
     </>
   );
