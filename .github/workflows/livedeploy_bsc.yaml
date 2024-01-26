@@ -1,6 +1,3 @@
-# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Deploy live Site bsc subdomain
 
 on:
@@ -33,12 +30,11 @@ jobs:
           ref: 'main-bsc'
           path: ${{env.BSC_WORK_PATH}}
 
-      - name: Setup Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+      - name: Setup Node.js manually
+        run: |
+          wget https://nodejs.org/dist/v16.0.0/node-v16.0.0-linux-x64.tar.xz
+          tar -xJf node-v16.0.0-linux-x64.tar.xz
+          export PATH=$PWD/node-v16.0.0-linux-x64/bin:$PATH
 
       - name: Install dependencies
         run: |
