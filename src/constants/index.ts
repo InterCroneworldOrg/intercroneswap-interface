@@ -3,17 +3,17 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 
 import { injected } from '../connectors';
 import { REWARDS_DURATION_DAYS_180 } from '../state/stake/constants';
-import { BTC, BTT, ETH, ICR, JM, MEOX, PLZ, USDC, USDD, USDJ, USDT, WIN } from './tokens';
+import { BTC, BTT, ETH, ICR, JM, MEOX, PLZ, USDC, USDD, USDJ, USDT, WIN, COME } from './tokens';
 
 export const ROUTER_ADDRESSES: { [chainId: number]: string } = {
   [ChainId.MAINNET]: '0x8E1D1D9B31A603B14A58B822B075050DDCED7E94',
-  [ChainId.NILE]: '',
-  [ChainId.SHASTA]: '0x5F887C70DF576B6CE9C3518A02E341F8BC1D0659',
+  //[ChainId.NILE]: '',
+  //[ChainId.SHASTA]: '0x5F887C70DF576B6CE9C3518A02E341F8BC1D0659',
 };
 export const REFERRAL_ADDRESSES: { [chainId: number]: string } = {
   [ChainId.MAINNET]: '0x64EEBBC12268328526B39712A5A836D2548CBFFA',
-  [ChainId.NILE]: '',
-  [ChainId.SHASTA]: '',
+  //[ChainId.NILE]: '',
+  //[ChainId.SHASTA]: '',
 };
 const chainId: number = parseInt(process.env.REACT_APP_CHAIN_ID ?? '11111');
 export const ROUTER_ADDRESS = ROUTER_ADDRESSES[chainId];
@@ -46,14 +46,15 @@ export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {
 
 const WETH_ONLY: ChainTokenList = {
   [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
-  [ChainId.NILE]: [WETH[ChainId.NILE]],
-  [ChainId.SHASTA]: [WETH[ChainId.SHASTA]],
+  //[ChainId.NILE]: [WETH[ChainId.NILE]],
+  //[ChainId.SHASTA]: [WETH[ChainId.SHASTA]],
+  [ChainId.TESTNET]: [],
 };
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], ICR, USDT, USDC, USDJ, USDD, BTC, ETH, BTT, MEOX, JM, WIN],
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], ICR, USDT, USDC, USDJ, USDD, BTC, ETH, BTT, MEOX, JM, WIN, COME],
 };
 
 /**
@@ -195,7 +196,9 @@ export const PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN: Percent = new Percent(JSBI.Bi
 export const BLOCKED_PRICE_IMPACT_NON_EXPERT: Percent = new Percent(JSBI.BigInt(1500), BIPS_BASE); // 15%
 
 // used to ensure the user doesn't send so much ETH so they end up with <.01
-export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(4)); // .01 ETH
+//export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(4)); // .01 ETH
+export const MIN_ETH: JSBI = JSBI.BigInt(0); // 0 TRX
+
 export const BETTER_TRADE_LINK_THRESHOLD = new Percent(JSBI.BigInt(75), JSBI.BigInt(10000));
 export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(JSBI.BigInt(50), BIPS_BASE);
 
