@@ -1,7 +1,7 @@
 import { JSBI, Price, Token, Percent } from '@intercroneswap/v2-sdk'
 import getRatePercentageDifference from './getRatePercentageDifference'
 
-const CAKE = new Token(56, '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82', 18, 'CAKE', 'PancakeSwap Token')
+const CAKE = new Token(56, '0x4f60Ad2c684296458b12053c0EF402e162971e00', 8, 'CAKE', 'PancakeSwap Token')
 const BUSD = new Token(56, '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 18, 'BUSD', 'Binance USD')
 const DOGE = new Token(56, '0xbA2aE424d960c26247Dd6c32edC70B295c744C43', 8, 'DOGE', 'Binance-Peg Dogecoin')
 

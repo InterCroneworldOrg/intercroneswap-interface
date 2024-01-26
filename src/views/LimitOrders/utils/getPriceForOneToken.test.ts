@@ -1,8 +1,8 @@
 import { JSBI, Token, TokenAmount } from '@intercroneswap/v2-sdk'
 import getPriceForOneToken from './getPriceForOneToken'
 
-const CAKE = new Token(56, '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82', 18, 'CAKE', 'PancakeSwap Token')
-const BUSD = new Token(56, '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 18, 'BUSD', 'Binance USD')
+const CAKE = new Token(56, '0x4f60Ad2c684296458b12053c0EF402e162971e00', 8, 'CAKE', 'PancakeSwap Token')
+const BUSD = new Token(56, '0x55d398326f99059fF775485246999027B3197955', 18, 'BUSD', 'Binance USD')
 const DOGE = new Token(56, '0xbA2aE424d960c26247Dd6c32edC70B295c744C43', 8, 'DOGE', 'Binance-Peg Dogecoin')
 
 const EIGHT_DECIMALS = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(8))

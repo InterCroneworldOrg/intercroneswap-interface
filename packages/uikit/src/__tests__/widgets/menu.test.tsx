@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
 import noop from "lodash/noop";
 import { BrowserRouter } from "react-router-dom";
@@ -38,13 +39,14 @@ it("renders correctly", () => {
         langs={langs}
         setLang={noop}
         currentLang="en-US"
-        cakePriceUsd={0.23158668932877668}
+        cakePriceUsd={0.02315866}
         links={menuConfig}
         subLinks={menuConfig[0].items as SubMenuItemsType[]}
         footerLinks={footerLinks}
         activeItem="Trade"
         activeSubItem="Exchange"
         buyCakeLabel="Buy CAKE"
+        chainId=""
       >
         body
       </Menu>

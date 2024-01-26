@@ -269,7 +269,7 @@ const Menu: React.FC<NavProps> = ({
               </NavDropdown> */}
                 </Nav>
                 <HeaderLinks id="conntbtn">
-                  {cakePriceUsd ? <CakePrice cakePriceUsd={cakePriceUsd} /> : null}
+                  {cakePriceUsd !== undefined && <CakePrice cakePriceUsd={cakePriceUsd} />}
                   <AccountElement style={{ pointerEvents: "auto" }}>{userMenu}</AccountElement>
                 </HeaderLinks>
               </Navbar.Collapse>

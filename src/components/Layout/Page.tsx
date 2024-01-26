@@ -32,6 +32,7 @@ export const PageMeta: React.FC<{ symbol?: string }> = ({ symbol }) => {
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
   let pageTitle = icrPriceUsdDisplay ? [title, icrPriceUsdDisplay].join(' - ') : title
   if (symbol) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     pageTitle = [symbol, title].join(' - ')
   }
 
