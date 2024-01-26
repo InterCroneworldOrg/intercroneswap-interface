@@ -30,11 +30,12 @@ jobs:
           ref: 'main-bsc'
           path: ${{env.BSC_WORK_PATH}}
 
-      - name: Setup Node.js manually
-        run: |
-          wget https://nodejs.org/dist/v16.0.0/node-v16.0.0-linux-x64.tar.xz
-          tar -xJf node-v16.0.0-linux-x64.tar.xz
-          export PATH=$PWD/node-v16.0.0-linux-x64/bin:$PATH
+      - name: Setup Node.js with actions/setup-node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
 
       - name: Install dependencies
         run: |
