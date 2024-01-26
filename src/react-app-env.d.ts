@@ -24,7 +24,7 @@ interface tronWeb {
   };
   fullNode?: {
     chainType?: '';
-    host?: 'https://imba-exchange.co/lightnode';
+    host?: 'https://lightnode.intercroneswap.com/';
   };
 }
 interface Window {

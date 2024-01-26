@@ -12,7 +12,7 @@ export const BodyWrapper = styled.div`
   //   0px 24px 32px rgba(0, 0, 0, 0.01);
   box-shadow: 0px 2px 26px rgba(0, 0, 0, 0.15);
   border-radius: 16px;
-  padding: 30px;
+  padding: 10px;
   // padding: 1rem;
   // margin: 64px auto;
   overflow: hidden;
