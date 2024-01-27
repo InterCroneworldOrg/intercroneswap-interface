@@ -12,7 +12,6 @@ interface Ethereum {
   on?: (method: string, listener: (...args: any[]) => void) => void;
   removeListener?: (method: string, listener: (...args: any[]) => void) => void;
 }
-
 interface tronWeb {
   send: unknown;
   enable: () => Promise<string[]>;
@@ -28,13 +27,16 @@ interface tronWeb {
     host?: 'https://api.trongrid.io';
   };
 }
-
 interface Window {
+  // ethereum?: {
+  //   isMetaMask?: true
+  //   on?: (...args: any[]) => void
+  //   removeListener?: (...args: any[]) => void
+  // },
   ethereum?: Ethereum;
   tronWeb?: tronWeb;
   web3?: {};
 }
-
 declare const __DEV__: boolean;
 declare module 'tronweb';
 declare module '@intercroneswap/java-tron-provider';
@@ -48,16 +50,3 @@ declare module 'multihashes' {
   declare function decode(buff: Uint8Array): { code: number; name: string; length: number; digest: Uint8Array };
   declare function toB58String(hash: Uint8Array): string;
 }
-
-import * as TronWebModule from 'tronweb';
-
-const tronWebInstance = new TronWebModule({
-  fullNode: {
-    host: 'https://api.trongrid.io',
-  },
-  headers: { 'TRON-PRO-API-KEY': 'e15544ca-e0b1-418f-bd68-5fdfc41c9ce0' },
-});
-
-tronWebInstance.enable().then((addresses) => {
-  console.log('TronLink enabled with addresses:', addresses);
-});
