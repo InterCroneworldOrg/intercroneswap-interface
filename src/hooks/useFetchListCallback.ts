@@ -34,6 +34,10 @@ export function useFetchListCallback(): (listUrl: string) => Promise<TokenList> 
     async (listUrl: string) => {
       const requestId = nanoid();
       dispatch(fetchTokenList.pending({ requestId, url: listUrl }));
+
+      // Füge hier die Verzögerung hinzu (z.B., 500 Millisekunden)
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+
       return getTokenList(listUrl, ensResolver)
         .then((tokenList) => {
           dispatch(fetchTokenList.fulfilled({ url: listUrl, tokenList, requestId }));

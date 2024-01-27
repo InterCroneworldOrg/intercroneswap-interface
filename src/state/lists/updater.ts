@@ -25,18 +25,18 @@ export default function Updater(): null {
     if (!isWindowVisible) return;
 
     const urls = Object.keys(lists);
-    const maxRequestsPerSecond = 3;
-    const delayBetweenRequests = 1000 / maxRequestsPerSecond; // Verzögerung in Millisekunden
+    const delayBetweenRequests = 5000; // Verzögerung in Millisekunden
 
-    const fetchDataWithDelay = async (url: string, index: number) => {
-      await new Promise((resolve) => setTimeout(resolve, index * delayBetweenRequests));
+    const fetchDataWithDelay = async (url: string) => {
+      await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
       fetchList(url).catch((error) => console.debug('interval list fetching error', error));
     };
 
-    urls.forEach((url, index) => fetchDataWithDelay(url, index));
+    urls.forEach((url) => fetchDataWithDelay(url));
   }, [fetchList, isWindowVisible, lists]);
 
-  useInterval(fetchAllListsCallback, library ? 1000 : null);
+  // fetch all lists every 10 minutes, but only after we initialize library
+  useInterval(fetchAllListsCallback, library ? 1000 * 60 * 10 : null);
 
   // whenever a list is not loaded and not loading, try again to load it
   useEffect(() => {
@@ -44,7 +44,10 @@ export default function Updater(): null {
       const list = lists[listUrl];
 
       if (!list.current && !list.loadingRequestId && !list.error) {
-        fetchList(listUrl).catch((error) => console.debug('list added fetching error', error));
+        const delay = 500; // Verzögerung in Millisekunden
+        setTimeout(() => {
+          fetchList(listUrl).catch((error) => console.debug('list added fetching error', error));
+        }, delay);
       }
     });
   }, [dispatch, fetchList, library, lists]);

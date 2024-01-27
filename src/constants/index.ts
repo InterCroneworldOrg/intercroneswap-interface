@@ -201,7 +201,7 @@ export const MIN_ETH: JSBI = JSBI.BigInt(0); // 0 TRX
 export const BETTER_TRADE_LINK_THRESHOLD = new Percent(JSBI.BigInt(75), JSBI.BigInt(10000));
 export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(JSBI.BigInt(50), BIPS_BASE);
 
-export const BACKEND_URL = 'https://apiv2.intercroneswap.com';
+export const BACKEND_URL = 'https://api.intercroneswap.com';
 // export const BACKEND_URL = 'http://localhost:8080';
 
 export const EARNING_CONTRACT = '0x01c49a17c2470ae3bd85412811f3dfeadde174a0';
