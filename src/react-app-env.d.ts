@@ -24,7 +24,7 @@ interface tronWeb {
   };
   fullNode?: {
     chainType?: '';
-    host?: 'https://api.trongrid.io';
+    host?: 'https://lightnode.intercroneswap.com';
   };
 }
 interface Window {
