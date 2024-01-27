@@ -13,7 +13,6 @@ import ENS_PUBLIC_RESOLVER_ABI from '../constants/abis/ens-public-resolver.json'
 import ENS_ABI from '../constants/abis/ens-registrar.json';
 import { ERC20_BYTES32_ABI } from '../constants/abis/erc20';
 import ERC20_ABI from '../constants/abis/erc20.json';
-import { MIGRATOR_ABI, MIGRATOR_ADDRESS } from '../constants/abis/migrator';
 import WETH_ABI from '../constants/abis/weth.json';
 import { MULTICALL_ABI, MULTICALL_NETWORKS } from '../constants/multicall';
 import { V_EXCHANGE_ABI, V_FACTORY_ABI, V_FACTORY_ADDRESSES } from '../constants/v';
@@ -39,11 +38,6 @@ export function useVFactoryContract(): Contract | null {
   const { chainId } = useActiveWeb3React();
   return useContract(chainId && V_FACTORY_ADDRESSES[chainId], V_FACTORY_ABI, false);
 }
-
-export function useV1MigratorContract(): Contract | null {
-  return useContract(MIGRATOR_ADDRESS, MIGRATOR_ABI, true);
-}
-
 export function useVExchangeContract(address?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(address, V_EXCHANGE_ABI, withSignerIfPossible);
 }

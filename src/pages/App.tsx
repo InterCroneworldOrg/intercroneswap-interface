@@ -14,7 +14,7 @@ import {
   RedirectOldAddLiquidityPathStructure,
   RedirectToAddLiquidity,
 } from './AddLiquidity/redirects';
-import { VoteComingSoon } from './Vote/vote';
+// import { VoteComingSoon } from './Vote/vote';
 import Pool from './Pool';
 import Stake from './Stake';
 import PoolFinder from './PoolFinder';
@@ -31,8 +31,6 @@ import { RedirectToReferal } from './Stake/redirects';
 import { isMobile } from '../theme';
 import Markets from './Markets';
 import { Management } from './NFT/management';
-import { AbitrageBots } from './Abitrage';
-import LaunchPad from './LaunchPad';
 
 const AppWrapper = styled.div`
   display: flex;
@@ -121,12 +119,9 @@ export default function App() {
             <Switch>
               <Route exact strict path="/" component={Swap} />
               <Route exact strict path="/swap" component={Swap} />
-              <Route exact strict path="/launchPad" component={LaunchPad} />
               <Route exact strict path="/nft" component={NFT} />
               <Route exact strict path="/nft/management" component={Management} />
-              <Route exact strict path="/abitrage" component={AbitrageBots} />
               <Route exact strict path="/mint" component={Mint} />
-              <Route exact strict path="/dashboard" component={Sample} />
               <Route exact strict path="/audit" component={Sample} />
               <Route exact strict path="/white-paper" component={Sample} />
               <Route exact strict path="/faq" component={Sample} />
@@ -141,7 +136,6 @@ export default function App() {
               <Route exact strict path="/stake/:referal" component={RedirectToReferal} />
               <Route exact strict path="/markets" component={Markets} />
               <Route exact strict path="/markets/:page" component={Markets} />
-              <Route exact strict path="/votepage" component={VoteComingSoon} />
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
               <Route exact path="/add" component={AddLiquidity} />
               <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />

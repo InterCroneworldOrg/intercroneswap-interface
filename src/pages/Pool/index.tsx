@@ -210,16 +210,16 @@ export default function Pool() {
                   <Button>Import</Button>
                 </StyledInternalLink>
               </AutoRow>
-              <AutoRow justify="center" gap="1rem" className="hideinmobile">
+              {/* <AutoRow justify="center" gap="1rem" className="hideinmobile">
                 <TYPE.white fontSize="2rem">My total value locked</TYPE.white>
                 <TYPE.yellow fontSize="2rem">{23}</TYPE.yellow>
-              </AutoRow>
-              <div className="hideindesktop" id="lpv">
+              </AutoRow> */}
+              {/* <div className="hideindesktop" id="lpv">
                 <p>Your liquidity</p>
                 <p className="lockedvalue hideindesktop">
                   Total Locked: <span className="lockval hideindesktop">{23}</span>
                 </p>
-              </div>
+              </div> */}
             </AutoColumn>
           )}
           <AutoColumn gap="lg" justify="center">

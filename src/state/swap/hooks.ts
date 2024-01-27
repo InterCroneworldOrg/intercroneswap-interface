@@ -18,7 +18,7 @@ import { SwapState } from './reducer';
 import useToggledVersion from '../../hooks/useToggledVersion';
 import { useUserSlippageTolerance } from '../user/hooks';
 import { computeSlippageAdjustedAmounts } from '../../utils/prices';
-import { ACTUAL_LAUCH_TOKEN } from '../../constants';
+// import { ACTUAL_LAUCH_TOKEN } from '../../constants';
 
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>((state) => state.swap);
@@ -271,34 +271,6 @@ export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
     independentField: parseIndependentFieldURLParameter(parsedQs.exactField),
     recipient,
   };
-}
-
-export function useDefaultsForLaunchPad():
-  | { inputCurrencyId: string | undefined; outputCurrencyId: string | undefined }
-  | undefined {
-  const { chainId } = useActiveWeb3React();
-  const dispatch = useDispatch<AppDispatch>();
-  const [result, setResult] = useState<
-    { inputCurrencyId: string | undefined; outputCurrencyId: string | undefined } | undefined
-  >();
-  useEffect(() => {
-    if (!chainId) return;
-
-    dispatch(
-      replaceSwapState({
-        typedValue: '',
-        field: Field.INPUT,
-        inputCurrencyId: 'TRX',
-        outputCurrencyId: ACTUAL_LAUCH_TOKEN.address,
-        recipient: null,
-      }),
-    );
-
-    setResult({ inputCurrencyId: 'TRX', outputCurrencyId: ACTUAL_LAUCH_TOKEN.address });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, chainId]);
-
-  return result;
 }
 
 // updates the swap state to use the defaults for a given network

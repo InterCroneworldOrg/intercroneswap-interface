@@ -146,12 +146,6 @@ export default function Header() {
         <Link to="/stake" className={`${Style.link} nav-link`}>
           Staking
         </Link>
-        <Link to="/launchPad" className={`${Style.link} nav-link`}>
-          🔥 LaunchPad
-        </Link>
-        <Link to="/abitrage" className={`${Style.link} nav-link`}>
-          🤖 Abitrage
-        </Link>
         <Link to="/markets" className={`${Style.link} nav-link`}>
           🔥 Markets
         </Link>

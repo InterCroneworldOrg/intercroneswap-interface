@@ -23,10 +23,13 @@ interface tronWeb {
     base58?: '';
   };
   fullNode?: {
-    chainType?: '';
-    host?: 'https://api.trongrid.io';
+    chainType?: '11111';
+    fullHost: 'https://api.trongrid.io';
+    headers: { 'TRON-PRO-API-KEY': 'your api key' };
+    privateKey: 'e15544ca-e0b1-418f-bd68-5fdfc41c9ce0';
   };
 }
+
 interface Window {
   // ethereum?: {
   //   isMetaMask?: true
