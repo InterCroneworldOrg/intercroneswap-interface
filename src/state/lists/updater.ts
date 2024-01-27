@@ -23,13 +23,20 @@ export default function Updater(): null {
 
   const fetchAllListsCallback = useCallback(() => {
     if (!isWindowVisible) return;
-    Object.keys(lists).forEach((url) =>
-      fetchList(url).catch((error) => console.debug('interval list fetching error', error)),
-    );
+
+    const urls = Object.keys(lists);
+    const maxRequestsPerSecond = 3;
+    const delayBetweenRequests = 1000 / maxRequestsPerSecond; // Verzögerung in Millisekunden
+
+    const fetchDataWithDelay = async (url: string, index: number) => {
+      await new Promise((resolve) => setTimeout(resolve, index * delayBetweenRequests));
+      fetchList(url).catch((error) => console.debug('interval list fetching error', error));
+    };
+
+    urls.forEach((url, index) => fetchDataWithDelay(url, index));
   }, [fetchList, isWindowVisible, lists]);
 
-  // fetch all lists every 10 minutes, but only after we initialize library
-  useInterval(fetchAllListsCallback, library ? 1000 * 60 * 10 : null);
+  useInterval(fetchAllListsCallback, library ? 1000 : null);
 
   // whenever a list is not loaded and not loading, try again to load it
   useEffect(() => {
