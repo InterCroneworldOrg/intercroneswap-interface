@@ -5,6 +5,7 @@ const app = express();
 const port = process.env.PORT || 3000; // Heroku will need the PORT environment variable
 
 app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'max-age=3600, must-revalidate');
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');

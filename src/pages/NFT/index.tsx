@@ -168,16 +168,16 @@ const NFT: React.FC = () => {
         <div className="joincom">
           <h2>Join our Community</h2>
           <SocialIconWrapper>
-            <MenuItem id="link" href="https://twitter.com/IntercroneWorld">
+            <MenuItem id="twitterLink" href="https://twitter.com/IntercroneWorld">
               <img src={Twitter} alt="" />
             </MenuItem>
-            <MenuItem id="link" href="https://www.instagram.com/intercrone">
+            <MenuItem id="iglink" href="https://www.instagram.com/intercrone">
               <img src={Instagram} alt="" />
             </MenuItem>
-            <MenuItem id="link" href="https://www.facebook.com/InterCrone">
+            <MenuItem id="fblink" href="https://www.facebook.com/InterCrone">
               <img src={Facebook} alt="" />
             </MenuItem>
-            <MenuItem id="link" href="https://t.me/intercroneworld">
+            <MenuItem id="tglink" href="https://t.me/intercroneworld">
               <img src={Telegram} alt="" />
             </MenuItem>
           </SocialIconWrapper>

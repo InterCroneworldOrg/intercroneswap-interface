@@ -131,27 +131,27 @@ export default function Menu() {
             <Activity size={14} />
             TRADING
           </MenuItem> */}
-          <MenuItem id="link" href="https://t.me/intercroneworld">
+          <MenuItem id="tglink" href="https://t.me/intercroneworld">
             <Send size={14} />
             Telegram
           </MenuItem>
-          <MenuItem id="link" href="https://www.facebook.com/InterCrone">
+          <MenuItem id="fblink" href="https://www.facebook.com/InterCrone">
             <Facebook size={14} />
             Facebook
           </MenuItem>
-          <MenuItem id="link" href="https://twitter.com/IntercroneWorld">
+          <MenuItem id="twLink" href="https://twitter.com/IntercroneWorld">
             <Twitter size={14} />
             Twitter
           </MenuItem>
-          <MenuItem id="link" href="https://www.youtube.com/c/InterCroneWorld">
+          <MenuItem id="ytlink" href="https://www.youtube.com/c/InterCroneWorld">
             <Youtube size={14} />
             Youtube
           </MenuItem>
-          <MenuItem id="link" href="https://www.instagram.com/intercrone">
+          <MenuItem id="iglink" href="https://www.instagram.com/intercrone">
             <Instagram size={14} />
             Instagram
           </MenuItem>
-          <MenuItem id="link" href="https://docs.intercroneswap.finance">
+          <MenuItem id="doclink" href="https://docs.intercroneswap.finance">
             <Info size={14} />
             FAQs
           </MenuItem>
