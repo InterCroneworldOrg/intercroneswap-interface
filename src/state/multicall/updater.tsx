@@ -17,8 +17,8 @@ import {
 } from './actions';
 
 // chunk calls so we do not exceed the gas limit
-const CALL_CHUNK_SIZE = 1;
-const BACKOFF_TIMEOUT = 50000;
+const CALL_CHUNK_SIZE = 2;
+const BACKOFF_TIMEOUT = 5000;
 
 /**
  * Fetches a chunk of calls, enforcing a minimum block number constraint
