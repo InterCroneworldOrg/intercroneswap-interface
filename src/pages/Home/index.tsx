@@ -320,7 +320,7 @@ const Home = () => {
         <Row>
           <Col md={4}>
             <Col md={12} className={Styles.box}>
-              <img src={TRXLogo} className={Styles.icon} />
+              <img src={TRXLogo} className={Styles.icon} alt="trx Logo" />
               <BoxContent>TRX Blockchain</BoxContent>
               <YellowBox>
                 <YellowBoxContent>Active</YellowBoxContent>
@@ -329,7 +329,7 @@ const Home = () => {
           </Col>
           <Col md={4}>
             <Col md={12} className={Styles.box}>
-              <img src={BSCLogo} className={Styles.icon} />
+              <img src={BSCLogo} className={Styles.icon} alt="BSC Logo" />
               <BoxContent>BSC Blockchain</BoxContent>
               <YellowBox
                 style={{
@@ -342,7 +342,7 @@ const Home = () => {
           </Col>
           <Col md={4}>
             <Col md={12} className={Styles.box}>
-              <img src={BTTLogo} className={Styles.icon} />
+              <img src={BTTLogo} className={Styles.icon} alt="BTT Logo" />
               <BoxContent>BTT Blockchain</BoxContent>
               <YellowBox
                 style={{
@@ -360,7 +360,7 @@ const Home = () => {
         <Container>
           <Row>
             <Col md={4}>
-              <img className={Styles.imagestyle} style={{ width: '100%' }} src={Beaver} />
+              <img className={Styles.imagestyle} style={{ width: '100%' }} src={Beaver} alt="InterCrone" />
             </Col>
             <Col md={8}>
               <DefiDescriptionsBox>
@@ -380,13 +380,13 @@ const Home = () => {
             <CommunityTextBox>
               <CommunityText>Join our Intercrone and Quokka Community</CommunityText>
               <SocialIcons>
-                <img src={Send} />
-                <img src={Twitter} />
-                <img src={Facebook} />
-                <img src={Instagram} />
+                <img src={Send} alt="Twitter Logo" />
+                <img src={Twitter} alt="Twitter Logo" />
+                <img src={Facebook} alt="" />
+                <img src={Instagram} alt="" />
               </SocialIcons>
             </CommunityTextBox>
-            <img className={Styles.chessicon} src={Communitychessicon} />
+            <img className={Styles.chessicon} src={Communitychessicon} alt="" />
           </Row>
         </Container>
       </CommunityBox>
