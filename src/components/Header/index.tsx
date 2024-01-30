@@ -147,7 +147,7 @@ export default function Header() {
           Staking
         </Link>
         <Link to="/markets" className={`${Style.link} nav-link`}>
-          🔥 Markets
+          Markets
         </Link>
         <Link to="/nft" className={`${Style.link} nav-link`}>
           NFT
