@@ -231,7 +231,7 @@ export default function RemoveLiquidity({
     if (approval === ApprovalState.APPROVED) {
       // removeLiquidityETH
       if (oneCurrencyIsETH) {
-        methodNames = ['removeLiquidityTRX', 'removeLiquidityTRXSupportingFeeOnTransferTokens'];
+        methodNames = ['removeLiquidityVC', 'removeLiquidityVCSupportingFeeOnTransferTokens'];
         args = [
           currencyBIsETH ? tokenA.address : tokenB.address,
           liquidityAmount.raw.toString(),
@@ -617,15 +617,15 @@ export default function RemoveLiquidity({
                           currencyB === ETHER ? WETH[chainId].address : currencyIdB
                         }`}
                       >
-                        <TYPE.white color={theme.primary3}> Receive WTRX</TYPE.white>
+                        <TYPE.white color={theme.primary3}> Receive WVC</TYPE.white>
                       </StyledInternalLink>
                     ) : oneCurrencyIsWETH ? (
                       <StyledInternalLink
-                        to={`/remove/${currencyA && currencyEquals(currencyA, WETH[chainId]) ? 'TRX' : currencyIdA}/${
-                          currencyB && currencyEquals(currencyB, WETH[chainId]) ? 'TRX' : currencyIdB
+                        to={`/remove/${currencyA && currencyEquals(currencyA, WETH[chainId]) ? 'VC' : currencyIdA}/${
+                          currencyB && currencyEquals(currencyB, WETH[chainId]) ? 'VC' : currencyIdB
                         }`}
                       >
-                        <TYPE.white color={theme.primary3}>Receive TRX</TYPE.white>
+                        <TYPE.white color={theme.primary3}>Receive VC</TYPE.white>
                       </StyledInternalLink>
                     ) : null}
                   </RowBetween>

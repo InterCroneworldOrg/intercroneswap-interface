@@ -145,8 +145,8 @@ export default function AddLiquidity({
       value: BigNumber | null;
     if (currencyA === ETHER || currencyB === ETHER) {
       const tokenBIsETH = currencyB === ETHER;
-      estimate = router.estimateGas.addLiquidityTRX;
-      method = router.addLiquidityTRX;
+      estimate = router.estimateGas.addLiquidityVC;
+      method = router.addLiquidityVC;
       args = [
         wrappedCurrency(tokenBIsETH ? currencyA : currencyB, chainId)?.address ?? '', // token
         (tokenBIsETH ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
@@ -319,7 +319,7 @@ export default function AddLiquidity({
           history.push(`/add/${newCurrencyIdB}`);
         }
       } else {
-        history.push(`/add/${currencyIdA ? currencyIdA : 'TRX'}/${newCurrencyIdB}`);
+        history.push(`/add/${currencyIdA ? currencyIdA : 'VC'}/${newCurrencyIdB}`);
       }
     },
     [currencyIdA, history, currencyIdB],

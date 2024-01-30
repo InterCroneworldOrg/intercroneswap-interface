@@ -25,6 +25,12 @@ export default function Blockchains() {
           <img width={25} src={BSCLogo} alt="" />
         </span>
       </ExternalLink>
+      <ExternalLink href="https://vinu.intercroneswap.com/" className="vinulogo">
+        <span>VINU</span>
+        <span>
+          <img width={25} src={BSCLogo} alt="TODO VINU" />
+        </span>
+      </ExternalLink>
     </>
   );
 }
@@ -53,6 +59,14 @@ export function FooterBlockchains() {
           <span>BTT</span>
           <span>
             <img width={25} src={BTTLogo} alt="" />
+          </span>
+        </ExternalLink>
+      </li>
+      <li>
+        <ExternalLink href="https://vinu.intercroneswap.com/" className={`vinulogo ${Style.link} nav-link `}>
+          <span>VINU</span>
+          <span>
+            <img width={25} src={BTTLogo} alt="TODO VINU" />
           </span>
         </ExternalLink>
       </li>

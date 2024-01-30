@@ -203,7 +203,7 @@ export default function Pool() {
           ) : (
             <AutoColumn>
               <AutoRow gap={'20px'} style={{ margin: 0 }} justify="space-between" id="liqimp">
-                <StyledInternalLink to="/add/TRX" style={{ flexGrow: 1, width: 'auto' }}>
+                <StyledInternalLink to="/add/VC" style={{ flexGrow: 1, width: 'auto' }}>
                   <Button>Add Liquidity</Button>
                 </StyledInternalLink>
                 <StyledInternalLink style={{ flexGrow: 1, width: 'auto' }} to="/find">
@@ -232,10 +232,10 @@ export default function Pool() {
                     </TYPE.mediumHeader>
                   </HideSmall>
                   <ButtonRow style={{ display: 'none' }}>
-                    <ResponsiveButtonSecondary as={Link} padding="6px 8px" to="/create/TRX">
+                    <ResponsiveButtonSecondary as={Link} padding="6px 8px" to="/create/VC">
                       Create a pair
                     </ResponsiveButtonSecondary>
-                    <ResponsiveButtonPrimary id="join-pool-button" as={Link} padding="6px 8px" to="/add/TRX">
+                    <ResponsiveButtonPrimary id="join-pool-button" as={Link} padding="6px 8px" to="/add/VC">
                       <TYPE.white fontWeight={500} fontSize={16}>
                         Add Liquidity
                       </TYPE.white>

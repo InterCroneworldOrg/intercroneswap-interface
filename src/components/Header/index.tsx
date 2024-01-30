@@ -114,9 +114,9 @@ export default function Header() {
     return (
       <>
         <div className="tokenname">
-          <span>TRX</span>
+          <span>VINU</span>
           <span style={{ width: '30px', marginLeft: '7px' }}>
-            <img src={EthLogo} alt="" />
+            <img src={EthLogo} alt="TODO VINU" />
             <span onClick={changeDropMenu}>
               <img className={Style.droparrow} width={12} src={dropshow ? uparrow : downarrow} alt="" />
             </span>

@@ -16,7 +16,8 @@ import { ResponsiveSizedTextMedium } from '../../components/earn/styleds';
 import { AutoRow, RowBetween } from '../../components/Row';
 import { SearchInput } from '../../components/SearchModal/styleds';
 import { Dots } from '../../components/swap/styleds';
-import { USDT, getTokensFromDefaults, ICR, fetchTokens } from '../../constants/tokens';
+import { USDT, getTokensFromDefaults, VINU, fetchTokens } from '../../constants/tokens';
+// import { USDT, getTokensFromDefaults, ICR, fetchTokens } from '../../constants/tokens';
 import { useActiveWeb3React } from '../../hooks';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import { StakingInfo, useStakeActionHandlers, useStakingInfo } from '../../state/stake/hooks';
@@ -408,7 +409,7 @@ export default function Stake({
           {isMobile ? (
             <ButtonSecondary width={'45%'} justifySelf="start" onClick={() => setToggleToken(!toggleToken)}>
               <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
-              <CurrencyLogo currency={toggleToken ? ICR : USDT} style={{ marginLeft: '1rem' }} />
+              <CurrencyLogo currency={toggleToken ? VINU : USDT} style={{ marginLeft: '1rem' }} />
             </ButtonSecondary>
           ) : (
             <div />
@@ -478,7 +479,7 @@ export default function Stake({
                   <AutoRow>
                     <ButtonSecondary width={'15rem'} onClick={() => setToggleToken(!toggleToken)}>
                       <ResponsiveSizedTextMedium>Token Value</ResponsiveSizedTextMedium>
-                      <CurrencyLogo currency={toggleToken ? ICR : USDT} style={{ marginLeft: '1rem' }} />
+                      <CurrencyLogo currency={toggleToken ? VINU : USDT} style={{ marginLeft: '1rem' }} />
                     </ButtonSecondary>
                   </AutoRow>
                 )}

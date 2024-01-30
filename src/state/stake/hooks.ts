@@ -5,7 +5,8 @@ import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, AppState } from '..';
-import { getTokenByAddress, ICR } from '../../constants/tokens';
+import { getTokenByAddress, VINU } from '../../constants/tokens';
+// import { getTokenByAddress, ICR } from '../../constants/tokens';
 import { useActiveWeb3React } from '../../hooks';
 import { useStakingContract } from '../../hooks/useContract';
 import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp';
@@ -276,7 +277,7 @@ export function useStakingInfo(stakingRewardsInfos: StakingRewardsInfo[], pairTo
     rewardsDurations,
     rewardsAddresses,
     totalSupplies,
-    ICR,
+    VINU,
   ]);
 }
 
@@ -287,8 +288,8 @@ export function useTotalIcrEarned(): TokenAmount | undefined {
     return (
       stakingInfos?.reduce(
         (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
-        new TokenAmount(ICR, '0'),
-      ) ?? new TokenAmount(ICR, '0')
+        new TokenAmount(VINU, '0'),
+      ) ?? new TokenAmount(VINU, '0')
     );
   }, [stakingInfos]);
 }

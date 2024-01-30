@@ -1,11 +1,11 @@
 import { TokenList } from '@intercroneswap/token-lists';
 import { ethAddress } from '@intercroneswap/java-tron-provider';
-import { PLZ } from '../constants/tokens';
+import { VINU } from '../constants/tokens';
 
 const coinTopFormats = ['png', 'jpeg', 'jpg'];
 
 export const getTokenLogoURL = (address: string, allTokens: TokenList[]): string[] => {
-  if (address.toLocaleLowerCase() === PLZ.address.toLowerCase())
+  if (address.toLocaleLowerCase() === VINU.address.toLowerCase())
     return [
       'https://static.tronscan.org/production/upload/logo/new/TYK71t3eD1pTxpkDp7gbqXM5DYfaVdfKjV.png?t=1668077389818',
     ];

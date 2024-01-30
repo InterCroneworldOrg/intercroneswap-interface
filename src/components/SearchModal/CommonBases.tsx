@@ -52,7 +52,7 @@ export default function CommonBases({
         >
           <CurrencyLogo currency={ETHER} style={{ marginRight: 8 }} />
           <TYPE.white fontWeight={500} fontSize={16}>
-            TRX
+            VC
           </TYPE.white>
         </BaseWrapper>
         {(chainId ? SUGGESTED_BASES[chainId] : []).map((token: Token) => {

@@ -1,9 +1,9 @@
-# ISwap Interface
+# InterCrone Swap Interface
 
-An open source interface for ISwap -- a protocol for decentralized exchange of Ethereum tokens.
+An open source interface to Swap Vinu Chain tokens.
 
 - Website: [InterCroneswap.com](https://intercroneswap.com)
-- Interface: [TRX.Iswap](https://trx.intercroneswap.com)
+- Interface: [Vinu.Iswap](https://vinu.intercroneswap.com)
 - Docs: [ISwap/docs/](https://docs.intercroneswap.finance)
 - Reddit: [/r/]()
 - Email: [office@intercroneswap.com](mailto:office@intercroneswap.com)
@@ -42,8 +42,8 @@ To have the interface default to a different network when a wallet is not connec
 2. Change `REACT_APP_NETWORK_ID` to `"{YOUR_NETWORK_ID}"`
 3. Change `REACT_APP_NETWORK_URL` to e.g. `"https://{YOUR_NETWORK_ID}.infura.io/v3/{YOUR_INFURA_KEY}"`
 
-Note that the interface only works on testnets where both
-[ISwap V1](https://intercroneswap.com/docs/v1/smart-contracts/factory/) and
+Note that the interface only works on VinuChain where both
+[ISwap V2](https://docs.intercroneswap.finance/security/contracts) and
 [multicall](https://github.com/makerdao/multicall) are deployed.
 The interface will not work on other networks.
 

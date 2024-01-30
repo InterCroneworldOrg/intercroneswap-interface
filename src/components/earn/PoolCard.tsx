@@ -62,7 +62,7 @@ export default function PoolCard({
   const USDPrice = useUSDTPrice(token0);
   const USDPriceBackup = useUSDTPrice(token1);
   const earnedUSDPrice = useUSDTPrice(stakingInfo.earnedAmount.token);
-  // const USDPriceTRX = useUSDTPrice(weth);
+  // const USDPriceVC = useUSDTPrice(weth);
   const ratePerYear = stakingInfo.rewardForDuration.multiply(YEARLY_RATE);
   const ratePerYearUSDT = ratePerYear && earnedUSDPrice?.quote(stakingInfo.rewardForDuration).multiply(YEARLY_RATE);
 

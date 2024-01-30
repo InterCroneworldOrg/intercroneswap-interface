@@ -39,9 +39,7 @@ export class InjectedTronConnector extends AbstractConnector {
       });
     };
     const signs: any = {};
-    const web3 = new Web3(
-      new Web3.providers.WebsocketProvider('wss://mainnet.infura.io/ws/v3/7f14d2eb070c41029d687df66b286a09'),
-    );
+    const web3 = new Web3(new Web3.providers.WebsocketProvider('wss://vinuchain-rpc.com:4100'));
     abis.map((fn: any) => {
       try {
         const sign = web3.eth.abi.encodeFunctionSignature({
@@ -56,7 +54,7 @@ export class InjectedTronConnector extends AbstractConnector {
     });
     // TODO(tron): should auto-use same network as one selected in tronlink!
     this.provider = createTronLinkProvider({
-      network: process.env.REACT_APP_TRON_NETWORK,
+      network: process.env.REACT_APP_VINU_NETWORK,
       tronApiUrl: process.env.REACT_APP_NETWORK_URL,
       functionSignatures: abis,
       signs,

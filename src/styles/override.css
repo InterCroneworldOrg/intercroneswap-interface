@@ -60,6 +60,11 @@ div#basic-nav-dropdowns p {
   font-size: 16px;
   color: #f0b90b !important;
 }
+.vinulogo span {
+  font-weight: 400;
+  font-size: 16px;
+  color: #ffffff !important;
+}
 div#basic-nav-dropdowns a {
   margin: 10px;
   padding: 10px;

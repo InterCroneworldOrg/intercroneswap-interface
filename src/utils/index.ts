@@ -23,9 +23,8 @@ export function isAddress(value: any): string | false {
 }
 
 const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
-  11111: '',
-  1: 'shasta.',
-  201910292: 'nile.',
+  207: 'Mainnet',
+  206: 'Testnet',
 };
 
 export function getEtherscanLink(
@@ -33,7 +32,7 @@ export function getEtherscanLink(
   data: string,
   type: 'transaction' | 'token' | 'address' | 'block' | 'contract',
 ): string {
-  const prefix = `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[11111]}tronscan.org`;
+  const prefix = `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[207]}vinuexplorer.org`;
 
   switch (type) {
     case 'transaction': {
@@ -97,7 +96,7 @@ export function getSigner(library: Web3Provider, account: string): JsonRpcSigner
 
 // account is optional
 export function getProviderOrSigner(library: Web3Provider, account?: string): any {
-  // return account ? library?.trx.sign : library?.trx
+  // return account ? library?.vc.sign : library?.vc
   return account ? getSigner(library, account) : library;
 }
 

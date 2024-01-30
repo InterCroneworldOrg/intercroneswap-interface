@@ -21,8 +21,6 @@ import SortButton from './SortButton';
 import { useTokenComparator } from './sorting';
 import { PaddedColumn, SearchInput, Separator } from './styleds';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import tronWeb from 'tronweb';
-import { ethAddress } from '@intercroneswap/java-tron-provider';
 interface CurrencySearchProps {
   isOpen: boolean;
   onDismiss: () => void;
@@ -68,7 +66,7 @@ export function CurrencySearch({
 
   const showETH: boolean = useMemo(() => {
     const s = searchQuery.toLowerCase().trim();
-    return s === '' || s === 't' || s === 'tr' || s === 'trx';
+    return s === '' || s === 'v' || s === 'vi' || s === 'vinu';
   }, [searchQuery]);
 
   const tokenComparator = useTokenComparator(invertSearchOrder);
@@ -115,7 +113,7 @@ export function CurrencySearch({
   const inputRef = useRef<HTMLInputElement>();
   const handleInput = useCallback((event) => {
     const input = event.target.value;
-    if (tronWeb?.isAddress(input)) {
+    if (Ethereum?.isAddress(input)) {
       setSearchQuery(ethAddress.fromTron(input));
       setTSearchQuery(input);
       fixedList.current?.scrollTo(0);
@@ -131,7 +129,7 @@ export function CurrencySearch({
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
         const s = searchQuery.toLowerCase().trim();
-        if (s === 'trx') {
+        if (s === 'vc') {
           handleCurrencySelect(ETHER);
         } else if (filteredSortedTokens.length > 0) {
           if (

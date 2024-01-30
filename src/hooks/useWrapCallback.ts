@@ -44,13 +44,13 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.raw.toString(16)}` });
-                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} TRX to WTRX` });
+                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} VC to WVC` });
                 } catch (error) {
                   console.error('Could not deposit', error);
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient TRX balance',
+        inputError: sufficientBalance ? undefined : 'Insufficient VC balance',
       };
     } else if (currencyEquals(WETH[chainId], inputCurrency) && outputCurrency === ETHER) {
       return {
@@ -60,13 +60,13 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.withdraw(`0x${inputAmount.raw.toString(16)}`);
-                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} WTRX to TRX` });
+                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} WVC to VC` });
                 } catch (error) {
                   console.error('Could not withdraw', error);
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient WTRX balance',
+        inputError: sufficientBalance ? undefined : 'Insufficient WVC balance',
       };
     } else {
       return NOT_APPLICABLE;

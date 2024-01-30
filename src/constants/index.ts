@@ -3,19 +3,17 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 
 import { injected } from '../connectors';
 import { REWARDS_DURATION_DAYS_180 } from '../state/stake/constants';
-import { BTC, BTT, ETH, ICR, JM, MEOX, PLZ, USDC, USDD, USDJ, USDT, WIN, COME } from './tokens';
+import { VINU, USDT, BTC, ETH } from './tokens';
 
 export const ROUTER_ADDRESSES: { [chainId: number]: string } = {
-  [ChainId.MAINNET]: '0x8E1D1D9B31A603B14A58B822B075050DDCED7E94',
-  [ChainId.NILE]: '',
-  [ChainId.SHASTA]: '0x5F887C70DF576B6CE9C3518A02E341F8BC1D0659',
+  [ChainId.MAINNET]: '0x05Baa40a3A8C85C72d33C6DA0a16831eDC8E11d5',
+  [ChainId.TESTNET]: 'TODO',
 };
 export const REFERRAL_ADDRESSES: { [chainId: number]: string } = {
   [ChainId.MAINNET]: '0x64EEBBC12268328526B39712A5A836D2548CBFFA',
-  [ChainId.NILE]: '',
-  [ChainId.SHASTA]: '',
+  [ChainId.TESTNET]: 'TODO',
 };
-const chainId: number = parseInt(process.env.REACT_APP_CHAIN_ID ?? '11111');
+const chainId: number = parseInt(process.env.REACT_APP_CHAIN_ID ?? '207');
 export const ROUTER_ADDRESS = ROUTER_ADDRESSES[chainId];
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -27,7 +25,7 @@ type ChainTokenList = {
 // Staking Yearly Rate
 export const YEARLY_RATE = JSBI.divide(JSBI.BigInt(365), JSBI.BigInt(REWARDS_DURATION_DAYS_180));
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
-export const AVERAGE_BLOCK_TIME_IN_SECS = 3;
+export const AVERAGE_BLOCK_TIME_IN_SECS = 60;
 export const PROPOSAL_LENGTH_IN_BLOCKS = 40_320;
 export const PROPOSAL_LENGTH_IN_SECS = AVERAGE_BLOCK_TIME_IN_SECS * PROPOSAL_LENGTH_IN_BLOCKS;
 // export const GOVERNANCE_ADDRESS = '0x5e4be8Bc9637f0EAA1A755019e06A68ce081D58F';
@@ -46,14 +44,13 @@ export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {
 
 const WETH_ONLY: ChainTokenList = {
   [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
-  [ChainId.NILE]: [WETH[ChainId.NILE]],
-  [ChainId.SHASTA]: [WETH[ChainId.SHASTA]],
+  [ChainId.TESTNET]: [WETH[ChainId.TESTNET]],
 };
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], ICR, USDT, USDC, USDJ, USDD, BTC, ETH, BTT, MEOX, JM, WIN, COME],
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], VINU, USDT, BTC, ETH],
 };
 
 /**
@@ -93,23 +90,23 @@ export interface WalletInfo {
 }
 
 export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
-  INJECTED: {
-    connector: injected,
-    name: 'Injected',
-    iconName: 'arrow-right.svg',
-    description: 'Injected provider.',
-    href: null,
-    color: '#010101',
-    primary: true,
-  },
-  TRONLINK: {
-    connector: injected,
-    name: 'TronLink',
-    iconName: 'tronlink.svg',
-    description: 'Easy-to-use browser extension.',
-    href: null,
-    color: '#48489b',
-  },
+  // INJECTED: {
+  //   connector: injected,
+  //   name: 'Injected',
+  //   iconName: 'arrow-right.svg',
+  //   description: 'Injected provider.',
+  //   href: null,
+  //   color: '#010101',
+  //   primary: true,
+  // },
+  // TRONLINK: {
+  //   connector: injected,
+  //   name: 'TronLink',
+  //   iconName: 'tronlink.svg',
+  //   description: 'Easy-to-use browser extension.',
+  //   href: null,
+  //   color: '#48489b',
+  // },
   // INJECTED: {
   //   connector: injected,
   //   name: 'Injected',
@@ -119,14 +116,14 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
   //   color: '#010101',
   //   primary: true
   // },
-  // METAMASK: {
-  //   connector: injected,
-  //   name: 'MetaMask',
-  //   iconName: 'metamask.png',
-  //   description: 'Easy-to-use browser extension.',
-  //   href: null,
-  //   color: '#E8831D'
-  // },
+  METAMASK: {
+    connector: injected,
+    name: 'MetaMask',
+    iconName: 'metamask.png',
+    description: 'Easy-to-use browser extension.',
+    href: null,
+    color: '#E8831D',
+  },
   // WALLET_CONNECT: {
   //   connector: walletconnect,
   //   name: 'WalletConnect',
@@ -196,7 +193,7 @@ export const BLOCKED_PRICE_IMPACT_NON_EXPERT: Percent = new Percent(JSBI.BigInt(
 
 // used to ensure the user doesn't send so much ETH so they end up with <.01
 //export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(4)); // .01 ETH
-export const MIN_ETH: JSBI = JSBI.BigInt(0); // 0 TRX
+export const MIN_ETH: JSBI = JSBI.BigInt(0); // 0 VC
 
 export const BETTER_TRADE_LINK_THRESHOLD = new Percent(JSBI.BigInt(75), JSBI.BigInt(10000));
 export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(JSBI.BigInt(50), BIPS_BASE);
@@ -205,5 +202,5 @@ export const BACKEND_URL = 'https://api.intercroneswap.com';
 // export const BACKEND_URL = 'http://localhost:8080';
 
 export const EARNING_CONTRACT = '0x01c49a17c2470ae3bd85412811f3dfeadde174a0';
-export const ACTUAL_LAUCH_TOKEN: Token = PLZ;
+// export const ACTUAL_LAUCH_TOKEN: Token = PLZ;
 export const LAUNCH_START_TIME: Date = new Date(1669914000000);

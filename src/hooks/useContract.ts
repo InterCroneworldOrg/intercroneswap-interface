@@ -70,7 +70,7 @@ export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contrac
         address = '0x99fb68F0672E3E16AbB071342eF03355dfcb1797';
         break;
       // TODO
-      case ChainId.NILE:
+      case ChainId.TESTNET:
         address = '0xD2577ec90C6Fb23EC208B27609867E30D69bDc89';
         break;
     }

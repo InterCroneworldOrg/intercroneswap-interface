@@ -11,6 +11,7 @@ import { useActiveWeb3React } from '../../hooks';
 import { ThemeContext } from 'styled-components';
 import { TYPE } from '../../theme';
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 interface PositionCardProps extends RouteComponentProps<{}> {
   token: Token;
   VLiquidityBalance: TokenAmount;
@@ -28,7 +29,7 @@ function VPositionCard({ token, VLiquidityBalance }: PositionCardProps) {
           <RowFixed>
             <DoubleCurrencyLogo currency0={token} margin={true} size={20} />
             <TYPE.white fontWeight={500} fontSize={20} style={{ marginLeft: '' }}>
-              {`${chainId && token.equals(WETH[chainId]) ? 'WETH' : token.symbol}/TRX`}
+              {`${chainId && token.equals(WETH[chainId]) ? 'WETH' : token.symbol}/VC`}
             </TYPE.white>
             <TYPE.black
               fontSize={12}

@@ -2,12 +2,14 @@ import { useActiveWeb3React } from '../../hooks';
 import useUSDTPrice from '../../hooks/useUSDTPrice';
 import { AmountWrapper } from './styleds';
 import chessIcon from '../../assets/images/chessicon.png';
-import { ICR } from '../../constants/tokens';
+import { VINU } from '../../constants/tokens';
+// import { ICR } from '../../constants/tokens';
 
 const PriceCard = () => {
   const { account } = useActiveWeb3React();
 
-  const usdtPrice = useUSDTPrice(ICR);
+  const usdtPrice = useUSDTPrice(VINU);
+  // const usdtPrice = useUSDTPrice(ICR);
 
   return account && usdtPrice ? (
     <AmountWrapper>
