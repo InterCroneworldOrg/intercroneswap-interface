@@ -167,20 +167,20 @@ const Footer = () => {
       <FootContent>
         <PriceCard />
         <SocialIconWrapper>
-          <MenuItem id="twLink" href="https://twitter.com/IntercroneWorld">
-            <img src={Twitter} alt="" />
+          <MenuItem id="twLink" href="https://twitter.com/IntercroneWorld" title="Twitter">
+            <img src={Twitter} alt="Twitter Logo" />
           </MenuItem>
-          <MenuItem id="iglink" href="https://www.instagram.com/intercrone">
-            <img src={Instagram} alt="" />
+          <MenuItem id="iglink" href="https://www.instagram.com/intercrone" title="Instagram">
+            <img src={Instagram} alt="Instagram Logo" />
           </MenuItem>
-          <MenuItem id="fblink" href="https://www.facebook.com/InterCrone">
-            <img src={Facebook} alt="" />
+          <MenuItem id="fblink" href="https://www.facebook.com/InterCrone" title="Facebook">
+            <img src={Facebook} alt="Facebook Logo" />
           </MenuItem>
-          <MenuItem id="tglink" href="https://t.me/intercroneworld">
-            <img src={Telegram} alt="" />
+          <MenuItem id="tglink" href="https://t.me/intercroneworld" title="Telegram">
+            <img src={Telegram} alt="Telegram Logo" />
           </MenuItem>
-          <MenuItem id="ytlink" href="https://www.youtube.com/c/InterCroneWorld">
-            <img src={Youtube} alt="" />
+          <MenuItem id="ytlink" href="https://www.youtube.com/c/InterCroneWorld" title="YouTube">
+            <img src={Youtube} alt="YouTube Logo" />
           </MenuItem>
         </SocialIconWrapper>
       </FootContent>
