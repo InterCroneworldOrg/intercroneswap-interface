@@ -20,16 +20,6 @@ import Loader from '../Loader';
 import { RowBetween } from '../Row';
 import WalletModal from '../WalletModal';
 
-// const IconWrapper = styled.div<{ size?: number }>`
-//   ${({ theme }) => theme.flexColumnNoWrap};
-//   align-items: center;
-//   justify-content: center;
-//   & > * {
-//     height: ${({ size }) => (size ? size + 'px' : '32px')};
-//     width: ${({ size }) => (size ? size + 'px' : '32px')};
-//   }
-// `
-
 const Web3StatusGeneric = styled(ButtonSecondary)`
   ${({ theme }) => theme.flexRowNoWrap}
   width: 100%;
@@ -129,12 +119,6 @@ function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
   return b.addedTime - a.addedTime;
 }
 
-const SOCK = (
-  <span role="img" aria-label="has socks emoji" style={{ marginTop: -4, marginBottom: -4 }}>
-    🧦
-  </span>
-);
-
 // eslint-disable-next-line react/prop-types
 function StatusIcon({ connector }: { connector: AbstractConnector }) {
   if (connector === injected) {
@@ -158,7 +142,7 @@ function Web3StatusInner() {
   const pending = sortedRecentTransactions.filter((tx) => !tx.receipt).map((tx) => tx.hash);
 
   const hasPendingTransactions = !!pending.length;
-  const hasSocks = null;
+
   const toggleWalletModal = useWalletModalToggle();
 
   if (account) {
@@ -170,7 +154,6 @@ function Web3StatusInner() {
           </RowBetween>
         ) : (
           <>
-            {hasSocks ? SOCK : null}
             <Text>{ENSName || shortenAddress(account)}</Text>
           </>
         )}
