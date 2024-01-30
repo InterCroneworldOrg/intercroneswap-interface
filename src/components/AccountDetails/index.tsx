@@ -312,7 +312,7 @@ export default function AccountDetails({
                       <div>
                         {account && (
                           <Copy toCopy={ethAddress.toTron(account)}>
-                            <span style={{ marginLeft: '4px' }}>Copy Address</span>
+                            <span>Copy Address</span>
                           </Copy>
                         )}
                         {chainId && account && (
@@ -322,7 +322,7 @@ export default function AccountDetails({
                             href={chainId && getEtherscanLink(chainId, ENSName, 'address')}
                           >
                             <LinkIcon size={16} />
-                            <span style={{ marginLeft: '4px' }}>View on Tronscan</span>
+                            <span>View on Tronscan</span>
                           </AddressLink>
                         )}
                       </div>
@@ -334,7 +334,7 @@ export default function AccountDetails({
                       <div>
                         {account && (
                           <Copy toCopy={ethAddress.toTron(account)}>
-                            <span style={{ marginLeft: '4px' }}>Copy Address</span>
+                            <span>Copy Address</span>
                           </Copy>
                         )}
                         {chainId && account && (
@@ -344,7 +344,7 @@ export default function AccountDetails({
                             href={getEtherscanLink(chainId, account, 'address')}
                           >
                             <LinkIcon size={16} />
-                            <span style={{ marginLeft: '4px' }}>View on Tronscan</span>
+                            <span>View on Tronscan</span>
                           </AddressLink>
                         )}
                       </div>
