@@ -38,7 +38,7 @@ interface Window {
   // },
   ethereum?: Ethereum;
   tronWeb?: tronWeb;
-  web3?: {};
+  web3?: Ethereum;
 }
 declare const __DEV__: boolean;
 declare module 'tronweb';
