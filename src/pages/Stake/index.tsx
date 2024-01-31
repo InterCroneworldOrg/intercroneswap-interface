@@ -1,14 +1,14 @@
 import { REWARDS_DURATION_DAYS, REWARDS_DURATION_DAYS_180, StakingRewardsInfo } from '../../state/stake/constants';
-import { ethAddress } from '@intercroneswap/java-tron-provider';
+// import { ethAddress } from '@intercroneswap/java-tron-provider';
 import { JSBI, TokenAmount, ZERO } from '@intercroneswap/v2-sdk';
 import { orderBy } from 'lodash';
 import { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { ThemeContext } from 'styled-components';
-
-import CopyHelper from '../../components/AccountDetails/Copy';
-import { ButtonPrimary, ButtonSecondary } from '../../components/Button';
+// import CopyHelper from '../../components/AccountDetails/Copy';
+import { ButtonSecondary } from '../../components/Button';
+// import { ButtonPrimary, ButtonSecondary } from '../../components/Button';
 import { GreyCard, LightCard } from '../../components/Card';
 import { AutoColumn } from '../../components/Column';
 import PoolCard from '../../components/earn/PoolCard';
@@ -24,7 +24,8 @@ import { Button, MEDIA_WIDTHS, TYPE } from '../../theme';
 import { StyledHeading } from '../App';
 import HarvestModal from './HarvestModal';
 import StakeModal from './StakeModal';
-import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds';
+import { PageWrapper, TitleRow } from './styleds';
+// import { WordBreakDiv, PageWrapper, ReferalButton, TitleRow } from './styleds';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import { Form, Pagination } from 'react-bootstrap';
 import ExitModal from './ExitModal';
@@ -54,7 +55,7 @@ fetch('https://raw.githubusercontent.com/InterCroneworldOrg/token-lists/main/sta
 
 export default function Stake({
   match: {
-    params: { referal },
+    // params: { referal },
   },
 }: RouteComponentProps<{ referal?: string }>) {
   const { t } = useTranslation();
@@ -131,7 +132,7 @@ export default function Stake({
   const stakingInfos = useStakingInfo(currentStakingRewardInfos);
 
   const [stakeAddress, setStakeAddress] = useState<string>('');
-  const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
+  // const [uplinkAddress, setUplinkAddress] = useState<string | undefined>(undefined);
   const [stakeInfo, setStakeInfo] = useState<StakingInfo | undefined>(undefined);
   const [lpBalance, setLPBalance] = useState<TokenAmount | undefined>(undefined);
   const [toggleToken, setToggleToken] = useState(false);
@@ -139,7 +140,7 @@ export default function Stake({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortOption, setSortOption] = useState<'latest' | 'liquidity' | 'earned' | 'apy'>('latest');
   const [showStake, setShowStake] = useState<boolean>(false);
-  const [showReferal, setShowReferal] = useState<boolean>(false);
+  // const [showReferal, setShowReferal] = useState<boolean>(false);
   const [showHarvest, setShowHarvest] = useState<boolean>(false);
   const [showExit, setShowExit] = useState<boolean>(false);
   const [isStakedOnly, setStakedOnly] = useState<boolean>(false);
@@ -235,46 +236,46 @@ export default function Stake({
     [searchQuery],
   );
 
-  const confirmUpline = useCallback(() => {
-    return account ? (
-      <>
-        <TYPE.white fontSize={18} fontWeight={600}>
-          Your upline
-        </TYPE.white>
-        {uplinkAddress ? (
-          <TYPE.white>{uplinkAddress}</TYPE.white>
-        ) : (
-          <>
-            <WordBreakDiv>Confirm your upline {referal}</WordBreakDiv>
-            <ButtonPrimary width="10rem" onClick={() => setUplinkAddress(referal ?? ethAddress.toTron(account))}>
-              <TYPE.white>Confirm</TYPE.white>
-            </ButtonPrimary>
-          </>
-        )}
-      </>
-    ) : undefined;
-  }, [referal, uplinkAddress]);
+  // const confirmUpline = useCallback(() => {
+  //   return account ? (
+  //     <>
+  //       <TYPE.white fontSize={18} fontWeight={600}>
+  //         Your upline
+  //       </TYPE.white>
+  //       {uplinkAddress ? (
+  //         <TYPE.white>{uplinkAddress}</TYPE.white>
+  //       ) : (
+  //         <>
+  //           <WordBreakDiv>Confirm your upline {referal}</WordBreakDiv>
+  //           <ButtonPrimary width="10rem" onClick={() => setUplinkAddress(referal ?? ethAddress.toTron(account))}>
+  //             <TYPE.white>Confirm</TYPE.white>
+  //           </ButtonPrimary>
+  //         </>
+  //       )}
+  //     </>
+  //   ) : undefined;
+  // }, [referal, uplinkAddress]);
 
-  const uplineComponent = useCallback(() => {
-    return account ? (
-      <AutoColumn
-        justify="center"
-        gap="3px"
-        style={{
-          display: showReferal ? 'grid' : 'none',
-          background: theme.bg3,
-          borderRadius: '2rem',
-          padding: '0.5rem',
-          margin: '0',
-        }}
-      >
-        {referal ? confirmUpline() : undefined}
-        <ResponsiveSizedTextMedium fontWeight=".5rem">Your referral link</ResponsiveSizedTextMedium>
-        <WordBreakDiv>{`${window.location.origin}/#/stake/${ethAddress.toTron(account)}`}</WordBreakDiv>
-        <CopyHelper toCopy={`${window.location.origin}/#/stake/${ethAddress.toTron(account)}`}>Copy Address</CopyHelper>
-      </AutoColumn>
-    ) : undefined;
-  }, [uplinkAddress, showReferal]);
+  // const uplineComponent = useCallback(() => {
+  //   return account ? (
+  //     <AutoColumn
+  //       justify="center"
+  //       gap="3px"
+  //       style={{
+  //         display: showReferal ? 'grid' : 'none',
+  //         background: theme.bg3,
+  //         borderRadius: '2rem',
+  //         padding: '0.5rem',
+  //         margin: '0',
+  //       }}
+  //     >
+  //       {referal ? confirmUpline() : undefined}
+  //       <ResponsiveSizedTextMedium fontWeight=".5rem">Your referral link</ResponsiveSizedTextMedium>
+  //       <WordBreakDiv>{`${window.location.origin}/#/stake/${ethAddress.toTron(account)}`}</WordBreakDiv>
+  //       <CopyHelper toCopy={`${window.location.origin}/#/stake/${ethAddress.toTron(account)}`}>Copy Address</CopyHelper>
+  //     </AutoColumn>
+  //   ) : undefined;
+  // }, [uplinkAddress, showReferal]);
 
   const activePools = stakingInfos.filter((info) => info.active && info.periodFinish);
   const inactivePools = stakingInfos.filter((info) => !info.active || (info.active && !info.periodFinish));
@@ -390,7 +391,7 @@ export default function Stake({
           stakingInfo={stakeInfo}
           onDismiss={handleDismissStake}
           balance={lpBalance}
-          referalAddress={uplinkAddress}
+          // referalAddress={uplinkAddress}
         />
         <HarvestModal
           isOpen={showHarvest}
@@ -413,7 +414,7 @@ export default function Stake({
           ) : (
             <div />
           )}
-          <ReferalButton
+          {/* <ReferalButton
             height="3rem"
             margin="0"
             padding=".5rem"
@@ -424,7 +425,7 @@ export default function Stake({
             }}
           >
             Show referal link
-          </ReferalButton>
+          </ReferalButton> */}
         </RowBetween>
         <LightCard style={{ marginTop: '20px' }} padding="1rem 1rem">
           {!account ? (
@@ -438,7 +439,7 @@ export default function Stake({
           )}
           <AutoColumn gap="1rem" justify="center">
             <AutoColumn gap="1rem" style={{ width: '100%' }}>
-              {uplineComponent()}
+              {/* {uplineComponent()} */}
               {isMobile ? (
                 <RowBetween>
                   <Form.Switch

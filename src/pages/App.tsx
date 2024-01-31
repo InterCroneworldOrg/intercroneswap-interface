@@ -88,16 +88,16 @@ export const StyledHeading = styled.h1`
   -webkit-text-fill-color: transparent;
   padding: 20px 20px;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-  font-size:46px;
-  line-height: 62px;
+  font-size:34px;
+  // line-height: 62px;
   `};
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
-  font-size:50px;
-  line-height: 66px;
+  // font-size:50px;
+  // line-height: 66px;
 `};
   @media (max-width: 768px) {
-    font-size: 26px;
+    // font-size: 26px;
   }
 `;
 
