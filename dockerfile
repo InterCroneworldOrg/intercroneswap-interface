@@ -6,8 +6,8 @@ COPY . .
 
 RUN npm install
 
-RUN CI=false npm run build
+RUN npm run build
+RUN npm install -g serve
 
 EXPOSE 3010
-
-CMD ["npm", "start"]
+CMD ["serve", "-s", "build"]
