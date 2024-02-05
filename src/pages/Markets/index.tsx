@@ -154,25 +154,24 @@ export default function Markets({
       );
     });
   };
-  
+
   const marketList = useMemo(() => {
     if (searchQuery && alldata) {
       // If there is a search query, return filtered alldata
       const itemsPerPage = 10;
       const startIndex = ((Number(page) || 1) - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-  
+
       return filterMarkets(alldata).slice(startIndex, endIndex);
     } else {
       // If there is no search query, return filtered markets
       const itemsPerPage = 10;
       const startIndex = ((Number(page) || 1) - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-  
+
       return filterMarkets(markets || []).slice(startIndex, endIndex);
     }
   }, [markets, alldata, searchQuery, page]);
-  
 
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = [];
