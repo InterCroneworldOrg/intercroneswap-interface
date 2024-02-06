@@ -13,8 +13,23 @@ export function getTokensFromDefaults(symbols: string): [Token, Token] | undefin
 
 export let tokensFromApi: Token[] = [];
 
+const fetchBackendUrl = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  return BACKEND_URL;
+};
+
+const setBackendUrl = async () => {
+  url = await fetchBackendUrl();
+};
+
+let url = '';
+
+(async () => {
+  await setBackendUrl();
+  console.log('url check :- ', url);
+})();
 export const fetchTokens = async () => {
-  const response = await fetch(`${BACKEND_URL}/tokens/all?chainId=11111`, {
+  const response = await fetch(`${url}/tokens/all?chainId=11111`, {
     method: 'GET',
     mode: 'cors',
   });
