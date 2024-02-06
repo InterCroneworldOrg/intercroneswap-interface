@@ -25,8 +25,6 @@ interface tronWeb {
   fullNode?: {
     chainType?: '';
     host?: 'https://lightnode.intercroneswap.com';
-    // headers: { 'TRON-PRO-API-KEY': 'your api key' };
-    // privateKey: 'e15544ca-e0b1-418f-bd68-5fdfc41c9ce0';
   };
 }
 
