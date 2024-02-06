@@ -16,6 +16,7 @@ export default function useInterval(callback: () => void, delay: null | number, 
       const current = savedCallback.current;
       if (current) {
         current();
+        // Hier wird die allgemeine Verzögerung (general delay) von 500 Millisekunden berücksichtigt
         timeoutId = setTimeout(tick, generalDelay);
       }
     }
