@@ -53,36 +53,36 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const StyledNav = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: ${MENU_HEIGHT}px;
-  background: linear-gradient(180deg, #3b3b3b 0%, rgba(59, 59, 59, 0) 100%);
-  border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
-  transform: translate3d(0, 0, 0);
+// const StyledNav = styled.nav`
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   width: 100%;
+//   height: ${MENU_HEIGHT}px;
+//   background: linear-gradient(180deg, #3b3b3b 0%, rgba(59, 59, 59, 0) 100%);
+//   border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
+//   transform: translate3d(0, 0, 0);
 
-  padding-left: 16px;
-  padding-right: 16px;
-`;
+//   padding-left: 16px;
+//   padding-right: 16px;
+// `;
 
-const FixedContainer = styled.div<{ showMenu: boolean; height: number }>`
-  position: fixed;
-  top: ${({ showMenu, height }) => (showMenu ? 0 : `-${height}px`)};
-  left: 0;
-  transition: top 0.2s;
-  height: ${({ height }) => `${height}px`};
-  width: 100%;
-  z-index: 20;
-`;
+// const FixedContainer = styled.div<{ showMenu: boolean; height: number }>`
+//   position: fixed;
+//   top: ${({ showMenu, height }) => (showMenu ? 0 : `-${height}px`)};
+//   left: 0;
+//   transition: top 0.2s;
+//   height: ${({ height }) => `${height}px`};
+//   width: 100%;
+//   z-index: 20;
+// `;
 
-const TopBannerContainer = styled.div<{ height: number }>`
-  height: ${({ height }) => `${height}px`};
-  min-height: ${({ height }) => `${height}px`};
-  max-height: ${({ height }) => `${height}px`};
-  width: 100%;
-`;
+// const TopBannerContainer = styled.div<{ height: number }>`
+//   height: ${({ height }) => `${height}px`};
+//   min-height: ${({ height }) => `${height}px`};
+//   max-height: ${({ height }) => `${height}px`};
+//   width: 100%;
+// `;
 
 const BodyWrapper = styled(Box)`
   position: relative;
@@ -98,11 +98,8 @@ const Inner = styled.div<{ isPushed: boolean; showMenu: boolean }>`
 
 const Menu: React.FC<NavProps> = ({
   linkComponent = "a",
-  bnbMenu,
   userMenu,
   banner,
-  globalMenu,
-  SocialMenu,
   isDark,
   toggleTheme,
   currentLang,
@@ -111,8 +108,6 @@ const Menu: React.FC<NavProps> = ({
   links,
   subLinks,
   footerLinks,
-  activeItem,
-  activeSubItem,
   langs,
   buyCakeLabel,
   children,
@@ -182,10 +177,10 @@ const Menu: React.FC<NavProps> = ({
   }, [totalTopMenuHeight]);
 
   // Find the home link if provided
-  const homeLink = links.find((link) => link.label === "Home");
+  // const homeLink = links.find((link) => link.label === "Home");
 
-  const subLinksWithoutMobile = subLinks?.filter((subLink) => !subLink.isMobileOnly);
-  const subLinksMobileOnly = subLinks?.filter((subLink) => subLink.isMobileOnly);
+  // const subLinksWithoutMobile = subLinks?.filter((subLink) => !subLink.isMobileOnly);
+  // const subLinksMobileOnly = subLinks?.filter((subLink) => subLink.isMobileOnly);
 
   return (
     <MenuContext.Provider value={{ linkComponent }}>
@@ -249,13 +244,13 @@ const Menu: React.FC<NavProps> = ({
                     Liquidity
                   </a>
                   <a href="/launchpad/" className={`${Style.link} nav-link`}>
-                    🔥 Launchpad
+                    Launchpad
                   </a>
                   <a href="/stake/" className={`${Style.link} nav-link`}>
                     Staking
                   </a>
                   <a href="/markets/" className={`${Style.link} nav-link`}>
-                    🔥 Markets
+                    Markets
                   </a>
                   <a href="https://nft.intercroneswap.com/" className={`${Style.link} nav-link`}>
                     NFT

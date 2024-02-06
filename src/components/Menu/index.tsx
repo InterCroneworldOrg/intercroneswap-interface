@@ -18,7 +18,6 @@ import GlobalSettings from './GlobalSettings'
 import { getActiveMenuItem, getActiveSubMenuItem } from './utils'
 import SocialMenu from './SocialMenu'
 import UserMenu from './UserMenu'
-import { useIcrUsdtPrice } from 'hooks/useUSDTPrice'
 
 const Menu = (props) => {
   const { isDark, setTheme } = useTheme()
