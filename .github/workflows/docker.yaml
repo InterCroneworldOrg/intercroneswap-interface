@@ -1,0 +1,38 @@
+name: Docker Image GHCR
+
+on:
+  push:
+    branches: ['main-bsc']
+  pull_request:
+    branches: ['main-bsc']
+
+jobs:
+  build:
+    runs-on: selfhosted
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag ghcr.io/bigdealcompany/intercroneswap-bsc:bscmain
+
+      - name: Login to GitHub Container Registry
+        run: docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Docker image to GitHub Container Registry
+        run: docker push ghcr.io/bigdealcompany/intercroneswap-bsc:bscmain
+
+    #   - name: Stop and remove the existing metronix-admin container if exists
+    #     run: |
+    #       if docker ps -a --format '{{.Names}}' | grep -Eq '^metronix-admin$'; then
+    #         docker stop metronix-admin
+    #         docker rm metronix-admin
+    #       else
+    #         echo "Container 'metronix-admin' does not exist."
+    #       fi
+
+    #   - name: Remove the existing Docker image from GitHub Container Registry
+    #     run: |
+    #       docker image rm ghcr.io/bigdealcompany/intercroneswap-bsc:bscmain
+
+    #   - name: execute docker-compose up -d
+    #     run: docker-compose -f /root/docker-compose.yml up -d
