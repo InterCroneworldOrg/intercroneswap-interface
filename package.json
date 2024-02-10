@@ -124,7 +124,7 @@
     "@types/react-window": "^1.8.3",
     "@types/simplemde": "^1.11.7",
     "@types/styled-components": "^5.1.7",
-    "cypress": "8.3.1",
+    "cypress": "13.6.4",
     "eslint": "^7.26.0",
     "eslint-plugin-cypress": "^2.11.3",
     "eslint-plugin-lodash": "^7.4.0",
