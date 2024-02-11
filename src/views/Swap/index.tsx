@@ -1,19 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { CurrencyAmount, JSBI, Token, Trade } from '@intercroneswap/v2-sdk'
-import {
-  Button,
-  Text,
-  ArrowDownIcon,
-  Box,
-  useModal,
-  Flex,
-  IconButton,
-  BottomDrawer,
-  useMatchBreakpoints,
-  ArrowUpDownIcon,
-  Skeleton,
-} from '@pancakeswap/uikit'
+import { Button, Text, ArrowDownIcon, Box, useModal, Flex, BottomDrawer, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
 import Footer from 'components/Menu/Footer'
@@ -21,7 +9,7 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'contexts/Localization'
 import { EXCHANGE_DOCS_URLS } from 'config/constants'
 import SwapWarningTokens from 'config/constants/swapWarningTokens'
-import useRefreshBlockNumberID from './hooks/useRefreshBlockNumber'
+// import useRefreshBlockNumberID from './hooks/useRefreshBlockNumber'
 import AddressInputPanel from './components/AddressInputPanel'
 import { GreyCard } from '../../components/Card'
 import Column, { AutoColumn } from '../../components/Layout/Column'
@@ -31,7 +19,6 @@ import { AutoRow, RowBetween } from '../../components/Layout/Row'
 import AdvancedSwapDetailsDropdown from './components/AdvancedSwapDetailsDropdown'
 import confirmPriceImpactWithoutFee from './components/confirmPriceImpactWithoutFee'
 import { ArrowWrapper, SwapCallbackError, Wrapper } from './components/styleds'
-import TradePrice from './components/TradePrice'
 import ImportTokenWarningModal from './components/ImportTokenWarningModal'
 import ProgressSteps from './components/ProgressSteps'
 import { AppBody } from '../../components/App'
@@ -63,33 +50,8 @@ import Page from '../Page'
 import SwapWarningModal from './components/SwapWarningModal'
 import PriceChartContainer from './components/Chart/PriceChartContainer'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
-import CurrencyInputHeader from './components/CurrencyInputHeader'
 import { SwapPoolTabs } from './components/SwapPoolTabs'
 import StyledArrowDown from './arrow-down-yellow'
-
-const Label = styled(Text)`
-  font-size: 12px;
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.secondary};
-`
-
-const SwitchIconButton = styled(IconButton)`
-  box-shadow: inset 0px -2px 0px rgba(0, 0, 0, 0.1);
-  .icon-up-down {
-    display: none;
-  }
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.primary};
-    .icon-down {
-      display: none;
-      fill: white;
-    }
-    .icon-up-down {
-      display: block;
-      fill: white;
-    }
-  }
-`
 
 // TODO: adjust swap design here
 export default function Swap() {
@@ -100,7 +62,7 @@ export default function Swap() {
   const [isChartExpanded, setIsChartExpanded] = useState(false)
   const [userChartPreference, setUserChartPreference] = useExchangeChartManager(isMobile)
   const [isChartDisplayed, setIsChartDisplayed] = useState(userChartPreference)
-  const { refreshBlockNumber, isLoading } = useRefreshBlockNumberID()
+  // const { refreshBlockNumber } = useRefreshBlockNumberID()
 
   useEffect(() => {
     setUserChartPreference(isChartDisplayed)
@@ -266,9 +228,6 @@ export default function Swap() {
       })
   }, [priceImpactWithoutFee, swapCallback, tradeToConfirm, t])
 
-  // errors
-  const [showInverted, setShowInverted] = useState<boolean>(false)
-
   // warnings on slippage
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
@@ -377,14 +336,6 @@ export default function Swap() {
     'confirmSwapModal',
   )
 
-  const hasAmount = Boolean(parsedAmount)
-
-  const onRefreshPrice = useCallback(() => {
-    if (hasAmount) {
-      refreshBlockNumber()
-    }
-  }, [hasAmount, refreshBlockNumber])
-
   const StyledHeading = styled.h1`
     font-family: Jost;
     font-style: normal;
@@ -437,18 +388,11 @@ export default function Swap() {
             <StyledSwapContainer $isChartExpanded={isChartExpanded}>
               <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>
                 <AppBody>
-                  {/* <CurrencyInputHeader
-                  title={t('Swap')}
-                  subtitle={t('Trade tokens in an instant')}
-                  setIsChartDisplayed={setIsChartDisplayed}
-                  isChartDisplayed={isChartDisplayed}
-                  hasAmount={hasAmount}
-                  onRefreshPrice={onRefreshPrice}
-                /> */}
+                  {}
                   <Wrapper id="swap-page" style={{ minHeight: '600px' }}>
                     <AutoColumn gap="sm">
                       <AutoColumn gap="7px" style={{ padding: '0 16px' }}>
-                        <SwapPoolTabs active={'swap'} />
+                        <SwapPoolTabs active="swap" />
                       </AutoColumn>
                       <CurrencyInputPanel
                         label={
@@ -506,32 +450,7 @@ export default function Swap() {
                         </>
                       ) : null}
 
-                      {/* {showWrap ? null : (
-                      <AutoColumn gap="7px" style={{ padding: '0 16px' }}>
-                        <RowBetween align="center">
-                          {Boolean(trade) && (
-                            <>
-                              <Label>{t('Price')}</Label>
-                              {isLoading ? (
-                                <Skeleton width="100%" ml="8px" height="24px" />
-                              ) : (
-                                <TradePrice
-                                  price={trade?.executionPrice}
-                                  showInverted={showInverted}
-                                  setShowInverted={setShowInverted}
-                                />
-                              )}
-                            </>
-                          )}
-                        </RowBetween>
-                        <RowBetween align="center">
-                          <Label>{t('Slippage Tolerance')}</Label>
-                          <Text bold color="primary">
-                            {allowedSlippage / 100}%
-                          </Text>
-                        </RowBetween>
-                      </AutoColumn>
-                    )} */}
+                      {}
                     </AutoColumn>
                     <Box mt="0.25rem">
                       {swapIsUnsupported ? (

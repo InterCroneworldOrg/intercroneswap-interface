@@ -1,16 +1,14 @@
-import styled from 'styled-components';
-import { darken } from 'polished';
-import { useRouter } from 'next/router'
+import styled from 'styled-components'
+import { darken } from 'polished'
 
 const Tabs = styled.div`
   align-items: center;
   border-radius: 3rem;
   justify-content: space-evenly;
   display: flex;
-`;
-
-const StyledNavLink = styled.button
 `
+
+const StyledNavLink = styled.button`
   border-width: 0px;
   background-color: ${({ theme }) => theme.colors.primaryBright};
   align-items: center;
@@ -31,9 +29,8 @@ const StyledNavLink = styled.button
   :focus {
     color: ${({ theme }) => darken(0.1, theme.colors.primary)};
   }
-`;
-const StyledDisabledNavLink = styled.button
 `
+const StyledDisabledNavLink = styled.button`
   border-width: 0px;
   background-color: transparent;
   align-items: center;
@@ -54,43 +51,23 @@ const StyledDisabledNavLink = styled.button
   :focus {
     color: ${({ theme }) => darken(0.1, theme.colors.primary)};
   }
-`;
+`
 
-const ActiveText = styled.div`
-  font-weight: 500;
-  font-size: 20px;
-`;
-
-
-// const StyledTabLink = styled(StyledNavLink)<{ isActive: boolean }>`
-//   padding: 20px;
-//   background: ${({ isActive, theme }) => (isActive ? theme.bg3 : 'transparent')};
-// `;
-
-export function StakeTabs({ active, onClick }: { active: 'stake' | 'unstake', onClick: () => void }) {
-  const router = useRouter();
+export function StakeTabs({ active, onClick }: { active: 'stake' | 'unstake'; onClick: () => void }) {
   return (
     <Tabs style={{ marginTop: '20px', marginBottom: '20px' }}>
-       { active === 'stake' && (
+      {active === 'stake' && (
         <>
-            <StyledNavLink>
-                Stake
-            </StyledNavLink>
-            <StyledDisabledNavLink onClick={onClick}>
-                Unstake
-            </StyledDisabledNavLink>
+          <StyledNavLink>Stake</StyledNavLink>
+          <StyledDisabledNavLink onClick={onClick}>Unstake</StyledDisabledNavLink>
         </>
-       )}
-       { active === 'unstake' && (
+      )}
+      {active === 'unstake' && (
         <>
-            <StyledDisabledNavLink onClick={onClick}>
-                Stake
-            </StyledDisabledNavLink>
-            <StyledNavLink>
-                Unstake
-            </StyledNavLink>
+          <StyledDisabledNavLink onClick={onClick}>Stake</StyledDisabledNavLink>
+          <StyledNavLink>Unstake</StyledNavLink>
         </>
-       )}
+      )}
     </Tabs>
-  );
+  )
 }

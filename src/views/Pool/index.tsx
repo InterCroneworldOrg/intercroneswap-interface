@@ -4,6 +4,7 @@ import { Text, CardBody, CardFooter, Button, LinkExternal } from '@pancakeswap/u
 import Link from 'next/link'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { TotalValueLocked } from 'components/TotalValueLocked'
 import FullPositionCard from '../../components/PositionCard'
 import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
 import { usePairs, PairState } from '../../hooks/usePairs'
@@ -14,7 +15,6 @@ import Page from '../Page'
 import { SwapPoolTabs } from '../Swap/components/SwapPoolTabs'
 import { AutoColumn } from '../../components/Layout/Column'
 import { RowBetween } from '../../components/Layout/Row'
-import { TotalValueLocked } from 'components/TotalValueLocked'
 
 const Body = styled(CardBody)`
   background-color: ${({ theme }) => theme.colors.normalCard};

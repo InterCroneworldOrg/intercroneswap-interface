@@ -11,6 +11,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import { CHAIN_ID } from 'config/constants/networks'
+import styled, { css } from 'styled-components'
 import { AppDispatch } from '../../state'
 import { LightCard } from '../../components/Card'
 import { AutoColumn, ColumnCenter } from '../../components/Layout/Column'
@@ -38,7 +39,6 @@ import { currencyId } from '../../utils/currencyId'
 import PoolPriceBar from './PoolPriceBar'
 import Page from '../Page'
 import ConfirmAddLiquidityModal from '../Swap/components/ConfirmAddLiquidityModal'
-import styled, { css } from 'styled-components'
 
 export default function AddLiquidity() {
   const router = useRouter()
