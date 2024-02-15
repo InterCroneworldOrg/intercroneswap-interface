@@ -26,15 +26,9 @@ const Button = <E extends ElementType = "button">(props: ButtonProps<E>): JSX.El
       {...rest}
     >
       <>
-        {isValidElement(startIcon) &&
-          cloneElement(startIcon, {
-            mr: "0.5rem",
-          })}
+        {isValidElement(startIcon) && cloneElement(startIcon)}
         {children}
-        {isValidElement(endIcon) &&
-          cloneElement(endIcon, {
-            ml: "0.5rem",
-          })}
+        {isValidElement(endIcon) && cloneElement(endIcon)}
       </>
     </StyledButton>
   );

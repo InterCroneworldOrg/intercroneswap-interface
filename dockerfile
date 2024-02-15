@@ -5,9 +5,9 @@ WORKDIR /app
 COPY . .
 
 RUN npm install
+RUN yarn
 
 RUN yarn build
-RUN yarn start
 
 EXPOSE 32001
 CMD ["yarn", "start"]
