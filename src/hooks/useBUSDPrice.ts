@@ -1,4 +1,4 @@
-import { Currency, currencyEquals, JSBI, Price } from '@intercroneswap/v2-sdk'
+import { Currency, CurrencyAmount, currencyEquals, JSBI, Price } from '@intercroneswap/v2-sdk'
 import tokens from 'config/constants/tokens'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useMemo } from 'react'

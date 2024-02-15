@@ -11,13 +11,14 @@ import { useGetBnbBalance } from 'hooks/useTokenBalance'
 import { FetchStatus } from 'config/constants/types'
 import { useTranslation } from 'contexts/Localization'
 import PhishingWarningBanner from 'components/PhishingWarningBanner'
-import { useIcrBusdPrice } from 'hooks/useBUSDPrice'
+import {useIcrBusdPrice } from 'hooks/useBUSDPrice'
 import { footerLinks } from './config/footerConfig'
 import { useMenuItems } from './hooks/useMenuItems'
 import GlobalSettings from './GlobalSettings'
 import { getActiveMenuItem, getActiveSubMenuItem } from './utils'
 import SocialMenu from './SocialMenu'
 import UserMenu from './UserMenu'
+import { useIcrUsdtPrice } from 'hooks/useUSDTPrice'
 
 const Menu = (props) => {
   const { isDark, setTheme } = useTheme()
@@ -56,7 +57,8 @@ const Menu = (props) => {
       currentLang={currentLanguage.code}
       langs={languageList}
       setLang={setLanguage}
-      cakePriceUsd={cakePriceUsd?.toFixed(4)}
+      // cakePriceUsd={cakePriceUsd?.toFixed(4)}
+      cakePriceUsd={"0.0023"}
       links={menuItems}
       subLinks={[]}
       footerLinks={footerLinks(t)}

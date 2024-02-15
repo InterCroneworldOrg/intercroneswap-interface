@@ -20,6 +20,7 @@ import downarrow from "../../assets/images/downarrow.png";
 import { Link } from "../../components/Link";
 import { CakePrice } from "../../components/CakePrice";
 
+
 export const getLogoPropsFromChainID = (chainId: string): { name: string; src: any; color: string } => {
   let logoProps: { name: string; src: any; color: string } = {
     name: "BSC",
@@ -187,6 +188,7 @@ const Menu: React.FC<NavProps> = ({
   const subLinksWithoutMobile = subLinks?.filter((subLink) => !subLink.isMobileOnly);
   const subLinksMobileOnly = subLinks?.filter((subLink) => subLink.isMobileOnly);
 
+
   return (
     <MenuContext.Provider value={{ linkComponent }}>
       <Wrapper>
@@ -269,8 +271,8 @@ const Menu: React.FC<NavProps> = ({
               </NavDropdown> */}
                 </Nav>
                 <HeaderLinks id="conntbtn">
-                  {cakePriceUsd ? <CakePrice cakePriceUsd={cakePriceUsd} /> : null}
-                  <AccountElement style={{ pointerEvents: "auto" }}>{userMenu}</AccountElement>
+                    {cakePriceUsd !== undefined && <CakePrice cakePriceUsd={cakePriceUsd} />}
+                    <AccountElement style={{ pointerEvents: "auto" }}>{userMenu}</AccountElement>
                 </HeaderLinks>
               </Navbar.Collapse>
             </Container>

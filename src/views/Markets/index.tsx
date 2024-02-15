@@ -53,13 +53,56 @@ export default function Markets() {
   const { chainId } = useActiveWeb3React()
   const isMobile = window.innerWidth <= breakpointMap.md
   const [pagingInfo, setPagingInfo] = useState<any>(undefined)
+  const [pagingInfoRes, setPagingInfoRes] = useState<any>(undefined)
   const [pairInfos, setPairInfos] = useState<any[]>([])
   const pageArr = router.query.page || []
   let page = 1
   if (pageArr.length === 1) {
     page = Number(pageArr[0])
   }
-  console.log('Page:', page)
+
+  const [results, setResults] = useState<any[]>([]); 
+
+  async function fetchallData(page) {
+    const url = `${BACKEND_URL}/markets?chainId=${chainId && ChainId.MAINNET}&page=${page}`;
+
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Error fetching data from page ${page}`);
+      }
+
+      const jsonData = await response.json();
+      const data = jsonData.data?.markets;
+      return jsonData;
+
+    } catch (error) {
+      console.error(error);
+      // Handle the error if needed
+      return null;
+    }
+  }
+
+  async function fetchDataFromAllPages() {
+    const numberOfPages = 7;
+    const results = [];
+
+    for (let page = 1; page <= numberOfPages; page++) {
+      const data = await fetchallData(page);
+      if (data !== null) {
+        results.push(data);
+      }
+    }
+    
+    const resultsMarkets = results.flatMap(result => {
+      return result.data?.markets || [];
+    });
+      
+    setResults(resultsMarkets);   
+  }
+
+  fetchDataFromAllPages();
 
   const fetchData = async () => {
     const response = await (
@@ -79,20 +122,34 @@ export default function Markets() {
   const [searchQuery, setSearchQuery] = useState<string>('')
 
   const markets = useMarkets(pairInfos)
+  const alldata = useMarkets(results)
 
   const marketList = useMemo(() => {
+    let combinedMarkets = markets;
+  
     if (searchQuery) {
-      return markets?.filter((info: MarketInfo) => {
-        return (
-          info.pair.token0.symbol?.toLowerCase().includes(searchQuery) ||
-          info.pair.token0.name?.toLowerCase().includes(searchQuery) ||
-          info.pair.token1.symbol?.toLowerCase().includes(searchQuery) ||
-          info.pair.token1.name?.toLowerCase().includes(searchQuery)
-        )
-      })
+      combinedMarkets = [...markets, ...alldata];
     }
-    return markets
-  }, [markets, searchQuery, page])
+  
+    const itemsPerPage = 10;
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+
+  
+    const filteredMarkets = combinedMarkets.filter((info: MarketInfo) => {
+      return (
+        info.pair.token0.symbol?.toLowerCase().includes(searchQuery) ||
+        info.pair.token0.name?.toLowerCase().includes(searchQuery) ||
+        info.pair.token1.symbol?.toLowerCase().includes(searchQuery) ||
+        info.pair.token1.name?.toLowerCase().includes(searchQuery)
+      );
+    });
+  
+    return filteredMarkets.slice(startIndex, endIndex);
+  }, [markets, alldata, searchQuery, page]);
+
+
 
   const stakingRewardInfos: StakingRewardsInfo[] = useMemo(() => {
     const tmpinfos: StakingRewardsInfo[] = []
@@ -115,8 +172,13 @@ export default function Markets() {
     return tmpinfos
   }, [chainId, stakingInfosRaw])
 
+  //
+  
+  
+// 
   const handleInput = useCallback((event) => {
     const input = event.target.value
+    console.log(input);
     setSearchQuery(input.toLowerCase())
   }, [])
 
@@ -141,11 +203,11 @@ export default function Markets() {
               <Text style={{ fontSize: '2rem' }}>Top Pools</Text>
             </RowBetween>
             <MarketHeader style={{ padding: '0rem 1rem', margin: 0 }}>
-              <Text width="20%">Pair</Text>
-              <Text width="13%">Liquidity</Text>
-              <Text width="13%">24h volume</Text>
-              <Text width="13%">APY</Text>
-              <Text width="13%">LP Staking</Text>
+            <Text style={{ width: '20%' }}>Pair</Text>
+            <Text style={{ width: '13%' }}>Liquidity</Text>
+            <Text style={{ width: '13%' }}>24h volume</Text>
+            <Text style={{ width: '13%' }}>APY</Text>
+            <Text style={{ width: '13%' }}>LP Staking</Text>
               <SearchInput
                 type="text"
                 id="token-search-input"

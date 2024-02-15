@@ -418,18 +418,18 @@ export default function Swap() {
         <BottomDrawer
           content={
             <PriceChartContainer
-              inputCurrencyId={inputCurrencyId}
-              inputCurrency={currencies[Field.INPUT]}
-              outputCurrencyId={outputCurrencyId}
+            inputCurrencyId={inputCurrencyId}
+            inputCurrency={currencies[Field.INPUT]}
+            outputCurrencyId={outputCurrencyId}
               outputCurrency={currencies[Field.OUTPUT]}
               isChartExpanded={isChartExpanded}
               setIsChartExpanded={setIsChartExpanded}
               isChartDisplayed={isChartDisplayed}
               currentSwapPrice={singleTokenPrice}
               isMobile
-            />
-          }
-          isOpen={isChartDisplayed}
+              />
+            }
+            isOpen={isChartDisplayed}
           setIsOpen={setIsChartDisplayed}
         />
         <div style={{ width: '100%', display: 'grid', gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr' }}>
@@ -481,7 +481,7 @@ export default function Swap() {
                           ) : null}
                         </AutoRow>
                       </AutoColumn>
-                      <CurrencyInputPanel
+                      <CurrencyInputPanel   //
                         value={formattedAmounts[Field.OUTPUT]}
                         onUserInput={handleTypeOutput}
                         label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}

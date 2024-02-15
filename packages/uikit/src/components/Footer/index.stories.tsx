@@ -19,6 +19,13 @@ const Template: React.FC<FooterProps> = ({ ...args }) => {
   );
 };
 
+function convertUSDTToNumeric(valueInUSDT, conversionRate) {
+  return valueInUSDT / conversionRate;
+}
+
+
+
+
 export const Default = Template.bind({});
 Default.args = {
   items: footerLinks,
